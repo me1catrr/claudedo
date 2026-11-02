@@ -13,7 +13,7 @@ from pathlib import Path
 
 from mcp.server.mcpserver import MCPServer
 
-DATOS = Path(__file__).resolve().parents[4] / "datos" / "sinteticos" / "curso-claude"
+DATOS = Path(__file__).resolve().parents[3] / "datos" / "sinteticos" / "curso-claude"
 mcp = MCPServer("datos-sinteticos-curso")
 
 

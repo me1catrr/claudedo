@@ -1,6 +1,6 @@
 # Julia → cliente de Python (verificado). No hay SDK oficial de Julia: la vía más sencilla y auditable es llamar al
 # cliente probado de Python como subproceso. Julia solo usa la biblioteca estándar.
-#   julia --project=. claude/c9-api/_ejemplo/puente.jl
+#   julia --project=. c9-api/_ejemplo/puente.jl
 using Test
 
 const RAIZ_EJEMPLO = @__DIR__

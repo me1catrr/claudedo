@@ -22,7 +22,7 @@ format:
 
 ```{ojs}
 //| echo: false
-import {lineaTemporal} from "../../recursos/js/componentes/linea-temporal.js"
+import {lineaTemporal} from "../recursos/js/componentes/linea-temporal.js"
 import {hitos} from "./hitos.js"
 ```
 
@@ -90,7 +90,7 @@ domina, el aprendizaje automático, no es nuevo: lo nuevo es la cantidad de dato
 disponibles.
 
 Para un ingeniero, la idea de «aprender de datos» es familiar. Ajustar los parámetros modales de un
-modelo a una FRF medida ([M7](../../mse/m07-identificacion/index.qmd)) es una buena analogía: en
+modelo a una FRF medida ([M7](https://me1catrr.github.io/resonancia/mse/m07-identificacion/)) es una buena analogía: en
 ambos casos se eligen los parámetros que minimizan una medida de error entre el modelo y los datos.
 Pero conviene no pasar por alto las diferencias. Un modelo modal tiene pocos parámetros con
 significado físico (frecuencia, amortiguamiento, forma modal) y se ajusta para *explicar* un

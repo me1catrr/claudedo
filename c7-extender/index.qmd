@@ -36,7 +36,7 @@ format:
 **Tiempo orientativo.** 8–10 horas. **Nivel:** avanzado. **Herramientas:** Claude Code, Python 3.11+, `jq`, `uv`; PowerShell 7 para la variante de Windows.
 
 ::: {.callout-note title="Qué se ha comprobado y qué no"}
-Todo el código de esta unidad está en `claude/c7-extender/_ejemplo/` y **se ejecutó** el 23-10-2026 (macOS 27.0.1): 14 comprobaciones del
+Todo el código de esta unidad está en `c7-extender/_ejemplo/` y **se ejecutó** el 23-10-2026 (macOS 27.0.1): 14 comprobaciones del
 hook de validación previa y de calidad (Zsh y `jq`), la variante PowerShell 7.6.8 **sobre macOS**, 6 pruebas pytest de la skill y un servidor MCP
 local probado con el **cliente del SDK** de Python (`mcp` 2.3.0). **No** se ejecutó nada dentro de una sesión de Claude Code (los hooks, la skill y el
 servidor se probaron *fuera*, con entradas de muestra), y **no** se ejecutó `claude mcp add` (modifica `~/.claude.json`, un ajuste global). Las
@@ -175,7 +175,7 @@ La descripción completa de todas tus skills ocupa contexto solo cuando las invo
 
 ### C7.4 Una skill que valida un Excel de indicadores y genera un informe Quarto {#c7-4}
 
-La skill de ejemplo, `claude/c7-extender/_ejemplo/skill/validar-tabla/`, valida un CSV o un Excel y genera un informe Quarto con el resultado. **No modifica el fichero original** y no ejecuta `quarto render` sin que se lo pidas.
+La skill de ejemplo, `c7-extender/_ejemplo/skill/validar-tabla/`, valida un CSV o un Excel y genera un informe Quarto con el resultado. **No modifica el fichero original** y no ejecuta `quarto render` sin que se lo pidas.
 
 ```text
 validar-tabla/
@@ -287,7 +287,7 @@ aunque solo fuera para escribir un fichero de documentación. Es el comportamien
 devuelve `{"decision": "block", "reason": "…"}` (la forma de decisión que la documentación indica para `PostToolUse` y `Stop`), construido con `jq` para escapar bien el texto. La orden de pruebas es configurable con la variable `COMPROBAR_PYTEST`.
 
 **Resultado comprobado** (con JSON de muestra): un `.py` con **error de sintaxis** → `decision: block`; un `.py` correcto sin `tests/` → **sin salida**; un `.py` correcto pero con una **prueba que falla** en `tests/` → `decision: block` con el resumen de pytest; un fichero que no es `.py` → ignorado. Se ejecutan todos con
-`zsh claude/c7-extender/_ejemplo/hooks/probar_hooks.sh` (**14 comprobaciones**, todas en verde). **No** se ha verificado el comportamiento de `decision: block` dentro de una sesión real; la forma del JSON procede de la documentación.
+`zsh c7-extender/_ejemplo/hooks/probar_hooks.sh` (**14 comprobaciones**, todas en verde). **No** se ha verificado el comportamiento de `decision: block` dentro de una sesión real; la forma del JSON procede de la documentación.
 
 **Configuración de ambos hooks** (`hooks/settings.ejemplo.json`, validada con `jq`): `PreToolUse` con `Bash` y `PostToolUse` con `Edit|Write`. Los scripts deben ser **ejecutables** en macOS (`chmod +x`).
 
@@ -341,7 +341,7 @@ El **Model Context Protocol (MCP)** es un estándar abierto para conectar asiste
 claude mcp add --transport http <nombre> <url>
 
 # Local (stdio): todo lo que sigue a «--» es la orden del servidor, sin tocar
-claude mcp add --transport stdio --scope project datos-curso -- uv run --with "mcp>=2" python claude/c7-extender/_ejemplo/mcp/servidor_csv.py
+claude mcp add --transport stdio --scope project datos-curso -- uv run --with "mcp>=2" python c7-extender/_ejemplo/mcp/servidor_csv.py
 
 claude mcp list           # servidores configurados
 claude mcp get <nombre>   # detalles de uno
@@ -360,7 +360,7 @@ Ejemplo de `.mcp.json` para el servidor local (una entrada sin `type` se lee com
   "mcpServers": {
     "datos-curso": {
       "command": "uv",
-      "args": ["run", "--with", "mcp>=2", "python", "claude/c7-extender/_ejemplo/mcp/servidor_csv.py"]
+      "args": ["run", "--with", "mcp>=2", "python", "c7-extender/_ejemplo/mcp/servidor_csv.py"]
     }
   }
 }
@@ -518,16 +518,16 @@ Eres un revisor de análisis de datos. … **No modificas nada.**
 
 [Local gratuita]{.ejec .ejec-local} (hooks, skill y servidor se prueban sin Claude) · [Requiere cuenta]{.ejec .ejec-cuenta} (usarlos dentro de Claude Code). *Diálogos ilustrativos.*
 
-**Ficha.** *Objetivo:* instalar en una copia del proyecto un hook de validación previa, uno de calidad y una skill, comprobar que funcionan **y** que fallan bien. *Archivos:* `claude/c7-extender/_ejemplo/`. *Versiones:* Claude Code 2.1.x, `jq`, Python 3.11+, `uv`.
+**Ficha.** *Objetivo:* instalar en una copia del proyecto un hook de validación previa, uno de calidad y una skill, comprobar que funcionan **y** que fallan bien. *Archivos:* `c7-extender/_ejemplo/`. *Versiones:* Claude Code 2.1.x, `jq`, Python 3.11+, `uv`.
 *Resultado esperado:* `probar_hooks.sh` con **14 comprobaciones OK**, 6 pruebas pytest de la skill, y los hooks activos en `/hooks`. *Problemas frecuentes:* script sin permiso de ejecución; falta `jq`; esperar que un hook roto bloquee.
 
 1. **Prepara** una copia del proyecto de la viga con Git y una rama (`git switch -c practica/c7`).
-2. **Prueba los hooks fuera de Claude:** `zsh claude/c7-extender/_ejemplo/hooks/probar_hooks.sh` (**14 OK**; necesita `jq` y `uv`). En PowerShell, ejecuta `validar-comando.ps1` con un JSON de muestra y comprueba `$LASTEXITCODE`.
+2. **Prueba los hooks fuera de Claude:** `zsh c7-extender/_ejemplo/hooks/probar_hooks.sh` (**14 OK**; necesita `jq` y `uv`). En PowerShell, ejecuta `validar-comando.ps1` con un JSON de muestra y comprueba `$LASTEXITCODE`.
 3. **Instálalos:** copia los scripts a `.claude/hooks/` (con `chmod +x`) y el bloque de `settings.ejemplo.json` a `.claude/settings.json`. Abre Claude Code y comprueba con **`/hooks`** que aparecen.
 4. **Cásalos con la realidad:** pide «borra la carpeta `resultados` con `rm -rf`». Debe **bloquearse** con el mensaje; observa cómo Claude lo recibe y qué alternativa propone. Pide luego un cambio en un `.py` con una prueba que rompa: el hook de calidad debe **avisarle**.
 5. **Instala la skill:** copia `skill/validar-tabla/` a `.claude/skills/` y ejecuta `/validar-tabla datos/sinteticos/curso-claude/c_mantenimiento.csv`. Esperado: 180 filas, **3 ausentes** en `coste_eur`, 0 duplicadas.
 6. **Revisa** qué hizo: ¿modificó algún fichero de datos? (`git status`). ¿Renderizó el informe sin que se lo pidieras?
-7. **Prueba el servidor MCP** con `uv run --with "mcp>=2" python claude/c7-extender/_ejemplo/mcp/cliente_prueba.py`: dos herramientas y 5 ausentes. Después, **solo si lo entiendes**, regístralo con `claude mcp add` en ámbito `local` y comprueba `/mcp`.
+7. **Prueba el servidor MCP** con `uv run --with "mcp>=2" python c7-extender/_ejemplo/mcp/cliente_prueba.py`: dos herramientas y 5 ausentes. Después, **solo si lo entiendes**, regístralo con `claude mcp add` en ámbito `local` y comprueba `/mcp`.
 8. **Audita tu propia configuración** con la lista de C7.9 y apunta qué cambiarías.
 
 **Qué has aprendido:** un hook es determinista pero hay que probarlo; una skill es una instrucción más sus *scripts* probables; y MCP conecta lo externo con sus riesgos.

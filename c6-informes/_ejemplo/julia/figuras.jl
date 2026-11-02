@@ -1,5 +1,5 @@
 # Genera las figuras de la página C6 (SVG) a partir de los datos sintéticos.
-#   julia --project=. claude/c6-informes/_ejemplo/julia/figuras.jl
+#   julia --project=. c6-informes/_ejemplo/julia/figuras.jl
 using CairoMakie, CSV, DataFrames, Statistics, Dates
 include(joinpath(@__DIR__, "analisis.jl"))
 const SALIDA = normpath(joinpath(@__DIR__, "..", "..", "fig"))

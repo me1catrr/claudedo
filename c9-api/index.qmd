@@ -38,7 +38,7 @@ format:
 **Tiempo orientativo.** 8–10 horas. **Nivel:** avanzado. **Herramientas:** Python 3.11+ con `uv`, Julia 1.12 y Quarto. **Todo lo que llama a la API real cuesta dinero y es opcional**: los ejemplos funcionan con un **transporte simulado**, sin clave y sin gasto.
 
 ::: {.callout-note title="Qué se ha comprobado y qué no"}
-Se probó el código de `claude/c9-api/_ejemplo/` con el **SDK oficial de Python** (`anthropic` 2.2.0) sobre un **transporte HTTP simulado** (sin red ni clave): **26 pruebas pytest** (petición enviada, coste, reintentos, errores 400/401/403/404/429/5xx, truncado, rechazo, salida estructurada y su reparación, registro sin datos sensibles, proyecto integrador con renderizado Quarto) y **4 aserciones de Julia** (puente a Python). El 23-10-2026.
+Se probó el código de `c9-api/_ejemplo/` con el **SDK oficial de Python** (`anthropic` 2.2.0) sobre un **transporte HTTP simulado** (sin red ni clave): **26 pruebas pytest** (petición enviada, coste, reintentos, errores 400/401/403/404/429/5xx, truncado, rechazo, salida estructurada y su reparación, registro sin datos sensibles, proyecto integrador con renderizado Quarto) y **4 aserciones de Julia** (puente a Python). El 23-10-2026.
 **No** se ha hecho **ninguna llamada real** a la API (requiere clave y cuesta), así que **no** se ha verificado el comportamiento real de ningún modelo ni de la salida estructurada con esquema, y los ejemplos de respuesta son ilustrativos. Los precios y los modelos proceden de la documentación (23-10-2026) y **cambian**; las reglas de la API (parámetros, cabeceras, límites) cambian por versión: contrasta con la documentación de tu fecha.
 
 :::
@@ -365,9 +365,9 @@ quarto render informe.qmd                 # HTML autocontenido
 
 [Local gratuita]{.ejec .ejec-local} (todo el código en modo simulado) · [Puede generar coste]{.ejec .ejec-coste} (el modo real; opcional, con tope y clave de pruebas). *Respuestas del modelo ilustrativas.*
 
-**Ficha.** *Objetivo:* construir y probar un cliente de la API con control de errores y coste, y un informe con un paso de IA opcional. *Archivos:* `claude/c9-api/_ejemplo/` (`cliente_claude.py`, `evaluar.py`, `puente.jl`, `proyecto/generar_informe.py` y sus pruebas). *Versiones:* Python 3.11+, `anthropic` 2.x, Julia 1.12, Quarto. *Resultado esperado:* **26 pruebas pytest** y **4 aserciones de Julia** en verde. *Problemas frecuentes:* la clave en el código; reintentar un 400; no comprobar `stop_reason`.
+**Ficha.** *Objetivo:* construir y probar un cliente de la API con control de errores y coste, y un informe con un paso de IA opcional. *Archivos:* `c9-api/_ejemplo/` (`cliente_claude.py`, `evaluar.py`, `puente.jl`, `proyecto/generar_informe.py` y sus pruebas). *Versiones:* Python 3.11+, `anthropic` 2.x, Julia 1.12, Quarto. *Resultado esperado:* **26 pruebas pytest** y **4 aserciones de Julia** en verde. *Problemas frecuentes:* la clave en el código; reintentar un 400; no comprobar `stop_reason`.
 
-1. **Ejecuta las pruebas** sin red: `cd claude/c9-api/_ejemplo && uv run --with anthropic --with httpx2 --with pytest pytest -q` → **26 passed**; y `julia --project=. claude/c9-api/_ejemplo/puente.jl` → 4 aserciones.
+1. **Ejecuta las pruebas** sin red: `cd c9-api/_ejemplo && uv run --with anthropic --with httpx2 --with pytest pytest -q` → **26 passed**; y `julia --project=. c9-api/_ejemplo/puente.jl` → 4 aserciones.
 2. **Lee `llamar()`:** ¿qué errores se reintentan y cuáles no? ¿Dónde se comprueba `stop_reason`? ¿Qué se guarda en el registro y qué no?
 3. **Provoca fallos** modificando el cliente simulado: un 401, un 500 seguido de éxito, una respuesta `max_tokens`. Predice el resultado **antes** de ejecutar.
 4. **Calcula el coste** de 1 000 informes con el modelo por defecto (210 y 48 *tokens*) y con Opus 5.5.

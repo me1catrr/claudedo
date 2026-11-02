@@ -650,7 +650,7 @@ function Mide($Ruta) { (Get-Content $Ruta | Measure-Object -Line).Lines }
 foreach ($f in Get-ChildItem datos/*.csv) { if (Test-Path -LiteralPath $f -PathType Leaf) { "{0} {1}" -f $f.Name, (Mide $f) } }
 ```
 
-En el proyecto de ejemplo (en el repositorio, carpeta `claude/c2-terminal/_ejemplo/proyecto-viga/`),
+En el proyecto de ejemplo (en el repositorio, carpeta `c2-terminal/_ejemplo/proyecto-viga/`),
 `scripts/ejecutar.zsh` y `scripts/ejecutar.ps1` aplican todo esto: comprueban la
 entrada (código 2), la presencia de Python (4), propagan el fallo del análisis (3) y escriben un
 registro. **Windows:** en un Windows con la política de ejecución por defecto de un cliente
@@ -844,7 +844,7 @@ Las tareas se ejecutan con otro entorno y otra carpeta de trabajo. Se arregla co
 ## Práctica guiada
 
 [Local gratuita]{.ejec .ejec-local} · Datos **sintéticos**. Todo ocurre en la carpeta
-`claude/c2-terminal/_ejemplo/proyecto-viga/` del repositorio: **cópiala a otra carpeta** y trabaja
+`c2-terminal/_ejemplo/proyecto-viga/` del repositorio: **cópiala a otra carpeta** y trabaja
 sobre la copia, no sobre el original.
 
 ### Práctica 1 · Inspeccionar un proyecto Quarto con archivos científicos
@@ -893,7 +893,7 @@ busca `python3` y luego `python`. *Resultado esperado:* `resultados/resumen.csv`
 y `resultados/registro.log`. *Problemas frecuentes:* `python3` sin `numpy` (el script usa el Python del sistema; si falla, instala `numpy` en un entorno de `uv` o ejecuta `uv run --with numpy python scripts/analiza.py datos/aceleracion.csv resultados`); en Windows, la política de
 ejecución (véase C2.10).
 
-1. Ejecuta las pruebas desde la raíz del repositorio: `uv run pytest claude/c2-terminal/_ejemplo/proyecto-viga/tests`. Esperado: **6 passed**.
+1. Ejecuta las pruebas desde la raíz del repositorio: `uv run pytest c2-terminal/_ejemplo/proyecto-viga/tests`. Esperado: **6 passed**.
 2. Ejecuta el script (macOS: `./scripts/ejecutar.zsh`; Windows: `./scripts/ejecutar.ps1`).
 3. Abre `resultados/resumen.csv`. **Resultado esperado** (comprobado el 23-10-2026):
 

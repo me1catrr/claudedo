@@ -38,7 +38,7 @@ format:
 **Tiempo orientativo.** 8–10 horas. **Nivel:** intermedio. **Herramientas:** Python 3.11+ con `numpy` y `pytest` (con `uv`), Julia 1.12, Git y Claude Code.
 
 ::: {.callout-note title="Cómo se han comprobado los ejemplos"}
-El código de esta unidad vive en `claude/c5-programar/_ejemplo/` (carpetas `python/` y `julia/`), con sus pruebas, y **se ejecutó en la redacción**: 10 pruebas con `pytest` (Python 3.14 con `uv`) y 10 aserciones con `Test` (Julia 1.12.3), el 23-10-2026. Las salidas numéricas citadas proceden de esas ejecuciones. **No** se ejecutó MATLAB (no está instalado): la traducción MATLAB → Julia se verificó comparando con la implementación de referencia, no contra MATLAB. Los diálogos con Claude son **ilustrativos**.
+El código de esta unidad vive en `c5-programar/_ejemplo/` (carpetas `python/` y `julia/`), con sus pruebas, y **se ejecutó en la redacción**: 10 pruebas con `pytest` (Python 3.14 con `uv`) y 10 aserciones con `Test` (Julia 1.12.3), el 23-10-2026. Las salidas numéricas citadas proceden de esas ejecuciones. **No** se ejecutó MATLAB (no está instalado): la traducción MATLAB → Julia se verificó comparando con la implementación de referencia, no contra MATLAB. Los diálogos con Claude son **ilustrativos**.
 
 :::
 
@@ -480,7 +480,7 @@ Escribe un prompt para usar a Claude como **tutor** (no como autor) de una funci
 [Requiere cuenta]{.ejec .ejec-cuenta} (los pasos con Claude Code) · [Local gratuita]{.ejec .ejec-local} (el resto) · *Diálogos ilustrativos; el código y los resultados de abajo se ejecutaron.*
 
 **Ficha.** *Objetivo:* desarrollar `detectar_picos` con TDD y Claude Code en **Python y Julia**, depurar una versión con un
-error y comprobar que ambos lenguajes dan el mismo resultado. *Archivos:* `claude/c5-programar/_ejemplo/` (`python/senales.py`,
+error y comprobar que ambos lenguajes dan el mismo resultado. *Archivos:* `c5-programar/_ejemplo/` (`python/senales.py`,
 `python/test_senales.py`, `julia/senales.jl`, `julia/runtests.jl`, `julia/depuracion_mala.jl`, `julia/migracion.jl`) y
 `datos/sinteticos/curso-claude/e_vibracion.csv`. *Versiones:* Python 3.11+, Julia 1.12, `numpy`, `pytest`. *Resultado esperado:* ver abajo.
 *Problemas frecuentes:* olvidar el desplazamiento de índices; no ejecutar las pruebas tú.

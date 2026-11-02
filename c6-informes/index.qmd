@@ -37,7 +37,7 @@ format:
 **Tiempo orientativo.** 8–10 horas. **Nivel:** intermedio. **Herramientas:** Julia 1.12 con `CSV`, `DataFrames`, `XLSX` y `CairoMakie`; Python con `pandas`, `openpyxl` y `numpy`; Quarto 1.10; para PDF, una distribución de LaTeX.
 
 ::: {.callout-note title="Cómo se han comprobado los ejemplos"}
-Todo el código vive en `claude/c6-informes/_ejemplo/` (Julia y Python) con sus pruebas y **se ejecutó** el 23-10-2026:
+Todo el código vive en `c6-informes/_ejemplo/` (Julia y Python) con sus pruebas y **se ejecutó** el 23-10-2026:
 23 aserciones de Julia 1.12.3 y 8 pruebas de Python (pandas y openpyxl), y las cifras de esta página salen de esas
 ejecuciones; Julia y Python **coinciden** en todos los casos. El informe de ejemplo (`_ejemplo/informe/informe.qmd`) se renderizó a
 HTML y a PDF con Quarto 1.10.19 y `engine: julia`. **No** se ha probado con Excel de Microsoft (no instalado): los libros se
@@ -314,7 +314,7 @@ La carpeta `_ejemplo/informe/` contiene `informe.qmd`: un informe del **caso E**
 
 - **Código ejecutable** con `engine: julia` y **valores en el texto** (`` `{julia} n` ``), que evitan copiar números a mano;
 - **ecuaciones** con referencia cruzada (`{#eq-delta}` → «Ecuación 1»), **figura** (`{#fig-espectro}`) y **tabla** (`{#tbl-picos}`) con pie;
-- **bibliografía** con `[@harris1978]` y `bibliography: ../../../../recursos/bibliografia.bib` (una referencia verificada con Crossref);
+- **bibliografía** con `[@harris1978]` y `bibliography: ../../../recursos/bibliografia.bib` (una referencia verificada con Crossref);
 - salida **HTML** (`embed-resources: true`, un solo fichero) y **PDF**, con `quarto render informe.qmd`.
 
 ```yaml
@@ -324,7 +324,7 @@ lang: es
 engine: julia
 execute:
   echo: false          # el informe muestra resultados, no código
-bibliography: ../../../../recursos/bibliografia.bib
+bibliography: ../../../recursos/bibliografia.bib
 format:
   html: {toc: true, embed-resources: true, number-sections: true}
   pdf:  {documentclass: article, number-sections: true, toc: true}
@@ -408,7 +408,7 @@ total y los tres totales regionales de C6.3. *Problemas frecuentes:* no quitar e
 
 1. **Valida con Claude:** «Lee `a_ventas.csv` y dime filas, ausentes y duplicadas. No modifiques el fichero.» Compara con **109 / 5 / 1**.
 2. **Resume:** «Totales de `ventas_eur` por región, ignorando duplicados y ausentes; muestra el código.» Compara con la tabla de C6.3.
-3. **Comprueba por otra vía** (obligatorio): ejecuta `julia --project=. claude/c6-informes/_ejemplo/julia/runtests.jl` (**23 aserciones en verde**) o `uv run --with numpy --with pandas --with openpyxl --with pytest pytest` en `_ejemplo/python` (**8 pruebas**).
+3. **Comprueba por otra vía** (obligatorio): ejecuta `julia --project=. c6-informes/_ejemplo/julia/runtests.jl` (**23 aserciones en verde**) o `uv run --with numpy --with pandas --with openpyxl --with pytest pytest` en `_ejemplo/python` (**8 pruebas**).
 4. **Excel:** escribe `ventas_resumen.xlsx` con las hojas `resumen` y `validacion` y ábrelo en tu hoja de cálculo.
 5. **Gráfica:** reproduce la @fig-ventas y comprueba que los meses sin dato aparecen como huecos.
 6. **Informe:** renderiza `_ejemplo/informe/informe.qmd` a HTML y PDF y encuentra en la salida el pico principal (**12,35 Hz**).

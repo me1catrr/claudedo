@@ -505,7 +505,7 @@ Un worktree nuevo contiene automáticamente tu fichero `.env` y tu entorno virtu
 
 **Ficha.** *Objetivo:* añadir una función al proyecto de ejemplo con ayuda de Claude Code **sin perder
 nunca el control**: rama aislada, pruebas, diff revisado e integración consciente. *Archivos:* una
-copia del proyecto de C2 (`claude/c2-terminal/_ejemplo/proyecto-viga/`). *Versiones:* Git, Python con
+copia del proyecto de C2 (`c2-terminal/_ejemplo/proyecto-viga/`). *Versiones:* Git, Python con
 `numpy` y `pytest`; Claude Code (C4) para el paso 5. *Resultado esperado:* una rama integrada en `main`
 con una función `pico_a_pico`, su prueba y el valor **2,56584 m/s²** para los datos de ejemplo.
 *Problemas frecuentes:* trabajar con el árbol sucio; aceptar cambios en ficheros que no se pidieron.
@@ -566,7 +566,7 @@ git branch -d feature/pico-a-pico
 mínimo −1,25191; calculado con la función de referencia el 23-10-2026). Si tu valor difiere, revisa la
 función antes de integrar.
 
-*Material del profesorado:* la solución de referencia está en `claude/c3-git/_ejemplo/solucion-pico-a-pico.patch` (se comprueba con `git apply --check`).
+*Material del profesorado:* la solución de referencia está en `c3-git/_ejemplo/solucion-pico-a-pico.patch` (se comprueba con `git apply --check`).
 
 **Variante con conflicto** (opcional): en una segunda rama cambia la misma línea del *docstring*,
 fusiona y resuelve el conflicto a mano, sin aceptar «todo lo mío».

@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-DATOS = Path(__file__).resolve().parents[4] / "datos" / "sinteticos" / "curso-claude"
+DATOS = Path(__file__).resolve().parents[3] / "datos" / "sinteticos" / "curso-claude"
 
 
 def cargar(nombre, **kw):

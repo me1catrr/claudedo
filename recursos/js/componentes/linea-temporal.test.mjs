@@ -3,7 +3,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { validarHitos, categorias, filtrarHitos, lineaTemporal } from "./linea-temporal.js";
-import { hitos } from "../../../claude/c0-fluidez/hitos.js";
+import { hitos } from "../../../c0-fluidez/hitos.js";
 
 // DOM mínimo: solo lo que usa el componente.
 class Nodo {

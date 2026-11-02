@@ -1,6 +1,6 @@
 // Evaluador didáctico de reglas de permisos de Claude Code (solo reglas Bash).
 // Uso en una celda OJS:
-//   import {evaluar, REGLAS_EJEMPLO} from "../../recursos/js/componentes/permisos.js"
+//   import {evaluar, REGLAS_EJEMPLO} from "../recursos/js/componentes/permisos.js"
 //   evaluar(REGLAS_EJEMPLO, "git push origin main")
 //
 // MODELO SIMPLIFICADO, solo para enseñar el orden deny → ask → allow. Lo que SÍ imita (según la

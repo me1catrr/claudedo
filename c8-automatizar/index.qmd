@@ -104,7 +104,7 @@ Códigos de salida: **0** correcto · **1** uso incorrecto · **3** otra ejecuci
       --output-format json > "$salida" ) &
 ```
 
-**Resultado comprobado** (`zsh claude/c8-automatizar/_ejemplo/probar_tarea.sh`, con `claude-falso.sh`, **sin llamar a ningún servicio**): 15 comprobaciones OK; los argumentos enviados a `claude` incluyen `--bare`, `--permission-mode dontAsk`, `--allowedTools Read,Grep,Glob`, `--max-turns 8`, `--max-budget-usd 0.50` y `--output-format json`; un fallo persistente da código 4 tras los 3 intentos configurados y queda registrado; un fallo transitorio se recupera al reintentar; un proceso que se cuelga se termina a los 2 s del límite configurado; y una segunda ejecución simultánea se omite. En PowerShell: éxito (código 0), fallo persistente (4), límite de tiempo (4) y respuesta sin `result` (5).
+**Resultado comprobado** (`zsh c8-automatizar/_ejemplo/probar_tarea.sh`, con `claude-falso.sh`, **sin llamar a ningún servicio**): 15 comprobaciones OK; los argumentos enviados a `claude` incluyen `--bare`, `--permission-mode dontAsk`, `--allowedTools Read,Grep,Glob`, `--max-turns 8`, `--max-budget-usd 0.50` y `--output-format json`; un fallo persistente da código 4 tras los 3 intentos configurados y queda registrado; un fallo transitorio se recupera al reintentar; un proceso que se cuelga se termina a los 2 s del límite configurado; y una segunda ejecución simultánea se omite. En PowerShell: éxito (código 0), fallo persistente (4), límite de tiempo (4) y respuesta sin `result` (5).
 
 **Un error que aparecía al probar** (y que ilustra por qué se prueba): la primera versión del vigilante de tiempo dejaba un `sleep` en segundo plano que **mantenía abierta la salida** y la sustitución de comandos no terminaba hasta 300 s después. Un script desatendido que se cuelga sin avisar es justo el fallo que se quiere evitar.
 
@@ -326,10 +326,10 @@ Lo que **no** se automatiza: el criterio de qué es un resultado aceptable, la f
 
 [Local gratuita]{.ejec .ejec-local} (el ejecutor y sus pruebas con el `claude` falso) · [Puede generar coste]{.ejec .ejec-coste} (cualquier llamada real a Claude Code o a la API; acota con `--max-budget-usd` y usa antes el modo falso). *Diálogos ilustrativos.*
 
-**Ficha.** *Objetivo:* montar, probar y programar una tarea desatendida con límites, registro, reintentos y fallo visible. *Archivos:* `claude/c8-automatizar/_ejemplo/` (`ejecutar_tarea.sh`/`.ps1`, `claude-falso.sh`, `probar_tarea.sh`, `pruebas.yml`, el `.plist`). *Versiones:* Zsh o PowerShell 7, `jq`.
+**Ficha.** *Objetivo:* montar, probar y programar una tarea desatendida con límites, registro, reintentos y fallo visible. *Archivos:* `c8-automatizar/_ejemplo/` (`ejecutar_tarea.sh`/`.ps1`, `claude-falso.sh`, `probar_tarea.sh`, `pruebas.yml`, el `.plist`). *Versiones:* Zsh o PowerShell 7, `jq`.
 *Resultado esperado:* **15 comprobaciones OK** en Zsh. *Problemas frecuentes:* olvidar el límite de tiempo; no probar la ruta de error; PATH distinto en el planificador.
 
-1. **Ejecuta las pruebas con el `claude` falso:** `zsh claude/c8-automatizar/_ejemplo/probar_tarea.sh` → **15 OK** (tarda unos 20 s por los reintentos y el límite de tiempo).
+1. **Ejecuta las pruebas con el `claude` falso:** `zsh c8-automatizar/_ejemplo/probar_tarea.sh` → **15 OK** (tarda unos 20 s por los reintentos y el límite de tiempo).
 2. **Lee el registro** de una ejecución que falla (`FALSO_MODO=falla`): intentos, esperas y el `ABANDONO` final. ¿Qué información le falta para diagnosticar un fallo real? Añádela.
 3. **Rompe algo a propósito:** quita el `--max-turns` del script y vuelve a ejecutar las pruebas. ¿Cuál falla? ¿Por qué es peligroso quitar un tope?
 4. **Prueba el cerrojo:** lanza dos ejecuciones simultáneas con `FALSO_MODO=cuelga` y comprueba que la segunda se omite (código 3).

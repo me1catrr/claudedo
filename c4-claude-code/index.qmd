@@ -22,7 +22,7 @@ format:
 
 ```{ojs}
 //| echo: false
-import {evaluar, REGLAS_EJEMPLO} from "../../recursos/js/componentes/permisos.js"
+import {evaluar, REGLAS_EJEMPLO} from "../recursos/js/componentes/permisos.js"
 ```
 
 ## Objetivos y prerrequisitos

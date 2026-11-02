@@ -1,5 +1,5 @@
 # Leer y escribir Excel (XLSX) con XLSX.jl y DataFrames (caso A). Uso:
-#   julia --project=. claude/c6-informes/_ejemplo/julia/excel.jl [carpeta_de_salida]
+#   julia --project=. c6-informes/_ejemplo/julia/excel.jl [carpeta_de_salida]
 using XLSX, DataFrames, CSV
 include(joinpath(@__DIR__, "analisis.jl"))
 

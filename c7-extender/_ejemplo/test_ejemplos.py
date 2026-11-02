@@ -11,7 +11,7 @@ import validar  # noqa: E402
 sys.path.insert(0, str(AQUI / "skill" / "validar-tabla" / "scripts"))
 
 
-DATOS = AQUI.parents[2] / "datos" / "sinteticos" / "curso-claude"
+DATOS = AQUI.parents[1] / "datos" / "sinteticos" / "curso-claude"
 
 
 def test_validar_ventas():

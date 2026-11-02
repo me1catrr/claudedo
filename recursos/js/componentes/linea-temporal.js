@@ -1,6 +1,6 @@
 // Línea temporal filtrable y accesible. Sin dependencias externas.
 // Uso en una celda OJS:
-//   import {lineaTemporal} from "../../recursos/js/componentes/linea-temporal.js"
+//   import {lineaTemporal} from "../recursos/js/componentes/linea-temporal.js"
 //   import {hitos} from "./hitos.js"
 //   lineaTemporal(hitos)
 // Cada hito: {anio, categoria, titulo, texto, fuente: {texto, url}, secundaria?}.

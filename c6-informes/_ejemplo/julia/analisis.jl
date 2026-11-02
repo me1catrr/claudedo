@@ -1,8 +1,8 @@
 # Análisis de los casos A–E de la vía C (datos sintéticos). Uso:
-#   julia --project=. claude/c6-informes/_ejemplo/julia/analisis.jl
+#   julia --project=. c6-informes/_ejemplo/julia/analisis.jl
 using CSV, DataFrames, Statistics, Dates
 
-const RAIZ = normpath(joinpath(@__DIR__, "..", "..", "..", ".."))
+const RAIZ = normpath(joinpath(@__DIR__, "..", "..", ".."))
 const DATOS = joinpath(RAIZ, "datos", "sinteticos", "curso-claude")
 cargar(nombre; kw...) = CSV.read(joinpath(DATOS, nombre), DataFrame; kw...)
 

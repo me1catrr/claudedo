@@ -6,7 +6,7 @@ engine: julia
 execute:
   echo: false
   warning: false
-bibliography: ../../../../recursos/bibliografia.bib
+bibliography: ../../../recursos/bibliografia.bib
 format:
   html:
     toc: true

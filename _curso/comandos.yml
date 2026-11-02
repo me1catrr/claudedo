@@ -374,7 +374,7 @@ comandos:
     sintaxis: "uv run comando · uv sync · uv add paquete"
     que_hace: Gestiona el entorno Python del proyecto (`pyproject.toml`) y ejecuta dentro de él.
     cuando: Para cualquier código Python del curso.
-    ejemplo: "uv run pytest claude/c5-programacion/python"
+    ejemplo: "uv run pytest c5-programar/_ejemplo/python"
     resultado: Resumen de pytest.
     precauciones: "`uv add/remove/sync` cambian dependencias: piden confirmación."
     coste: local

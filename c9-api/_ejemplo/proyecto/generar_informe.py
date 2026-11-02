@@ -17,7 +17,7 @@ AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI.parent))
 import cliente_claude as cc  # noqa: E402
 
-DATOS = AQUI.parents[3] / "datos" / "sinteticos" / "curso-claude" / "a_ventas.csv"
+DATOS = AQUI.parents[2] / "datos" / "sinteticos" / "curso-claude" / "a_ventas.csv"
 
 
 def leer(ruta=DATOS):
