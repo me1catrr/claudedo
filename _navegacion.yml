@@ -1,0 +1,53 @@
+# GENERADO por scripts/generar_estructura.jl a partir de temario.yml.
+# No editar a mano: se sobrescribe en cada ejecución.
+website:
+  navbar:
+    left:
+      - text: Inicio
+        href: index.qmd
+      - text: "Hoja de consulta"
+        href: hoja-consulta.qmd
+    right:
+      - text: Acerca de
+        href: about.qmd
+      - text: "Resonancia"
+        href: https://me1catrr.github.io/resonancia/
+      - text: "JuliaDo"
+        href: https://me1catrr.github.io/juliado/
+      - icon: github
+        href: https://github.com/me1catrr/claudedo
+        aria-label: GitHub
+  sidebar:
+    - id: c
+      title: "C · Claude y Claude Code"
+      style: docked
+      collapse-level: 1
+      contents:
+        - text: Vista general
+          href: index.qmd
+        - section: "Fundamental"
+          contents:
+            - text: "C0 · Fluidez en IA, fundamentos e historia"
+              href: c0-fluidez/index.qmd
+            - text: "C1 · Claude y el ecosistema Anthropic"
+              href: c1-claude-web/index.qmd
+        - section: "Aplicado"
+          contents:
+            - text: "C2 · Preparación del entorno y terminal"
+              href: c2-terminal/index.qmd
+            - text: "C3 · Git, GitHub y worktrees"
+              href: c3-git/index.qmd
+            - text: "C4 · Claude Code: fundamentos y trabajo cotidiano"
+              href: c4-claude-code/index.qmd
+            - text: "C5 · Programación profesional asistida por IA"
+              href: c5-programar/index.qmd
+            - text: "C6 · Excel, datos, Quarto e informes"
+              href: c6-informes/index.qmd
+        - section: "Avanzado"
+          contents:
+            - text: "C7 · Personalización: CLAUDE.md, skills, hooks y MCP"
+              href: c7-extender/index.qmd
+            - text: "C8 · Automatización, agentes y entornos avanzados"
+              href: c8-automatizar/index.qmd
+            - text: "C9 · API, investigación y proyectos integradores"
+              href: c9-api/index.qmd

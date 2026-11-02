@@ -1,7 +1,7 @@
 -- =============================================================================
 -- version_unidad.lua: indicador discreto de versión para las páginas de la vía C
 --
--- Lee la entrada de la unidad en claude/_versiones.yml (cargado como metadatos
+-- Lee la entrada de la unidad en _versiones.yml (cargado como metadatos
 -- del proyecto, clave «versiones») y la muestra bajo el título. Solo actúa en
 -- HTML y en páginas con «via: C». Si falta la entrada, falla de forma visible.
 -- =============================================================================
@@ -22,7 +22,7 @@ function Pandoc(doc)
   if id == "" then return nil end  -- portada de la vía: sin unidad propia
   local v = doc.meta.versiones and doc.meta.versiones[id]
   if v == nil then
-    io.stderr:write("ERROR version_unidad.lua: falta la entrada «" .. id .. "» en claude/_versiones.yml\n")
+    io.stderr:write("ERROR version_unidad.lua: falta la entrada «" .. id .. "» en _versiones.yml\n")
     os.exit(1)
   end
   local estado = txt(v.estado)

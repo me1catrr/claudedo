@@ -3,8 +3,8 @@
 #
 # Uso: julia --project=. scripts/auditar_claude.jl [--comprobar]
 # Con --comprobar termina con código 1 si hay errores. Revisa:
-#   - claude/_versiones.yml: una entrada por unidad de temario.yml con via C;
-#   - claude/_curso/comandos.yml: campos obligatorios y estados válidos;
+#   - _versiones.yml: una entrada por unidad de temario.yml con via C;
+#   - _curso/comandos.yml: campos obligatorios y estados válidos;
 #   - versión de Claude Code instalada frente a la registrada (aviso, no error);
 #   - unidades que citan comandos del registro con verificación pendiente.
 # =============================================================================
@@ -18,12 +18,12 @@ const OBLIGATORIOS = ("id", "tipo", "sintaxis", "que_hace", "fuente", "verificad
 errores = String[]
 avisos = String[]
 
-versiones = YAML.load_file(joinpath(RAIZ, "claude", "_versiones.yml"))["versiones"]
-registro = YAML.load_file(joinpath(RAIZ, "claude", "_curso", "comandos.yml"))
+versiones = YAML.load_file(joinpath(RAIZ, "_versiones.yml"))["versiones"]
+registro = YAML.load_file(joinpath(RAIZ, "_curso", "comandos.yml"))
 temario = YAML.load_file(joinpath(RAIZ, "temario.yml"))
 
 # Unidades de la vía C: se buscan por carpeta para no depender de la forma del temario.
-unidades = sort([d for d in readdir(joinpath(RAIZ, "claude")) if occursin(r"^c\d+-", d)])
+unidades = sort([d for d in readdir(RAIZ) if occursin(r"^c\d+-", d)])
 ids = [uppercase(match(r"^(c\d+)-", d).captures[1]) for d in unidades]
 
 for id in ids

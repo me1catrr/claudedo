@@ -1,0 +1,6 @@
+# Identidad de ClaudeDo: misma base que Resonancia y JuliaDo, acento violeta.
+# El violeta #5b34a8 da un contraste de 8,4:1 sobre blanco (texto de enlaces).
+color:
+  palette:
+    violeta-claudedo: "#5b34a8"
+  primary: violeta-claudedo

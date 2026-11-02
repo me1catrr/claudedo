@@ -2,7 +2,7 @@
 
 julia_version = "1.12.3"
 manifest_format = "2.0"
-project_hash = "74b046bea4df50bda0b1193a5abfa6f314efa858"
+project_hash = "cc8728534c977ca0b95b4f4e7e7421fad8311eeb"
 
 [[deps.ADTypes]]
 deps = ["PrecompileTools"]
@@ -2236,12 +2236,6 @@ deps = ["UUIDs"]
 git-tree-sha1 = "62389eeff14780bfe55195b7204c0d8738436d64"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
 version = "1.3.1"
-
-[[deps.Resonancia]]
-deps = ["LinearAlgebra", "SparseArrays"]
-path = "Resonancia.jl"
-uuid = "ac46af11-716c-49c0-a88a-6c641342bc1e"
-version = "0.9.0"
 
 [[deps.RespecializeParams]]
 deps = ["FunctionWrappersWrappers", "PrecompileTools"]

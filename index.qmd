@@ -1,7 +1,10 @@
 ---
-title: "C · Claude y Claude Code"
+title: "ClaudeDo"
+subtitle: "Aprende Claude haciendo"
 via: C
 ---
+
+![](recursos/identidad/fig/banner.svg){fig-alt="ClaudeDo: aprende Claude haciendo. IA aplicada con criterio." width="100%"}
 
 Curso de IA aplicada al trabajo profesional, la programación y la investigación, para estudiantes, profesorado, ingeniería y personas usuarias avanzadas. Funciona en **macOS** (Terminal, Zsh) y **Windows** (PowerShell); Claude Code se verifica contra su documentación oficial y cada unidad muestra la versión con la que se comprobó. Puedes seguirlo de principio a fin o entrar directamente en una unidad si cumples sus prerrequisitos.
 
@@ -30,6 +33,17 @@ Curso de IA aplicada al trabajo profesional, la programación y la investigació
 
 **Niveles.** *Básico*: sin experiencia previa en terminal ni programación. *Intermedio*: usas la terminal y Git con soltura. *Avanzado*: dominas el flujo intermedio y quieres personalizarlo o automatizarlo.
 
+## Conceptos y herramientas
+
+El curso separa dos tipos de contenido. Los **conceptos** (qué es un modelo de
+lenguaje, sus límites, cómo delegar y verificar, privacidad, integridad académica,
+control de versiones, pruebas como contrato) cambian poco y se explican sin
+depender de una herramienta concreta. Las **instrucciones de herramienta**
+(comandos, opciones, menús y configuración de Claude Code o de la API) cambian
+con cada versión: por eso cada unidad indica bajo su título con qué versión se
+comprobó, y la [hoja de consulta](hoja-consulta.qmd) se genera desde un registro
+de comandos verificados.
+
 ## Cómo se indica lo que cuesta y lo que está comprobado
 
 Cada práctica lleva una etiqueta: [Local gratuita]{.ejec .ejec-local} (solo tu ordenador), [Simulación]{.ejec .ejec-sim} (en el navegador), [Requiere cuenta]{.ejec .ejec-cuenta} o [Puede generar coste]{.ejec .ejec-coste} (con la alternativa gratuita cuando existe). Bajo el título de cada unidad verás su versión, la fecha de edición, si se ha comprobado técnicamente y la versión de Claude Code de la documentación consultada. Una unidad «pendiente de revisión» puede contener ejemplos aún sin ejecutar.
@@ -37,3 +51,12 @@ Cada práctica lleva una etiqueta: [Local gratuita]{.ejec .ejec-local} (solo tu 
 ## Recursos
 
 - [Hoja de consulta de comandos](hoja-consulta.qmd): terminal, Git, `claude` y sus comandos de sesión, generada desde el registro verificado (<a href="descargas/hoja-consulta.txt" download>descargar en texto (Markdown)</a>).
+
+## Sitios hermanos
+
+ClaudeDo nació como la vía C de [Resonancia](https://me1catrr.github.io/resonancia/),
+el curso de vibraciones, señales y monitorización estructural de la Universidad de
+Córdoba, y comparte su identidad con [JuliaDo](https://me1catrr.github.io/juliado/),
+que enseña programación y computación científica con Julia.
+
+ClaudeDo es un proyecto docente independiente, sin afiliación con Anthropic.

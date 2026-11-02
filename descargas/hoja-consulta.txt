@@ -1,6 +1,6 @@
 # Hoja de consulta de comandos
 
-Versión documentada de Claude Code: **2.1.309** · instalada: 2.1.306 · verificación: 23/10/2026. Generada desde `claude/_curso/comandos.yml`.
+Versión documentada de Claude Code: **2.1.309** · instalada: 2.1.306 · verificación: 23/10/2026. Generada desde `_curso/comandos.yml`.
 
 ## Terminal (sistema)
 

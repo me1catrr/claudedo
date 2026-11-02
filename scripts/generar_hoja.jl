@@ -2,15 +2,15 @@
 # generar_hoja.jl: hoja de consulta de comandos de la vía C
 #
 # Uso: julia --project=. scripts/generar_hoja.jl [--comprobar]
-# Lee claude/_curso/comandos.yml y escribe claude/hoja-consulta.qmd (página web
-# imprimible) y claude/descargas/hoja-consulta.txt (descargable). No editar a mano ambos.
+# Lee _curso/comandos.yml y escribe hoja-consulta.qmd (página web
+# imprimible) y descargas/hoja-consulta.txt (descargable). No editar a mano ambos.
 # Se omiten las entradas con estado «eliminado» o «no_existe»; las «pendiente»
 # y «cambiado» se marcan. Con --comprobar solo verifica que estén al día.
 # =============================================================================
 using YAML
 
 const RAIZ = dirname(@__DIR__)
-const REG = YAML.load_file(joinpath(RAIZ, "claude", "_curso", "comandos.yml"))
+const REG = YAML.load_file(joinpath(RAIZ, "_curso", "comandos.yml"))
 const SECCIONES = [
     ("sistema", "Terminal (sistema)"), ("git", "Git"), ("herramienta", "Herramientas"),
     ("cli", "Subcomandos de `claude`"), ("opcion_cli", "Opciones al arrancar `claude`"),
@@ -24,7 +24,7 @@ marca(c) = get(c, "estado", "") == "verificado" ? "" : " *(" * get(c, "estado", 
 function cuerpo()
     io = IOBuffer()
     println(io, "Versión documentada de Claude Code: **", REG["doc_claude_code"], "** · instalada: ", REG["instalado_claude_code"],
-        " · verificación: ", REG["fecha_verificacion"], ". Generada desde `claude/_curso/comandos.yml`.\n")
+        " · verificación: ", REG["fecha_verificacion"], ". Generada desde `_curso/comandos.yml`.\n")
     for (tipo, titulo) in SECCIONES
         cs = [c for c in REG["comandos"] if c["tipo"] == tipo && !(c["estado"] in ("eliminado", "no_existe"))]
         isempty(cs) && continue
@@ -42,7 +42,7 @@ qmd() = "---\ntitle: \"Hoja de consulta de comandos\"\nvia: C\ncitation-location
         "<a href=\"descargas/hoja-consulta.txt\" download>Descargar en texto (Markdown)</a>\n\n" * cuerpo()
 md() = "# Hoja de consulta de comandos\n\n" * cuerpo()
 
-ficheros = [joinpath(RAIZ, "claude", "hoja-consulta.qmd") => qmd(), joinpath(RAIZ, "claude", "descargas", "hoja-consulta.txt") => md()]
+ficheros = [joinpath(RAIZ, "hoja-consulta.qmd") => qmd(), joinpath(RAIZ, "descargas", "hoja-consulta.txt") => md()]
 if "--comprobar" in ARGS
     ok = all(isfile(f) && read(f, String) == t for (f, t) in ficheros)
     println(ok ? "Hoja de consulta al día." : "ERROR: la hoja está desactualizada; ejecuta scripts/generar_hoja.jl")

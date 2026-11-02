@@ -1,12 +1,12 @@
 #!/usr/bin/env julia
 # =============================================================================
-# compilar_tikz.jl: compila las figuras TikZ de Resonancia a SVG
+# compilar_tikz.jl: compila las figuras TikZ de ClaudeDo a SVG
 #
 # Uso (desde la raíz del repositorio):
 #   julia --project=. scripts/compilar_tikz.jl [--comprobar] [ruta.tex …]
 #
-# Busca ficheros fig/*.tex (documentclass standalone) en mse/, julia/, claude/,
-# labs/ y recursos/, los compila con pdflatex y los convierte a SVG con
+# Busca ficheros fig/*.tex (documentclass standalone) en las carpetas de unidad (c0-…/ a c9-…/)
+# y recursos/, los compila con pdflatex y los convierte a SVG con
 # pdftocairo (el texto queda como trazos: no depende de fuentes del lector).
 # El estilo común está en recursos/tikz/resonancia.sty.
 #
@@ -25,7 +25,7 @@ using SHA
 
 const RAIZ = normpath(joinpath(@__DIR__, ".."))
 const ESTILO = joinpath(RAIZ, "recursos", "tikz", "resonancia.sty")
-const CARPETAS = ["mse", "julia", "claude", "labs", "recursos"]
+const CARPETAS = ["c0-fluidez", "c1-claude-web", "c2-terminal", "c3-git", "c4-claude-code", "c5-programar", "c6-informes", "c7-extender", "c8-automatizar", "c9-api", "recursos"]
 const COMPROBAR = "--comprobar" in ARGS
 const EXPLICITAS = filter(a -> !startswith(a, "--"), ARGS)
 

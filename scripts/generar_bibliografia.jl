@@ -20,7 +20,7 @@
 const RAIZ = normpath(joinpath(@__DIR__, ".."))
 const BIB = joinpath(RAIZ, "recursos", "bibliografia.bib")
 const SALIDA = joinpath(RAIZ, "recursos", "_bibliografia.qmd")
-const CARPETAS = ["mse", "julia", "claude", "labs", "recursos"]
+const CARPETAS = ["c0-fluidez", "c1-claude-web", "c2-terminal", "c3-git", "c4-claude-code", "c5-programar", "c6-informes", "c7-extender", "c8-automatizar", "c9-api", "recursos"]
 const COMPROBAR = "--comprobar" in ARGS
 
 const GRUPOS = [
@@ -216,14 +216,14 @@ function generar()
     println(io)
     println(io, "<!-- Generado por scripts/generar_bibliografia.jl a partir de recursos/bibliografia.bib. No editar a mano. -->")
     println(io)
-    println(io, "Fuente única de las referencias de Resonancia. Cada ficha indica **cómo se ha")
+    println(io, "Fuente única de las referencias de ClaudeDo. Cada ficha indica **cómo se ha")
     println(io, "comprobado** (o que está pendiente de cotejar con el original) y **dónde se cita**.")
     println(io, "El texto de las obras no se reproduce: se cita y se redacta con palabras propias.")
     println(io)
     println(io, "::: {.callout-note title=\"Estado de las fichas\" appearance=\"simple\"}")
     println(io, "**Verificada**: comparada con el documento original o con la guía docente. ",
                 "**Verificada en parte**: algún dato sin cotejar. ",
-                "**Pendiente de cotejar**: ficha de memoria; no te fíes de ella sin comprobarla (véase [C0](../claude/c0-fluidez/index.qmd)).")
+                "**Pendiente de cotejar**: ficha de memoria; no te fíes de ella sin comprobarla (véase [C0](../c0-fluidez/index.qmd)).")
     println(io, ":::")
     println(io)
     grupos = copy(GRUPOS)

@@ -57,6 +57,15 @@ function ruta_relativa(desde_dir, hacia_fichero)
     return replace(r, "\\" => "/")
 end
 
+# Une rutas y quita los «./» que aparecen cuando una vía ocupa la raíz (carpeta ".").
+unir(partes...) = replace(normpath(joinpath(partes...)), "\\" => "/")
+
+# Una vía con `carpeta: "."` es la portada del sitio: la barra superior muestra sus niveles.
+en_raiz(v) = normpath(v["carpeta"]) in (".", "./")
+
+# Identificador de la barra lateral de una vía (la carpeta, o el id si ocupa la raíz).
+id_barra(v) = en_raiz(v) ? lowercase(v["id"]) : v["carpeta"]
+
 # ---------------------------------------------------------------------------
 # Carga y validación del temario
 # ---------------------------------------------------------------------------
@@ -73,15 +82,15 @@ function cargar_temario()
             for n in v["niveles"]
                 n = Dict{String,Any}(n)
                 n["via"] = v["id"]
-                n["dir"] = joinpath(v["carpeta"], n["carpeta"])
-                n["ruta"] = joinpath(n["dir"], "index.qmd")
+                n["dir"] = unir(v["carpeta"], n["carpeta"])
+                n["ruta"] = unir(n["dir"], "index.qmd")
                 push!(niveles, n)
                 for u in n["unidades"]
                     u = Dict{String,Any}(u)
                     u["via"] = v["id"]
                     u["nivel"] = n["id"]
                     u["nivel_titulo"] = n["titulo"]
-                    u["dir"] = joinpath(n["dir"], u["slug"])
+                    u["dir"] = unir(n["dir"], u["slug"])
                     push!(unidades, u)
                 end
             end
@@ -90,14 +99,14 @@ function cargar_temario()
                 u = Dict{String,Any}(u)
                 u["via"] = v["id"]
                 u["dir"] = get(u, "en_portada", false) == true ? v["carpeta"] :
-                           joinpath(v["carpeta"], u["slug"])
+                           unir(v["carpeta"], u["slug"])
                 push!(unidades, u)
             end
         end
-        v["ruta"] = joinpath(v["carpeta"], "index.qmd")
+        v["ruta"] = unir(v["carpeta"], "index.qmd")
     end
     for u in unidades
-        u["ruta"] = joinpath(u["dir"], "index.qmd")
+        u["ruta"] = unir(u["dir"], "index.qmd")
     end
     return d, vias, niveles, unidades
 end
@@ -127,6 +136,21 @@ function validar(vias, niveles, unidades)
             ok = d isa AbstractDict && Set(keys(d)) == Set(["lectura", "practica"]) &&
                  all(x -> x isa Integer && x > 0, values(d))
             ok || push!(errores, "$(u["id"]): `duracion` debe ser {lectura: min, practica: min} con enteros positivos")
+        end
+    end
+    # Si una vía declara áreas, cada una de sus unidades está en exactamente un área.
+    for v in vias
+        haskey(v, "areas") || continue
+        en_areas = [string(id) for a in v["areas"] for id in a["unidades"]]
+        propias = [u["id"] for u in unidades if u["via"] == v["id"]]
+        for id in unique(filter(x -> count(==(x), en_areas) > 1, en_areas))
+            push!(errores, "$id aparece en varias áreas de la vía $(v["id"])")
+        end
+        for id in setdiff(propias, en_areas)
+            push!(errores, "$id no está en ningún área de la vía $(v["id"])")
+        end
+        for id in setdiff(en_areas, propias)
+            push!(errores, "el área de la vía $(v["id"]) cita «$id», que no es unidad de esa vía")
         end
     end
     isempty(errores) || error("temario.yml no es válido:\n  - " * join(errores, "\n  - "))
@@ -425,18 +449,36 @@ function navegacion(d, vias, niveles, unidades)
     println(io, "      - text: Inicio")
     println(io, "        href: index.qmd")
     for v in vias
+        if en_raiz(v)
+            # La vía es la portada: se enlazan sus niveles.
+            for n in niveles
+                n["via"] == v["id"] || continue
+                println(io, "      - text: ", yq(etiqueta(n)))
+                println(io, "        href: ", n["ruta"])
+            end
+            continue
+        end
         println(io, "      - text: ", yq(get(ETIQUETA_NAVBAR, v["id"], v["titulo"])))
         println(io, "        href: ", v["ruta"])
+    end
+    # Enlaces extra de la barra superior (curso.menu), p. ej. una página de consulta.
+    for m in get(d["curso"], "menu", [])
+        println(io, "      - text: ", yq(m["texto"]))
+        println(io, "        href: ", m["href"])
     end
     println(io, "    right:")
     println(io, "      - text: Acerca de")
     println(io, "        href: about.qmd")
+    for h in get(d["curso"], "hermanos", [])
+        println(io, "      - text: ", yq(h["texto"]))
+        println(io, "        href: ", h["href"])
+    end
     println(io, "      - icon: github")
     println(io, "        href: ", d["curso"]["repositorio"])
     println(io, "        aria-label: GitHub")
     println(io, "  sidebar:")
     for v in vias
-        println(io, "    - id: ", v["carpeta"])
+        println(io, "    - id: ", id_barra(v))
         println(io, "      title: ", yq("$(v["id"]) · $(v["titulo"])"))
         println(io, "      style: docked")
         println(io, "      collapse-level: 1")
@@ -453,6 +495,17 @@ function navegacion(d, vias, niveles, unidades)
                 println(io, "          contents:")
                 for u in unidades
                     get(u, "nivel", "") == n["id"] || continue
+                    println(io, "            - text: ", yq(etiqueta(u)))
+                    println(io, "              href: ", u["ruta"])
+                end
+            end
+        elseif haskey(v, "areas")
+            # Áreas: agrupan unidades en la barra lateral sin cambiar sus carpetas.
+            for a in v["areas"]
+                println(io, "        - section: ", yq(a["titulo"]))
+                println(io, "          contents:")
+                for id in string.(a["unidades"])
+                    u = only(filter(x -> x["id"] == id, unidades))
                     println(io, "            - text: ", yq(etiqueta(u)))
                     println(io, "              href: ", u["ruta"])
                 end

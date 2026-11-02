@@ -24,7 +24,7 @@ def pagina():
     with sync_playwright() as p:
         nav = p.chromium.launch(executable_path=ruta) if ruta else p.chromium.launch()
         pag = nav.new_page(viewport={"width": 1280, "height": 900})
-        pag.goto(f"http://127.0.0.1:{srv.server_port}/claude/c0-fluidez/index.html", wait_until="networkidle")
+        pag.goto(f"http://127.0.0.1:{srv.server_port}/c0-fluidez/index.html", wait_until="networkidle")
         pag.wait_for_selector("svg text", timeout=20000)
         yield pag
         nav.close()

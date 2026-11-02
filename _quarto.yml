@@ -1,50 +1,56 @@
 project:
   type: website
   # docs/ contiene apuntes de consulta, no páginas ni descargas públicas.
+  # _curso/ y _migracion/ son notas de trabajo (el prefijo _ ya las excluye).
+  # Los ejemplos _ejemplo/ tampoco se renderizan con el sitio (prefijo _).
   render:
     - "*"
     - "!docs/**"
-    - "!claude/descargas/**"
+    - "!descargas/**"
   resources:
     - "!docs/**"
-    - claude/descargas/*.txt
+    - descargas/*.txt
   post-render:
     - scripts/no_publicar_docs.ts
 
-# La barra superior y las barras laterales las genera
+# La barra superior y la barra lateral las genera
 # scripts/generar_estructura.jl a partir de temario.yml. No editarlas aquí.
+# _versiones.yml alimenta el indicador de versión de cada unidad.
 metadata-files:
   - _navegacion.yml
-  - claude/_versiones.yml
+  - _versiones.yml
 
 lang: es
 bibliography: recursos/bibliografia.bib
 
-# Ejercicios intercalados en el texto (véase scripts/ejercicios.lua).
+# Ejercicios intercalados (scripts/ejercicios.lua), lista final de referencias
+# y el indicador de versión bajo el título de cada unidad.
 filters:
   - scripts/ejercicios.lua
   - scripts/referencias.lua
   - scripts/version_unidad.lua
 
 website:
-  title: "Resonancia"
-  description: "Vibraciones, señales y monitorización estructural con Claude Code"
-  site-url: https://me1catrr.github.io/resonancia/
-  repo-url: https://github.com/me1catrr/resonancia
+  title: "ClaudeDo"
+  description: "Aprende Claude haciendo: IA aplicada al trabajo profesional, la programación y la investigación con Claude y Claude Code"
+  site-url: https://me1catrr.github.io/claudedo/
+  repo-url: https://github.com/me1catrr/claudedo
   repo-actions: [edit, issue]
   favicon: recursos/identidad/fig/marca.svg
   navbar:
     logo: recursos/identidad/fig/marca.svg
-    logo-alt: "Resonancia"
+    logo-alt: "ClaudeDo"
 
 format:
   html:
     theme:
       - cosmo
       - brand
-    css: styles.css
-    # Cuerpo algo más ancho que el valor por defecto (800 px): el texto sigue
-    # cómodo y las tablas, el código y las simulaciones respiran en pantallas grandes.
+    # styles.css es la base común de Resonancia, JuliaDo y ClaudeDo;
+    # marca.css solo cambia los acentos de este sitio.
+    css:
+      - styles.css
+      - marca.css
     grid:
       sidebar-width: 270px
       body-width: 880px
@@ -52,8 +58,6 @@ format:
       gutter-width: 1.5rem
     toc: true
     code-copy: true
-    # Referencias: tarjeta emergente al pasar el ratón y la entrada completa
-    # junto al texto (margen). La lista completa queda al final de la unidad.
     citations-hover: true
     link-citations: true
     reference-section-title: "Referencias"

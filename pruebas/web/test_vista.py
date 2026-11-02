@@ -16,10 +16,9 @@ from playwright.sync_api import sync_playwright
 RAIZ = Path(__file__).resolve().parents[2]
 SITIO = RAIZ / "_site"
 ANCHURAS = [390, 768, 1280, 1920, 2560]
-PAGINAS = ["claude/index.html"] + [
-    p.relative_to(SITIO).as_posix() for p in sorted((SITIO / "claude").glob("c*/index.html"))
+PAGINAS = ["index.html", "hoja-consulta.html"] + [
+    p.relative_to(SITIO).as_posix() for p in sorted(SITIO.glob("c[0-9]-*/index.html"))
 ]
-PAGINAS.append("mse/m03-senales-i/index.html")
 
 
 @pytest.fixture(scope="session")

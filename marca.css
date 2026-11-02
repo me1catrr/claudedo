@@ -1,0 +1,16 @@
+/* =============================================================================
+   ClaudeDo: acentos propios sobre la base común (styles.css)
+   -----------------------------------------------------------------------------
+   styles.css es idéntico en Resonancia, JuliaDo y ClaudeDo. Este fichero solo
+   redefine los tokens de acento; el color de la barra y de los enlaces llega de
+   _brand.yml. Violeta #5b34a8: contraste 8,4:1 sobre blanco.
+   ========================================================================== */
+
+:root {
+  --sitio-acento: #5b34a8;
+  --sitio-acento-oscuro: #4c2c8f;
+  --sitio-acento-suave: #f3effa;
+
+  --indice-cabecera: var(--sitio-acento-suave);
+  --indice-fila-hover: var(--sitio-acento-suave);
+}
