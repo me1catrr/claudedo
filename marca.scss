@@ -1,0 +1,16 @@
+/*-- scss:defaults --*/
+// ClaudeDo: acentos propios sobre la base común (styles.css).
+// styles.css es idéntico en Resonancia, JuliaDo y ClaudeDo; este tema solo cambia
+// el color principal (barra superior y enlaces) y los tokens de acento.
+// Acento violeta #5b34a8: contraste 8,4:1 sobre blanco.
+$primary: #5b34a8;
+
+/*-- scss:rules --*/
+:root {
+  --sitio-acento: #5b34a8;
+  --sitio-acento-oscuro: #4c2c8f;
+  --sitio-acento-suave: #f3effa;
+
+  --indice-cabecera: var(--sitio-acento-suave);
+  --indice-fila-hover: var(--sitio-acento-suave);
+}

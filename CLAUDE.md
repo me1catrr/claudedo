@@ -72,7 +72,7 @@ publicado) y `verificado` (versiones de Claude Code y Julia con las que se compr
 `styles.css`, `recursos/tikz/resonancia.sty`, `recursos/js/ejercicios.js` (y sus tests),
 `scripts/ejercicios.lua`, `scripts/referencias.lua`, `scripts/no_publicar_docs.ts` y
 `scripts/generar_estructura.jl` son idénticos en los tres sitios. Un cambio en uno se copia a
-los otros dos. Los acentos propios (violeta) van en `marca.css` y `_brand.yml`.
+los otros dos. Los acentos propios (violeta) van en `marca.scss`.
 
 ## Figuras, cajas y bibliografía
 - **Reparto de figuras.** TikZ para esquemas y diagramas; Makie u OJS para datos y

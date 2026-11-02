@@ -40,7 +40,7 @@ anterior de estos ficheros está en Resonancia. Detalles en `_migracion/`.
 
 `styles.css`, `recursos/tikz/resonancia.sty`, `recursos/js/ejercicios.js` y los filtros
 `scripts/*.lua` comunes son la base compartida con Resonancia y JuliaDo; los acentos de este
-sitio están en `marca.css` y `_brand.yml`. Ninguna copia se descarga al compilar: el sitio es
+sitio están en `marca.scss`. Ninguna copia se descarga al compilar: el sitio es
 autónomo.
 
 ## Compilar en local
