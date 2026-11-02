@@ -25,6 +25,8 @@ ficheros sigue en el [repositorio de Resonancia](https://github.com/me1catrr/res
 
 - [Resonancia](https://me1catrr.github.io/resonancia/): monitorización de la salud
   estructural, laboratorios y recursos. Sus laboratorios aplican lo que aquí se aprende.
+- [matematicado](https://me1catrr.github.io/matematicado/): matemáticas aplicadas a
+  vibraciones y monitorización estructural (álgebra, señales, sistemas, estadística).
 - [JuliaDo](https://me1catrr.github.io/juliado/): programación y computación
   científica con Julia.
 

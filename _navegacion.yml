@@ -12,6 +12,8 @@ website:
         href: about.qmd
       - text: "Resonancia"
         href: https://me1catrr.github.io/resonancia/
+      - text: "matematicado"
+        href: https://me1catrr.github.io/matematicado/
       - text: "JuliaDo"
         href: https://me1catrr.github.io/juliado/
       - icon: github
