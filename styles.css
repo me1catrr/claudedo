@@ -347,14 +347,25 @@ figure.quarto-float > figcaption, .quarto-figure figcaption {
 div.callout.avanzado { border-left-color: var(--r-violeta) !important; }
 div.callout.avanzado .callout-title-container::before { content: "▲ "; }
 
-/* Indicador de versión de la vía C (scripts/version_unidad.lua) */
-.version-unidad { font-size: 0.8rem; opacity: 0.8; border-left: 3px solid currentColor; padding: 0.1rem 0.6rem; margin: 0 0 1rem; }
+/* Indicador de versión de cada unidad (scripts/version_unidad.lua): una línea con
+   símbolo y estado escritos; el filete de color repite la señal, no la sustituye. */
+.version-unidad {
+  margin: 0 0 1rem; padding: 0.35rem 0.75rem;
+  font-size: 0.8rem; line-height: 1.45; color: var(--indice-texto-suave);
+  background: #f8f9fb; border: 1px solid var(--codigo-borde);
+  border-left: 3px solid var(--estado-color, var(--r-gris)); border-radius: 0 0.4rem 0.4rem 0;
+  font-variant-numeric: tabular-nums;
+}
 .version-unidad p { margin: 0; }
-.version-ok::before { content: "✔ "; }
-.version-pend::before { content: "⚠ "; }
-.version-hist::before { content: "⌛ "; }
+.version-unidad p::before { margin-right: 0.35em; font-weight: 700; color: var(--estado-texto, inherit); }
+.version-ok   { --estado-color: var(--area-aplicado); --estado-texto: var(--area-aplicado-texto); }
+.version-pend { --estado-color: #b7791f;              --estado-texto: #7a4e0a; }
+.version-hist { --estado-color: var(--r-gris);         --estado-texto: #4b5563; }
+.version-ok p::before   { content: "✔"; }
+.version-pend p::before { content: "⚠"; }
+.version-hist p::before { content: "⌛"; }
 
-/* ── Diseño adaptable (vía C y resto del sitio) ──────────────────────────────
+/* ── Diseño adaptable ──────────────────────────────────────────────────────────
    Anchura de lectura para el texto; los elementos técnicos pueden ser más
    anchos y se desplazan dentro de su caja en lugar de desbordar la página. */
 .content p, .content li { max-width: 78ch; }

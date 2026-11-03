@@ -199,18 +199,6 @@ window.Quarto = {
     <a class="nav-link" href="../about.html"> 
 <span class="menu-text">Acerca de</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/resonancia/"> 
-<span class="menu-text">Resonancia</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/matematicado/"> 
-<span class="menu-text">matematicado</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/juliado/"> 
-<span class="menu-text">JuliaDo</span></a>
-  </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/me1catrr/claudedo"> <i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
@@ -377,7 +365,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../c0-fluidez/index.html">Fundamental</a></li><li class="breadcrumb-item"><a href="../c0-fluidez/index.html">C0 · Fluidez en IA, fundamentos e historia</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Fluidez en IA, fundamentos e historia</h1>
-<p class="subtitle lead">C0 · Vía C</p>
+<p class="subtitle lead">C0 · Área Fundamental</p>
 </div>
 
 
@@ -505,7 +493,7 @@ Turing, A. M. 1950. <span>«Computing Machinery and Intelligence»</span>. <em>M
 </tbody>
 </table>
 <p>La historia no ha sido lineal. Ha habido etapas de grandes promesas seguidas de recortes de financiación y de expectativas, que la literatura llama «inviernos de la IA». El enfoque que hoy domina, el aprendizaje automático, no es nuevo: lo nuevo es la cantidad de datos y de cómputo disponibles.</p>
-<p>Para un ingeniero, la idea de «aprender de datos» es familiar. Ajustar los parámetros modales de un modelo a una FRF medida (<a href="https://me1catrr.github.io/resonancia/mse/m07-identificacion/">M7</a>) es una buena analogía: en ambos casos se eligen los parámetros que minimizan una medida de error entre el modelo y los datos. Pero conviene no pasar por alto las diferencias. Un modelo modal tiene pocos parámetros con significado físico (frecuencia, amortiguamiento, forma modal) y se ajusta para <em>explicar</em> un sistema concreto. Una red neuronal tiene millones o miles de millones de parámetros sin significado individual, se ajusta para <em>generalizar</em> a datos que no ha visto (por eso se reserva una parte de los datos para validarla) y su error se mide sobre texto, no sobre aceleraciones. Y, como en identificación modal, un buen ajuste a los datos de entrenamiento no garantiza un buen comportamiento fuera de ellos.</p>
+<p>Para un ingeniero, la idea de «aprender de datos» es familiar. Ajustar los parámetros modales de un modelo a una función de respuesta en frecuencia (FRF) medida es una buena analogía: en ambos casos se eligen los parámetros que minimizan una medida de error entre el modelo y los datos. Pero conviene no pasar por alto las diferencias. Un modelo modal tiene pocos parámetros con significado físico (frecuencia, amortiguamiento, forma modal) y se ajusta para <em>explicar</em> un sistema concreto. Una red neuronal tiene millones o miles de millones de parámetros sin significado individual, se ajusta para <em>generalizar</em> a datos que no ha visto (por eso se reserva una parte de los datos para validarla) y su error se mide sobre texto, no sobre aceleraciones. Y, como en identificación modal, un buen ajuste a los datos de entrenamiento no garantiza un buen comportamiento fuera de ellos.</p>
 <div class="historia callout callout-style-default callout-note no-icon callout-titled" title="Un poco de historia: ELIZA y la ilusión de comprensión">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1064,7 +1052,7 @@ Figura&nbsp;1: Qué datos se comparten con un asistente de IA: público, interno
 <em>Reglamento (<span>UE</span>) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016, relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales y a la libre circulación de estos datos</em>. 2016. Diario Oficial de la Unión Europea, L 119.
 </div><div id="ref-lopdgdd2018" class="csl-entry" role="listitem">
 <em>Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales</em>. 2018. Boletín Oficial del Estado, n.º 294.
-</div></div><p>En Resonancia hay una regla concreta: la carpeta de datos privados no se sube al repositorio y Claude Code tiene bloqueado su acceso por configuración (verás cómo en C4 y C7). Los datos publicables se documentan con una ficha de origen, licencia y permiso. Todos los casos de empresa del curso usan <strong>datos sintéticos</strong>, generados con semilla fija.</p>
+</div></div><p>En este curso hay una regla concreta: la carpeta de datos privados no se sube al repositorio y Claude Code tiene bloqueado su acceso por configuración (verás cómo en C4 y C7). Los datos publicables se documentan con una ficha de origen, licencia y permiso. Todos los casos de empresa del curso usan <strong>datos sintéticos</strong>, generados con semilla fija.</p>
 <p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c0-7-datos" class="ejercicio" data-tipo="opcion" data-respuesta="c">
 <p>Una hoja con los nombres del alumnado y sus calificaciones es…</p>
@@ -1328,7 +1316,7 @@ National Institute of Standards and Technology. 2023. <em>Artificial Intelligenc
 <li><p><strong>Las cuatro D.</strong> Para la tarea «preparar un informe de una campaña de medición en una pasarela», escribe una decisión concreta de cada competencia: qué delegas, cómo lo describes, cómo discernirás el resultado y de qué te harás responsable.</p></li>
 <li><p><strong>Clasificación de datos.</strong> Clasifica cada dato y di si lo compartirías con un asistente de IA:</p>
 <ol type="a">
-<li>un acelerograma sintético del repositorio de Resonancia; b) registros de una planta cedidos bajo acuerdo de confidencialidad; c) una lista de alumnado con calificaciones; d) una clave de API; e) un artículo de acceso abierto.</li>
+<li>la señal de vibración sintética del caso E, publicada en el repositorio del curso; b) registros de una planta cedidos bajo acuerdo de confidencialidad; c) una lista de alumnado con calificaciones; d) una clave de API; e) un artículo de acceso abierto.</li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
@@ -1978,6 +1966,7 @@ window._ojs.runtime.interpretFromScriptTags();
   /* ------------------------------------------------------------------ */
   /* Almacenamiento local (con tolerancia a que no exista)               */
   /* ------------------------------------------------------------------ */
+  // Prefijo histórico de las claves: se conserva para no borrar las respuestas ya guardadas.
   const PREFIJO = "resonancia:ej:" + (typeof location !== "undefined" ? location.pathname : "");
 
   function leer(id) {
@@ -2262,7 +2251,7 @@ window._ojs.runtime.interpretFromScriptTags();
       el("div", { class: "ej-botones" },
         el("button", { type: "button", class: "ej-btn ej-btn-sec", text: "Descargar mis respuestas", onclick: () => {
           const blob = new Blob([JSON.stringify({ pagina: location.pathname, fecha: new Date().toISOString(), respuestas: todos() }, null, 2)], { type: "application/json" });
-          const a = el("a", { href: URL.createObjectURL(blob), download: "resonancia-respuestas.json" }); a.click();
+          const a = el("a", { href: URL.createObjectURL(blob), download: "claudedo-respuestas.json" }); a.click();
         } }),
         el("button", { type: "button", class: "ej-btn ej-btn-sec", text: "Borrar mis respuestas", onclick: () => {
           if (confirm("¿Borrar todas tus respuestas y tu progreso en esta página?")) { borrarTodo(); location.reload(); }

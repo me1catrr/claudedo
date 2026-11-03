@@ -178,18 +178,6 @@ window.Quarto = {
     <a class="nav-link" href="../about.html"> 
 <span class="menu-text">Acerca de</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/resonancia/"> 
-<span class="menu-text">Resonancia</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/matematicado/"> 
-<span class="menu-text">matematicado</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/juliado/"> 
-<span class="menu-text">JuliaDo</span></a>
-  </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/me1catrr/claudedo"> <i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
@@ -361,7 +349,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../c2-terminal/index.html">Aplicado</a></li><li class="breadcrumb-item"><a href="../c2-terminal/index.html">C2 · Preparación del entorno y terminal</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Preparación del entorno y terminal</h1>
-<p class="subtitle lead">C2 · Vía C</p>
+<p class="subtitle lead">C2 · Área Aplicado</p>
 </div>
 
 
@@ -1265,17 +1253,17 @@ window.Quarto = {
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> <span class="dt">plist</span> PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"<span class="dt">&gt;</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">plist</span> <span class="ot">version=</span><span class="st">"1.0"</span>&gt;</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">dict</span>&gt;</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;Label&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">string</span>&gt;es.resonancia.analisis-viga&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;Label&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">string</span>&gt;es.claudedo.analisis-viga&lt;/<span class="kw">string</span>&gt;</span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;ProgramArguments&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">array</span>&gt;&lt;<span class="kw">string</span>&gt;/bin/zsh&lt;/<span class="kw">string</span>&gt;&lt;<span class="kw">string</span>&gt;/Users/ana/proyecto-viga/scripts/ejecutar.zsh&lt;/<span class="kw">string</span>&gt;&lt;/<span class="kw">array</span>&gt;</span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;StartCalendarInterval&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">dict</span>&gt;&lt;<span class="kw">key</span>&gt;Hour&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">integer</span>&gt;7&lt;/<span class="kw">integer</span>&gt;&lt;<span class="kw">key</span>&gt;Minute&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">integer</span>&gt;30&lt;/<span class="kw">integer</span>&gt;&lt;/<span class="kw">dict</span>&gt;</span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;StandardOutPath&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">string</span>&gt;/Users/ana/proyecto-viga/resultados/launchd.log&lt;/<span class="kw">string</span>&gt;</span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;StandardErrorPath&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">string</span>&gt;/Users/ana/proyecto-viga/resultados/launchd.err&lt;/<span class="kw">string</span>&gt;</span>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">dict</span>&gt;</span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">plist</span>&gt;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plutil</span> <span class="at">-lint</span> es.resonancia.analisis-viga.plist                                       <span class="co"># ✔ comprueba la sintaxis</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> bootstrap gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span> ~/Library/LaunchAgents/es.resonancia.analisis-viga.plist   <span class="co"># carga la tarea</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> kickstart gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span>/es.resonancia.analisis-viga                          <span class="co"># la ejecuta ya (prueba)</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> bootout gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span>/es.resonancia.analisis-viga                            <span class="co"># la descarga</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plutil</span> <span class="at">-lint</span> es.claudedo.analisis-viga.plist                                       <span class="co"># ✔ comprueba la sintaxis</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> bootstrap gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span> ~/Library/LaunchAgents/es.claudedo.analisis-viga.plist   <span class="co"># carga la tarea</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> kickstart gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span>/es.claudedo.analisis-viga                          <span class="co"># la ejecuta ya (prueba)</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> bootout gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span>/es.claudedo.analisis-viga                            <span class="co"># la descarga</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Las tres órdenes de <code>launchctl</code> están descritas en <code>man launchctl</code>; no se han ejecutado.</p>
 <ul>
 <li><strong>Windows: Programador de tareas †.</strong></li>
@@ -2107,6 +2095,7 @@ window.Quarto = {
   /* ------------------------------------------------------------------ */
   /* Almacenamiento local (con tolerancia a que no exista)               */
   /* ------------------------------------------------------------------ */
+  // Prefijo histórico de las claves: se conserva para no borrar las respuestas ya guardadas.
   const PREFIJO = "resonancia:ej:" + (typeof location !== "undefined" ? location.pathname : "");
 
   function leer(id) {
@@ -2391,7 +2380,7 @@ window.Quarto = {
       el("div", { class: "ej-botones" },
         el("button", { type: "button", class: "ej-btn ej-btn-sec", text: "Descargar mis respuestas", onclick: () => {
           const blob = new Blob([JSON.stringify({ pagina: location.pathname, fecha: new Date().toISOString(), respuestas: todos() }, null, 2)], { type: "application/json" });
-          const a = el("a", { href: URL.createObjectURL(blob), download: "resonancia-respuestas.json" }); a.click();
+          const a = el("a", { href: URL.createObjectURL(blob), download: "claudedo-respuestas.json" }); a.click();
         } }),
         el("button", { type: "button", class: "ej-btn ej-btn-sec", text: "Borrar mis respuestas", onclick: () => {
           if (confirm("¿Borrar todas tus respuestas y tu progreso en esta página?")) { borrarTodo(); location.reload(); }

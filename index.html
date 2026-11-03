@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Rafael Castro Triguero">
-<meta name="description" content="Curso de autoformación en IA aplicada al trabajo profesional, la programación y la investigación con Claude y Claude Code, creado con Claude Code para aprender Claude Code.">
+<meta name="description" content="Curso de autoformación para usar Claude y Claude Code con criterio en el trabajo profesional, la programación y la investigación.">
 
 <title>ClaudeDo</title>
 <style>
@@ -76,6 +76,23 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Buscar"
   }
 }</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #ffffff;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #ffffff;
+background: #2e1a5c;
+      }
+</style>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -116,18 +133,6 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">Acerca de</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/resonancia/"> 
-<span class="menu-text">Resonancia</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/matematicado/"> 
-<span class="menu-text">matematicado</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/juliado/"> 
-<span class="menu-text">JuliaDo</span></a>
-  </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/me1catrr/claudedo"> <i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
@@ -158,7 +163,7 @@ ul.task-list li input[type="checkbox"] {
             <p class="subtitle lead">Aprende Claude haciendo</p>
                   <div>
         <div class="description">
-          Curso de autoformación en IA aplicada al trabajo profesional, la programación y la investigación con Claude y Claude Code, creado con Claude Code para aprender Claude Code.
+          Curso de autoformación para usar Claude y Claude Code con criterio en el trabajo profesional, la programación y la investigación.
         </div>
       </div>
                 </div>
@@ -315,10 +320,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#aplicado" id="toc-aplicado" class="nav-link" data-scroll-target="#aplicado">Aplicado</a></li>
   <li><a href="#avanzado" id="toc-avanzado" class="nav-link" data-scroll-target="#avanzado">Avanzado</a></li>
   </ul></li>
-  <li><a href="#conceptos-y-herramientas" id="toc-conceptos-y-herramientas" class="nav-link" data-scroll-target="#conceptos-y-herramientas">Conceptos y herramientas</a></li>
-  <li><a href="#cómo-se-indica-lo-que-cuesta-y-lo-que-está-comprobado" id="toc-cómo-se-indica-lo-que-cuesta-y-lo-que-está-comprobado" class="nav-link" data-scroll-target="#cómo-se-indica-lo-que-cuesta-y-lo-que-está-comprobado">Cómo se indica lo que cuesta y lo que está comprobado</a></li>
-  <li><a href="#recursos" id="toc-recursos" class="nav-link" data-scroll-target="#recursos">Recursos</a></li>
-  <li><a href="#sitios-hermanos" id="toc-sitios-hermanos" class="nav-link" data-scroll-target="#sitios-hermanos">Sitios hermanos</a></li>
   <li><a href="#sobre-el-proyecto" id="toc-sobre-el-proyecto" class="nav-link" data-scroll-target="#sobre-el-proyecto">Sobre el proyecto</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/me1catrr/claudedo/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/me1catrr/claudedo/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></nav>
@@ -330,8 +331,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>ClaudeDo enseña a usar Claude y Claude Code con criterio, trabajando sobre casos reales desde la primera unidad: entender qué hace un modelo de lenguaje, delegar una tarea, leer lo que propone ejecutar, comprobar el resultado y decidir qué se integra. Funciona en <strong>macOS</strong> (Terminal, Zsh) y <strong>Windows</strong> (PowerShell). Puedes seguirlo de principio a fin o entrar directamente en una unidad si cumples sus prerrequisitos.</p>
-<p>Este repositorio se ha creado <strong>con Claude Code, para aprender Claude Code</strong>: el propio curso es un ejemplo de lo que enseña, con el responsable revisando y decidiendo cada cambio. El <a href="#sobre-el-proyecto">colofón</a> indica las versiones con las que se hizo.</p>
+<p>ClaudeDo enseña a usar Claude y Claude Code con criterio, trabajando sobre casos reales desde la primera unidad: entender qué hace un modelo de lenguaje, delegar una tarea, leer lo que propone ejecutar, comprobar el resultado y decidir qué se integra. Funciona en <strong>macOS</strong> (Terminal, Zsh) y <strong>Windows</strong> (PowerShell).</p>
+<p><strong>Hecho con Claude Code, para aprender Claude Code:</strong> el curso es su propio ejemplo.</p>
 <div class="acciones">
 <p><a href="./c0-fluidez/index.html" class="btn btn-primary">Empezar por C0</a> <a href="#todas-las-unidades" class="btn btn-outline-primary">Ver todas las unidades</a> <a href="#novedades-de-claude-code-por-incorporar" class="btn btn-outline-primary">Novedades por incorporar</a></p>
 </div>
@@ -363,6 +364,12 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="pieza">
 <p><strong>Práctica guiada.</strong> Pasos para macOS (Zsh) y Windows (PowerShell), con ejemplos en Python y Julia probados en la carpeta <code>_ejemplo/</code> de la unidad.</p>
+</div>
+<div class="pieza">
+<p><strong>Lo que cuesta.</strong> Cada práctica dice si es <span class="ejec ejec-local">local</span>, una <span class="ejec ejec-sim">simulación</span>, si <span class="ejec ejec-cuenta">requiere cuenta</span> o si <span class="ejec ejec-coste">puede generar coste</span>.</p>
+</div>
+<div class="pieza">
+<p><strong>Hoja de consulta.</strong> Terminal, Git y <code>claude</code>, generada desde el <a href="./hoja-consulta.html">registro de comandos verificados</a>.</p>
 </div>
 <div class="pieza">
 <p><strong>«Pídeselo a Claude».</strong> Un encargo para Claude o Claude Code y un apartado <em>Verifica</em> para comprobar lo que entrega.</p>
@@ -523,31 +530,13 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Niveles.</strong> <em>Básico</em>: sin experiencia previa en terminal ni programación. <em>Intermedio</em>: usas la terminal y Git con soltura. <em>Avanzado</em>: dominas el flujo intermedio y quieres personalizarlo o automatizarlo.</p>
 </section>
 </section>
-<section id="conceptos-y-herramientas" class="level2">
-<h2 class="anchored" data-anchor-id="conceptos-y-herramientas">Conceptos y herramientas</h2>
-<p>El curso separa dos tipos de contenido. Los <strong>conceptos</strong> (qué es un modelo de lenguaje, sus límites, cómo delegar y verificar, privacidad, integridad académica, control de versiones, pruebas como contrato) cambian poco y se explican sin depender de una herramienta concreta. Las <strong>instrucciones de herramienta</strong> (comandos, opciones, menús y configuración de Claude Code o de la API) cambian con cada versión: por eso cada unidad indica bajo su título con qué versión se comprobó, y la <a href="./hoja-consulta.html">hoja de consulta</a> se genera desde un registro de comandos verificados.</p>
-</section>
-<section id="cómo-se-indica-lo-que-cuesta-y-lo-que-está-comprobado" class="level2">
-<h2 class="anchored" data-anchor-id="cómo-se-indica-lo-que-cuesta-y-lo-que-está-comprobado">Cómo se indica lo que cuesta y lo que está comprobado</h2>
-<p>Cada práctica lleva una etiqueta: <span class="ejec ejec-local">Local gratuita</span> (solo tu ordenador), <span class="ejec ejec-sim">Simulación</span> (en el navegador), <span class="ejec ejec-cuenta">Requiere cuenta</span> o <span class="ejec ejec-coste">Puede generar coste</span> (con la alternativa gratuita cuando existe). Bajo el título de cada unidad verás su versión, la fecha de edición, si se ha comprobado técnicamente y la versión de Claude Code de la documentación consultada. Una unidad «pendiente de revisión» puede contener ejemplos aún sin ejecutar.</p>
-</section>
-<section id="recursos" class="level2">
-<h2 class="anchored" data-anchor-id="recursos">Recursos</h2>
-<ul>
-<li><a href="./hoja-consulta.html">Hoja de consulta de comandos</a>: terminal, Git, <code>claude</code> y sus comandos de sesión, generada desde el registro verificado (<a href="descargas/hoja-consulta.txt" download="">descargar en texto (Markdown)</a>).</li>
-</ul>
-</section>
-<section id="sitios-hermanos" class="level2">
-<h2 class="anchored" data-anchor-id="sitios-hermanos">Sitios hermanos</h2>
-<p>ClaudeDo nació como la vía C de <a href="https://me1catrr.github.io/resonancia/">Resonancia</a>, el curso de vibraciones, señales y monitorización estructural de la Universidad de Córdoba, y comparte su identidad con <a href="https://me1catrr.github.io/juliado/">JuliaDo</a>, que enseña programación y computación científica con Julia.</p>
-</section>
 <section id="sobre-el-proyecto" class="level2">
 <h2 class="anchored" data-anchor-id="sobre-el-proyecto">Sobre el proyecto</h2>
 <p><strong>Autoría.</strong> Rafael Castro Triguero, Universidad de Córdoba.</p>
 <p><strong>Repositorio.</strong> Código, textos e historial de cambios en <a href="https://github.com/me1catrr/claudedo">github.com/me1catrr/claudedo</a>; los errores y sugerencias, en sus <a href="https://github.com/me1catrr/claudedo/issues">issues</a>.</p>
-<p><strong>Recursos abiertos.</strong> Textos, diapositivas y figuras con licencia CC BY-SA 4.0, código con licencia MIT y datos con la licencia de su ficha. Más detalles en <a href="./about.html">Acerca de</a>. ClaudeDo es un proyecto docente independiente, sin afiliación con Anthropic.</p>
+<p><strong>Recursos abiertos.</strong> Textos, diapositivas y figuras con licencia CC BY-SA 4.0, código con licencia MIT y datos con la licencia de su ficha. Cómo se separan conceptos e instrucciones de herramienta y qué significa cada etiqueta, en <a href="./about.html">Acerca de</a>. ClaudeDo es un proyecto docente independiente, sin afiliación con Anthropic.</p>
 <div class="creditos">
-<p>Este repositorio ha sido creado con Claude Code (Anthropic) como proyecto de autoformación sobre el propio Claude Code: la herramienta se ha usado para programar, redactar, comprobar y producir los contenidos interactivos que enseña a usar. La selección, revisión y responsabilidad académica de los materiales corresponden al autor. Creación: octubre de 2026, con Claude Code 2.1.300 a 2.1.311. Última revisión de la web: 3 de noviembre de 2026, con Claude Code 2.1.317. Novedades analizadas hasta la 2.1.317. Los modelos utilizados constan en el historial de commits del repositorio.</p>
+<p>Hecho con Claude Code (Anthropic), para aprender Claude Code: se ha usado para programar, redactar y comprobar los contenidos que enseña a usar. La selección, revisión y responsabilidad académica de los materiales corresponden al autor. Creación: octubre de 2026, con Claude Code 2.1.300 a 2.1.311. Última revisión de la web: 3 de noviembre de 2026, con Claude Code 2.1.317. Novedades analizadas hasta la 2.1.317. Los modelos utilizados constan en el historial de commits del repositorio.</p>
 </div>
 
 

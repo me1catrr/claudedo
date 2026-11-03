@@ -168,18 +168,6 @@ div.csl-indent {
     <a class="nav-link" href="../about.html"> 
 <span class="menu-text">Acerca de</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/resonancia/"> 
-<span class="menu-text">Resonancia</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/matematicado/"> 
-<span class="menu-text">matematicado</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://me1catrr.github.io/juliado/"> 
-<span class="menu-text">JuliaDo</span></a>
-  </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/me1catrr/claudedo"> <i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
@@ -350,7 +338,7 @@ div.csl-indent {
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../c2-terminal/index.html">Aplicado</a></li><li class="breadcrumb-item"><a href="../c3-git/index.html">C3 · Git, GitHub y worktrees</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Git, GitHub y worktrees</h1>
-<p class="subtitle lead">C3 · Vía C</p>
+<p class="subtitle lead">C3 · Área Aplicado</p>
 </div>
 
 
@@ -747,7 +735,7 @@ UU scripts/analiza.py</code></pre>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Ejecutar pruebas</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> python3 -m pytest tests</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Dos puntos de seguridad: <strong>lo que escribe el flujo corre en máquinas de GitHub con los secretos que le des</strong>, así que no pongas claves en el YAML (usa los <em>secrets</em> del repositorio) y <strong>revisa las acciones de terceros</strong> que uses (una versión etiquetada puede cambiar; las más estrictas fijan el commit).</p>
-<p><strong>GitHub Pages</strong> sirve páginas estáticas desde un repositorio. Esta web se publica así: el flujo <a href="https://github.com/me1catrr/resonancia/blob/main/.github/workflows/publish.yml"><code>publish.yml</code></a> se dispara con cada <em>push</em> a <code>main</code>, instala Quarto (versión fija) y publica la rama <code>gh-pages</code>. Como no tiene Julia, lee los resultados de <code>_freeze/</code>: por eso se commitean (véase <code>CLAUDE.md</code>).</p>
+<p><strong>GitHub Pages</strong> sirve páginas estáticas desde un repositorio. Esta web se publica así: el flujo <a href="https://github.com/me1catrr/claudedo/blob/main/.github/workflows/publish.yml"><code>publish.yml</code></a> se dispara con cada <em>push</em> a <code>main</code>, instala Quarto (versión fija) y publica la rama <code>gh-pages</code>. No tiene Julia: ninguna página ejecuta código al compilar, y si alguna lo hiciera, el flujo leería sus resultados de <code>_freeze/</code>, que habría que commitear.</p>
 <p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c3-7-actions" class="ejercicio" data-tipo="opcion" data-respuesta="c">
 <p>¿Dónde se guardan los ficheros de flujo de trabajo de GitHub Actions?</p>
@@ -1549,6 +1537,7 @@ UU scripts/analiza.py</code></pre>
   /* ------------------------------------------------------------------ */
   /* Almacenamiento local (con tolerancia a que no exista)               */
   /* ------------------------------------------------------------------ */
+  // Prefijo histórico de las claves: se conserva para no borrar las respuestas ya guardadas.
   const PREFIJO = "resonancia:ej:" + (typeof location !== "undefined" ? location.pathname : "");
 
   function leer(id) {
@@ -1833,7 +1822,7 @@ UU scripts/analiza.py</code></pre>
       el("div", { class: "ej-botones" },
         el("button", { type: "button", class: "ej-btn ej-btn-sec", text: "Descargar mis respuestas", onclick: () => {
           const blob = new Blob([JSON.stringify({ pagina: location.pathname, fecha: new Date().toISOString(), respuestas: todos() }, null, 2)], { type: "application/json" });
-          const a = el("a", { href: URL.createObjectURL(blob), download: "resonancia-respuestas.json" }); a.click();
+          const a = el("a", { href: URL.createObjectURL(blob), download: "claudedo-respuestas.json" }); a.click();
         } }),
         el("button", { type: "button", class: "ej-btn ej-btn-sec", text: "Borrar mis respuestas", onclick: () => {
           if (confirm("¿Borrar todas tus respuestas y tu progreso en esta página?")) { borrarTodo(); location.reload(); }
