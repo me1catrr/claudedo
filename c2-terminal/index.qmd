@@ -4,7 +4,7 @@ title: "Preparación del entorno y terminal"
 subtitle: "C2 · Vía C"
 via: C
 requiere: [C0]
-perfil: [mse, uco, planta]
+perfil: [estudiante, uco, planta]
 estado: borrador
 nivel: básico
 verificado:
@@ -766,7 +766,7 @@ Una **tarea programada** ejecuta algo a una hora o con una periodicidad. Es auto
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Label</key><string>es.resonancia.analisis-viga</string>
+  <key>Label</key><string>es.claudedo.analisis-viga</string>
   <key>ProgramArguments</key><array><string>/bin/zsh</string><string>/Users/ana/proyecto-viga/scripts/ejecutar.zsh</string></array>
   <key>StartCalendarInterval</key><dict><key>Hour</key><integer>7</integer><key>Minute</key><integer>30</integer></dict>
   <key>StandardOutPath</key><string>/Users/ana/proyecto-viga/resultados/launchd.log</string>
@@ -776,10 +776,10 @@ Una **tarea programada** ejecuta algo a una hora o con una periodicidad. Es auto
 ```
 
 ```zsh
-plutil -lint es.resonancia.analisis-viga.plist                                       # ✔ comprueba la sintaxis
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/es.resonancia.analisis-viga.plist   # carga la tarea
-launchctl kickstart gui/$(id -u)/es.resonancia.analisis-viga                          # la ejecuta ya (prueba)
-launchctl bootout gui/$(id -u)/es.resonancia.analisis-viga                            # la descarga
+plutil -lint es.claudedo.analisis-viga.plist                                       # ✔ comprueba la sintaxis
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/es.claudedo.analisis-viga.plist   # carga la tarea
+launchctl kickstart gui/$(id -u)/es.claudedo.analisis-viga                          # la ejecuta ya (prueba)
+launchctl bootout gui/$(id -u)/es.claudedo.analisis-viga                            # la descarga
 ```
 
   Las tres órdenes de `launchctl` están descritas en `man launchctl`; no se han ejecutado.

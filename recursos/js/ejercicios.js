@@ -80,6 +80,7 @@
   /* ------------------------------------------------------------------ */
   /* Almacenamiento local (con tolerancia a que no exista)               */
   /* ------------------------------------------------------------------ */
+  // Prefijo histórico de las claves: se conserva para no borrar las respuestas ya guardadas.
   const PREFIJO = "resonancia:ej:" + (typeof location !== "undefined" ? location.pathname : "");
 
   function leer(id) {
@@ -364,7 +365,7 @@
       el("div", { class: "ej-botones" },
         el("button", { type: "button", class: "ej-btn ej-btn-sec", text: "Descargar mis respuestas", onclick: () => {
           const blob = new Blob([JSON.stringify({ pagina: location.pathname, fecha: new Date().toISOString(), respuestas: todos() }, null, 2)], { type: "application/json" });
-          const a = el("a", { href: URL.createObjectURL(blob), download: "resonancia-respuestas.json" }); a.click();
+          const a = el("a", { href: URL.createObjectURL(blob), download: "claudedo-respuestas.json" }); a.click();
         } }),
         el("button", { type: "button", class: "ej-btn ej-btn-sec", text: "Borrar mis respuestas", onclick: () => {
           if (confirm("¿Borrar todas tus respuestas y tu progreso en esta página?")) { borrarTodo(); location.reload(); }

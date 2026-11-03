@@ -14,34 +14,16 @@ Code. Busca que quien la recorra use un asistente de IA con criterio: delegando
 lo que conviene, verificando lo que entrega, protegiendo los datos y sabiendo
 qué no puede hacer por él.
 
-## Origen y sitios hermanos
-
-ClaudeDo nació como la vía C de [Resonancia](https://me1catrr.github.io/resonancia/),
-el curso de vibraciones, señales y monitorización estructural que acompaña a la
-asignatura *Monitorización de la Salud Estructural* (655023) del Máster
-Universitario en Ingeniería Industrial de la Universidad de Córdoba. En
-noviembre de 2026 se separó en un sitio propio; el historial anterior de sus
-ficheros sigue en el [repositorio de Resonancia](https://github.com/me1catrr/resonancia).
-
-- [Resonancia](https://me1catrr.github.io/resonancia/): monitorización de la salud
-  estructural, laboratorios y recursos. Sus laboratorios aplican lo que aquí se aprende.
-- [matematicado](https://me1catrr.github.io/matematicado/): matemáticas aplicadas a
-  vibraciones y monitorización estructural (álgebra, señales, sistemas, estadística).
-- [JuliaDo](https://me1catrr.github.io/juliado/): programación y computación
-  científica con Julia.
-
 ## Repositorio
 
 El código, los textos y el historial de cambios están en
 <https://github.com/me1catrr/claudedo>.
 
-## Creado con Claude Code, para aprender Claude Code
+## Hecho con Claude Code, para aprender Claude Code
 
-Este repositorio se ha creado con Claude Code como proyecto de autoformación sobre
-el propio Claude Code: la herramienta que el curso enseña es la que se ha usado
-para programar, redactar, comprobar y producir sus contenidos interactivos. El
-responsable define la estructura y los contenidos, y revisa, ejecuta y corrige lo
-que el asistente propone.
+El curso es su propio ejemplo: se ha programado, redactado y comprobado con Claude
+Code. El responsable define la estructura y los contenidos, y revisa, ejecuta y
+corrige lo que el asistente propone.
 
 | | Fecha | Claude Code |
 |---|---|---|

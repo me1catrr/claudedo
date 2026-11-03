@@ -6,9 +6,8 @@ abstract: >-
   profesional, la programación y la investigación con Claude y Claude Code:
   fundamentos y uso responsable, terminal, Git, programación asistida, datos e
   informes, personalización, automatización y API. Cada unidad indica la
-  versión de Claude Code con la que se comprobó. Procede de la vía C de
-  Resonancia, el curso de monitorización de la salud estructural de la
-  Universidad de Córdoba.
+  versión de Claude Code con la que se comprobó. Hecho con Claude Code, para
+  aprender Claude Code.
 authors:
   - family-names: Castro Triguero
     given-names: Rafael

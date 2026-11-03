@@ -4,7 +4,7 @@ title: "Fluidez en IA, fundamentos e historia"
 subtitle: "C0 · Vía C"
 via: C
 requiere: []
-perfil: [mse, uco, planta]
+perfil: [estudiante, uco, planta]
 estado: borrador
 nivel: básico
 verificado:
@@ -90,7 +90,7 @@ domina, el aprendizaje automático, no es nuevo: lo nuevo es la cantidad de dato
 disponibles.
 
 Para un ingeniero, la idea de «aprender de datos» es familiar. Ajustar los parámetros modales de un
-modelo a una FRF medida ([M7](https://me1catrr.github.io/resonancia/mse/m07-identificacion/)) es una buena analogía: en
+modelo a una función de respuesta en frecuencia (FRF) medida es una buena analogía: en
 ambos casos se eligen los parámetros que minimizan una medida de error entre el modelo y los datos.
 Pero conviene no pasar por alto las diferencias. Un modelo modal tiene pocos parámetros con
 significado físico (frecuencia, amortiguamiento, forma modal) y se ajusta para *explicar* un
@@ -543,7 +543,7 @@ Apuntes sobre el marco legal, a nivel de principios:
 - Los **datos de planta y de empresa** suelen estar protegidos por acuerdos de confidencialidad. Ese
   permiso lo concede quien los cedió, no tú.
 
-En Resonancia hay una regla concreta: la carpeta de datos privados no se sube al repositorio y
+En este curso hay una regla concreta: la carpeta de datos privados no se sube al repositorio y
 Claude Code tiene bloqueado su acceso por configuración (verás cómo en C4 y C7). Los datos
 publicables se documentan con una ficha de origen, licencia y permiso. Todos los casos de empresa
 del curso usan **datos sintéticos**, generados con semilla fija.
@@ -828,7 +828,7 @@ por tanto una cota inferior de lo que puedes resolver, no una garantía.
    el resultado y de qué te harás responsable.
 
 3. **Clasificación de datos.** Clasifica cada dato y di si lo compartirías con un asistente de IA:
-   a) un acelerograma sintético del repositorio de Resonancia; b) registros de una planta cedidos
+   a) la señal de vibración sintética del caso E, publicada en el repositorio del curso; b) registros de una planta cedidos
    bajo acuerdo de confidencialidad; c) una lista de alumnado con calificaciones; d) una clave de
    API; e) un artículo de acceso abierto.
 

@@ -5,16 +5,13 @@
 # prerrequisitos, perfiles y temas. La barra lateral y la superior
 # (_navegacion.yml) se generan a partir de él con scripts/generar_estructura.jl.
 #
-# Procede de la vía C de Resonancia (https://github.com/me1catrr/resonancia),
-# separada en un sitio propio en noviembre de 2026. Los identificadores C0–C9
-# y los slugs se conservan: son rutas públicas.
+# Los identificadores C0–C9 y los slugs son rutas públicas: no se cambian.
 #
 # Convenciones:
 #   - Cada unidad lleva `temas` con identificador propio (C4.5).
 #   - `requiere`: identificadores de unidades de ClaudeDo en los que se apoya.
-#   - `perfil`: itinerarios en los que aparece: mse (estudiante de la
-#     asignatura MSE de Resonancia), uco (PDI e investigación), planta
-#     (personal de planta).
+#   - `perfil`: itinerarios en los que aparece: estudiante (de grado o
+#     máster), uco (PDI e investigación), planta (personal de planta).
 #   - `python: true`: la unidad lleva ejemplos paralelos en Python.
 #   - `areas`: agrupan las unidades en la barra lateral y en la portada sin
 #     cambiar sus carpetas. Un área nueva (por ejemplo, IA en ingeniería, en
@@ -35,14 +32,6 @@ curso:
   menu:
     - texto: Hoja de consulta
       href: hoja-consulta.qmd
-  # Sitios hermanos (barra superior, a la derecha).
-  hermanos:
-    - texto: Resonancia
-      href: https://me1catrr.github.io/resonancia/
-    - texto: matematicado
-      href: https://me1catrr.github.io/matematicado/
-    - texto: JuliaDo
-      href: https://me1catrr.github.io/juliado/
 
 vias:
 
@@ -69,7 +58,7 @@ vias:
       - id: C0
         titulo: Fluidez en IA, fundamentos e historia
         slug: c0-fluidez
-        perfil: [mse, uco, planta]
+        perfil: [estudiante, uco, planta]
         temas:
           C0.1: "Breve historia de la IA: de la IA simbólica al aprendizaje automático"
           C0.2: "Redes neuronales, aprendizaje profundo y transformers"
@@ -86,7 +75,7 @@ vias:
         titulo: Claude y el ecosistema Anthropic
         slug: c1-claude-web
         requiere: [C0]
-        perfil: [mse, uco, planta]
+        perfil: [estudiante, uco, planta]
         temas:
           C1.1: "Anthropic y la evolución de Claude: familias y versiones de modelos, con fecha"
           C1.2: "Interfaces: Claude en web, escritorio y móvil, Claude Code y API"
@@ -102,7 +91,7 @@ vias:
         titulo: Preparación del entorno y terminal
         slug: c2-terminal
         requiere: [C0]
-        perfil: [mse, uco, planta]
+        perfil: [estudiante, uco, planta]
         temas:
           C2.1: "Terminal, shell y sistema operativo: Zsh y PowerShell, ayuda e historial"
           C2.2: Rutas absolutas y relativas, estructura de carpetas y ficheros ocultos
@@ -120,7 +109,7 @@ vias:
         titulo: Git, GitHub y worktrees
         slug: c3-git
         requiere: [C2]
-        perfil: [mse, uco, planta]
+        perfil: [estudiante, uco, planta]
         temas:
           C3.1: Historia y fundamentos del control de versiones
           C3.2: "Repositorio, directorio de trabajo, área de preparación y commits"
@@ -137,7 +126,7 @@ vias:
         titulo: "Claude Code: fundamentos y trabajo cotidiano"
         slug: c4-claude-code
         requiere: [C1, C2, C3]
-        perfil: [mse, uco, planta]
+        perfil: [estudiante, uco, planta]
         temas:
           C4.1: "Qué es un agente de programación: arquitectura y bucle de trabajo"
           C4.2: "Instalación, autenticación, actualización y diagnóstico"
@@ -154,7 +143,7 @@ vias:
         titulo: Programación profesional asistida por IA
         slug: c5-programar
         requiere: [C4]
-        perfil: [mse, uco, planta]
+        perfil: [estudiante, uco, planta]
         python: true
         temas:
           C5.1: "El ciclo explorar, planificar, implementar, probar, revisar, documentar y commit"
@@ -171,7 +160,7 @@ vias:
         titulo: "Excel, datos, Quarto e informes"
         slug: c6-informes
         requiere: [C5]
-        perfil: [mse, uco, planta]
+        perfil: [estudiante, uco, planta]
         python: true
         temas:
           C6.1: "De Excel a DataFrames y pandas: hojas, rangos y tipos"
@@ -235,8 +224,8 @@ vias:
 
 
 itinerarios:
-  mse:
-    titulo: Estudiante de MSE (Resonancia)
+  estudiante:
+    titulo: Estudiante de grado o máster
     recorrido: [C0, C2, C3, C4, C5]
   uco:
     titulo: Docente o investigador UCO

@@ -190,13 +190,6 @@ Cada práctica lleva una etiqueta: [Local gratuita]{.ejec .ejec-local} (solo tu 
 
 - [Hoja de consulta de comandos](hoja-consulta.qmd): terminal, Git, `claude` y sus comandos de sesión, generada desde el registro verificado (<a href="descargas/hoja-consulta.txt" download>descargar en texto (Markdown)</a>).
 
-## Sitios hermanos
-
-ClaudeDo nació como la vía C de [Resonancia](https://me1catrr.github.io/resonancia/),
-el curso de vibraciones, señales y monitorización estructural de la Universidad de
-Córdoba, y comparte su identidad con [JuliaDo](https://me1catrr.github.io/juliado/),
-que enseña programación y computación científica con Julia.
-
 ## Sobre el proyecto
 
 **Autoría.** Rafael Castro Triguero, Universidad de Córdoba.

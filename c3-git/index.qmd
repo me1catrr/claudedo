@@ -4,7 +4,7 @@ title: "Git, GitHub y worktrees"
 subtitle: "C3 · Vía C"
 via: C
 requiere: [C2]
-perfil: [mse, uco, planta]
+perfil: [estudiante, uco, planta]
 estado: borrador
 nivel: intermedio
 verificado:
@@ -386,9 +386,10 @@ des**, así que no pongas claves en el YAML (usa los *secrets* del repositorio) 
 de terceros** que uses (una versión etiquetada puede cambiar; las más estrictas fijan el commit).
 
 **GitHub Pages** sirve páginas estáticas desde un repositorio. Esta web se publica así: el flujo
-[`publish.yml`](https://github.com/me1catrr/resonancia/blob/main/.github/workflows/publish.yml) se
-dispara con cada *push* a `main`, instala Quarto (versión fija) y publica la rama `gh-pages`. Como no
-tiene Julia, lee los resultados de `_freeze/`: por eso se commitean (véase `CLAUDE.md`).
+[`publish.yml`](https://github.com/me1catrr/claudedo/blob/main/.github/workflows/publish.yml) se
+dispara con cada *push* a `main`, instala Quarto (versión fija) y publica la rama `gh-pages`. No
+tiene Julia: ninguna página ejecuta código al compilar, y si alguna lo hiciera, el flujo leería sus
+resultados de `_freeze/`, que habría que commitear.
 
 **Pon a prueba lo anterior.**
 

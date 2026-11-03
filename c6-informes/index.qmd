@@ -4,7 +4,7 @@ title: "Excel, datos, Quarto e informes"
 subtitle: "C6 · Vía C"
 via: C
 requiere: [C5]
-perfil: [mse, uco, planta]
+perfil: [estudiante, uco, planta]
 estado: borrador
 nivel: intermedio
 python: true

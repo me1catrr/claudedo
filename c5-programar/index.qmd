@@ -4,7 +4,7 @@ title: "Programación profesional asistida por IA"
 subtitle: "C5 · Vía C"
 via: C
 requiere: [C4]
-perfil: [mse, uco, planta]
+perfil: [estudiante, uco, planta]
 estado: borrador
 nivel: intermedio
 python: true

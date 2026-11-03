@@ -4,7 +4,7 @@ title: "Claude Code: fundamentos y trabajo cotidiano"
 subtitle: "C4 · Vía C"
 via: C
 requiere: [C1, C2, C3]
-perfil: [mse, uco, planta]
+perfil: [estudiante, uco, planta]
 estado: borrador
 nivel: intermedio
 verificado:
@@ -496,9 +496,9 @@ hacer un cambio pequeño controlado. *Archivos:* la copia del proyecto de C2/C3.
 6. **Un cambio pequeño** (modo `default`): «Añade un test que compruebe que `rms` de una señal constante es 0». Antes de aprobar cada orden, **aplica las cinco preguntas**; rechaza cualquier cosa que toque fuera del proyecto.
 7. **Revisa**: `/diff` y `git diff`; ejecuta tú las pruebas (`uv run --with numpy --with pytest pytest tests` → debe haber 7 que pasan).
 8. **Mide el coste de la sesión** con `/usage` y anota los tokens. Prueba `/clear` y vuelve a mirar.
-9. **Léelo todo en el repositorio real:** abre `CLAUDE.md` y `.claude/settings.json` de Resonancia y contesta: ¿qué órdenes se permiten sin preguntar? ¿cuáles preguntan? ¿qué se deniega y por qué?
+9. **Léelo todo en el repositorio real:** abre `CLAUDE.md` y `.claude/settings.json` del repositorio de este curso y contesta: ¿qué órdenes se permiten sin preguntar? ¿cuáles preguntan? ¿qué se deniega y por qué?
 
-**Respuestas esperadas del paso 9** (verificadas leyendo esos ficheros el 23-10-2026): se permiten sin preguntar, entre otras,
+**Respuestas esperadas del paso 9** (verificadas leyendo esos ficheros el 03-11-2026): se permiten sin preguntar, entre otras,
 `julia --project=.`, `quarto render`, `git status/diff/log/show/add/commit` y `uv run`; **preguntan** `git push`, los comandos `gh` que modifican GitHub,
 el Git destructivo (`restore`, `reset --hard`, `clean`, `rebase`…), `quarto publish` y añadir o quitar paquetes de Julia o Python;
 **se deniegan** la lectura y edición de la carpeta de datos privados, `rm -rf` y los ficheros de credenciales (`.env`, claves,

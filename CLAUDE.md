@@ -7,12 +7,12 @@ Responsable único: Rafael Castro Triguero (GitHub `me1catrr`). Se publica en
 https://me1catrr.github.io/claudedo/.
 
 Diez unidades en la raíz (`c0-fluidez/` … `c9-api/`), agrupadas en áreas (Fundamental,
-Aplicado, Avanzado) en `temario.yml`. Procede de la vía C de Resonancia
-(https://github.com/me1catrr/resonancia), separada en noviembre de 2026; véase `_migracion/`.
-Los identificadores C0–C9 y los slugs son rutas públicas: no se cambian.
+Aplicado, Avanzado) en `temario.yml`. Los identificadores C0–C9 y los slugs son rutas
+públicas: no se cambian.
 
-Sitios hermanos: Resonancia (monitorización de la salud estructural, laboratorios y
-recursos) y JuliaDo (Julia). Se enlazan con su URL publicada; no se copian contenidos.
+Es un proyecto independiente: las páginas hablan solo de ClaudeDo y no enlazan ni remiten
+a otros cursos o sitios del autor (Resonancia, matematicado, JuliaDo). Si una unidad
+necesita teoría de otra materia, se resume en la propia unidad o se cita bibliografía.
 
 ## Seguimiento del curso
 El plan, el estado, las decisiones, el modelo didáctico, las fuentes y el registro
@@ -68,11 +68,11 @@ publicado) y `verificado` (versiones de Claude Code y Julia con las que se compr
   Ninguna página del sitio ejecuta Julia al compilar.
 - Python: entorno gestionado con `uv` (`pyproject.toml`). No uses conda.
 
-## Base común con Resonancia y JuliaDo
-`recursos/tikz/resonancia.sty`, `recursos/js/ejercicios.js` (y sus tests),
-`scripts/ejercicios.lua`, `scripts/referencias.lua`, `scripts/no_publicar_docs.ts` y
-`scripts/generar_estructura.jl` son idénticos en los tres sitios. Un cambio en uno se copia a
-los otros dos. `styles.css` ya no es común (noviembre de 2026, como en JuliaDo).
+## Nombres heredados
+El paquete TikZ `recursos/tikz/resonancia.sty` y el prefijo `resonancia:ej:` de las claves de
+`localStorage` en `recursos/js/ejercicios.js` conservan su nombre de origen: cambiarlos obligaría
+a tocar todas las figuras y borraría las respuestas ya guardadas. No son enlaces ni menciones
+visibles. Estos ficheros ya no se sincronizan con otros repositorios.
 
 ## Estilos
 - `marca.scss`: variables del tema (violeta `#5b34a8`, barra superior clara, colores de los
@@ -105,8 +105,8 @@ añade su línea en `.novedades-lista` de la portada y se actualiza `novedades` 
 - **Figuras en la página.** Pie, `{#fig-…}` y `fig-alt` obligatorios. El color nunca es la única señal.
 - **Componentes interactivos** (`recursos/js/componentes/`): se construyen con la unidad que
   los usa y llevan prueba Deno.
-- **Bibliografía.** Una sola fuente, `recursos/bibliografia.bib` (subconjunto de la de
-  Resonancia), con `keywords` y `verificado`. Las páginas que citan llevan
+- **Bibliografía.** Una sola fuente, `recursos/bibliografia.bib`, con `keywords` y
+  `verificado`. Las páginas que citan llevan
   `citation-location: margin`. Informe: `julia --project=. scripts/generar_bibliografia.jl`.
 - **Historia y noticias.** Solo hechos comprobados en una fuente que se enlaza (con fecha de
   consulta); si hay discrepancia entre fuentes, se dice.

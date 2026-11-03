@@ -368,7 +368,7 @@ Lo que **no** se automatiza: el criterio de qué es un resultado aceptable, la f
 3. **Rompe algo a propósito:** quita el `--max-turns` del script y vuelve a ejecutar las pruebas. ¿Cuál falla? ¿Por qué es peligroso quitar un tope?
 4. **Prueba el cerrojo:** lanza dos ejecuciones simultáneas con `FALSO_MODO=cuelga` y comprueba que la segunda se omite (código 3).
 5. **(Opcional, puede costar)** Con **tu** cuenta o clave, ejecuta **una** vez la tarea real contra una carpeta de prueba con datos sintéticos, con `MAX_COSTE_USD=0.10`: `./ejecutar_tarea.sh "Resume en cinco líneas qué hace este proyecto" ~/viga`. Revisa el registro y el coste que informa.
-6. **Programa la tarea** (solo cuando el paso 5 sea fiable): en macOS adapta `es.resonancia.tarea-claude.plist` (rutas absolutas, `PATH` completo) y cárgalo como en C2.11; en Windows, el Programador de tareas con `pwsh -NoProfile -File ...\ejecutar_tarea.ps1`. Haz **una ejecución de prueba inmediata** antes de fiarte del horario.
+6. **Programa la tarea** (solo cuando el paso 5 sea fiable): en macOS adapta `es.claudedo.tarea-claude.plist` (rutas absolutas, `PATH` completo) y cárgalo como en C2.11; en Windows, el Programador de tareas con `pwsh -NoProfile -File ...\ejecutar_tarea.ps1`. Haz **una ejecución de prueba inmediata** antes de fiarte del horario.
 7. **Alerta y revisión:** decide cómo te enteras de un código distinto de 0 y quién revisa el registro cada semana.
 8. **Audita** con la lista de C8.8: permisos, topes, secretos, datos, privilegios.
 

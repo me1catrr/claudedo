@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Label</key><string>es.resonancia.tarea-claude</string>
+  <key>Label</key><string>es.claudedo.tarea-claude</string>
   <key>ProgramArguments</key>
   <array>
     <string>/bin/zsh</string>

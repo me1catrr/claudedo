@@ -13,12 +13,10 @@ que se comprobó.
 
 Web: <https://me1catrr.github.io/claudedo/>
 
-## Creado con Claude Code, para aprender Claude Code
+## Hecho con Claude Code, para aprender Claude Code
 
-Este repositorio se ha creado con [Claude Code](https://code.claude.com/docs) como proyecto de
-autoformación sobre el propio Claude Code: la herramienta que el curso enseña es la que se ha
-usado para programar, redactar, comprobar y producir sus contenidos. El responsable revisa y
-decide cada cambio.
+El curso es su propio ejemplo: se ha programado, redactado y comprobado con
+[Claude Code](https://code.claude.com/docs), y el responsable revisa y decide cada cambio.
 
 | | Fecha | Claude Code |
 |---|---|---|
@@ -50,16 +48,8 @@ Ficheros clave:
 - `scripts/generar_hoja.jl`: genera la hoja de consulta desde `_curso/comandos.yml`.
 - `scripts/auditar_claude.jl`: comprueba la coherencia de versiones y comandos.
 
-## Origen
-
-ClaudeDo era la vía C de [Resonancia](https://github.com/me1catrr/resonancia) y se separó en un
-repositorio propio en noviembre de 2026 (commit de origen `resonancia@f677c80`). El historial
-anterior de estos ficheros está en Resonancia. Detalles en `_migracion/`.
-
-`recursos/tikz/resonancia.sty`, `recursos/js/ejercicios.js` y los filtros `scripts/*.lua`
-comunes son la base compartida con Resonancia y JuliaDo. Los estilos son propios: variables
-del tema en `marca.scss` y tokens y componentes en `styles.css`. Ninguna copia se descarga
-al compilar: el sitio es autónomo.
+Estilos: variables del tema en `marca.scss`; tokens y componentes en `styles.css`. El sitio es
+autónomo: no descarga nada al compilar.
 
 ## Compilar en local
 
