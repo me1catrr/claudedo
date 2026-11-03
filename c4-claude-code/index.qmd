@@ -209,6 +209,18 @@ En concreto:
 - Un «sí, y no preguntes más» **crea una regla permanente** para ese comando en este repositorio: úsalo solo con órdenes inocuas y específicas.
 - Si no entiendes la orden, **pide que te la explique** o rechaza y reformula. Puedes preguntar «¿qué hace exactamente esa orden y qué pasaría si falla?»
 
+::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.314 · por incorporar"}
+- **Un ajuste nuevo**, `permissions.blockWritesOutsideWorkingDirectories`: con él, las
+  herramientas `Write`, `Edit` y `NotebookEdit` rechazan rutas fuera de las carpetas de trabajo
+  **en cualquier modo de permisos** [@anthropic-changelog].
+- **`/permissions` tiene una pestaña nueva**, *Recently blocked*, para revisar las llamadas que
+  bloqueó el modo `auto`. No deja aprobar una llamada que no puedas leer completa, ni siquiera
+  cuando la terminal es demasiado baja para mostrarla.
+
+[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
+contrastó con la 2.1.309.]{.novedad-estado}
+:::
+
 **Pon a prueba lo anterior.**
 
 ::: {.ejercicio tipo="opcion" id="c4-3-orden" respuesta="c"}
@@ -401,6 +413,21 @@ Claude Code consume **tokens** (C1.4). Con una suscripción, el uso cuenta contr
 La documentación cita, como orientación, una media de unos **13 $ por persona y día activo** en despliegues empresariales
 (y menos de 30 $ en el 90 % de los casos); varía mucho según el uso. Las sesiones largas gastan más de lo que parece
 porque cada mensaje reenvía el contexto. **Un uso muy superior al esperado casi siempre es una sesión que nunca se limpió.**
+
+::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.311 a 2.1.316 · por incorporar"}
+- **`ultrathink`** (2.1.311) sube a esfuerzo `xhigh` el turno en el que lo escribes, con Opus 5.5,
+  Sonnet 5.5, Haiku 5.5 y Fable 5.1 a través de la API de Anthropic. Si lo escribes mientras
+  Claude trabaja, eleva el resto de ese turno. Desde la 2.1.316, `CLAUDE_CODE_DISABLE_ULTRATHINK`
+  desactiva la palabra clave [@anthropic-changelog].
+- **Nombres de los límites** (2.1.312): los avisos llaman ahora *5-hour limit* («límite de
+  5 horas») a la ventana de cinco horas, que antes se llamaba *session limit*.
+- **Modo rápido de Opus 4.8** (2.1.316): queda obsoleto desde el 30-10-2026 y se retirará el
+  30-11-2026. Después, las peticiones en modo rápido a Opus 4.8 darán error, sin recurrir a Opus 4.8
+  normal. Para conservar la velocidad hay que pasar a Opus 5.5.
+
+[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
+contrastó con la 2.1.309.]{.novedad-estado}
+:::
 
 ### C4.8 Terminal, IDE y otras superficies {#c4-8}
 

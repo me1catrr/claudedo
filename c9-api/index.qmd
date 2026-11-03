@@ -455,3 +455,14 @@ Documentación de modelos y precios de la plataforma Claude [@anthropic-modelos]
 (parámetros retirados, códigos de error, lotes, caché) proceden de la documentación de referencia de la API incluida en la *skill* `claude-api` de Claude Code 2.1.309 [@anthropic-skillapi],
 que se contrastó con el comportamiento del SDK `anthropic` 2.2.0 sobre un transporte simulado. Consulta siempre la documentación vigente:
 [platform.claude.com/docs](https://platform.claude.com/docs/en/models/overview).
+
+::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.314 · por incorporar"}
+**La fuente de esta unidad ha cambiado.** La *skill* `claude-api` se actualizó en la 2.1.314.
+Su configuración de Datadog para trazar la API envía ahora la cabecera `dd-llmobs-enabled: true`,
+como la consola, y sus instrucciones de instalación de `ant` ya no incluyen el paso `xattr` de
+macOS [@anthropic-changelog]. Antes de la próxima revisión de C9 hay que volver a contrastar sus
+reglas con la versión vigente de la *skill*.
+
+[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
+contrastó con la 2.1.309.]{.novedad-estado}
+:::

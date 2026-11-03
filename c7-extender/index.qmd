@@ -291,6 +291,22 @@ devuelve `{"decision": "block", "reason": "…"}` (la forma de decisión que la 
 
 **Configuración de ambos hooks** (`hooks/settings.ejemplo.json`, validada con `jq`): `PreToolUse` con `Bash` y `PostToolUse` con `Edit|Write`. Los scripts deben ser **ejecutables** en macOS (`chmod +x`).
 
+::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.312 a 2.1.316 · por incorporar"}
+- **Hooks de PowerShell y `exit 2`** (2.1.316): se corrige que un hook de PowerShell **no
+  bloqueara** con el código 2 cuando su orden empieza por una conversión de tipo, `param`, `using`
+  o un atributo [@anthropic-changelog]. `validar-comando.ps1` no empieza así, pero es un motivo
+  más para probar el bloqueo en la versión que uses.
+- **Hooks y la herramienta Monitor** (2.1.314): los hooks con *matcher* `Bash` se ejecutan también
+  con las órdenes de shell que lanza Monitor. Pueden bloquearlas o preguntar, pero no aprobarlas
+  ni reescribirlas. Las condiciones `if` como `Monitor(tail *)` casan como `Bash(tail *)`.
+- **Límite de simultaneidad** (2.1.312): como mucho se ejecutan a la vez 24 hooks de tipo
+  *prompt* o *agent* por sesión, subagentes incluidos. Un `timeout` inferior a 1 segundo cuenta
+  como 1 segundo.
+
+[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
+contrastó con la 2.1.309.]{.novedad-estado}
+:::
+
 ::: {.callout-warning title="Riesgos de los hooks"}
 - **Se ejecutan con tus permisos** y sin pedirte confirmación: un hook de un repositorio ajeno puede hacer lo que tú puedes hacer. **Lee los hooks de `.claude/settings.json` de cualquier proyecto antes de aceptar su confianza.**
 - **Un hook que falla suele no bloquear**: si tu script se rompe (código distinto de 0 y 2), la acción sigue. Pruébalo.

@@ -246,6 +246,15 @@ cuenta antes de subir nada que no sea público**, y deja en manos de tu instituc
 decisión sobre qué cuenta usar para trabajo con datos de terceros. Quita siempre claves,
 credenciales y datos personales innecesarios antes de pegar.
 
+::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.317 · por incorporar"}
+Claude Code **pregunta antes** de que una herramienta web o de shell envíe a la red la
+dirección de correo de tu cuenta [@anthropic-changelog]. Es una protección más del mismo
+principio de este apartado: lo que sale de tu equipo lo decides tú.
+
+[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
+contrastó con la 2.1.309.]{.novedad-estado}
+:::
+
 **Pon a prueba lo anterior.**
 
 ::: {.ejercicio tipo="opcion" id="c1-5-cuenta" respuesta="c"}

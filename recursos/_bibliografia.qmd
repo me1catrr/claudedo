@@ -178,6 +178,14 @@ Best practices for Claude Code (2026). Documentación de Claude Code (Anthropic)
 <br><span class="ref-citada">Citada en: [C5](../c5-programar/index.qmd) · [C8](../c8-automatizar/index.qmd)</span>
 :::
 
+::: {#ref-anthropic-changelog .ref-ficha}
+Changelog (2026). Documentación de Claude Code (Anthropic), consultada el 03-11-2026.
+
+[Enlace](https://code.claude.com/docs/en/changelog){.ref-enlace target="_blank"} · 
+<span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· leídas las versiones 2.1.310 a 2.1.317 (sin entradas para 2.1.313 ni 2.1.315), 03/11/2026</span>
+<br><span class="ref-citada">Citada en: [C1](../c1-claude-web/index.qmd) · [C4](../c4-claude-code/index.qmd) · [C7](../c7-extender/index.qmd) · [C8](../c8-automatizar/index.qmd) · [C9](../c9-api/index.qmd)</span>
+:::
+
 ::: {#ref-anthropic-puntoscontrol .ref-ficha}
 Checkpointing (2026). Documentación de Claude Code (Anthropic), consultada el 23-10-2026.
 

@@ -86,6 +86,18 @@ La regla de este curso: **cuanta más autonomía, más límites previos y más r
 Dos avisos de la documentación que importan a una tarea desatendida: **sin `--bare`, `claude -p` ejecuta los hooks de `.claude/settings.json` y conecta los servidores de `.mcp.json` de la carpeta, aunque no hayas confiado en ella** (no muestra el diálogo de confianza), y a SIGTERM responde con el **código 143** sin dejar un resultado del turno en curso.
 Además, según esa página, `--bare` pasará a ser el modo por defecto de `-p` en una versión futura.
 
+::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.314 y 2.1.317 · por incorporar"}
+**Códigos de salida de `claude -p` más fiables.** Antes, si el arranque fallaba, `claude -p`
+terminaba con código 0 y sin salida; desde la 2.1.314 escribe el error y sale con **1**. Desde la
+2.1.317, también sale con 1 (en salida `text` y `json`) cuando un disco o una cuota llenos impiden
+guardar el registro de la sesión o `~/.claude.json` [@anthropic-changelog]. El ejecutor de este
+apartado ya trata un código distinto de 0 como fallo y la falta de `result` como código 5. Con
+estas versiones, el caso «0 sin salida» debería dejar de aparecer.
+
+[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
+contrastó con la 2.1.309.]{.novedad-estado}
+:::
+
 **Un ejecutor con límites.** `_ejemplo/ejecutar_tarea.sh` envuelve la llamada con **cinco** protecciones:
 
 1. **Permisos cerrados:** `--permission-mode dontAsk` y solo las herramientas de lectura (`Read,Grep,Glob`).
@@ -149,6 +161,17 @@ Los **subagentes** (C7) son trabajadores con su propio contexto que devuelven un
 - **El humano decide** qué se integra.
 
 La orquestación (el que decide qué agente hace qué) puede ser **Claude turno a turno** (subagentes), **un guion que tú escribes** (varias llamadas `claude -p` con un bucle) o un *workflow* dinámico, en el que Claude escribe el guion; en los tres casos, el control de permisos y el registro siguen siendo tuyos.
+
+::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.316 y 2.1.317 · por incorporar"}
+**Esfuerzo de los subagentes.** La variable `CLAUDE_CODE_SUBAGENT_EFFORT` (2.1.316) fija el nivel
+de esfuerzo de los subagentes cuando nada más lo indica, en lugar de heredar el de la sesión.
+Desde la 2.1.317, un subagente o compañero de equipo que usa **otro modelo** que la conversación
+principal toma el esfuerzo guardado para ese modelo, o su valor por defecto, y no el de la sesión
+[@anthropic-changelog]. Es una palanca más de coste (C8.5).
+
+[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
+contrastó con la 2.1.309.]{.novedad-estado}
+:::
 
 ### C8.3 Equipos de agentes y coordinación de tareas {#c8-3}
 
@@ -280,6 +303,17 @@ La automatización multiplica el efecto de un error: se ejecuta sin nadie delant
 3. **Permisos mínimos** (`dontAsk` + `--allowedTools` estrechas) y reglas `deny` (C4.3).
 4. **Hooks** de validación previa (C7.5) como refuerzo.
 5. **Credenciales de vida corta y alcance mínimo.** Para Actions, la documentación describe también la autenticación por **federación de identidad (OIDC)** para no guardar un secreto de larga duración. Claves distintas por entorno; rotación y revocación si se filtran.
+
+::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.314 · por incorporar"}
+- `permissions.blockWritesOutsideWorkingDirectories` hace que `Write`, `Edit` y `NotebookEdit`
+  rechacen rutas fuera de las carpetas de trabajo en cualquier modo de permisos (C4.3). Es una
+  capa más para tareas desatendidas [@anthropic-changelog].
+- Se corrige que las protecciones del sandbox no se aplicaran a un worktree en el que se entra con
+  `claude -p --resume` o `--continue`.
+
+[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
+contrastó con la 2.1.309.]{.novedad-estado}
+:::
 
 **Lo que nunca debe llegar a una tarea desatendida:** datos privados o personales sin permiso (C0.7, C1.5), credenciales de administración, permisos de publicación (`git push`, `quarto publish`) y acceso a producción. **El humano aprueba lo irreversible.**
 
