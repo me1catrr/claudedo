@@ -1,6 +1,6 @@
 ---
 title: "Excel, datos, Quarto e informes"
-subtitle: "C6 · Vía C"
+subtitle: "C6 · Área Aplicado"
 format:
   revealjs:
     slide-number: true

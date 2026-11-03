@@ -1,6 +1,6 @@
 ---
 title: "Claude Code: fundamentos y trabajo cotidiano"
-subtitle: "C4 · Vía C"
+subtitle: "C4 · Área Aplicado"
 format:
   revealjs:
     slide-number: true

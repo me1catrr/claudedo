@@ -1,7 +1,7 @@
 ---
 id: C0
 title: "Fluidez en IA, fundamentos e historia"
-subtitle: "C0 · Vía C"
+subtitle: "C0 · Área Fundamental"
 via: C
 requiere: []
 perfil: [estudiante, uco, planta]

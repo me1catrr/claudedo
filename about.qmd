@@ -14,6 +14,32 @@ Code. Busca que quien la recorra use un asistente de IA con criterio: delegando
 lo que conviene, verificando lo que entrega, protegiendo los datos y sabiendo
 qué no puede hacer por él.
 
+## Conceptos y herramientas
+
+El curso separa dos tipos de contenido. Los **conceptos** (qué es un modelo de
+lenguaje, sus límites, cómo delegar y verificar, privacidad, integridad académica,
+control de versiones, pruebas como contrato) cambian poco y se explican sin
+depender de una herramienta concreta. Las **instrucciones de herramienta**
+(comandos, opciones, menús y configuración de Claude Code o de la API) cambian
+con cada versión: por eso cada unidad indica bajo su título con qué versión se
+comprobó, y la [hoja de consulta](hoja-consulta.qmd) se genera desde un registro
+de comandos verificados (<a href="descargas/hoja-consulta.txt" download>descárgala en
+texto</a>).
+
+## Lo que cuesta y lo que está comprobado
+
+Cada práctica lleva una etiqueta: [Local gratuita]{.ejec .ejec-local} (solo tu
+ordenador), [Simulación]{.ejec .ejec-sim} (en el navegador), [Requiere cuenta]{.ejec .ejec-cuenta}
+o [Puede generar coste]{.ejec .ejec-coste} (con la alternativa gratuita cuando existe).
+Bajo el título de cada unidad verás su versión, la fecha de edición, si se ha
+comprobado técnicamente (✔) o está pendiente de revisión (⚠), y la versión de Claude
+Code de la documentación consultada. Una unidad «pendiente de revisión» puede
+contener ejemplos aún sin ejecutar.
+
+**Niveles.** *Básico*: sin experiencia previa en terminal ni programación.
+*Intermedio*: usas la terminal y Git con soltura. *Avanzado*: dominas el flujo
+intermedio y quieres personalizarlo o automatizarlo.
+
 ## Repositorio
 
 El código, los textos y el historial de cambios están en

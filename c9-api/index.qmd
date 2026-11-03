@@ -1,7 +1,7 @@
 ---
 id: C9
 title: "API, investigación y proyectos integradores"
-subtitle: "C9 · Vía C"
+subtitle: "C9 · Área Avanzado"
 via: C
 requiere: [C5]
 perfil: [uco]

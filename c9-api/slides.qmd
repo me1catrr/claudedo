@@ -1,6 +1,6 @@
 ---
 title: "API, investigación y proyectos integradores"
-subtitle: "C9 · Vía C"
+subtitle: "C9 · Área Avanzado"
 format:
   revealjs:
     slide-number: true

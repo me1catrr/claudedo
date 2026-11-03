@@ -1,7 +1,7 @@
 ---
 id: C1
 title: "Claude y el ecosistema Anthropic"
-subtitle: "C1 · Vía C"
+subtitle: "C1 · Área Fundamental"
 via: C
 requiere: [C0]
 perfil: [estudiante, uco, planta]

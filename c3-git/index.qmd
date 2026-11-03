@@ -1,7 +1,7 @@
 ---
 id: C3
 title: "Git, GitHub y worktrees"
-subtitle: "C3 · Vía C"
+subtitle: "C3 · Área Aplicado"
 via: C
 requiere: [C2]
 perfil: [estudiante, uco, planta]

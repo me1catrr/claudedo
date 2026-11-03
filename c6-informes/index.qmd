@@ -1,7 +1,7 @@
 ---
 id: C6
 title: "Excel, datos, Quarto e informes"
-subtitle: "C6 · Vía C"
+subtitle: "C6 · Área Aplicado"
 via: C
 requiere: [C5]
 perfil: [estudiante, uco, planta]

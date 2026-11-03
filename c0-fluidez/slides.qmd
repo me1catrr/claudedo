@@ -1,6 +1,6 @@
 ---
 title: "Fluidez en IA, fundamentos e historia"
-subtitle: "C0 · Vía C"
+subtitle: "C0 · Área Fundamental"
 format:
   revealjs:
     slide-number: true

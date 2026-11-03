@@ -1,7 +1,7 @@
 ---
 id: C7
 title: "Personalización: CLAUDE.md, skills, hooks y MCP"
-subtitle: "C7 · Vía C"
+subtitle: "C7 · Área Avanzado"
 via: C
 requiere: [C4]
 perfil: [uco, planta]

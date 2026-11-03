@@ -1,25 +1,24 @@
 ---
 title: "ClaudeDo"
 subtitle: "Aprende Claude haciendo"
-description: "Curso de autoformación en IA aplicada al trabajo profesional, la programación y la investigación con Claude y Claude Code, creado con Claude Code para aprender Claude Code."
+description: "Curso de autoformación para usar Claude y Claude Code con criterio en el trabajo profesional, la programación y la investigación."
 author:
   - name: Rafael Castro Triguero
     affiliation: Universidad de Córdoba
 date-modified: last-modified
 date-format: "D [de] MMMM [de] YYYY"
-title-block-banner: true
+# Color fijo de la cabecera: no depende de styles.css (que puede llegar en caché).
+title-block-banner: "#2e1a5c"
+title-block-banner-color: "#ffffff"
 via: C
 ---
 
 ClaudeDo enseña a usar Claude y Claude Code con criterio, trabajando sobre casos reales
 desde la primera unidad: entender qué hace un modelo de lenguaje, delegar una tarea,
 leer lo que propone ejecutar, comprobar el resultado y decidir qué se integra. Funciona
-en **macOS** (Terminal, Zsh) y **Windows** (PowerShell). Puedes seguirlo de principio a
-fin o entrar directamente en una unidad si cumples sus prerrequisitos.
+en **macOS** (Terminal, Zsh) y **Windows** (PowerShell).
 
-Este repositorio se ha creado **con Claude Code, para aprender Claude Code**: el propio
-curso es un ejemplo de lo que enseña, con el responsable revisando y decidiendo cada
-cambio. El [colofón](#sobre-el-proyecto) indica las versiones con las que se hizo.
+**Hecho con Claude Code, para aprender Claude Code:** el curso es su propio ejemplo.
 
 ::: {.acciones}
 [Empezar por C0](c0-fluidez/index.qmd){.btn .btn-primary}
@@ -72,6 +71,17 @@ instrucciones de herramienta, que cambian con cada versión.
 ::: {.pieza}
 **Práctica guiada.** Pasos para macOS (Zsh) y Windows (PowerShell), con ejemplos en
 Python y Julia probados en la carpeta `_ejemplo/` de la unidad.
+:::
+
+::: {.pieza}
+**Lo que cuesta.** Cada práctica dice si es [local]{.ejec .ejec-local}, una
+[simulación]{.ejec .ejec-sim}, si [requiere cuenta]{.ejec .ejec-cuenta} o si
+[puede generar coste]{.ejec .ejec-coste}.
+:::
+
+::: {.pieza}
+**Hoja de consulta.** Terminal, Git y `claude`, generada desde el
+[registro de comandos verificados](hoja-consulta.qmd).
 :::
 
 ::: {.pieza}
@@ -171,25 +181,6 @@ Qué cambia, en qué versión y por qué importa en esa unidad.
 usas la terminal y Git con soltura. *Avanzado*: dominas el flujo intermedio y quieres
 personalizarlo o automatizarlo.
 
-## Conceptos y herramientas
-
-El curso separa dos tipos de contenido. Los **conceptos** (qué es un modelo de
-lenguaje, sus límites, cómo delegar y verificar, privacidad, integridad académica,
-control de versiones, pruebas como contrato) cambian poco y se explican sin
-depender de una herramienta concreta. Las **instrucciones de herramienta**
-(comandos, opciones, menús y configuración de Claude Code o de la API) cambian
-con cada versión: por eso cada unidad indica bajo su título con qué versión se
-comprobó, y la [hoja de consulta](hoja-consulta.qmd) se genera desde un registro
-de comandos verificados.
-
-## Cómo se indica lo que cuesta y lo que está comprobado
-
-Cada práctica lleva una etiqueta: [Local gratuita]{.ejec .ejec-local} (solo tu ordenador), [Simulación]{.ejec .ejec-sim} (en el navegador), [Requiere cuenta]{.ejec .ejec-cuenta} o [Puede generar coste]{.ejec .ejec-coste} (con la alternativa gratuita cuando existe). Bajo el título de cada unidad verás su versión, la fecha de edición, si se ha comprobado técnicamente y la versión de Claude Code de la documentación consultada. Una unidad «pendiente de revisión» puede contener ejemplos aún sin ejecutar.
-
-## Recursos
-
-- [Hoja de consulta de comandos](hoja-consulta.qmd): terminal, Git, `claude` y sus comandos de sesión, generada desde el registro verificado (<a href="descargas/hoja-consulta.txt" download>descargar en texto (Markdown)</a>).
-
 ## Sobre el proyecto
 
 **Autoría.** Rafael Castro Triguero, Universidad de Córdoba.
@@ -199,15 +190,14 @@ Cada práctica lleva una etiqueta: [Local gratuita]{.ejec .ejec-local} (solo tu 
 sugerencias, en sus [issues](https://github.com/me1catrr/claudedo/issues).
 
 **Recursos abiertos.** Textos, diapositivas y figuras con licencia CC BY-SA 4.0,
-código con licencia MIT y datos con la licencia de su ficha. Más detalles en
-[Acerca de](about.qmd). ClaudeDo es un proyecto docente independiente, sin afiliación
-con Anthropic.
+código con licencia MIT y datos con la licencia de su ficha. Cómo se separan conceptos
+e instrucciones de herramienta y qué significa cada etiqueta, en [Acerca de](about.qmd).
+ClaudeDo es un proyecto docente independiente, sin afiliación con Anthropic.
 
 ::: {.creditos}
-Este repositorio ha sido creado con Claude Code (Anthropic) como proyecto de
-autoformación sobre el propio Claude Code: la herramienta se ha usado para programar,
-redactar, comprobar y producir los contenidos interactivos que enseña a usar. La
-selección, revisión y responsabilidad académica de los materiales corresponden al autor.
+Hecho con Claude Code (Anthropic), para aprender Claude Code: se ha usado para programar,
+redactar y comprobar los contenidos que enseña a usar. La selección, revisión y
+responsabilidad académica de los materiales corresponden al autor.
 Creación: {{< var creacion.periodo >}}, con Claude Code {{< var creacion.claude-code >}}.
 Última revisión de la web: {{< var revision.fecha >}}, con Claude Code
 {{< var revision.claude-code >}}. Novedades analizadas hasta la

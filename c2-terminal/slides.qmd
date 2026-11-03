@@ -1,6 +1,6 @@
 ---
 title: "Preparación del entorno y terminal"
-subtitle: "C2 · Vía C"
+subtitle: "C2 · Área Aplicado"
 format:
   revealjs:
     slide-number: true

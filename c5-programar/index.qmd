@@ -1,7 +1,7 @@
 ---
 id: C5
 title: "Programación profesional asistida por IA"
-subtitle: "C5 · Vía C"
+subtitle: "C5 · Área Aplicado"
 via: C
 requiere: [C4]
 perfil: [estudiante, uco, planta]

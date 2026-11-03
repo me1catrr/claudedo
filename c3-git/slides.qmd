@@ -1,6 +1,6 @@
 ---
 title: "Git, GitHub y worktrees"
-subtitle: "C3 · Vía C"
+subtitle: "C3 · Área Aplicado"
 format:
   revealjs:
     slide-number: true

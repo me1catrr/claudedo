@@ -1,7 +1,7 @@
 ---
 id: C8
 title: "Automatización, agentes y entornos avanzados"
-subtitle: "C8 · Vía C"
+subtitle: "C8 · Área Avanzado"
 via: C
 requiere: [C7]
 perfil: [uco, planta]

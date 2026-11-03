@@ -1,6 +1,6 @@
 ---
 title: "Claude y el ecosistema Anthropic"
-subtitle: "C1 · Vía C"
+subtitle: "C1 · Área Fundamental"
 format:
   revealjs:
     slide-number: true

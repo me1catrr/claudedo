@@ -1,7 +1,7 @@
 ---
 id: C2
 title: "Preparación del entorno y terminal"
-subtitle: "C2 · Vía C"
+subtitle: "C2 · Área Aplicado"
 via: C
 requiere: [C0]
 perfil: [estudiante, uco, planta]

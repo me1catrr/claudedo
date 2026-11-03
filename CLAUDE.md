@@ -82,8 +82,13 @@ visibles. Estos ficheros ya no se sincronizan con otros repositorios.
   naranja `#d95f02`; con texto, sus variantes `--area-…-texto` (≥ 4,5:1). Código con filete
   violeta; resultados con rótulo «Resultado».
 - La portada (`index.qmd`) usa `.acciones`, `.areas`/`.area`, `.piezas`, `.novedades-lista` y
-  `.creditos`; sus estilos se activan con `body:has(.areas)`. Las cifras de las tarjetas
-  (unidades, ejercicios) salen de `temario.yml` y de las unidades: se actualizan a mano.
+  `.creditos`; sus estilos se activan con `body:has(.areas)`. El color de la cabecera va en su
+  YAML (`title-block-banner: "#2e1a5c"`) para no depender de `styles.css` en caché. Cinco
+  secciones: Tres áreas, Cómo es cada unidad, Novedades, Todas las unidades y Sobre el proyecto
+  (lo demás, en «Acerca de»). Las cifras de las tarjetas (unidades, ejercicios) salen de
+  `temario.yml` y de las unidades: se actualizan a mano.
+- Subtítulo de unidad y diapositivas: «C4 · Área Aplicado» (lo genera `generar_estructura.jl`
+  desde `areas`).
 - `recursos/js/navbar-activo.html` deja activo en la barra superior solo el enlace de la página
   que se ve (Quarto marcaba siempre «Inicio»).
 

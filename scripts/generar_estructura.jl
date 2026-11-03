@@ -95,9 +95,13 @@ function cargar_temario()
                 end
             end
         else
+            # Área de cada unidad (bloque `areas`), para el subtítulo «C4 · Área Aplicado».
+            area_de = Dict(string(id) => string(a["titulo"])
+                           for a in get(v, "areas", []) for id in a["unidades"])
             for u in v["unidades"]
                 u = Dict{String,Any}(u)
                 u["via"] = v["id"]
+                haskey(area_de, string(u["id"])) && (u["area_titulo"] = area_de[string(u["id"])])
                 u["dir"] = get(u, "en_portada", false) == true ? v["carpeta"] :
                            unir(v["carpeta"], u["slug"])
                 push!(unidades, u)
@@ -187,6 +191,7 @@ function subtitulo(u)
     haskey(u, "sesion") && push!(partes, "Sesión " * u["sesion"])
     haskey(u, "practica") && push!(partes, "Práctica " * u["practica"])
     haskey(u, "nivel") && push!(partes, "Nivel $(u["nivel"]) · $(u["nivel_titulo"])")
+    haskey(u, "area_titulo") && push!(partes, "Área " * u["area_titulo"])
     length(partes) == 1 && push!(partes, "Vía " * u["via"])
     return join(partes, " · ")
 end
