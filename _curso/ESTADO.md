@@ -33,6 +33,7 @@ Rama de trabajo: `docs/curso-claude-completo`. Plan: [PLAN.md](PLAN.md).
 | 23/10/2026 | Fase 5.3: **C9 redactada** (v0.2.0): API, errores, coste, salida estructurada, evaluación, proyecto integrador (informe Quarto con IA opcional) | SDK `anthropic` 2.2.0 sobre transporte simulado: 26 pruebas pytest + 4 aserciones Julia (puente). **Ninguna llamada real**. Reglas de la API desde la skill `claude-api` (fuente secundaria) |
 | 23/10/2026 | Modelo didáctico, niveles y etiquetas de ejecución ([MODELO.md](MODELO.md)) | Revisado manualmente |
 | 23/10/2026 | Dependencias de la fase 2: Julia (DataFrames 1.8.2, CSV 1.1.0, XLSX 0.13.2, CairoMakie 0.15.16) y Python (`pandas`, `openpyxl`, `matplotlib`; pytest 9.1.1) | `julia ok`; `python ok`; `pytest 9.1.1` |
+| 03/11/2026 | Diseño visual como el de JuliaDo (barra clara, tokens violeta que ya no pisa `styles.css`, áreas en azul/verde azulado/naranja, portada con tarjetas de área, colofón con `_variables.yml`); `styles.css` deja la base común. Cajas `.novedad` con lo que afecta al curso de Claude Code 2.1.310–2.1.317 (C1, C4, C7, C8, C9) y su resumen en la portada | `quarto render` del sitio completo sin avisos; cajas y citas comprobadas en el HTML; capturas con Chromium headless a 1280 px. **No ejecutadas** las pruebas Playwright (no hay `.venv`; `uv sync` necesita red). Novedades **no ejecutadas**: solo changelog |
 
 ## Pendiente inmediato (Fase 2)
 1. ~~Indicador de versión~~ (hecho).

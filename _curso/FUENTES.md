@@ -13,6 +13,7 @@ Estados: **Verificado** (leído y contrastado), **Parcial** (leída solo una par
 |---|---|---|---|---|---|
 | Índice de la documentación | Anthropic | https://code.claude.com/docs/llms.txt | 23/10/2026 | Verificado | 228 páginas, todas en `.md` |
 | Changelog | Anthropic | https://code.claude.com/docs/en/changelog.md | 23/10/2026 | Parcial | Leídas las 10 últimas versiones (2.1.300–2.1.309). 2.1.304 corrige que `claude --worktree` borrase el worktree sin preguntar con HEAD separado |
+| Changelog (novedades) | Anthropic | https://code.claude.com/docs/en/changelog.md | 03/11/2026 | Parcial | Leídas 2.1.310–2.1.317 (sin entradas para 2.1.313 ni 2.1.315; lectura mediante resumen automático por la longitud de la página). Lo que afecta al curso está en cajas `.novedad` de C1.5, C4.3, C4.7, C7.5, C8.1, C8.2, C8.8 y C9 (referencias). **No ejecutado**; `comandos.yml` sin cambios. Bibliografía: `anthropic-changelog` |
 | Referencia de la CLI | Anthropic | https://code.claude.com/docs/en/cli-reference.md | 23/10/2026 | Verificado | Subcomandos y opciones; `claude --help` no lista todas |
 | Comandos interactivos | Anthropic | https://code.claude.com/docs/en/commands.md | 23/10/2026 | Verificado | ~120 comandos; marca cuáles son skills incluidas |
 | Modos de permisos | Anthropic | https://code.claude.com/docs/en/permission-modes.md | 23/10/2026 | Verificado | Seis modos; `auto` por defecto desde 2.1.283 |
