@@ -13,6 +13,24 @@ que se comprobó.
 
 Web: <https://me1catrr.github.io/claudedo/>
 
+## Creado con Claude Code, para aprender Claude Code
+
+Este repositorio se ha creado con [Claude Code](https://code.claude.com/docs) como proyecto de
+autoformación sobre el propio Claude Code: la herramienta que el curso enseña es la que se ha
+usado para programar, redactar, comprobar y producir sus contenidos. El responsable revisa y
+decide cada cambio.
+
+| | Fecha | Claude Code |
+|---|---|---|
+| Creación | octubre de 2026 | 2.1.300 a 2.1.311 |
+| Documentación contrastada en las unidades | 23-10-2026 | 2.1.309 |
+| Última versión analizada (changelog) | 03-11-2026 | 2.1.317 |
+| Última revisión de la web | 03-11-2026 | 2.1.317 |
+
+Las novedades de Claude Code posteriores a la 2.1.309 que aún no están integradas en el texto
+aparecen en la web en cajas fucsia «✦ Novedad · por incorporar». Fuente de estas cifras:
+`_variables.yml`.
+
 ## Unidades
 
 | Área | Unidades |
@@ -38,10 +56,10 @@ ClaudeDo era la vía C de [Resonancia](https://github.com/me1catrr/resonancia) y
 repositorio propio en noviembre de 2026 (commit de origen `resonancia@f677c80`). El historial
 anterior de estos ficheros está en Resonancia. Detalles en `_migracion/`.
 
-`styles.css`, `recursos/tikz/resonancia.sty`, `recursos/js/ejercicios.js` y los filtros
-`scripts/*.lua` comunes son la base compartida con Resonancia y JuliaDo; los acentos de este
-sitio están en `marca.scss`. Ninguna copia se descarga al compilar: el sitio es
-autónomo.
+`recursos/tikz/resonancia.sty`, `recursos/js/ejercicios.js` y los filtros `scripts/*.lua`
+comunes son la base compartida con Resonancia y JuliaDo. Los estilos son propios: variables
+del tema en `marca.scss` y tokens y componentes en `styles.css`. Ninguna copia se descarga
+al compilar: el sitio es autónomo.
 
 ## Compilar en local
 

@@ -1,0 +1,28 @@
+# Variables del sitio, accesibles con {{< var … >}}.
+#
+# Colofón de la portada (index.qmd, bloque .creditos), «Acerca de» y README.
+#
+# creacion: periodo en que se redactó el material y versiones de Claude Code usadas.
+#   Datos de los registros de sesión (proyecto Resonancia, donde nació la vía C):
+#   2.1.300 el 20-10-2026 (inicio), 2.1.304 del 20 al 23-10 y 2.1.306 el 23-10
+#   (redacción de C0–C9) y 2.1.311 el 27 y 28-10. No se conservan los registros
+#   del 1 y 2-11 (separación en este repositorio). El texto de las unidades se
+#   contrastó con la documentación de la 2.1.309 (claude_code_documentada en
+#   _versiones.yml).
+#
+# revision: se actualiza en el mismo commit cada vez que se revisa la web con Claude
+#   Code: la fecha y la versión de la sesión (la que muestra /status). Ojo: en la
+#   extensión de VS Code puede no coincidir con `claude --version` de la terminal.
+#
+# novedades: última versión de Claude Code cuyo changelog se ha leído y las versiones
+#   que cubren las cajas .novedad de las unidades (pendientes de incorporar al texto).
+creacion:
+  periodo: "octubre de 2026"
+  claude-code: "2.1.300 a 2.1.311"
+revision:
+  fecha: "3 de noviembre de 2026"
+  claude-code: "2.1.317"
+novedades:
+  analizada: "2.1.317"
+  desde: "2.1.310"
+  fecha: "3 de noviembre de 2026"

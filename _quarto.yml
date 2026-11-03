@@ -43,8 +43,8 @@ website:
 
 format:
   html:
-    # styles.css es la base común de Resonancia, JuliaDo y ClaudeDo;
-    # marca.scss solo cambia el color principal y los acentos de este sitio.
+    # marca.scss: variables del tema (color principal, barra superior, callouts).
+    # styles.css: tokens CSS y componentes; se carga después del tema.
     theme:
       - cosmo
       - marca.scss
@@ -56,6 +56,8 @@ format:
       gutter-width: 1.5rem
     toc: true
     code-copy: true
+    # Corrige el enlace activo de la barra superior (véase el propio fichero).
+    include-after-body: recursos/js/navbar-activo.html
     citations-hover: true
     link-citations: true
     reference-section-title: "Referencias"

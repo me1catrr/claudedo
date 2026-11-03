@@ -1,0 +1,17 @@
+<script>
+// Enlace activo de la barra superior. Quarto marca «Inicio» en todas las páginas porque
+// la barra lateral única empieza en index.qmd. Aquí se deja activo solo el enlace que
+// apunta a la página que se está viendo (portada, hoja de consulta, «Acerca de»); en
+// las unidades no se marca ninguno: la barra lateral ya indica dónde está el lector.
+(() => {
+  const limpia = (p) => p.replace(/index\.html$/, "").replace(/\.html$/, "");
+  const ruta = limpia(location.pathname);
+  for (const a of document.querySelectorAll(".navbar .navbar-nav .nav-link")) {
+    const u = new URL(a.href, location.href);
+    const propia = u.origin === location.origin && limpia(u.pathname) === ruta;
+    a.classList.toggle("active", propia);
+    if (propia) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  }
+})();
+</script>

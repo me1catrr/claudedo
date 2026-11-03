@@ -1,37 +1,176 @@
 ---
 title: "ClaudeDo"
 subtitle: "Aprende Claude haciendo"
+description: "Curso de autoformación en IA aplicada al trabajo profesional, la programación y la investigación con Claude y Claude Code, creado con Claude Code para aprender Claude Code."
+author:
+  - name: Rafael Castro Triguero
+    affiliation: Universidad de Córdoba
+date-modified: last-modified
+date-format: "D [de] MMMM [de] YYYY"
+title-block-banner: true
+categories: [Claude, Claude Code, IA aplicada, Autoformación]
 via: C
 ---
 
-![](recursos/identidad/fig/banner.svg){fig-alt="ClaudeDo: aprende Claude haciendo. IA aplicada con criterio." width="100%"}
+ClaudeDo enseña a usar Claude y Claude Code con criterio, trabajando sobre casos reales
+desde la primera unidad: entender qué hace un modelo de lenguaje, delegar una tarea,
+leer lo que propone ejecutar, comprobar el resultado y decidir qué se integra. Funciona
+en **macOS** (Terminal, Zsh) y **Windows** (PowerShell). Puedes seguirlo de principio a
+fin o entrar directamente en una unidad si cumples sus prerrequisitos.
 
-Curso de IA aplicada al trabajo profesional, la programación y la investigación, para estudiantes, profesorado, ingeniería y personas usuarias avanzadas. Funciona en **macOS** (Terminal, Zsh) y **Windows** (PowerShell); Claude Code se verifica contra su documentación oficial y cada unidad muestra la versión con la que se comprobó. Puedes seguirlo de principio a fin o entrar directamente en una unidad si cumples sus prerrequisitos.
+Este repositorio se ha creado **con Claude Code, para aprender Claude Code**: el propio
+curso es un ejemplo de lo que enseña, con el responsable revisando y decidiendo cada
+cambio. El [colofón](#sobre-el-proyecto) indica las versiones con las que se hizo.
 
-## Itinerarios
+::: {.acciones}
+[Empezar por C0](c0-fluidez/index.qmd){.btn .btn-primary}
+[Ver todas las unidades](#todas-las-unidades){.btn .btn-outline-primary}
+[Novedades por incorporar](#novedades-de-claude-code-por-incorporar){.btn .btn-outline-primary}
+:::
 
-| Itinerario | Para qué | Unidades |
-|---|---|---|
-| **Fundamental** | Entender la IA y usar Claude con criterio en el trabajo diario | C0 · C1 |
-| **Aplicado** | Terminal, Git, Claude Code, programación y análisis de datos | C2 · C3 · C4 · C5 · C6 |
-| **Avanzado** | Personalizar, automatizar, integrar la API y proyectos integradores | C7 · C8 · C9 |
+## Tres áreas
 
-## Unidades
+::: {.areas}
+
+::: {.area .area-fundamental}
+[C0–C1]{.area-id} [Fundamental](#fundamental){.area-titulo}
+
+Entender la IA y usar Claude con criterio en el trabajo diario: cómo funciona un
+modelo, sus límites, privacidad y prompting.
+
+[2 unidades · 30 ejercicios]{.area-meta}
+:::
+
+::: {.area .area-aplicado}
+[C2–C6]{.area-id} [Aplicado](#aplicado){.area-titulo}
+
+Terminal, Git, Claude Code, programación y análisis de datos, con prácticas que se
+ejecutan y se comprueban.
+
+[5 unidades · 51 ejercicios]{.area-meta}
+:::
+
+::: {.area .area-avanzado}
+[C7–C9]{.area-id} [Avanzado](#avanzado){.area-titulo}
+
+Personalizar con `CLAUDE.md`, skills, hooks y MCP; automatizar con agentes; integrar
+la API en proyectos de investigación.
+
+[3 unidades, una opcional · 19 ejercicios]{.area-meta}
+:::
+
+:::
+
+## Cómo es cada unidad
+
+::: {.piezas}
+
+::: {.pieza}
+**Teoría breve.** Objetivos, prerrequisitos y los conceptos justos, separados de las
+instrucciones de herramienta, que cambian con cada versión.
+:::
+
+::: {.pieza}
+**Práctica guiada.** Pasos para macOS (Zsh) y Windows (PowerShell), con ejemplos en
+Python y Julia probados en la carpeta `_ejemplo/` de la unidad.
+:::
+
+::: {.pieza}
+**«Pídeselo a Claude».** Un encargo para Claude o Claude Code y un apartado *Verifica*
+para comprobar lo que entrega.
+:::
+
+::: {.pieza}
+**Ejercicios.** 100 preguntas de autoevaluación dentro del texto; las respuestas se
+guardan solo en tu navegador.
+:::
+
+::: {.pieza}
+**Versión comprobada.** Bajo el título, la versión de la unidad y la de Claude Code con
+la que se contrastó; las novedades posteriores, en cajas ✦ fucsia.
+:::
+
+::: {.pieza}
+**Datos abiertos.** Cinco casos sintéticos (A–E) con semilla fija y ficha de metadatos,
+en [`datos/sinteticos`](https://github.com/me1catrr/claudedo/tree/main/datos/sinteticos/curso-claude).
+:::
+
+:::
+
+## Novedades de Claude Code por incorporar
+
+El texto de las unidades se contrastó con la documentación de Claude Code 2.1.309. La
+última versión analizada es la **{{< var novedades.analizada >}}** (changelog leído el
+{{< var novedades.fecha >}}). Lo que cambia desde la {{< var novedades.desde >}} y afecta al
+curso está señalado dentro de cada unidad con una caja como esta:
+
+::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.3xx · por incorporar"}
+Qué cambia, en qué versión y por qué importa en esa unidad.
+
+[Leída en el changelog oficial; no ejecutada ni integrada aún en el texto.]{.novedad-estado}
+:::
+
+::: {.novedades-lista}
+- [C1.5 · Protección de datos](c1-claude-web/index.qmd#c1-5): Claude Code pregunta antes de
+  enviar a la red el correo de tu cuenta (2.1.317).
+- [C4.3 · Permisos](c4-claude-code/index.qmd#c4-3): `permissions.blockWritesOutsideWorkingDirectories`
+  y la pestaña *Recently blocked* de `/permissions` (2.1.314).
+- [C4.7 · Coste y modelos](c4-claude-code/index.qmd#c4-7): `ultrathink` a esfuerzo `xhigh`, «límite
+  de 5 horas» y retirada del modo rápido de Opus 4.8 (2.1.311–2.1.316).
+- [C7.5 · Hooks](c7-extender/index.qmd#c7-5): bloqueo con `exit 2` en PowerShell, hooks y la
+  herramienta Monitor, límite de simultaneidad (2.1.312–2.1.316).
+- [C8.1 · Modo no interactivo](c8-automatizar/index.qmd#c8-1): `claude -p` sale con 1 cuando falla
+  el arranque o el disco (2.1.314, 2.1.317).
+- [C8.2 · Subagentes](c8-automatizar/index.qmd#c8-2): `CLAUDE_CODE_SUBAGENT_EFFORT` y esfuerzo por
+  modelo (2.1.316, 2.1.317).
+- [C8.8 · Seguridad](c8-automatizar/index.qmd#c8-8): escrituras fuera de las carpetas de trabajo y
+  sandbox en worktrees reanudados (2.1.314).
+- [C9 · Referencias](c9-api/index.qmd#referencias-de-esta-unidad): la *skill* `claude-api`, fuente de
+  la unidad, se actualizó (2.1.314).
+:::
+
+## Todas las unidades
+
+### Fundamental
+
+::: {.indice-unidades}
 
 | Id | Unidad | Nivel | Estado del texto |
 |---|---|---|---|
 | C0 | [Fluidez en IA, fundamentos e historia](c0-fluidez/index.qmd) | Básico | Redactada y auditada |
 | C1 | [Claude y el ecosistema Anthropic](c1-claude-web/index.qmd) | Básico | Redactada; en revisión |
+
+:::
+
+### Aplicado
+
+::: {.indice-unidades}
+
+| Id | Unidad | Nivel | Estado del texto |
+|---|---|---|---|
 | C2 | [Preparación del entorno y terminal](c2-terminal/index.qmd) | Básico | Redactada; en revisión |
 | C3 | [Git, GitHub y worktrees](c3-git/index.qmd) | Intermedio | Redactada; en revisión |
 | C4 | [Claude Code: fundamentos y trabajo cotidiano](c4-claude-code/index.qmd) | Intermedio | Redactada; en revisión |
 | C5 | [Programación profesional asistida por IA](c5-programar/index.qmd) | Intermedio | Redactada; en revisión |
 | C6 | [Excel, datos, Quarto e informes](c6-informes/index.qmd) | Intermedio | Redactada; en revisión |
+
+:::
+
+### Avanzado
+
+::: {.indice-unidades}
+
+| Id | Unidad | Nivel | Estado del texto |
+|---|---|---|---|
 | C7 | [Personalización: CLAUDE.md, skills, hooks y MCP](c7-extender/index.qmd) | Avanzado | Redactada; en revisión |
 | C8 | [Automatización, agentes y entornos avanzados](c8-automatizar/index.qmd) | Avanzado | Redactada; en revisión |
 | C9 | [API, investigación y proyectos integradores](c9-api/index.qmd) *(opcional)* | Avanzado | Redactada; en revisión |
 
-**Niveles.** *Básico*: sin experiencia previa en terminal ni programación. *Intermedio*: usas la terminal y Git con soltura. *Avanzado*: dominas el flujo intermedio y quieres personalizarlo o automatizarlo.
+:::
+
+**Niveles.** *Básico*: sin experiencia previa en terminal ni programación. *Intermedio*:
+usas la terminal y Git con soltura. *Avanzado*: dominas el flujo intermedio y quieres
+personalizarlo o automatizarlo.
 
 ## Conceptos y herramientas
 
@@ -59,4 +198,27 @@ el curso de vibraciones, señales y monitorización estructural de la Universida
 Córdoba, y comparte su identidad con [JuliaDo](https://me1catrr.github.io/juliado/),
 que enseña programación y computación científica con Julia.
 
-ClaudeDo es un proyecto docente independiente, sin afiliación con Anthropic.
+## Sobre el proyecto
+
+**Autoría.** Rafael Castro Triguero, Universidad de Córdoba.
+
+**Repositorio.** Código, textos e historial de cambios en
+[github.com/me1catrr/claudedo](https://github.com/me1catrr/claudedo); los errores y
+sugerencias, en sus [issues](https://github.com/me1catrr/claudedo/issues).
+
+**Recursos abiertos.** Textos, diapositivas y figuras con licencia CC BY-SA 4.0,
+código con licencia MIT y datos con la licencia de su ficha. Más detalles en
+[Acerca de](about.qmd). ClaudeDo es un proyecto docente independiente, sin afiliación
+con Anthropic.
+
+::: {.creditos}
+Este repositorio ha sido creado con Claude Code (Anthropic) como proyecto de
+autoformación sobre el propio Claude Code: la herramienta se ha usado para programar,
+redactar, comprobar y producir los contenidos interactivos que enseña a usar. La
+selección, revisión y responsabilidad académica de los materiales corresponden al autor.
+Creación: {{< var creacion.periodo >}}, con Claude Code {{< var creacion.claude-code >}}.
+Última revisión de la web: {{< var revision.fecha >}}, con Claude Code
+{{< var revision.claude-code >}}. Novedades analizadas hasta la
+{{< var novedades.analizada >}}. Los modelos utilizados constan en el historial de commits
+del repositorio.
+:::

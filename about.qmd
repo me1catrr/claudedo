@@ -35,13 +35,27 @@ ficheros sigue en el [repositorio de Resonancia](https://github.com/me1catrr/res
 El código, los textos y el historial de cambios están en
 <https://github.com/me1catrr/claudedo>.
 
-## Uso de Claude Code
+## Creado con Claude Code, para aprender Claude Code
 
-Este material se elabora con la ayuda de Claude Code. El responsable define la
-estructura y los contenidos, y revisa, ejecuta y corrige lo que el asistente
-propone. Cada unidad muestra bajo su título su versión, la fecha de edición, si
-se ha comprobado técnicamente y la versión de Claude Code de la documentación
-consultada.
+Este repositorio se ha creado con Claude Code como proyecto de autoformación sobre
+el propio Claude Code: la herramienta que el curso enseña es la que se ha usado
+para programar, redactar, comprobar y producir sus contenidos interactivos. El
+responsable define la estructura y los contenidos, y revisa, ejecuta y corrige lo
+que el asistente propone.
+
+| | Fecha | Claude Code |
+|---|---|---|
+| Creación | {{< var creacion.periodo >}} | {{< var creacion.claude-code >}} |
+| Documentación contrastada en las unidades | 23 de octubre de 2026 | 2.1.309 |
+| Última versión analizada (changelog) | {{< var novedades.fecha >}} | {{< var novedades.analizada >}} |
+| Última revisión de la web | {{< var revision.fecha >}} | {{< var revision.claude-code >}} |
+
+Cada unidad muestra bajo su título su versión, la fecha de edición, si se ha
+comprobado técnicamente y la versión de Claude Code de la documentación
+consultada. Lo que ha cambiado en versiones posteriores y aún no está integrado en
+el texto aparece en cajas fucsia «✦ Novedad · Claude Code 2.1.3xx · por
+incorporar», resumidas en la [portada](index.qmd#novedades-de-claude-code-por-incorporar).
+Los modelos utilizados constan en el historial de commits del repositorio.
 
 ## Licencias
 

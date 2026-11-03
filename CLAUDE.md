@@ -69,10 +69,32 @@ publicado) y `verificado` (versiones de Claude Code y Julia con las que se compr
 - Python: entorno gestionado con `uv` (`pyproject.toml`). No uses conda.
 
 ## Base común con Resonancia y JuliaDo
-`styles.css`, `recursos/tikz/resonancia.sty`, `recursos/js/ejercicios.js` (y sus tests),
+`recursos/tikz/resonancia.sty`, `recursos/js/ejercicios.js` (y sus tests),
 `scripts/ejercicios.lua`, `scripts/referencias.lua`, `scripts/no_publicar_docs.ts` y
 `scripts/generar_estructura.jl` son idénticos en los tres sitios. Un cambio en uno se copia a
-los otros dos. Los acentos propios (violeta) van en `marca.scss`.
+los otros dos. `styles.css` ya no es común (noviembre de 2026, como en JuliaDo).
+
+## Estilos
+- `marca.scss`: variables del tema (violeta `#5b34a8`, barra superior clara, colores de los
+  callouts). `styles.css`: tokens CSS (`--sitio-acento…`, `--area-…`, `--novedad-…`) y
+  componentes; se carga después del tema, así que los tokens se definen ahí y no en `marca.scss`.
+- Acentos de las áreas: Fundamental azul `#1b6ca8`, Aplicado verde azulado `#2a9d8f`, Avanzado
+  naranja `#d95f02`; con texto, sus variantes `--area-…-texto` (≥ 4,5:1). Código con filete
+  violeta; resultados con rótulo «Resultado».
+- La portada (`index.qmd`) usa `.acciones`, `.areas`/`.area`, `.piezas`, `.novedades-lista` y
+  `.creditos`; sus estilos se activan con `body:has(.areas)`. Las cifras de las tarjetas
+  (unidades, ejercicios) salen de `temario.yml` y de las unidades: se actualizan a mano.
+- `recursos/js/navbar-activo.html` deja activo en la barra superior solo el enlace de la página
+  que se ve (Quarto marcaba siempre «Inicio»).
+
+## Novedades de Claude Code por incorporar
+Cuando se lee el changelog de una versión posterior a la documentada en `_versiones.yml`, lo que
+afecta al curso se señala en la sección de la unidad con
+`::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.3xx · por incorporar"}`,
+citando `@anthropic-changelog` y cerrando con `[…]{.novedad-estado}` (leída, no ejecutada). Se
+añade su línea en `.novedades-lista` de la portada y se actualiza `novedades` en
+`_variables.yml`. Al integrar una novedad en el texto (y registrar el comando en
+`_curso/comandos.yml`), se quita su caja y su línea.
 
 ## Figuras, cajas y bibliografía
 - **Reparto de figuras.** TikZ para esquemas y diagramas; Makie u OJS para datos y
@@ -112,6 +134,11 @@ el usuario lo pida; cita título y página; no enlaces ni copies los PDF.
 - Nunca ejecutes `git push`, `quarto publish`, `gh repo create` ni cambies la configuración de
   GitHub sin petición explícita.
 - Commits pequeños, mensaje en español en imperativo: «Añade la unidad C10».
+- Créditos de IA: es un repositorio creado con Claude Code para aprender Claude Code. Al cerrar
+  una revisión de la web hecha con Claude Code, actualiza `_variables.yml` (`revision.fecha` y
+  `revision.claude-code`) en el mismo commit. La versión es la de la sesión (`/status`), que en
+  la extensión de VS Code puede no coincidir con `claude --version`. `creacion` no se toca. Lo
+  muestran el colofón de la portada, «Acerca de» y el README (este, a mano).
 
 ## Comandos útiles
 - Vista previa: `quarto preview`
