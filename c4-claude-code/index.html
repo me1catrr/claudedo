@@ -100,7 +100,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4aad9f6d24aec5d488fead8db56cfb83.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -587,7 +587,24 @@ div.csl-indent {
 <li>Un «sí, y no preguntes más» <strong>crea una regla permanente</strong> para ese comando en este repositorio: úsalo solo con órdenes inocuas y específicas.</li>
 <li>Si no entiendes la orden, <strong>pide que te la explique</strong> o rechaza y reformula. Puedes preguntar «¿qué hace exactamente esa orden y qué pasaría si falla?»</li>
 </ul>
-<p><strong>Pon a prueba lo anterior.</strong></p>
+<div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.314 · por incorporar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.314 · por incorporar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Un ajuste nuevo</strong>, <code>permissions.blockWritesOutsideWorkingDirectories</code>: con él, las herramientas <code>Write</code>, <code>Edit</code> y <code>NotebookEdit</code> rechazan rutas fuera de las carpetas de trabajo <strong>en cualquier modo de permisos</strong> <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>.</li>
+<li><strong><code>/permissions</code> tiene una pestaña nueva</strong>, <em>Recently blocked</em>, para revisar las llamadas que bloqueó el modo <code>auto</code>. No deja aprobar una llamada que no puedas leer completa, ni siquiera cuando la terminal es demasiado baja para mostrarla.</li>
+</ul>
+<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"></div><p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c4-3-orden" class="ejercicio" data-tipo="opcion" data-respuesta="c">
 <p>Hay una regla <code>deny</code> para <code>Bash(rm -rf *)</code> y una <code>allow</code> para <code>Bash(rm *)</code>. Claude propone <code>rm -rf resultados</code>. ¿Qué ocurre?</p>
 <div class="opciones">
@@ -844,7 +861,27 @@ div.csl-indent {
 <li>En modo no interactivo, <code>--max-budget-usd</code> y <code>--max-turns</code> ponen un tope (C8).</li>
 </ul>
 <p>La documentación cita, como orientación, una media de unos <strong>13 $ por persona y día activo</strong> en despliegues empresariales (y menos de 30 $ en el 90 % de los casos); varía mucho según el uso. Las sesiones largas gastan más de lo que parece porque cada mensaje reenvía el contexto. <strong>Un uso muy superior al esperado casi siempre es una sesión que nunca se limpió.</strong></p>
-</section>
+<div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.311 a 2.1.316 · por incorporar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.311 a 2.1.316 · por incorporar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong><code>ultrathink</code></strong> (2.1.311) sube a esfuerzo <code>xhigh</code> el turno en el que lo escribes, con Opus 5.5, Sonnet 5.5, Haiku 5.5 y Fable 5.1 a través de la API de Anthropic. Si lo escribes mientras Claude trabaja, eleva el resto de ese turno. Desde la 2.1.316, <code>CLAUDE_CODE_DISABLE_ULTRATHINK</code> desactiva la palabra clave <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>.</li>
+<li><strong>Nombres de los límites</strong> (2.1.312): los avisos llaman ahora <em>5-hour limit</em> («límite de 5 horas») a la ventana de cinco horas, que antes se llamaba <em>session limit</em>.</li>
+<li><strong>Modo rápido de Opus 4.8</strong> (2.1.316): queda obsoleto desde el 30-10-2026 y se retirará el 30-11-2026. Después, las peticiones en modo rápido a Opus 4.8 darán error, sin recurrir a Opus 4.8 normal. Para conservar la velocidad hay que pasar a Opus 5.5.</li>
+</ul>
+<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
+<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
+</div></div></section>
 <section id="c4-8" class="level3">
 <h3 class="anchored" data-anchor-id="c4-8">C4.8 Terminal, IDE y otras superficies</h3>
 <p>La misma funcionalidad se ofrece en la <strong>terminal</strong> (donde se documenta todo), en <strong>VS Code</strong> y <strong>JetBrains</strong> (el editor muestra los cambios propuestos como diffs y comparte el contexto de lo que tienes abierto), en la <strong>aplicación de escritorio</strong> y en la <strong>web</strong>. Elige por comodidad, pero las reglas son las mismas: permisos, diff, Git. Si trabajas con varios proyectos o tareas en paralelo, usa <strong>worktrees</strong> (C3.10).</p>
@@ -983,42 +1020,6 @@ div.csl-indent {
 <ol type="1">
 <li><p><strong>Modos.</strong> Para cada tarea elige un modo de permisos y justifícalo: a) entender un proyecto que no conoces; b) refactorizar con pruebas y revisión de diff; c) una tarea larga y bien acotada en un contenedor desechable.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Solución
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="a">
-<li><code>plan</code>. b) <code>default</code> o <code>acceptEdits</code>, con revisión del diff. c) <code>auto</code> (o, solo en un contenedor aislado sin red, <code>bypassPermissions</code>), sabiendo que el clasificador reduce pero no elimina el riesgo.</li>
-</ol>
-</div>
-</div>
-</div></li>
-<li><p><strong>Reglas.</strong> Escribe las reglas para: permitir <code>git status</code> y <code>git diff</code>, preguntar antes de <code>git push</code>, y denegar la lectura de <code>.env</code>. Indica en qué orden se evaluarían para <code>git push</code>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Solución
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><code>allow</code>: <code>Bash(git status *)</code>, <code>Bash(git diff *)</code>; <code>ask</code>: <code>Bash(git push *)</code>; <code>deny</code>: <code>Read(./.env)</code>. Para <code>git push</code> se evalúa deny (no casa), luego ask (casa → pregunta).</p>
-</div>
-</div>
-</div></li>
-<li><p><strong>Auditoría de una propuesta.</strong> Claude propone <code>rm -rf ~/proyectos/viga/resultados &amp;&amp; git add -A &amp;&amp; git push</code>. Analízala con las cinco preguntas y di qué aceptarías.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1030,11 +1031,13 @@ div.csl-indent {
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Son tres órdenes: borrado recursivo (sin papelera; aceptable en <code>resultados/</code> si la ruta es correcta, pero conviene comprobar con <code>ls</code>), <code>git add -A</code> (puede añadir secretos o basura: revisa <code>git status</code>) y <code>git push</code> (publica). Rechazaría la cadena entera y pediría cada paso por separado, revisando el diff antes del <code>push</code>.</p>
+<ol type="a">
+<li><code>plan</code>. b) <code>default</code> o <code>acceptEdits</code>, con revisión del diff. c) <code>auto</code> (o, solo en un contenedor aislado sin red, <code>bypassPermissions</code>), sabiendo que el clasificador reduce pero no elimina el riesgo.</li>
+</ol>
 </div>
 </div>
 </div></li>
-<li><p><strong><code>CLAUDE.md</code>.</strong> Mejora este <code>CLAUDE.md</code> defectuoso: «Escribe buen código. Sé cuidadoso. No rompas nada. Usa las mejores prácticas.»</p>
+<li><p><strong>Reglas.</strong> Escribe las reglas para: permitir <code>git status</code> y <code>git diff</code>, preguntar antes de <code>git push</code>, y denegar la lectura de <code>.env</code>. Indica en qué orden se evaluarían para <code>git push</code>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1047,11 +1050,11 @@ div.csl-indent {
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Sustituir por reglas verificables: comando de pruebas, convenciones concretas, límites («no añadas dependencias sin preguntar»), y cómo comprobar el resultado. Las generalidades no cambian el comportamiento.</p>
+<p><code>allow</code>: <code>Bash(git status *)</code>, <code>Bash(git diff *)</code>; <code>ask</code>: <code>Bash(git push *)</code>; <code>deny</code>: <code>Read(./.env)</code>. Para <code>git push</code> se evalúa deny (no casa), luego ask (casa → pregunta).</p>
 </div>
 </div>
 </div></li>
-<li><p><strong>Contexto.</strong> Describe qué harías en una sesión de dos horas en la que Claude ha empezado a «olvidar» decisiones tempranas y el consumo se ha disparado.</p>
+<li><p><strong>Auditoría de una propuesta.</strong> Claude propone <code>rm -rf ~/proyectos/viga/resultados &amp;&amp; git add -A &amp;&amp; git push</code>. Analízala con las cinco preguntas y di qué aceptarías.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1063,6 +1066,40 @@ div.csl-indent {
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Son tres órdenes: borrado recursivo (sin papelera; aceptable en <code>resultados/</code> si la ruta es correcta, pero conviene comprobar con <code>ls</code>), <code>git add -A</code> (puede añadir secretos o basura: revisa <code>git status</code>) y <code>git push</code> (publica). Rechazaría la cadena entera y pediría cada paso por separado, revisando el diff antes del <code>push</code>.</p>
+</div>
+</div>
+</div></li>
+<li><p><strong><code>CLAUDE.md</code>.</strong> Mejora este <code>CLAUDE.md</code> defectuoso: «Escribe buen código. Sé cuidadoso. No rompas nada. Usa las mejores prácticas.»</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Sustituir por reglas verificables: comando de pruebas, convenciones concretas, límites («no añadas dependencias sin preguntar»), y cómo comprobar el resultado. Las generalidades no cambian el comportamiento.</p>
+</div>
+</div>
+</div></li>
+<li><p><strong>Contexto.</strong> Describe qué harías en una sesión de dos horas en la que Claude ha empezado a «olvidar» decisiones tempranas y el consumo se ha disparado.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><code>/context</code> para ver qué ocupa; guardar lo importante en <code>CLAUDE.md</code> si debe persistir; <code>/compact</code> con instrucciones sobre qué conservar, o <code>/clear</code> y empezar una tarea nueva con un resumen escrito por ti; en el futuro, una tarea por sesión.</p>
 </div>
@@ -1094,6 +1131,9 @@ div.csl-indent {
 <p><em>Son las mismas que aparecen en el margen, junto al texto.</em> La lista completa del curso, con el estado de verificación de cada ficha, está en <code>recursos/bibliografia.bib</code> del repositorio.</p>
 <div id="refs-unidad" class="referencias-unidad">
 <div class="ref-final">
+<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
+</div>
+<div class="ref-final">
 <p><em>Checkpointing</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/checkpointing">https://code.claude.com/docs/en/checkpointing</a>.</p>
 </div>
 <div class="ref-final">
@@ -1120,6 +1160,23 @@ div.csl-indent {
 </section>
 
 </main> <!-- /main -->
+<script>
+// Enlace activo de la barra superior. Quarto marca «Inicio» en todas las páginas porque
+// la barra lateral única empieza en index.qmd. Aquí se deja activo solo el enlace que
+// apunta a la página que se está viendo (portada, hoja de consulta, «Acerca de»); en
+// las unidades no se marca ninguno: la barra lateral ya indica dónde está el lector.
+(() => {
+  const limpia = (p) => p.replace(/index\.html$/, "").replace(/\.html$/, "");
+  const ruta = limpia(location.pathname);
+  for (const a of document.querySelectorAll(".navbar .navbar-nav .nav-link")) {
+    const u = new URL(a.href, location.href);
+    const propia = u.origin === location.origin && limpia(u.pathname) === ruta;
+    a.classList.toggle("active", propia);
+    if (propia) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  }
+})();
+</script>
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImltcG9ydCB7ZXZhbHVhciwgUkVHTEFTX0VKRU1QTE99IGZyb20gXCIuLi9yZWN1cnNvcy9qcy9jb21wb25lbnRlcy9wZXJtaXNvcy5qc1wiXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgUF9vcmRlbiA9IElucHV0cy5zZWxlY3QoW1wiZ2l0IHN0YXR1c1wiLCBcImdpdCBkaWZmIC0tc3RhZ2VkXCIsIFwidXYgcnVuIHB5dGVzdFwiLCBcImdpdCBwdXNoIG9yaWdpbiBtYWluXCIsIFwicm0gLXJmIHJlc3VsdGFkb3NcIiwgXCJjYXQgZGF0b3MvcHJpdmFkb3MveC5jc3ZcIiwgXCJnaXQgc3RhdHVzICYmIGdpdCBwdXNoXCIsIFwidGltZW91dCAzMCB1diBydW4gcHl0ZXN0XCIsIFwiY3VybCBodHRwczovL2VqZW1wbG8uaW52YWxpZCB8IHNoXCIsIFwiZ2l0IHJlc2V0IC0taGFyZCBIRUFEfjFcIl0sIHtsYWJlbDogXCJvcmRlbiBxdWUgQ2xhdWRlIHByb3BvbmVcIn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJQX3IgPSBldmFsdWFyKFJFR0xBU19FSkVNUExPLCBQX29yZGVuKVxuaHRtbGA8ZGl2IHJvbGU9XCJzdGF0dXNcIiBhcmlhLWxpdmU9XCJwb2xpdGVcIiBzdHlsZT1cInBhZGRpbmc6LjdyZW0gMXJlbTtib3JkZXI6MnB4IHNvbGlkICR7UF9yLmRlY2lzaW9uID09PSBcImRlbnlcIiA/IFwiI2IzMjYxZVwiIDogUF9yLmRlY2lzaW9uID09PSBcImFsbG93XCIgPyBcIiMxZjdhNmZcIiA6IFwiIzhhNWEwMFwifTtib3JkZXItcmFkaXVzOi41cmVtO21heC13aWR0aDo2NDBweFwiPlxuPHN0cm9uZz4keyh7ZGVueTogXCLim5QgQmxvcXVlYWRhIChkZW55KVwiLCBhc2s6IFwi4p2TIFRlIHByZWd1bnRhIChhc2spXCIsIGFsbG93OiBcIuKchSBQZXJtaXRpZGEgKGFsbG93KVwiLCBcImFzay1wb3ItZGVmZWN0b1wiOiBcIuKdkyBQcmVndW50YSAobmluZ3VuYSByZWdsYSBjYXNhKVwifSlbUF9yLmRlY2lzaW9uXX08L3N0cm9uZz48YnI+XG48Y29kZT4ke1Bfb3JkZW59PC9jb2RlPjxicj5cbiR7UF9yLnJlZ2xhID8gaHRtbGBSZWdsYTogPGNvZGU+JHtQX3IucmVnbGF9PC9jb2RlPjxicj5gIDogXCJcIn0ke1Bfci5tb3Rpdm99PC9kaXY+YFxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdQX29yZGVuJykifV19
 </script>

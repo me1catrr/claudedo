@@ -100,7 +100,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4aad9f6d24aec5d488fead8db56cfb83.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -542,7 +542,21 @@ window.Quarto = {
 </tbody>
 </table>
 <p>Dos avisos de la documentación que importan a una tarea desatendida: <strong>sin <code>--bare</code>, <code>claude -p</code> ejecuta los hooks de <code>.claude/settings.json</code> y conecta los servidores de <code>.mcp.json</code> de la carpeta, aunque no hayas confiado en ella</strong> (no muestra el diálogo de confianza), y a SIGTERM responde con el <strong>código 143</strong> sin dejar un resultado del turno en curso. Además, según esa página, <code>--bare</code> pasará a ser el modo por defecto de <code>-p</code> en una versión futura.</p>
-<p><strong>Un ejecutor con límites.</strong> <code>_ejemplo/ejecutar_tarea.sh</code> envuelve la llamada con <strong>cinco</strong> protecciones:</p>
+<div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.314 y 2.1.317 · por incorporar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.314 y 2.1.317 · por incorporar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Códigos de salida de <code>claude -p</code> más fiables.</strong> Antes, si el arranque fallaba, <code>claude -p</code> terminaba con código 0 y sin salida; desde la 2.1.314 escribe el error y sale con <strong>1</strong>. Desde la 2.1.317, también sale con 1 (en salida <code>text</code> y <code>json</code>) cuando un disco o una cuota llenos impiden guardar el registro de la sesión o <code>~/.claude.json</code> <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. El ejecutor de este apartado ya trata un código distinto de 0 como fallo y la falta de <code>result</code> como código 5. Con estas versiones, el caso «0 sin salida» debería dejar de aparecer.</p>
+<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"></div><p><strong>Un ejecutor con límites.</strong> <code>_ejemplo/ejecutar_tarea.sh</code> envuelve la llamada con <strong>cinco</strong> protecciones:</p>
 <ol type="1">
 <li><strong>Permisos cerrados:</strong> <code>--permission-mode dontAsk</code> y solo las herramientas de lectura (<code>Read,Grep,Glob</code>).</li>
 <li><strong>Topes:</strong> turnos (8) y gasto (0,50 USD) por defecto, configurables.</li>
@@ -594,7 +608,21 @@ window.Quarto = {
 <li><strong>El humano decide</strong> qué se integra.</li>
 </ul>
 <p>La orquestación (el que decide qué agente hace qué) puede ser <strong>Claude turno a turno</strong> (subagentes), <strong>un guion que tú escribes</strong> (varias llamadas <code>claude -p</code> con un bucle) o un <em>workflow</em> dinámico, en el que Claude escribe el guion; en los tres casos, el control de permisos y el registro siguen siendo tuyos.</p>
-</section>
+<div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.316 y 2.1.317 · por incorporar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.316 y 2.1.317 · por incorporar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Esfuerzo de los subagentes.</strong> La variable <code>CLAUDE_CODE_SUBAGENT_EFFORT</code> (2.1.316) fija el nivel de esfuerzo de los subagentes cuando nada más lo indica, en lugar de heredar el de la sesión. Desde la 2.1.317, un subagente o compañero de equipo que usa <strong>otro modelo</strong> que la conversación principal toma el esfuerzo guardado para ese modelo, o su valor por defecto, y no el de la sesión <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. Es una palanca más de coste (C8.5).</p>
+<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"></div></section>
 <section id="c8-3" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="c8-3">C8.3 Equipos de agentes y coordinación de tareas</h3>
 <p>Los <strong>equipos de agentes</strong> (<em>agent teams</em>) coordinan varias sesiones de Claude Code con tareas compartidas, mensajería y un líder. Según la documentación consultada (23-10-2026) son <strong>experimentales y están desactivados por defecto</strong>; se activan con <code>CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</code> y solo funcionan en sesiones interactivas <span class="citation" data-cites="anthropic-costes">(<a href="#ref-anthropic-costes" role="doc-biblioref"><em>Manage costs effectively</em> 2026</a>)</span>. Su coste es mucho mayor: la documentación de costes cifra en <strong>unas 7 veces más tokens</strong> que una sesión normal cuando los miembros trabajan en modo plan.</p>
@@ -745,6 +773,25 @@ window.Quarto = {
 </ol>
 <div class="no-row-height column-margin column-container"><div id="ref-anthropic-sandbox" class="csl-entry" role="listitem">
 <em>Sandboxing</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/sandboxing">https://code.claude.com/docs/en/sandboxing</a>.
+</div></div><div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.314 · por incorporar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.314 · por incorporar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>permissions.blockWritesOutsideWorkingDirectories</code> hace que <code>Write</code>, <code>Edit</code> y <code>NotebookEdit</code> rechacen rutas fuera de las carpetas de trabajo en cualquier modo de permisos (C4.3). Es una capa más para tareas desatendidas <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>.</li>
+<li>Se corrige que las protecciones del sandbox no se aplicaran a un worktree en el que se entra con <code>claude -p --resume</code> o <code>--continue</code>.</li>
+</ul>
+<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
+<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
 </div></div><p><strong>Lo que nunca debe llegar a una tarea desatendida:</strong> datos privados o personales sin permiso (C0.7, C1.5), credenciales de administración, permisos de publicación (<code>git push</code>, <code>quarto publish</code>) y acceso a producción. <strong>El humano aprueba lo irreversible.</strong></p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Errores frecuentes">
 <div class="callout-header d-flex align-content-center">
@@ -914,59 +961,6 @@ window.Quarto = {
 <ol type="1">
 <li><p><strong>Clasifica.</strong> Para cada caso, indica si es una sesión interactiva, un script, una tarea programada o un servicio y qué supervisión pondrías: a) «refactoriza este módulo»; b) un informe semanal enviado por correo; c) un servidor MCP al que se conecta todo el equipo; d) <code>scripts/ejecutar.zsh</code> lanzado a mano.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Solución
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="a">
-<li>Sesión interactiva: revisas cada acción. b) Tarea programada: topes, registro y alerta de fallo. c) Servicio: monitorización, autenticación y control de acceso. d) Script: la supervisión es tuya al ejecutarlo; códigos de salida y registro.</li>
-</ol>
-</div>
-</div>
-</div></li>
-<li><p><strong>Fallo silencioso.</strong> Enumera tres maneras en que la tarea programada de la práctica podría fallar <strong>sin que te enteres</strong> y cómo lo evitarías.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Solución
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Por ejemplo: PATH distinto que impide encontrar <code>claude</code> (alerta si el registro no tiene una entrada de «FIN» del día); credencial caducada (el código ≠ 0 debe llegar a una alerta); el planificador no se ejecuta porque el equipo estaba apagado (comprobar que hay una ejecución por día).</p>
-</div>
-</div>
-</div></li>
-<li><p><strong>Presupuesto.</strong> Una tarea de 40 000 tokens de entrada y 4 000 de salida se ejecuta 3 veces al día con precios de 2 $ y 10 $ por MTok. ¿Cuánto cuesta al mes (30 días)?</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Solución
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Por ejecución: <span class="math inline">\((40\,000\cdot2+4\,000\cdot10)/10^6=0{,}12\)</span> $; al mes: <span class="math inline">\(0{,}12\cdot3\cdot30=10{,}80\)</span> $.</p>
-</div>
-</div>
-</div></li>
-<li><p><strong>Revisa un flujo.</strong> Un compañero te propone un flujo de Actions con <code>permissions: write-all</code>, la clave en el YAML y sin <code>timeout-minutes</code>. Corrígelo.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -977,6 +971,59 @@ window.Quarto = {
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>Sesión interactiva: revisas cada acción. b) Tarea programada: topes, registro y alerta de fallo. c) Servicio: monitorización, autenticación y control de acceso. d) Script: la supervisión es tuya al ejecutarlo; códigos de salida y registro.</li>
+</ol>
+</div>
+</div>
+</div></li>
+<li><p><strong>Fallo silencioso.</strong> Enumera tres maneras en que la tarea programada de la práctica podría fallar <strong>sin que te enteres</strong> y cómo lo evitarías.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Por ejemplo: PATH distinto que impide encontrar <code>claude</code> (alerta si el registro no tiene una entrada de «FIN» del día); credencial caducada (el código ≠ 0 debe llegar a una alerta); el planificador no se ejecuta porque el equipo estaba apagado (comprobar que hay una ejecución por día).</p>
+</div>
+</div>
+</div></li>
+<li><p><strong>Presupuesto.</strong> Una tarea de 40 000 tokens de entrada y 4 000 de salida se ejecuta 3 veces al día con precios de 2 $ y 10 $ por MTok. ¿Cuánto cuesta al mes (30 días)?</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Por ejecución: <span class="math inline">\((40\,000\cdot2+4\,000\cdot10)/10^6=0{,}12\)</span> $; al mes: <span class="math inline">\(0{,}12\cdot3\cdot30=10{,}80\)</span> $.</p>
+</div>
+</div>
+</div></li>
+<li><p><strong>Revisa un flujo.</strong> Un compañero te propone un flujo de Actions con <code>permissions: write-all</code>, la clave en el YAML y sin <code>timeout-minutes</code>. Corrígelo.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Permisos mínimos por trabajo (<code>contents: read</code>, <code>pull-requests: write</code>), clave en <code>secrets</code>, <code>timeout-minutes</code>, <code>concurrency</code> y <code>--max-turns</code>/herramientas de solo lectura.</p>
 </div>
@@ -1012,6 +1059,9 @@ window.Quarto = {
 <p><em>Best practices for Claude Code</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/best-practices">https://code.claude.com/docs/en/best-practices</a>.</p>
 </div>
 <div class="ref-final">
+<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
+</div>
+<div class="ref-final">
 <p><em>Claude Code GitHub Actions</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/github-actions">https://code.claude.com/docs/en/github-actions</a>.</p>
 </div>
 <div class="ref-final">
@@ -1035,6 +1085,23 @@ window.Quarto = {
 </section>
 
 </main> <!-- /main -->
+<script>
+// Enlace activo de la barra superior. Quarto marca «Inicio» en todas las páginas porque
+// la barra lateral única empieza en index.qmd. Aquí se deja activo solo el enlace que
+// apunta a la página que se está viendo (portada, hoja de consulta, «Acerca de»); en
+// las unidades no se marca ninguno: la barra lateral ya indica dónde está el lector.
+(() => {
+  const limpia = (p) => p.replace(/index\.html$/, "").replace(/\.html$/, "");
+  const ruta = limpia(location.pathname);
+  for (const a of document.querySelectorAll(".navbar .navbar-nav .nav-link")) {
+    const u = new URL(a.href, location.href);
+    const propia = u.origin === location.origin && limpia(u.pathname) === ruta;
+    a.classList.toggle("active", propia);
+    if (propia) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  }
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

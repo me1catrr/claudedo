@@ -100,7 +100,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4aad9f6d24aec5d488fead8db56cfb83.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -751,12 +751,32 @@ div.csl-indent {
 <p>(El fichero real añade el caso <code>curl | sh</code> con una expresión regular.) Hay una variante <strong>PowerShell</strong> (<code>validar-comando.ps1</code>) que lee el JSON con <code>ConvertFrom-Json</code> y usa <code>exit 2</code> igual. <strong>Resultado comprobado</strong> (ejecutando los scripts con JSON de muestra, sin Claude): <code>ls</code> y <code>git status</code> → 0; <code>rm -rf</code>, push forzado, <code>reset --hard</code>, <code>sudo</code> y <code>curl | sh</code> → <strong>2</strong> con el mensaje; un <code>git push</code> normal → 0, porque <strong>ese lo decide el permiso <code>ask</code></strong>, no el hook. En PowerShell 7 (sobre macOS): <code>rm -rf</code> → 2, <code>git status</code> → 0, <code>iwr … | iex</code> → 2.</p>
 <p><strong>Un caso real mientras se escribía esta unidad.</strong> El hook de este proyecto (<code>.claude/hooks/bloquear-datos-privados.sh</code>, de once líneas) <strong>bloqueó varias veces</strong> órdenes de shell del propio asistente porque su <em>texto</em> mencionaba la carpeta protegida, aunque solo fuera para escribir un fichero de documentación. Es el comportamiento deseado… y también su <strong>limitación</strong>: un hook por patrones de texto es una segunda barrera, no una defensa completa.</p>
 </section>
-<section id="ejemplo-2-comprobar-la-calidad-tras-cada-edición" class="level4">
+<section id="ejemplo-2-comprobar-la-calidad-tras-cada-edición" class="level4 page-columns page-full">
 <h4 class="anchored" data-anchor-id="ejemplo-2-comprobar-la-calidad-tras-cada-edición">Ejemplo 2: comprobar la calidad tras cada edición</h4>
 <p><code>_ejemplo/hooks/comprobar-calidad.sh</code> es un <code>PostToolUse</code> con <em>matcher</em> <code>Edit|Write</code>: si el fichero editado es <code>.py</code>, comprueba que <strong>compila</strong> y, si encuentra una carpeta <code>tests/</code> por encima, ejecuta las pruebas. Si algo falla, devuelve <code>{"decision": "block", "reason": "…"}</code> (la forma de decisión que la documentación indica para <code>PostToolUse</code> y <code>Stop</code>), construido con <code>jq</code> para escapar bien el texto. La orden de pruebas es configurable con la variable <code>COMPROBAR_PYTEST</code>.</p>
 <p><strong>Resultado comprobado</strong> (con JSON de muestra): un <code>.py</code> con <strong>error de sintaxis</strong> → <code>decision: block</code>; un <code>.py</code> correcto sin <code>tests/</code> → <strong>sin salida</strong>; un <code>.py</code> correcto pero con una <strong>prueba que falla</strong> en <code>tests/</code> → <code>decision: block</code> con el resumen de pytest; un fichero que no es <code>.py</code> → ignorado. Se ejecutan todos con <code>zsh c7-extender/_ejemplo/hooks/probar_hooks.sh</code> (<strong>14 comprobaciones</strong>, todas en verde). <strong>No</strong> se ha verificado el comportamiento de <code>decision: block</code> dentro de una sesión real; la forma del JSON procede de la documentación.</p>
 <p><strong>Configuración de ambos hooks</strong> (<code>hooks/settings.ejemplo.json</code>, validada con <code>jq</code>): <code>PreToolUse</code> con <code>Bash</code> y <code>PostToolUse</code> con <code>Edit|Write</code>. Los scripts deben ser <strong>ejecutables</strong> en macOS (<code>chmod +x</code>).</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Riesgos de los hooks">
+<div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.312 a 2.1.316 · por incorporar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.312 a 2.1.316 · por incorporar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Hooks de PowerShell y <code>exit 2</code></strong> (2.1.316): se corrige que un hook de PowerShell <strong>no bloqueara</strong> con el código 2 cuando su orden empieza por una conversión de tipo, <code>param</code>, <code>using</code> o un atributo <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. <code>validar-comando.ps1</code> no empieza así, pero es un motivo más para probar el bloqueo en la versión que uses.</li>
+<li><strong>Hooks y la herramienta Monitor</strong> (2.1.314): los hooks con <em>matcher</em> <code>Bash</code> se ejecutan también con las órdenes de shell que lanza Monitor. Pueden bloquearlas o preguntar, pero no aprobarlas ni reescribirlas. Las condiciones <code>if</code> como <code>Monitor(tail *)</code> casan como <code>Bash(tail *)</code>.</li>
+<li><strong>Límite de simultaneidad</strong> (2.1.312): como mucho se ejecutan a la vez 24 hooks de tipo <em>prompt</em> o <em>agent</em> por sesión, subagentes incluidos. Un <code>timeout</code> inferior a 1 segundo cuenta como 1 segundo.</li>
+</ul>
+<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
+<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
+</div></div><div class="callout callout-style-default callout-warning callout-titled" title="Riesgos de los hooks">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1036,25 +1056,6 @@ div.csl-indent {
 <ol type="1">
 <li><p><strong>Mecanismo.</strong> Para cada necesidad elige el mecanismo y justifícalo: a) «siempre responde en español de España»; b) «antes de cada commit, ejecuta las pruebas»; c) «consultar las incidencias de mi gestor de proyectos»; d) «revisar 200 ficheros sin llenar mi contexto»; e) una checklist de publicación que lanzo yo con <code>/release</code>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Solución
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="a">
-<li><code>CLAUDE.md</code>. b) Hook (determinista; o un <code>PreToolUse</code> sobre <code>git commit</code>). c) MCP. d) Subagente (contexto aislado, devuelve un resumen). e) Skill con <code>disable-model-invocation: true</code>.</li>
-</ol>
-</div>
-</div>
-</div></li>
-<li><p><strong>Rompe tu hook.</strong> Añade a <code>validar-comando.sh</code> un fallo (por ejemplo, una errata en <code>jq</code>) y comprueba con el script de prueba qué pasa. ¿Bloquea o deja pasar? ¿Por qué importa?</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1066,11 +1067,13 @@ div.csl-indent {
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Con un fallo del propio script (código distinto de 0 y 2) la orden <strong>no se bloquea</strong>: el hook roto no protege. El script de prueba lo detecta si incluye casos que deben dar 2.</p>
+<ol type="a">
+<li><code>CLAUDE.md</code>. b) Hook (determinista; o un <code>PreToolUse</code> sobre <code>git commit</code>). c) MCP. d) Subagente (contexto aislado, devuelve un resumen). e) Skill con <code>disable-model-invocation: true</code>.</li>
+</ol>
 </div>
 </div>
 </div></li>
-<li><p><strong>Esquiva.</strong> Encuentra una orden peligrosa que <code>validar-comando.sh</code> <strong>no</strong> bloquee (pista: espacios, variables, rutas absolutas) y propón una mejora o una capa adicional.</p>
+<li><p><strong>Rompe tu hook.</strong> Añade a <code>validar-comando.sh</code> un fallo (por ejemplo, una errata en <code>jq</code>) y comprueba con el script de prueba qué pasa. ¿Bloquea o deja pasar? ¿Por qué importa?</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1083,12 +1086,11 @@ div.csl-indent {
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>rm  -rf x</code> (dos espacios), <code>/bin/rm -r -f x</code>, o <code>a="rm -rf"; $a x</code> esquivan el patrón. Mejoras: normalizar espacios, y sobre todo reforzar con reglas <code>deny</code> de permisos y con un sandbox; ningún filtro de texto es completo.</p>
+<p>Con un fallo del propio script (código distinto de 0 y 2) la orden <strong>no se bloquea</strong>: el hook roto no protege. El script de prueba lo detecta si incluye casos que deben dar 2.</p>
 </div>
 </div>
 </div></li>
-<li><p><strong>Skill nueva.</strong> Escribe una skill <code>/resumir-incidencias</code> que lea un CSV de incidencias y produzca un resumen <strong>sin modificar nada</strong> y con <code>disable-model-invocation: true</code>. Escribe una prueba para su script.</p></li>
-<li><p><strong>Servidor MCP.</strong> Añade al servidor una herramienta <code>columnas(caso)</code> que devuelva solo las columnas. ¿Qué validaciones necesita? Pruébala con el cliente del SDK.</p>
+<li><p><strong>Esquiva.</strong> Encuentra una orden peligrosa que <code>validar-comando.sh</code> <strong>no</strong> bloquee (pista: espacios, variables, rutas absolutas) y propón una mejora o una capa adicional.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1100,6 +1102,24 @@ div.csl-indent {
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>rm  -rf x</code> (dos espacios), <code>/bin/rm -r -f x</code>, o <code>a="rm -rf"; $a x</code> esquivan el patrón. Mejoras: normalizar espacios, y sobre todo reforzar con reglas <code>deny</code> de permisos y con un sandbox; ningún filtro de texto es completo.</p>
+</div>
+</div>
+</div></li>
+<li><p><strong>Skill nueva.</strong> Escribe una skill <code>/resumir-incidencias</code> que lea un CSV de incidencias y produzca un resumen <strong>sin modificar nada</strong> y con <code>disable-model-invocation: true</code>. Escribe una prueba para su script.</p></li>
+<li><p><strong>Servidor MCP.</strong> Añade al servidor una herramienta <code>columnas(caso)</code> que devuelva solo las columnas. ¿Qué validaciones necesita? Pruébala con el cliente del SDK.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>La misma lista blanca del nombre del caso, tipo de retorno claro y docstring; sin abrir ficheros distintos de los del caso. Se prueba como <code>resumen_csv</code>: caso válido y una ruta maliciosa.</p>
 </div>
@@ -1135,6 +1155,9 @@ div.csl-indent {
 <p><em>Automate actions with hooks</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/hooks-guide">https://code.claude.com/docs/en/hooks-guide</a>.</p>
 </div>
 <div class="ref-final">
+<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
+</div>
+<div class="ref-final">
 <p><em>Connect Claude Code to tools via MCP</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/mcp">https://code.claude.com/docs/en/mcp</a>.</p>
 </div>
 <div class="ref-final">
@@ -1155,6 +1178,23 @@ div.csl-indent {
 </section>
 
 </main> <!-- /main -->
+<script>
+// Enlace activo de la barra superior. Quarto marca «Inicio» en todas las páginas porque
+// la barra lateral única empieza en index.qmd. Aquí se deja activo solo el enlace que
+// apunta a la página que se está viendo (portada, hoja de consulta, «Acerca de»); en
+// las unidades no se marca ninguno: la barra lateral ya indica dónde está el lector.
+(() => {
+  const limpia = (p) => p.replace(/index\.html$/, "").replace(/\.html$/, "");
+  const ruta = limpia(location.pathname);
+  for (const a of document.querySelectorAll(".navbar .navbar-nav .nav-link")) {
+    const u = new URL(a.href, location.href);
+    const propia = u.origin === location.origin && limpia(u.pathname) === ruta;
+    a.classList.toggle("active", propia);
+    if (propia) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  }
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

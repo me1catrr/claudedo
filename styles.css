@@ -1,10 +1,16 @@
 /* =============================================================================
-   Resonancia · JuliaDo · ClaudeDo: base común de estilos (web y diapositivas)
-   Base común v1. Este fichero es idéntico en los tres sitios: los cambios se
-   hacen en uno y se copian a los otros dos. Los acentos propios de cada sitio
-   van en marca.scss (tokens --sitio-acento…).
+   ClaudeDo: estilos de la web y de las diapositivas
+   Las variables del tema (color principal, barra superior, callouts) están en
+   marca.scss; aquí, los tokens CSS y los componentes. Secciones:
+     tokens · cajas · figuras · referencias · ejercicios · historia · simuladores
+     · índices · TOC · barra superior · código · portada
    -----------------------------------------------------------------------------
-   Paleta única (la misma que usan las figuras TikZ y las gráficas):
+   Acento del sitio: violeta ClaudeDo #5b34a8 (8,4:1 sobre blanco). Cada área del
+   curso tiene un acento tomado de la paleta de las figuras: Fundamental azul
+   #1b6ca8, Aplicado verde azulado #2a9d8f y Avanzado naranja #d95f02 (el punto del
+   logo); cuando llevan texto se usan sus variantes oscuras (≥ 4,5:1). Las
+   novedades de Claude Code pendientes de incorporar van en fucsia #c2185b.
+   Paleta de las figuras TikZ y las gráficas:
      azul #1b6ca8 · naranja #d95f02 · verde azulado #2a9d8f · gris #6b7280
      violeta #6f42c1 · ocre #8a5a00
    Regla de accesibilidad: cada caja lleva rótulo escrito (y, si procede, icono);
@@ -20,6 +26,7 @@
      ::: {.callout-note .caso-real icon=false title="Caso real: …"}     ⚙ azul
      ::: {.callout-note .curiosidad icon=false title="Curiosidad: …"}   ◇ verde azulado
      ::: {.callout-note .reto icon=false title="Reto: …"}               ⚑ naranja
+     ::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.3xx"}  ✦ fucsia
      ::: {.laboratorio .solo-pantalla}  simulador (se oculta al imprimir)
      ::: {.solo-impresion}              figura estática que lo sustituye al imprimir
    ========================================================================== */
@@ -38,12 +45,25 @@
   --caja-dem-borde: #6b7280;      --caja-dem-fondo: #f4f5f7;
   --caja-clave-borde: #6f42c1;    --caja-clave-fondo: #f4effb;
 
-  /* Acento del sitio: azul en Resonancia; cada sitio lo redefine en marca.scss. */
-  --sitio-acento: var(--r-azul);  --sitio-acento-oscuro: #14507d;
+  /* Acentos de las áreas y sus variantes para texto (≥ 4,5:1 sobre blanco) */
+  --area-fundamental: #1b6ca8;  --area-fundamental-texto: #14507d;
+  --area-aplicado: #2a9d8f;     --area-aplicado-texto: #1f7a6f;
+  --area-avanzado: #d95f02;     --area-avanzado-texto: #a64a02;
 
-  --indice-borde: #d5dde6;        --indice-cabecera: #eef5fb;
-  --indice-fila-par: #f8fafc;     --indice-fila-hover: #eef5fb;
+  /* Novedades de Claude Code pendientes de incorporar; errores de ejecución */
+  --novedad-borde: #c2185b;  --novedad-fondo: #fce8f0;  --novedad-texto: #8e1446;
+  --error-borde: #b42318;
+
+  /* Acento del sitio */
+  --sitio-acento: #5b34a8;  --sitio-acento-oscuro: #4c2c8f;  --sitio-acento-suave: #f3effa;
+
+  --indice-borde: #d5dde6;        --indice-cabecera: var(--sitio-acento-suave);
+  --indice-fila-par: #f8fafc;     --indice-fila-hover: var(--sitio-acento-suave);
   --indice-texto-suave: #4b5563;
+
+  /* Código y resultados */
+  --codigo-fondo: #f7f8fa;  --codigo-borde: #e3e6eb;
+  --salida-fondo: #ffffff;  --salida-borde: #c9ced6;
 }
 
 /* ---------- Teoremas, definiciones y ejemplos (crossref de Quarto) ---------- */
@@ -114,6 +134,7 @@ div.callout.idea-clave .callout-title-container::before {
   content: "★ ";
   margin-right: 0.35em;
 }
+div.callout.idea-clave .callout-icon-container { display: none; }
 
 /* El fin de una demostración marcado con ∎ al final del último párrafo */
 div.callout.demostracion .callout-body-container > :last-child::after {
@@ -164,7 +185,7 @@ div.csl-entry a { word-break: break-word; }
   margin: 1.4rem 0;
   padding: 0.8rem 1rem 0.9rem 1rem;
   border: 1px solid #c7ced8;
-  border-left: 0.35rem solid var(--r-azul);
+  border-left: 0.35rem solid var(--sitio-acento);
   border-radius: 0 0.4rem 0.4rem 0;
   background: #fbfcfe;
 }
@@ -172,7 +193,7 @@ div.csl-entry a { word-break: break-word; }
   border-left-color: var(--r-verde);
   background: #f3faf8;
 }
-.ej-cabecera { display: flex; gap: 0.5rem; align-items: baseline; margin-bottom: 0.4rem; font-size: 0.9rem; font-weight: 700; color: #134a73; }
+.ej-cabecera { display: flex; gap: 0.5rem; align-items: baseline; margin-bottom: 0.4rem; font-size: 0.9rem; font-weight: 700; color: var(--sitio-acento-oscuro); }
 .ej-icono { font-size: 1rem; }
 .ej-estado { margin-left: auto; font-weight: 600; color: #1f7a6f; }
 .ej-oculto, [hidden].ej-oculto { display: none !important; }
@@ -188,10 +209,10 @@ div.csl-entry a { word-break: break-word; }
 .ej-rubrica { margin-top: 0.6rem; padding: 0.4rem 0.7rem; border: 1px dashed #aab2bf; border-radius: 0.3rem; }
 .ej-rubrica legend { font-size: 0.9rem; font-weight: 600; width: auto; padding: 0 0.3rem; }
 .ej-botones { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
-.ej-btn { padding: 0.3rem 0.8rem; border: 1px solid var(--r-azul); border-radius: 0.3rem; background: #fff; color: #134a73; font: inherit; font-size: 0.92rem; cursor: pointer; }
-.ej-btn:hover, .ej-btn:focus-visible { background: #eef5fb; outline: 2px solid var(--r-azul); outline-offset: 1px; }
-.ej-btn-principal { background: var(--r-azul); color: #fff; }
-.ej-btn-principal:hover, .ej-btn-principal:focus-visible { background: #14557f; color: #fff; }
+.ej-btn { padding: 0.3rem 0.8rem; border: 1px solid var(--sitio-acento); border-radius: 0.3rem; background: #fff; color: var(--sitio-acento-oscuro); font: inherit; font-size: 0.92rem; cursor: pointer; }
+.ej-btn:hover, .ej-btn:focus-visible { background: var(--sitio-acento-suave); outline: 2px solid var(--sitio-acento); outline-offset: 1px; }
+.ej-btn-principal { background: var(--sitio-acento); color: #fff; }
+.ej-btn-principal:hover, .ej-btn-principal:focus-visible { background: var(--sitio-acento-oscuro); color: #fff; }
 .ej-btn-sec { border-color: #8b95a5; color: #374151; }
 .ej-feedback { margin-top: 0.5rem; font-weight: 600; }
 .ej-feedback:empty { display: none; }
@@ -231,6 +252,23 @@ div.callout.noticia .callout-title-container::before { content: "▤ "; margin-r
 div.callout.historia .callout-icon, div.callout.noticia .callout-icon { display: none; }
 .fuentes-caja { font-size: 0.88rem; color: #4b5563; margin-top: 0.4rem; }
 
+/* ---------- Novedad de Claude Code pendiente de incorporar al texto ----------
+   Caja fucsia con rótulo escrito («Novedad · Claude Code 2.1.3xx») y el símbolo ✦;
+   el pie .novedad-estado dice que aún no se ha ejecutado ni integrado. Texto
+   #8e1446 sobre #fce8f0: 7,6:1. */
+div.callout.novedad { border-left-width: 0.35rem; border-left-color: var(--novedad-borde) !important; border-radius: 0 0.4rem 0.4rem 0; }
+div.callout.novedad > .callout-header,
+div.callout.novedad .callout-header { background: var(--novedad-fondo) !important; color: var(--novedad-texto); }
+div.callout.novedad .callout-title-container::before { content: "✦ "; margin-right: 0.35em; }
+div.callout.novedad .callout-icon-container { display: none; }
+div.callout.novedad .novedad-estado { display: block; margin: 0.5rem 0 0; font-size: 0.85rem; color: var(--indice-texto-suave); }
+.reveal div.callout.novedad { font-size: 0.8em; }
+
+/* Resumen de novedades en la portada */
+.novedades-lista { margin: 0.6rem 0 1.4rem; padding: 0.7rem 1rem 0.5rem; border: 1px solid #f2c4d6; border-left: 0.35rem solid var(--novedad-borde); border-radius: 0 0.5rem 0.5rem 0; background: #fff8fb; }
+.novedades-lista ul { margin-bottom: 0.4rem; padding-left: 1.1rem; }
+.novedades-lista li { margin-bottom: 0.25rem; }
+
 /* ---------- Caso real, curiosidad y reto (M3 en adelante) ---------- */
 div.callout.caso-real, div.callout.curiosidad, div.callout.reto { border-left-width: 0.35rem; border-radius: 0 0.4rem 0.4rem 0; }
 div.callout.caso-real { border-left-color: var(--r-azul) !important; }
@@ -245,7 +283,7 @@ div.callout.reto .callout-title-container::before { content: "⚑ "; margin-righ
 div.callout.caso-real .callout-icon, div.callout.curiosidad .callout-icon, div.callout.reto .callout-icon { display: none; }
 
 /* ---------- Simuladores: versión de pantalla y alternativa estática para imprimir ---------- */
-.laboratorio { margin: 1rem 0 1.4rem; padding: 0.7rem 0.9rem; border: 1px solid #c7ced8; border-top: 0.3rem solid var(--r-azul); border-radius: 0.4rem; background: #fbfcfe; }
+.laboratorio { margin: 1rem 0 1.4rem; padding: 0.7rem 0.9rem; border: 1px solid #c7ced8; border-top: 0.3rem solid var(--area-fundamental); border-radius: 0.4rem; background: #fbfcfe; }
 .laboratorio .lectura { margin-top: 0.4rem; font-size: 0.95rem; }
 .laboratorio form { max-width: 100%; }
 .solo-impresion { display: none; }
@@ -378,7 +416,7 @@ body:has(.referencias-unidad) section#bibliography,
 body:has(.referencias-unidad) #TOC li:has(> #toc-bibliography) { display: none; }
 
 /* Índice lateral («En esta página»): la sección que se está leyendo se destaca como guía.
-   Quarto marca como activo un solo enlace (el de la sección visible). Lleva texto azul oscuro
+   Quarto marca como activo un solo enlace (el de la sección visible). Lleva texto violeta oscuro
    en negrita, fondo claro y barra naranja. El color no es la única señal: negrita y barra
    marcan la posición. La especificidad iguala la de la regla de Quarto
    (.sidebar nav[role=doc-toc] ul>li>a.active, con !important) para poder sustituirla. */
@@ -387,9 +425,133 @@ body:has(.referencias-unidad) #TOC li:has(> #toc-bibliography) { display: none; 
   color: var(--sitio-acento-oscuro) !important;
   font-weight: 600;
   background: var(--indice-cabecera);
-  border-left: 3px solid var(--r-naranja) !important;
+  border-left: 3px solid var(--area-avanzado) !important;
   border-radius: 0 4px 4px 0;
 }
 
 /* Código en línea largo: puede partirse en pantallas estrechas (los bloques <pre> siguen desplazándose). */
 .content :not(pre) > code { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; }
+
+/* =============================================================================
+   Barra superior clara (las variables están en marca.scss): filete inferior y
+   enlace activo en violeta y en negrita, de modo que no depende solo del color.
+   ========================================================================== */
+.navbar { border-bottom: 1px solid var(--codigo-borde); }
+.navbar .navbar-title { font-weight: 600; color: #1f2937; }
+.navbar .nav-link:hover, .navbar .nav-link:focus-visible { color: var(--sitio-acento) !important; }
+.navbar .nav-link.active { color: var(--sitio-acento) !important; font-weight: 600; }
+
+/* =============================================================================
+   Código y resultados de ejecución
+   Código: fondo neutro y filete violeta (acento del sitio), en cualquier lenguaje.
+   Resultado: caja blanca con borde discontinuo, filete verde azulado y rótulo
+   escrito «Resultado», para distinguirlo del código sin depender del color.
+   ========================================================================== */
+div.sourceCode {
+  background: var(--codigo-fondo);
+  border: 1px solid var(--codigo-borde);
+  border-left: 3px solid var(--sitio-acento);
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+div.sourceCode pre.sourceCode { background: transparent; }
+
+.cell-output-display > pre,
+.cell-output-stdout > pre {
+  position: relative;
+  margin: 0.4rem 0 1rem;
+  padding: 1.55rem 0.9rem 0.65rem;
+  background: var(--salida-fondo);
+  border: 1px dashed var(--salida-borde);
+  border-left: 3px solid var(--area-aplicado);
+  border-radius: 0 0.4rem 0.4rem 0;
+  font-size: 0.875rem;
+}
+.cell-output-display > pre::before,
+.cell-output-stdout > pre::before {
+  content: "Resultado";
+  position: absolute; top: 0.35rem; left: 0.9rem;
+  font-family: var(--bs-body-font-family, sans-serif);
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--area-aplicado-texto);
+}
+.cell-output-stderr > pre { border-left: 3px solid var(--error-borde); padding-left: 0.9rem; }
+
+/* «Ver el código» (code-fold) y pestañas (macOS/Windows, Python/Julia) */
+/* Controles de formulario (ejercicios, simuladores OJS) con el acento del sitio */
+.content input[type="range"], .content input[type="radio"], .content input[type="checkbox"] { accent-color: var(--sitio-acento); }
+
+details.code-fold > summary { color: var(--sitio-acento-oscuro); font-size: 0.9rem; }
+details.code-fold > summary:focus-visible { outline: 2px solid var(--sitio-acento); outline-offset: 2px; }
+.panel-tabset .nav-tabs .nav-link.active {
+  color: var(--sitio-acento-oscuro); font-weight: 600;
+  border-top: 2px solid var(--sitio-acento);
+}
+
+/* =============================================================================
+   Portada (index.qmd). Se activa solo si la página contiene .areas.
+   Cabecera violeta oscura con una franja inferior en los colores de las tres
+   áreas; tarjetas de área con sus unidades escritas (C0–C1, C2–C6, C7–C9), así
+   que el color nunca es la única señal. Texto blanco sobre #2e1a5c: 14,8:1.
+   ========================================================================== */
+body:has(.areas) .quarto-title-banner {
+  background: #2e1a5c !important;
+  color: #ffffff;
+  border-bottom: 5px solid transparent;
+  border-image: linear-gradient(90deg, var(--area-fundamental) 0 33.34%, var(--area-aplicado) 33.34% 66.67%, var(--area-avanzado) 66.67% 100%) 1;
+}
+body:has(.areas) .quarto-title-banner .title { color: #ffffff; letter-spacing: 0.01em; }
+body:has(.areas) .quarto-title-banner .subtitle { color: #e9e1f7; }
+body:has(.areas) .quarto-title-banner .description,
+body:has(.areas) .quarto-title-banner .description p { color: #ffffff; max-width: 46rem; font-size: 1.05rem; opacity: 1; }
+body:has(.areas) .quarto-title-banner .quarto-category {
+  background: rgba(255, 255, 255, 0.14); color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.55); border-radius: 1rem;
+  padding: 0.1rem 0.8rem; font-size: 0.85rem;
+}
+body:has(.areas) main h2 { border-bottom: 3px solid var(--sitio-acento); padding-bottom: 0.25rem; }
+
+.acciones { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.1rem 0 1.8rem; }
+.acciones > p { display: contents; }
+.acciones .btn { font-weight: 600; }
+
+/* Tarjetas de las tres áreas */
+.areas {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+  gap: 1rem; margin: 1rem 0 2rem;
+}
+.area {
+  display: flex; flex-direction: column;
+  padding: 1rem 1.1rem 0.9rem;
+  border: 1px solid var(--area-borde); border-top: 5px solid var(--area-color);
+  border-radius: 0.6rem; background: var(--area-fondo);
+}
+.area > p { margin: 0 0 0.6rem; }
+.area > p:first-child { display: flex; align-items: center; gap: 0.7rem; }
+.area > p:last-child { margin: auto 0 0; padding-top: 0.4rem; }
+.area-id {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2.5rem; height: 2.5rem; padding: 0 0.7rem; border-radius: 1.25rem;
+  background: var(--area-texto); color: #ffffff;
+  font-family: var(--bs-font-monospace, monospace); font-weight: 700; font-size: 0.9rem;
+  white-space: nowrap;
+}
+.area-titulo { font-weight: 700; font-size: 1.05rem; line-height: 1.25; color: var(--area-texto); }
+.area-meta { font-size: 0.85rem; color: var(--indice-texto-suave); font-variant-numeric: tabular-nums; }
+.area-fundamental { --area-color: var(--area-fundamental); --area-texto: var(--area-fundamental-texto); --area-fondo: #f0f6fb; --area-borde: #c9ddef; }
+.area-aplicado    { --area-color: var(--area-aplicado);    --area-texto: var(--area-aplicado-texto);    --area-fondo: #eef8f6; --area-borde: #c3e5df; }
+.area-avanzado    { --area-color: var(--area-avanzado);    --area-texto: var(--area-avanzado-texto);    --area-fondo: #fdf3eb; --area-borde: #f3d3b9; }
+
+/* «Cómo es cada unidad»: rejilla de piezas */
+.piezas {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.8rem; margin: 1rem 0 1.8rem;
+}
+.pieza { padding: 0.75rem 0.95rem; border: 1px solid var(--codigo-borde); border-radius: 0.5rem; background: #ffffff; }
+.pieza > p { margin: 0; font-size: 0.95rem; }
+.pieza strong { color: var(--sitio-acento-oscuro); }
+
+/* Colofón */
+.creditos {
+  margin: 1.5rem 0 0; padding-top: 0.8rem; border-top: 1px solid var(--indice-borde);
+  font-size: 0.85rem; line-height: 1.5; color: var(--indice-texto-suave);
+}

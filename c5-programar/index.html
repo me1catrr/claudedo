@@ -100,7 +100,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4aad9f6d24aec5d488fead8db56cfb83.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -1140,6 +1140,23 @@ window.Quarto = {
 </section>
 
 </main> <!-- /main -->
+<script>
+// Enlace activo de la barra superior. Quarto marca «Inicio» en todas las páginas porque
+// la barra lateral única empieza en index.qmd. Aquí se deja activo solo el enlace que
+// apunta a la página que se está viendo (portada, hoja de consulta, «Acerca de»); en
+// las unidades no se marca ninguno: la barra lateral ya indica dónde está el lector.
+(() => {
+  const limpia = (p) => p.replace(/index\.html$/, "").replace(/\.html$/, "");
+  const ruta = limpia(location.pathname);
+  for (const a of document.querySelectorAll(".navbar .navbar-nav .nav-link")) {
+    const u = new URL(a.href, location.href);
+    const propia = u.origin === location.origin && limpia(u.pathname) === ruta;
+    a.classList.toggle("active", propia);
+    if (propia) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  }
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
