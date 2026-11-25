@@ -8,7 +8,7 @@ perfil: [uco, planta]
 estado: borrador
 nivel: avanzado
 verificado:
-  claude-code: "2.1.306"
+  claude-code: "2.1.330"
   julia: "1.12.3"
 format:
   html:
@@ -39,6 +39,11 @@ format:
 El ejecutor de tareas (`_ejemplo/ejecutar_tarea.sh` y `.ps1`) se **probó con un `claude` falso** (`claude-falso.sh`) que simula éxito, fallo, fallo transitorio, respuesta sin resultado y un proceso que se cuelga: **15 comprobaciones en Zsh** y la variante de **PowerShell 7.6.8 sobre macOS** (éxito, fallo, límite de tiempo, respuesta sin resultado y uso incorrecto).
 El flujo de GitHub Actions se validó **solo como YAML** y el `.plist` con `plutil -lint`. **No** se ejecutó ninguna llamada real a Claude Code en modo no interactivo (requiere cuenta o clave de API y puede costar dinero), ni Actions en GitHub, ni Docker (no está instalado), ni `launchctl`. Los nombres de opciones y de campos proceden de la documentación 2.1.309 (consultada el 23-10-2026) y se contrastaron con `claude --help` 2.1.306 donde existen.
 Todo lo que consume dinero es **opcional** y se acompaña de la alternativa local.
+
+**Revisión del 25-11-2026.** Las novedades de 2.1.314 a 2.1.330 que afectan a C8.1, C8.2, C8.4 y C8.8 se contrastaron con la documentación vigente (modo no
+interactivo, referencia de la CLI, permisos, sandbox, subagentes y tareas programadas) y con `claude --help` del binario **2.1.330**, con el que se ejecutaron dos
+comprobaciones locales que no llaman al servicio: `--max-turns` sigue aceptándose aunque no aparezca en la ayuda, y una opción inexistente hace que `claude -p`
+salga con código 1. Lo que procede solo del registro de cambios se indica como tal. El ejecutor de ejemplo no ha cambiado.
 
 :::
 
@@ -71,7 +76,8 @@ Hay cuatro maneras de que algo se ejecute, y cada una cambia **quién vigila**:
 
 La regla de este curso: **cuanta más autonomía, más límites previos y más registro posterior.** Autonomía no es ausencia de supervisión; es supervisión *diferida*, y por eso necesita instrumentos que la hagan posible.
 
-**El modo no interactivo (`-p`).** `claude -p "prompt"` ejecuta una tarea, imprime el resultado y termina; sale con código 0 si va bien y distinto de 0 si falla, de modo que un script puede ramificar según el resultado [@anthropic-programatico]. Opciones que usaremos (todas existen en `claude --help` 2.1.306):
+**El modo no interactivo (`-p`).** `claude -p "prompt"` ejecuta una tarea, imprime el resultado y termina; sale con código 0 si va bien y distinto de 0 si falla, de modo que un script puede ramificar según el resultado [@anthropic-programatico]. Opciones que usaremos (todas figuraban en `claude --help` 2.1.306; sobre
+`--max-turns` en la 2.1.330, mira la nota bajo la tabla):
 
 | Opción | Para qué |
 |---|---|
@@ -83,20 +89,55 @@ La regla de este curso: **cuanta más autonomía, más límites previos y más r
 | `--json-schema` | Fuerza una salida con una estructura dada (campo `structured_output`) |
 | `-c` / `--resume id` | Continúa una conversación (por ejemplo, guardando `session_id`) |
 
+**Una opción que no sale en la ayuda no ha desaparecido.** En el binario 2.1.330, `claude --help` ya no lista `--max-turns`, pero la referencia de la CLI la sigue
+documentando (solo en modo `-p`, sin límite por omisión) [@anthropic-cli] y el binario la acepta: `claude -p --max-turns 1 --opcion-inexistente "x"` se queja
+**solo** de la opción inventada, mientras que una opción mal escrita (`--turnos-max`) produce `unknown option` y código 1 (comprobado con la 2.1.330, sin llamar al
+servicio). Es una forma barata de verificar una opción antes de confiarle un tope; si un día dejara de aceptarse, el ejecutor fallaría al arrancar en lugar de
+ejecutarse sin límite, que es lo que se quiere.
+
 Dos avisos de la documentación que importan a una tarea desatendida: **sin `--bare`, `claude -p` ejecuta los hooks de `.claude/settings.json` y conecta los servidores de `.mcp.json` de la carpeta, aunque no hayas confiado en ella** (no muestra el diálogo de confianza), y a SIGTERM responde con el **código 143** sin dejar un resultado del turno en curso.
 Además, según esa página, `--bare` pasará a ser el modo por defecto de `-p` en una versión futura.
 
-::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.314 y 2.1.317 · por incorporar"}
-**Códigos de salida de `claude -p` más fiables.** Antes, si el arranque fallaba, `claude -p`
-terminaba con código 0 y sin salida; desde la 2.1.314 escribe el error y sale con **1**. Desde la
-2.1.317, también sale con 1 (en salida `text` y `json`) cuando un disco o una cuota llenos impiden
-guardar el registro de la sesión o `~/.claude.json` [@anthropic-changelog]. El ejecutor de este
-apartado ya trata un código distinto de 0 como fallo y la falta de `result` como código 5. Con
-estas versiones, el caso «0 sin salida» debería dejar de aparecer.
+**Códigos de salida: qué promete la documentación y qué ha cambiado.** Un script desatendido solo sabe lo que le dice el código de salida, así que conviene
+separar lo estable de lo que depende de la versión. Lo **documentado** (25-11-2026) es poco y suficiente: 0 si la ejecución va bien, distinto de 0 si falla, y
+143 si el proceso recibe SIGTERM; una opción no válida se informa por la salida de errores **antes** de empezar, y un fallo **dentro** de la ejecución (por ejemplo,
+falta de autenticación) se escribe como resultado en la salida estándar [@anthropic-programatico]. Lo que ha ido cambiando, según el registro de cambios
+[@anthropic-changelog] (no comprobado salvo donde se indica):
 
-[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
-contrastó con la 2.1.309.]{.novedad-estado}
-:::
+| Desde | Situación | Antes | Ahora |
+|---|---|---|---|
+| 2.1.314 | Falla el arranque | Código 0 y sin salida | Mensaje de error y código **1** |
+| 2.1.317 | Un disco o una cuota llenos impiden guardar la sesión o `~/.claude.json` | — | Código **1** (en salida `text` y `json`) |
+| 2.1.319 | El modo `auto` rechaza acciones porque no tiene disponible su comprobación | — | Código **1** |
+| 2.1.330 | La salida se escribe en un disco lleno | — | Código **1** |
+
+Comprobado con la 2.1.330: una opción inexistente da `unknown option` y código 1. La lección para el script es no dar significado a un valor concreto distinto de
+0 (el 1 cubre causas muy distintas) y **guardar la salida de errores** para diagnosticar. El ejecutor de abajo ya lo hace: trata cualquier código distinto de 0 como
+fallo, lleva la salida de errores al registro y, si el código es 0 pero falta `result`, sale con su propio código 5. Con versiones anteriores a la 2.1.314, ese código 5
+era la única pista de un arranque fallido; con las actuales, el fallo aparece antes, como código 1 registrado y reintentado.
+
+**Cuando no hay nadie para responder.** Una ejecución desatendida no puede quedarse esperando una confirmación. Hay tres herramientas, de alcance distinto:
+
+| Mecanismo | Qué es | Alcance | Qué hace con lo que pediría confirmación |
+|---|---|---|---|
+| `--permission-mode dontAsk` | Un **modo** de permisos | Una ejecución | Lo deniega, salvo lo permitido por reglas o `--allowedTools` |
+| `--permission-prompts none` | Una opción de `-p` (desde 2.1.259) | Una ejecución | Lo deniega en el modo que estés usando y avisa a Claude de que nadie puede aprobarlo |
+| `permissions.denyInsteadOfPrompting: true` | Un **ajuste** (desde 2.1.319) | Todas las sesiones; solo en ajustes de **usuario** o gestionados | Igual: deniega en lugar de preguntar, combinado con el modo que estés usando |
+
+[@anthropic-programatico; @anthropic-permisos; @anthropic-cli; @anthropic-changelog]. Para el ejecutor de este apartado basta `dontAsk`, que ya cierra todo; además,
+un `claude -p` sin nadie conectado deniega por sí mismo lo que necesitaría aprobación. Las otras dos importan cuando **sí** hay alguien al otro lado que podría
+responder y la ejecución se quedaría esperándolo: una aplicación del Agent SDK que atiende los permisos, una herramienta `--permission-prompt-tool`, o una sesión
+(por ejemplo, con un `/loop`, abajo) que dejas trabajando sin mirarla. También sirven cuando necesitas otro modo, como `auto` (C4.3), y no quieres que lo que el
+clasificador no resuelve acabe en una pregunta. El ajuste se pone en `~/.claude/settings.json`:
+
+```json
+{ "permissions": { "denyInsteadOfPrompting": true } }
+```
+
+Que solo se admita en ajustes de usuario o gestionados tiene sentido: un repositorio clonado no puede cambiar cómo se comporta tu equipo cuando nadie mira.
+Para comprobar su efecto, pide en una ejecución de prueba algo que no esté permitido (por ejemplo, escribir un fichero sin `Edit` en `--allowedTools`) con
+`--output-format stream-json --verbose`: las denegaciones aparecen como mensajes `permission_denied` y el mensaje final las enumera en `permission_denials`; la tarea termina
+sin colgarse. `--permission-prompts` figura en `claude --help` 2.1.330; el ajuste procede de la documentación y **no se ha ejecutado**.
 
 **Un ejecutor con límites.** `_ejemplo/ejecutar_tarea.sh` envuelve la llamada con **cinco** protecciones:
 
@@ -107,6 +148,9 @@ contrastó con la 2.1.309.]{.novedad-estado}
 5. **Cerrojo:** si ya hay una ejecución en curso para esa carpeta, la segunda se **omite** (código 3) en lugar de solaparse.
 
 Códigos de salida: **0** correcto · **1** uso incorrecto · **3** otra ejecución en curso · **4** agotados los intentos · **5** sin campo `result` en la respuesta. Hay variante PowerShell (`ejecutar_tarea.ps1`), con los mismos códigos.
+No confundas el 1 del ejecutor (lo has llamado mal) con el 1 de `claude`: este último queda en el registro como `FALLO intento N: código 1`, junto con su mensaje
+de error, y cuenta como un intento fallido. Un fallo que no depende del momento (una opción que tu versión no conoce, una credencial ausente) no se arregla reintentando, pero
+con dos intentos y 5 s de espera el coste de reintentarlo es pequeño y el ejecutor sigue siendo sencillo.
 
 ```zsh
 # Fragmento esencial (el fichero completo está en _ejemplo/)
@@ -119,6 +163,23 @@ Códigos de salida: **0** correcto · **1** uso incorrecto · **3** otra ejecuci
 **Resultado comprobado** (`zsh c8-automatizar/_ejemplo/probar_tarea.sh`, con `claude-falso.sh`, **sin llamar a ningún servicio**): 15 comprobaciones OK; los argumentos enviados a `claude` incluyen `--bare`, `--permission-mode dontAsk`, `--allowedTools Read,Grep,Glob`, `--max-turns 8`, `--max-budget-usd 0.50` y `--output-format json`; un fallo persistente da código 4 tras los 3 intentos configurados y queda registrado; un fallo transitorio se recupera al reintentar; un proceso que se cuelga se termina a los 2 s del límite configurado; y una segunda ejecución simultánea se omite. En PowerShell: éxito (código 0), fallo persistente (4), límite de tiempo (4) y respuesta sin `result` (5).
 
 **Un error que aparecía al probar** (y que ilustra por qué se prueba): la primera versión del vigilante de tiempo dejaba un `sleep` en segundo plano que **mantenía abierta la salida** y la sustitución de comandos no terminaba hasta 300 s después. Un script desatendido que se cuelga sin avisar es justo el fallo que se quiere evitar.
+
+**Repetir dentro de una sesión: `/loop` y las tareas programadas de sesión.** No toda repetición necesita el planificador del sistema. Dentro de una sesión
+abierta, `/loop` vuelve a lanzar una petición: con intervalo (`/loop 30m comprueba si terminó la compilación y resume el resultado`), en un horario fijo; sin él
+(`/loop comprueba si pasaron las pruebas de integración continua`), Claude elige tras cada vuelta cuánto esperar, entre un minuto y una hora. También puedes pedir
+en lenguaje natural un recordatorio o una tarea repetida, y preguntar «¿qué tareas programadas tengo?» para verlas o cancelarlas [@anthropic-tareas]. Son
+**tareas de sesión**: solo se ejecutan mientras Claude Code está abierto y libre, heredan los permisos de la sesión y no recuperan las ejecuciones perdidas.
+Dos límites que acotan un bucle olvidado:
+
+- **Caducidad.** Las tareas recurrentes (y un `/loop`) se borran solas a los **30 días** de crearse, tras una última ejecución. Hasta la 2.1.329 el límite era de 7
+  días, y las creadas con esas versiones lo conservan (documentado en la página de tareas programadas; cambio de la 2.1.330).
+- **Fin del `/loop` autorregulado.** El que no tiene intervalo continúa solo si cada vuelta programa la siguiente; si una vuelta termina sin hacerlo, el bucle se
+  acaba. La documentación lo describe así y el registro de cambios lo sitúa en la 2.1.319 [@anthropic-changelog]. Para pararlo tú, `Esc` con la entrada vacía
+  mientras espera; uno con intervalo fijo se cancela pidiéndoselo a Claude.
+
+Cómo comprobarlo: lanza `/loop 1m di la hora`, pregunta qué tareas tienes (verás su identificador y la próxima ejecución) y cancélala. **Cuándo usar cada cosa:**
+`/loop` sirve para vigilar algo **mientras trabajas** (una compilación, un PR); una tarea que debe ocurrir aunque cierres el portátil o la sesión necesita el
+ejecutor de arriba con launchd o el Programador de tareas (C2.11), una tarea en la nube o GitHub Actions (C8.7). Nada de esto se ha ejecutado en la revisión.
 
 **Pon a prueba lo anterior.**
 
@@ -147,6 +208,31 @@ Sin `--bare`, una ejecución `claude -p` en una carpeta que no has abierto antes
 :::
 :::
 
+::: {.ejercicio tipo="vf" id="c8-1-codigo" respuesta="falso"}
+Si `claude -p` termina con código 1, el script puede concluir que falló el arranque y que no merece la pena mirar el registro.
+
+::: {.solucion}
+**Falso.** Según el registro de cambios, desde la 2.1.314 el 1 se usa para causas muy distintas: arranque fallido, disco o cuota llenos, rechazos del modo `auto`; y una opción inexistente también da 1 (comprobado con la 2.1.330). Lo único estable es «0 bien, distinto de 0 mal, 143 por SIGTERM». El diagnóstico está en la salida de errores, que por eso se guarda en el registro.
+
+:::
+:::
+
+::: {.ejercicio tipo="opcion" id="c8-1-loop" respuesta="b"}
+Necesitas un resumen de los cambios del repositorio cada día a las 07:40 durante los próximos tres meses, aunque no tengas Claude Code abierto. ¿Qué usas?
+
+::: {.opciones}
+- `/loop 1d resume los cambios de ayer`.
+- El ejecutor `ejecutar_tarea.sh` programado con launchd (o el Programador de tareas), o una tarea en la nube o en GitHub Actions.
+- Un `/loop` sin intervalo, para que Claude elija cuándo.
+- `permissions.denyInsteadOfPrompting: true`.
+:::
+
+::: {.solucion}
+`/loop` y las tareas de sesión solo se ejecutan con la sesión abierta y caducan a los 30 días (7 antes de la 2.1.330). Lo que debe ocurrir sin sesión necesita un planificador del sistema o un servicio. `denyInsteadOfPrompting` evita que una ejecución se quede esperando, pero no programa nada.
+
+:::
+:::
+
 ### C8.2 Subagentes: delegación y orquestación {#c8-2}
 
 Los **subagentes** (C7) son trabajadores con su propio contexto que devuelven un resumen. En automatización sirven para tres cosas: **aislar** tareas voluminosas, **limitar herramientas** por función (un revisor de solo lectura) y **comprobar** el trabajo con un contexto limpio.
@@ -162,15 +248,50 @@ Los **subagentes** (C7) son trabajadores con su propio contexto que devuelven un
 
 La orquestación (el que decide qué agente hace qué) puede ser **Claude turno a turno** (subagentes), **un guion que tú escribes** (varias llamadas `claude -p` con un bucle) o un *workflow* dinámico, en el que Claude escribe el guion; en los tres casos, el control de permisos y el registro siguen siendo tuyos.
 
-::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.316 y 2.1.317 · por incorporar"}
-**Esfuerzo de los subagentes.** La variable `CLAUDE_CODE_SUBAGENT_EFFORT` (2.1.316) fija el nivel
-de esfuerzo de los subagentes cuando nada más lo indica, en lugar de heredar el de la sesión.
-Desde la 2.1.317, un subagente o compañero de equipo que usa **otro modelo** que la conversación
-principal toma el esfuerzo guardado para ese modelo, o su valor por defecto, y no el de la sesión
-[@anthropic-changelog]. Es una palanca más de coste (C8.5).
+**Modelo y esfuerzo de cada subagente.** Repartir trabajo también es repartir **coste**: un revisor que busca erratas no necesita el modelo más capaz
+ni el máximo esfuerzo de razonamiento (C4.7). La definición de un subagente (C7) admite dos campos para ajustarlo [@anthropic-subagentes]:
 
-[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
-contrastó con la 2.1.309.]{.novedad-estado}
+- `model`: `sonnet`, `opus`, `haiku`, `fable`, un identificador completo (como `claude-opus-5-5`) o `inherit`. Si se omite, usa el modelo de la conversación
+  que lo lanza.
+- `effort`: `low`, `medium`, `high`, `xhigh` o `max`, según lo que admita el modelo. Manda sobre el esfuerzo de la sesión, pero no sobre la variable
+  `CLAUDE_CODE_EFFORT_LEVEL`, que se impone a todo.
+
+```markdown
+---
+name: revisor-erratas
+description: Busca erratas y enlaces rotos en los .qmd modificados. Úsalo antes de un commit de texto.
+tools: Read, Grep, Glob
+model: haiku
+effort: low
+---
+```
+
+¿Y si la definición no dice nada? Desde Claude Code 2.1.316, la variable de entorno `CLAUDE_CODE_SUBAGENT_EFFORT` fija el esfuerzo de los subagentes que no lo
+tengan por otra vía; y desde la 2.1.317, un subagente que usa **otro modelo** que la conversación principal ya no hereda el esfuerzo de la sesión (la
+documentación vigente lo confirma; las versiones proceden del registro de cambios) [@anthropic-subagentes; @anthropic-changelog]. Para una tarea desatendida,
+fíjalo en la definición o en el entorno del ejecutor, por ejemplo `CLAUDE_CODE_SUBAGENT_EFFORT=low`, y no dependas de lo que tenga la sesión.
+
+**Ver qué está trabajando: `/tasks`.** En una sesión interactiva, `/tasks` lista el trabajo en segundo plano: subagentes en marcha (con su modelo y su esfuerzo),
+órdenes de shell, tareas MCP (C7.6). Los subagentes terminados siguen visibles un rato (unos 30 s según la documentación) para abrir su transcripción, y desde la
+2.1.319 algunos se pueden recuperar después desde la fila «Earlier in this session» [@anthropic-subagentes]. Sirve para comprobar lo de arriba: lanza el
+subagente y mira en `/tasks` si usa el modelo y el esfuerzo que declaraste. No se ha ejecutado en la revisión.
+
+**Pon a prueba lo anterior.**
+
+::: {.ejercicio tipo="opcion" id="c8-2-esfuerzo" respuesta="c"}
+Tu sesión trabaja con Opus y esfuerzo `high`. Lanzas un subagente definido con `model: haiku` y sin `effort`, y no has definido ninguna variable de entorno. Según la documentación vigente, ¿qué esfuerzo usa?
+
+::: {.opciones}
+- `high`, el de la sesión.
+- `max`, porque los subagentes trabajan solos.
+- No el de la sesión: al usar otro modelo, toma el que corresponda a ese modelo; si quieres uno concreto, decláralo con `effort` o con `CLAUDE_CODE_SUBAGENT_EFFORT`.
+- `low`, siempre.
+:::
+
+::: {.solucion}
+Desde la 2.1.317 (según el registro de cambios, y así lo describe la página de subagentes), el esfuerzo de la sesión no se aplica a un subagente con otro modelo. Para no depender de valores por defecto, declara `effort` en la definición o usa `CLAUDE_CODE_SUBAGENT_EFFORT`, y compruébalo en `/tasks`.
+
+:::
 :::
 
 ### C8.3 Equipos de agentes y coordinación de tareas {#c8-3}
@@ -196,7 +317,15 @@ En C3.10 viste `claude --worktree nombre` (rama `worktree-nombre`, carpeta `.cla
 - **Integra tú:** cada worktree termina en una rama que revisas (diff, pruebas) y fusionas con `merge` o PR, una cada vez (C3.4).
 - **Prepara cada worktree:** es un *checkout* limpio; no trae `.env` ni el entorno virtual salvo lo que listes en `.worktreeinclude`.
 - **Limpia:** al salir, si hay trabajo, Claude Code te pregunta si conservar o borrar; **borrar elimina también la rama** con su trabajo. Los worktrees de subagentes se barren automáticamente solo si están limpios.
+  Cuando es Claude quien sale del worktree a mitad de sesión (herramienta `ExitWorktree`), desde Claude Code 2.1.327 también pregunta antes de borrar uno con
+  trabajo sin guardar, según el registro de cambios [@anthropic-changelog]; no se ha comprobado. Aun así, antes de aceptar un borrado mira `git status` y
+  `git log` de esa rama: la pregunta protege de un descuido, no sustituye a la revisión.
 - **Aislamiento no es seguridad completa:** las ediciones y los comandos de Git quedan restringidos al worktree, pero un `cp` o una redirección de shell **no** se controlan así y siguen sujetos a tus permisos [@anthropic-worktrees].
+- **Worktrees y sandbox:** con el sandbox activo (C8.8), `git commit` dentro de un worktree funciona, pero `git worktree add`, `move` y `remove` fallan a medias,
+  porque la parte de `.git` que registra los worktrees queda fuera de lo que el sandbox deja escribir. El registro de cambios lo documenta desde la 2.1.323
+  [@anthropic-changelog] y lo hemos observado en el entorno de redacción de esta unidad. Solución: crea, mueve o borra worktrees **fuera** del sandbox (desde tu
+  terminal, o aprobando que esa orden concreta se ejecute sin él) y deja dentro solo el trabajo en el worktree. Si una orden se queda a medias, `git worktree list`
+  y `git worktree prune` muestran y limpian los registros huérfanos.
 
 ### C8.5 Supervisión, registros, uso, coste e higiene del contexto {#c8-5}
 
@@ -298,21 +427,43 @@ Los *secrets* de GitHub se guardan cifrados y no aparecen en el código. La docu
 
 La automatización multiplica el efecto de un error: se ejecuta sin nadie delante. Capas, de más a menos fiables:
 
-1. **Aislamiento del sistema.** El **sandbox** de Claude Code aplica el aislamiento del sistema operativo a las órdenes de shell: en macOS usa Seatbelt, en Linux y WSL2 `bubblewrap`; **no está disponible en Windows nativo** (hay que usar WSL 2). Por defecto está **desactivado** (`/sandbox` o `sandbox.enabled: true`). Limita las escrituras al directorio de trabajo y fuerza el tráfico de red por un proxy con **lista de dominios permitidos** que empieza vacía; las lecturas, en cambio, abarcan casi toda la máquina (incluidos `~/.ssh`), por lo que se **combina con reglas `deny` de lectura** [@anthropic-sandbox]. Limitaciones documentadas: no es una frontera de aislamiento completa (dominios amplios como `github.com` permiten exfiltración), y solo cubre las **órdenes de shell**, no las herramientas de ficheros, los servidores MCP ni los hooks.
+1. **Aislamiento del sistema.** El **sandbox** de Claude Code aplica el aislamiento del sistema operativo a las órdenes de shell: en macOS usa Seatbelt, en Linux y WSL2 `bubblewrap`; **no está disponible en Windows nativo** (hay que usar WSL 2). Por defecto está **desactivado** (`/sandbox` o `sandbox.enabled: true`). Limita las escrituras al directorio de trabajo y fuerza el tráfico de red por un proxy con **lista de dominios permitidos** que empieza vacía; las lecturas, en cambio, abarcan casi toda la máquina (incluidos `~/.ssh`), por lo que se **combina con reglas `deny` de lectura** [@anthropic-sandbox]. Limitaciones documentadas: no es una frontera de aislamiento completa (dominios amplios como `github.com` permiten exfiltración), y solo cubre las **órdenes de shell**, no las herramientas de ficheros, los servidores MCP ni los hooks. Según el registro de cambios, hasta la 2.1.313 las
+   protecciones del sandbox no se aplicaban a un worktree en el que se entraba con `claude -p --resume` o `--continue`; si reanudas tareas desatendidas en
+   worktrees, usa la 2.1.314 o posterior [@anthropic-changelog].
 2. **Contenedor o máquina virtual** para lo que necesite más libertad (C8.6).
-3. **Permisos mínimos** (`dontAsk` + `--allowedTools` estrechas) y reglas `deny` (C4.3).
+3. **Permisos mínimos** (`dontAsk` + `--allowedTools` estrechas) y reglas `deny` (C4.3). Dos ajustes completan esta capa en tareas desatendidas:
+   `permissions.blockWritesOutsideWorkingDirectories: true` (desde 2.1.314) hace que `Write`, `Edit` y `NotebookEdit` rechacen rutas fuera de las carpetas de
+   trabajo en **cualquier** modo de permisos, aunque no limita las órdenes de shell, las herramientas MCP ni los hooks (para eso, el sandbox); y
+   `permissions.denyInsteadOfPrompting: true` (C8.1) convierte en denegación cualquier pregunta que nadie va a contestar [@anthropic-permisos].
 4. **Hooks** de validación previa (C7.5) como refuerzo.
 5. **Credenciales de vida corta y alcance mínimo.** Para Actions, la documentación describe también la autenticación por **federación de identidad (OIDC)** para no guardar un secreto de larga duración. Claves distintas por entorno; rotación y revocación si se filtran.
 
-::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.314 · por incorporar"}
-- `permissions.blockWritesOutsideWorkingDirectories` hace que `Write`, `Edit` y `NotebookEdit`
-  rechacen rutas fuera de las carpetas de trabajo en cualquier modo de permisos (C4.3). Es una
-  capa más para tareas desatendidas [@anthropic-changelog].
-- Se corrige que las protecciones del sandbox no se aplicaran a un worktree en el que se entra con
-  `claude -p --resume` o `--continue`.
+**Sandbox y permisos: quién aprueba una orden aislada.** Que una orden se ejecute dentro del sandbox no significa que nadie la apruebe. Desde Claude Code
+2.1.325, según el registro de cambios, las órdenes Bash en el sandbox siguen el **flujo normal de permisos** (reglas `allow`, `ask`, `deny` y el modo activo).
+Si quieres que el propio aislamiento haga de aprobación, actívalo de forma explícita [@anthropic-permisos; @anthropic-sandbox; @anthropic-changelog]:
 
-[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
-contrastó con la 2.1.309.]{.novedad-estado}
+```json
+{ "sandbox": { "enabled": true, "autoAllowBashIfSandboxed": true } }
+```
+
+Con ese ajuste, una orden que se ejecuta **dentro** del sandbox no pregunta; las que van **fuera** (las excluidas con `excludedCommands`, o un reintento sin
+sandbox tras un fallo) siguen el flujo normal. Hay excepciones documentadas que preguntan igualmente: reglas `ask` concretas como `Bash(git push *)`, `rm` sobre
+rutas críticas, órdenes con asignaciones de variables delante (`FOO=bar npm test`) y las de Monitor. La decisión es de criterio: el sandbox limita **dónde** puede
+escribir y **a qué** dominios puede conectarse una orden, no **qué** hace dentro de esos límites; un `rm -r` dentro de la carpeta de trabajo sigue siendo un
+`rm -r`. Para una tarea desatendida con `dontAsk`, `autoAllowBashIfSandboxed` no se necesita: lo no permitido se deniega igualmente. Para comprobar tu
+configuración, ejecuta `/sandbox` y `/permissions` en una sesión y prueba una orden inofensiva que no esté en `allow` ni sea de solo lectura (por ejemplo, `touch prueba-sandbox.txt`, en modo Manual): en la 2.1.325 o
+posterior y sin el ajuste, debe preguntar; con él, ejecutarse sin preguntar. No se ha ejecutado en la revisión, y la documentación consultada no indica el valor
+por omisión del ajuste: decláralo siempre de forma explícita.
+
+**Pon a prueba lo anterior.**
+
+::: {.ejercicio tipo="vf" id="c8-8-sandbox" respuesta="falso"}
+Con `sandbox.autoAllowBashIfSandboxed: true`, un `rm -r resultados/` dentro de la carpeta de trabajo es inofensivo, porque se ejecuta en el sandbox.
+
+::: {.solucion}
+**Falso.** El sandbox impide escribir **fuera** de las carpetas permitidas y conectarse a dominios no autorizados, pero dentro de la carpeta de trabajo la orden borra de verdad. Con el ajuste, además, se ejecuta sin preguntar. Por eso se combina con reglas `deny` o `ask` concretas, con Git para poder recuperar y, en tareas desatendidas, con permisos de solo lectura.
+
+:::
 :::
 
 **Lo que nunca debe llegar a una tarea desatendida:** datos privados o personales sin permiso (C0.7, C1.5), credenciales de administración, permisos de publicación (`git push`, `quarto publish`) y acceso a producción. **El humano aprueba lo irreversible.**
@@ -386,7 +537,8 @@ vigente de la versión instalada y qué fallos silenciosos seguirían siendo pos
 
 **Verifica.**
 
-- Comprueba cada opción con `claude --help` en tu versión antes de ejecutarlo de verdad.
+- Comprueba cada opción con `claude --help` en tu versión antes de ejecutarlo de verdad; si una no aparece (como `--max-turns` en la 2.1.330), compruébala en la referencia de la CLI y con una opción inventada al lado (C8.1).
+- ¿Da por hecho que un código concreto (por ejemplo, 1) significa una causa concreta? Lo documentado es 0, distinto de 0 y 143.
 - Ejecuta tú el script de prueba: ¿todos los casos dan el código esperado, incluido el de límite de tiempo?
 - ¿Usa `--bare`? Si no, ¿qué hooks y servidores MCP del proyecto se ejecutarían sin supervisión?
 - ¿Pone un tope de **coste** y otro de **tiempo**? ¿Cómo te enteras si falla?
@@ -429,10 +581,12 @@ vigente de la versión instalada y qué fallos silenciosos seguirían siendo pos
 
 - Distingo sesión interactiva, script, tarea programada y servicio, y sé qué supervisión exige cada uno.
 - Ejecuto Claude Code en modo no interactivo con permisos cerrados, topes de turnos y de coste, registro y reintentos, y pruebo la ruta de error.
-- Sé por qué `--bare` importa en tareas desatendidas y qué hace `dontAsk`.
+- Sé por qué `--bare` importa en tareas desatendidas y qué hace `dontAsk`, y cuándo añadir `denyInsteadOfPrompting` para que nada se quede esperando una respuesta.
+- No doy a un código de salida distinto de 0 más significado del documentado y guardo la salida de errores para diagnosticar.
+- Elijo entre `/loop` (con la sesión abierta, caduca a los 30 días) y un planificador del sistema para lo que debe ocurrir sin sesión.
 - Distingo subagentes, worktrees, sesiones en paralelo y equipos de agentes (experimentales).
 - Integro Claude Code en un flujo de Actions con permisos mínimos y secretos en `secrets`.
-- Conozco las capas de aislamiento (sandbox, contenedor, permisos, hooks) y sus límites.
+- Conozco las capas de aislamiento (sandbox, contenedor, permisos, hooks) y sus límites, y sé que una orden en el sandbox no queda aprobada salvo con `autoAllowBashIfSandboxed`.
 - Evalúo una metodología de terceros antes de instalarla.
 - No presento la autonomía de un agente como ausencia de supervisión.
 
@@ -442,3 +596,6 @@ Documentación oficial de Claude Code (versión 2.1.309, consultada el 23-10-202
 [GitHub Actions](https://code.claude.com/docs/en/github-actions), [sandbox](https://code.claude.com/docs/en/sandboxing),
 [costes](https://code.claude.com/docs/en/costs), [worktrees](https://code.claude.com/docs/en/worktrees) y
 [tareas programadas](https://code.claude.com/docs/en/scheduled-tasks). La descripción de GSD procede de fuentes secundarias y **no se ha verificado** en su repositorio.
+En la revisión del 25-11-2026 (novedades de 2.1.314 a 2.1.330) se consultaron de nuevo el modo no interactivo, el sandbox y las tareas programadas, además de la
+[referencia de la CLI](https://code.claude.com/docs/en/cli-reference), los [permisos](https://code.claude.com/docs/en/permissions), los
+[subagentes](https://code.claude.com/docs/en/sub-agents) y el [registro de cambios](https://code.claude.com/docs/en/changelog).

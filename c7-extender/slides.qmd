@@ -28,9 +28,15 @@ format:
 
 - **0**: no decide (sigue el flujo de permisos)
 - **2**: **bloquea**, y `stderr` llega a Claude
-- otro: el hook falló → la acción **continúa**
+- otro: el hook falló → la acción **continúa**, salvo con `"onFailure": "block"`
 
-*Un hook roto no protege: pruébalo.*
+*Un hook roto no protege: pruébalo. Fallar cerrado es más seguro, pero detiene el trabajo si el script se rompe.*
+
+## Hooks: lo nuevo (2.1.314–2.1.332)
+
+- *Matcher* `Bash` → también las órdenes de **Monitor** (bloquear sí, aprobar no)
+- **`PreSkillShellCommand`** (2.1.332): las órdenes `` !`…` `` de las skills; solo puede bloquear
+- Hooks *prompt*/*agent* simultáneos: **12** según la referencia vigente, **24** según el changelog de 2.1.312 → no dependas de muchos
 
 ## Probar un hook sin Claude
 
@@ -51,10 +57,22 @@ echo $?   # 2
 
 - Cliente (Claude Code) ↔ servidor (tools, resources, prompts)
 - Ámbitos: `local` · `project` (`.mcp.json`) · `user`
+- `cat servidor.json | claude mcp add-json nombre -` (2.1.327): sin escapar JSON
+- Tareas MCP: trabajos largos en el servidor; se ven y se paran con `/tasks`
 - ⚠ Un servidor es código tuyo o ajeno; **inyección de instrucciones**
+
+## Plugins
+
+- `.claude-plugin/plugin.json` + `skills/`, `hooks/hooks.json`, `.mcp.json`
+- `"engines": { "claude-code": ">=2.1.332" }` (2.1.323): versiones compatibles
+- `claude plugin validate --strict ./plugin` antes de compartir
+
+*Validar ≠ que sea seguro.*
 
 ## Antes de confiar en un repositorio ajeno
 
 Lee `.claude/settings.json`, hooks, skills y `.mcp.json`.
 
 Se ejecutan **con tus permisos**.
+
+El diálogo de confianza dice **dónde** están los hooks (2.1.329, según el changelog), no **qué** hacen.

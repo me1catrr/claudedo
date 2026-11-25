@@ -29,6 +29,24 @@ claude --bare -p "…" \
 
 Código 0 = bien · otro = fallo · SIGTERM → 143
 
+El 1 cubre muchas causas (arranque, disco lleno, rechazos del modo `auto`): **guarda stderr**.
+
+`--max-turns` no sale en `--help` 2.1.330, pero se acepta y está documentada.
+
+## Que nada se quede esperando
+
+| | Alcance |
+|---|---|
+| `--permission-mode dontAsk` | Una ejecución (modo) |
+| `--permission-prompts none` | Una ejecución `-p` |
+| `permissions.denyInsteadOfPrompting` | Ajuste de usuario (2.1.319) |
+
+## `/loop`: repetir con la sesión abierta
+
+- `/loop 30m …` (fijo) · `/loop …` (Claude elige el intervalo)
+- Caduca a los **30 días** (antes, 7) · solo con Claude Code abierto
+- Sin sesión → ejecutor + launchd / Programador de tareas / Actions
+
 ## Un ejecutor fiable
 
 1. Permisos cerrados  2. Topes
@@ -45,6 +63,10 @@ Código 0 = bien · otro = fallo · SIGTERM → 143
 | Worktree | Ficheros |
 | Equipo de agentes | Varias sesiones *(experimental)* |
 
+Subagentes: `model` y `effort` en su definición · `/tasks` para ver el trabajo en segundo plano.
+
+Worktrees: `git worktree add/remove` **fuera** del sandbox.
+
 ## Actions con permisos mínimos
 
 `contents: read` · `timeout-minutes` · `concurrency` · `--max-turns` · clave en **secrets**
@@ -52,6 +74,10 @@ Código 0 = bien · otro = fallo · SIGTERM → 143
 ## Seguridad en capas
 
 Sandbox/contenedor → permisos `deny` → hooks → revisión humana
+
+En el sandbox, Bash sigue el flujo de permisos (2.1.325) salvo `autoAllowBashIfSandboxed: true`.
+
+`blockWritesOutsideWorkingDirectories` · `denyInsteadOfPrompting`
 
 **Lo irreversible lo aprueba una persona.**
 
