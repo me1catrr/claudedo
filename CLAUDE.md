@@ -84,22 +84,26 @@ visibles. Estos ficheros ya no se sincronizan con otros repositorios.
 - La portada (`index.qmd`) usa `.acciones`, `.areas`/`.area`, `.piezas`, `.novedades-lista` y
   `.creditos`; sus estilos se activan con `body:has(.areas)`. El color de la cabecera va en su
   YAML (`title-block-banner: "#2e1a5c"`) para no depender de `styles.css` en caché. Cinco
-  secciones: Tres áreas, Cómo es cada unidad, Novedades, Todas las unidades y Sobre el proyecto
-  (lo demás, en «Acerca de»). Las cifras de las tarjetas (unidades, ejercicios) salen de
+  secciones: Tres áreas, Cómo es cada unidad, Novedades (resumen de la última edición con enlace
+  a «Actualizaciones»), Todas las unidades y Sobre el proyecto (lo demás, en «Acerca de»). Las cifras de las tarjetas (unidades, ejercicios) salen de
   `temario.yml` y de las unidades: se actualizan a mano.
 - Subtítulo de unidad y diapositivas: «C4 · Área Aplicado» (lo genera `generar_estructura.jl`
   desde `areas`).
 - `recursos/js/navbar-activo.html` deja activo en la barra superior solo el enlace de la página
   que se ve (Quarto marcaba siempre «Inicio»).
 
-## Novedades de Claude Code por incorporar
-Cuando se lee el changelog de una versión posterior a la documentada en `_versiones.yml`, lo que
-afecta al curso se señala en la sección de la unidad con
+## Actualizar ClaudeDo
+Cuando el responsable pida «Actualiza ClaudeDo», sigue `_curso/ACTUALIZAR.md` (consultar versiones
+y novedades oficiales, comparar, seleccionar en `_curso/NOVEDADES.md`, integrar en las unidades,
+comprobar, registrar en `_versiones.yml`/`_variables.yml`/`comandos.yml`/bibliografía, renderizar y
+entregar un informe). La página pública `actualizaciones.qmd` se genera desde `_versiones.yml`
+(`curso.historial`) con `scripts/actualizaciones.lua`. Los datos de los modelos viven solo en
+`modelos` de `_variables.yml`. Sin push ni publicación hasta que el responsable revise la web local.
+
+**Novedades que aún no se pueden integrar.** Se señalan en la sección de la unidad con
 `::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.3xx · por incorporar"}`,
-citando `@anthropic-changelog` y cerrando con `[…]{.novedad-estado}` (leída, no ejecutada). Se
-añade su línea en `.novedades-lista` de la portada y se actualiza `novedades` en
-`_variables.yml`. Al integrar una novedad en el texto (y registrar el comando en
-`_curso/comandos.yml`), se quita su caja y su línea.
+citando `@anthropic-changelog` y cerrando con `[…]{.novedad-estado}` (leída, no ejecutada). Al
+integrarla en el texto (y registrar el comando en `_curso/comandos.yml`), se quita su caja.
 
 ## Figuras, cajas y bibliografía
 - **Reparto de figuras.** TikZ para esquemas y diagramas; Makie u OJS para datos y

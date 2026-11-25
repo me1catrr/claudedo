@@ -2,8 +2,8 @@
 
 Estados: **Verificado** (leído y contrastado), **Parcial** (leída solo una parte), **Pendiente**, **No accesible**.
 
-- Claude Code **instalado**: `2.1.304` (`claude --version`, 23/10/2026).
-- Claude Code **documentado**: `2.1.309`, del 22/10/2026 (cabecera del changelog, consultado el 23/10/2026).
+- Claude Code **instalado**: `2.1.304` (`claude --version`, 23/10/2026). El 25/11/2026: terminal 2.1.304 (`~/.local/bin`) y 2.1.300 (Homebrew); sesión de la aplicación de escritorio **2.1.330** (`$CLAUDE_CODE_EXECPATH`), con la que se ejecutaron las comprobaciones de la edición 0.3.0.
+- Claude Code **documentado**: `2.1.309`, del 22/10/2026 (cabecera del changelog, consultado el 23/10/2026). Desde la edición 0.3.0: **2.1.332** (GitHub «Latest», 25/11/2026).
 - Otras herramientas: git 2.55.0 · quarto 1.10.19 · uv 0.12.23 · julia 1.12.3 · macOS 27.0.1.
 - Método: las páginas oficiales se leen en su versión `.md` (`https://code.claude.com/docs/en/<página>.md`). Se anotan sintaxis y comportamiento; el texto del curso es propio (la documentación no se copia).
 
@@ -12,6 +12,10 @@ Estados: **Verificado** (leído y contrastado), **Parcial** (leída solo una par
 | Tema | Fuente | URL | Consulta | Estado | Observaciones |
 |---|---|---|---|---|---|
 | Índice de la documentación | Anthropic | https://code.claude.com/docs/llms.txt | 23/10/2026 | Verificado | 228 páginas, todas en `.md` |
+| Changelog (edición 0.3.0) | Anthropic | https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md · https://github.com/anthropics/claude-code/releases | 25/11/2026 | Parcial | Leídas 2.1.310–2.1.332 por tramos con el lector web (citas ≤125 caracteres y paráfrasis; descarga bloqueada en la sesión). Sin entrada: 2.1.313, 2.1.315, 2.1.320, 2.1.324. Fechas de 2.1.329–2.1.332 desde GitHub Releases. Selección en `NOVEDADES.md` |
+| Documentación vigente (edición 0.3.0) | Anthropic | cli-reference, permission-modes, permissions, settings, hooks, commands, mcp, plugins-reference, model-config, costs, sub-agents, scheduled-tasks, headless (`.md`) | 25/11/2026 | Parcial | Respuestas literales a 12 preguntas concretas; tramos finales de hooks, mcp, model-config solo por resumen. Discrepancia: hooks.md da 12 hooks *prompt/agent* simultáneos; el changelog de 2.1.312, 24 |
+| Modelos, precios y retiradas | Anthropic | https://platform.claude.com/docs/en/about-claude/models/overview · …/pricing · …/model-deprecations | 25/11/2026 | Verificado | Fable 5.2 (8 $/40 $), Opus 5.5, Sonnet 5.5, Haiku 5.5; contexto 1M y salida 128K; Fable 5.1 y Opus 4.8 activos |
+| Skill `claude-api` | Claude Code 2.1.330 (incluida) | `/claude-api` | 25/11/2026 | Verificado | Confirma `output_config.effort`, `stop_reason`, rechazo de `temperature`/`top_p`/`top_k` con la API `2026-10-21` |
 | Changelog | Anthropic | https://code.claude.com/docs/en/changelog.md | 23/10/2026 | Parcial | Leídas las 10 últimas versiones (2.1.300–2.1.309). 2.1.304 corrige que `claude --worktree` borrase el worktree sin preguntar con HEAD separado |
 | Changelog (novedades) | Anthropic | https://code.claude.com/docs/en/changelog.md | 03/11/2026 | Parcial | Leídas 2.1.310–2.1.317 (sin entradas para 2.1.313 ni 2.1.315; lectura mediante resumen automático por la longitud de la página). Lo que afecta al curso está en cajas `.novedad` de C1.5, C4.3, C4.7, C7.5, C8.1, C8.2, C8.8 y C9 (referencias). **No ejecutado**; `comandos.yml` sin cambios. Bibliografía: `anthropic-changelog` |
 | Referencia de la CLI | Anthropic | https://code.claude.com/docs/en/cli-reference.md | 23/10/2026 | Verificado | Subcomandos y opciones; `claude --help` no lista todas |

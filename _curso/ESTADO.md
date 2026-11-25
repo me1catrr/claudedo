@@ -3,6 +3,15 @@
 Documento vivo. Léelo (junto con `git log`) antes de continuar en una sesión nueva.
 Rama de trabajo: `docs/curso-claude-completo`. Plan: [PLAN.md](PLAN.md).
 
+## Última actualización
+**Edición 0.3.0 · 25/11/2026** («Actualiza ClaudeDo», procedimiento en [ACTUALIZAR.md](ACTUALIZAR.md)):
+changelog 2.1.310–2.1.332 leído; novedades integradas en C1–C9 (selección y descartes en
+[NOVEDADES.md](NOVEDADES.md)); modelos Fable 5.2, Opus 5.5, Sonnet 5.5 y Haiku 5.5 en `modelos`
+de `_variables.yml`; página pública `actualizaciones.qmd`. Comprobaciones con el binario 2.1.330
+de la aplicación de escritorio; terminal en 2.1.304 (el responsable puede ejecutar
+`claude update`). **Pendiente**: revisión visual del responsable y autorización de push;
+comprobar en 2.1.332 lo que consta solo como documentación o changelog.
+
 ## Fase actual
 **Fase 2 · Arquitectura docente**: cerrada el 23/10/2026 (los componentes interactivos se construyen en la unidad que los usa).
 **C0–C9 redactadas.** Siguiente: revisión final transversal (coherencia, enlaces, verificación de pendientes) y `INFORME.md`. Entorno: `uv` 0.13.5, `deno` 2.7.14, `pwsh` 7.6.8 (macOS; no Windows PowerShell 5.1); Claude Code instalado 2.1.306.

@@ -20,11 +20,14 @@
 #   nota          (opcional) cambios de versión, alias, avisos
 #
 # Versiones: Claude Code documentado 2.1.309 (changelog, 22/10/2026); instalado 2.1.304.
+# Edición 0.3.0 (25/11/2026): documentación contrastada con 2.1.332; comprobaciones con el
+# binario 2.1.330 de la aplicación de escritorio («instalado» en verificado_en). La terminal
+# tenía 2.1.304, así que auditar_claude.jl avisa de la diferencia hasta que se actualice.
 # git 2.55.0 · quarto 1.10.19 · uv 0.12.23 · julia 1.12.3 · macOS 27.0.1 (zsh).
 
-doc_claude_code: "2.1.309"
-instalado_claude_code: "2.1.306"
-fecha_verificacion: "23/10/2026"
+doc_claude_code: "2.1.332"
+instalado_claude_code: "2.1.330"
+fecha_verificacion: "25/11/2026"
 
 comandos:
 
@@ -304,12 +307,13 @@ comandos:
     cuando: Para trabajar (o tener dos sesiones de Claude) en paralelo sin mezclar ficheros.
     ejemplo: "git worktree add ../informe-b -b informe-b"
     resultado: "Preparing worktree (new branch 'informe-b')"
-    precauciones: Una rama solo puede estar activa en un worktree a la vez. `remove --force` borra cambios sin guardar.
+    precauciones: "Una rama solo puede estar activa en un worktree a la vez. `remove --force` borra cambios sin guardar. Dentro del sandbox de Claude Code, `add`, `move` y `remove` fallan (parte de `.git` es de solo lectura, desde 2.1.323): ejecútalos fuera."
     coste: local
     unidades: [C3, C8]
     fuente: https://git-scm.com/docs/git-worktree
     verificado_en: "git 2.55.0 · 23/10/2026"
     estado: verificado
+    nota: "Lo del sandbox: changelog 2.1.323, observado también en la sesión 2.1.330 (25/11/2026)."
 
   - id: git-push-pull
     tipo: git
@@ -418,12 +422,12 @@ comandos:
     que_hace: Imprime la versión instalada.
     cuando: Tras instalar o actualizar, y al declarar con qué versión verificaste algo.
     ejemplo: "claude --version"
-    resultado: "2.1.304 (Claude Code)"
-    precauciones: Ninguna.
+    resultado: "2.1.330 (Claude Code)"
+    precauciones: "Si hay varias instalaciones, informa de la primera del PATH (`which -a claude`, `where.exe claude`). La de la aplicación de escritorio o la extensión de VS Code puede ser otra: dentro de la sesión, `/status`."
     coste: local
     unidades: [C2, C4]
     fuente: https://code.claude.com/docs/en/setup.md
-    verificado_en: "Claude Code 2.1.304 (instalado) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.330 (instalado) · 25/11/2026"
     estado: verificado
 
   - id: claude-doctor
@@ -437,22 +441,24 @@ comandos:
     coste: local
     unidades: [C2, C4]
     fuente: https://code.claude.com/docs/en/cli-reference.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
     estado: verificado
+    nota: "Desde 2.1.331 incluye una comprobación de conectividad con la API (changelog). Descripción contrastada con `claude --help` 2.1.330."
 
   - id: claude-update
     tipo: cli
-    sintaxis: "claude update · claude install [versión|stable|latest]"
+    sintaxis: "claude update · claude install [versión|stable|latest] · brew upgrade claude-code · winget upgrade Anthropic.ClaudeCode"
     que_hace: Actualiza a la última versión, o instala una versión o canal concreto.
     cuando: Cuando quieras actualizar sin esperar a la actualización automática.
     ejemplo: "claude install stable"
     resultado: "Successfully updated from <antigua> to version <nueva>"
-    precauciones: Instalaciones con Homebrew, WinGet o apt no se actualizan solas; usa su gestor.
+    precauciones: "Instalaciones con Homebrew, WinGet o apt no se actualizan solas; usa su gestor (el cask `claude-code` es el canal estable; `claude-code@latest`, el más reciente)."
     coste: local
     unidades: [C2]
     fuente: https://code.claude.com/docs/en/setup.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
     estado: verificado
+    nota: "`update|upgrade` y `install [target]` constan en `claude --help` 2.1.330; no se ejecutaron (cambian la instalación)."
 
   - id: claude-auth
     tipo: cli
@@ -461,16 +467,17 @@ comandos:
     cuando: Al configurar el equipo o diagnosticar problemas de cuenta.
     ejemplo: "claude auth status --text"
     resultado: Método de autenticación y cuenta; código de salida 0 si hay sesión.
-    precauciones: Claude Code requiere plan Pro, Max, Team, Enterprise o cuenta de Console; el plan gratuito no lo incluye.
+    precauciones: Claude Code requiere plan Pro, Max, Team, Enterprise o cuenta de Console; el plan gratuito no lo incluye. La salida incluye datos de tu cuenta.
     coste: cuenta
     unidades: [C1, C2]
     fuente: https://code.claude.com/docs/en/cli-reference.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
     estado: verificado
+    nota: "Desde 2.1.318, `claude auth status` incluye `loginExpiresAt` (fin del inicio de sesión guardado); desde 2.1.332, `claude auth login` sale con 1 si no pudo guardar la sesión (changelog)."
 
   - id: claude-mcp
     tipo: cli
-    sintaxis: "claude mcp add [--transport http|stdio] [--scope local|project|user] nombre URL|-- comando · claude mcp list · claude mcp get nombre · claude mcp remove nombre"
+    sintaxis: "claude mcp add [--transport http|stdio] [--scope local|project|user] nombre URL|-- comando · claude mcp add-json [--scope …] nombre - · claude mcp list · claude mcp get nombre · claude mcp remove nombre"
     que_hace: Configura servidores MCP (conectores a herramientas externas).
     cuando: Para conectar Claude Code a un servicio o a un servidor local.
     ejemplo: "claude mcp add --transport stdio informes -- uv run servidor_informes.py"
@@ -479,22 +486,24 @@ comandos:
     coste: local
     unidades: [C7]
     fuente: https://code.claude.com/docs/en/mcp.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.330 (instalado) · 25/11/2026"
     estado: verificado
+    nota: "`add-json <nombre> -` lee el JSON del servidor por la entrada estándar (2.1.327); consta en `claude mcp add-json --help` 2.1.330, no ejecutado. Tareas MCP (trabajos largos del servidor) visibles en `/tasks`: la documentación pide 2.1.304 o posterior; el changelog las sitúa en la terminal en 2.1.319."
 
   - id: claude-plugin
     tipo: cli
-    sintaxis: "claude plugin install nombre@marketplace"
-    que_hace: Gestiona plugins (paquetes de skills, agentes, hooks y MCP). Alias `claude plugins`.
-    cuando: Para instalar extensiones mantenidas por terceros u oficiales.
-    ejemplo: "claude plugin install code-review@claude-plugins-official"
-    resultado: El plugin queda activo en sesiones nuevas.
-    precauciones: Un plugin puede traer hooks que ejecutan comandos; revisa su origen.
+    sintaxis: "claude plugin install nombre@marketplace · claude plugin validate [--strict] ruta · claude --plugin-dir ruta"
+    que_hace: Gestiona plugins (paquetes de skills, agentes, hooks y MCP). Alias `claude plugins`. `validate` comprueba el manifiesto; `--plugin-dir` carga un plugin solo para esa sesión.
+    cuando: Para instalar extensiones mantenidas por terceros u oficiales, o para probar uno propio antes de distribuirlo.
+    ejemplo: "claude plugin validate --strict ./mi-plugin"
+    resultado: El plugin queda activo en sesiones nuevas; `validate` informa de errores y avisos (con `--strict`, los avisos dan código 1).
+    precauciones: "Un plugin puede traer hooks que ejecutan comandos; revisa su origen. Declara en `plugin.json` las versiones compatibles con `engines[\"claude-code\"]` (2.1.323)."
     coste: local
     unidades: [C7]
-    fuente: https://code.claude.com/docs/en/cli-reference.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    fuente: https://code.claude.com/docs/en/plugins-reference.md
+    verificado_en: "Claude Code 2.1.330 (instalado) · 25/11/2026"
     estado: verificado
+    nota: "`plugin validate` y `--plugin-dir` constan en `claude --help` 2.1.330; la validación no se ejecutó."
 
   - id: claude-agents
     tipo: cli
@@ -518,12 +527,13 @@ comandos:
     cuando: En scripts, automatizaciones y CI.
     ejemplo: "cat error.log | claude -p \"explica la causa en dos frases\""
     resultado: El texto de la respuesta en la salida estándar; con `json`, campos como `result`, `session_id` y `total_cost_usd`.
-    precauciones: "Sin `--bare`, `-p` carga hooks y servidores MCP del proyecto sin diálogo de confianza. Desde 2.1.302 arranca en modo Manual: lo que pida permiso se deniega salvo reglas."
+    precauciones: "Sin `--bare`, `-p` carga hooks y servidores MCP del proyecto sin diálogo de confianza. Desde 2.1.302 arranca en modo Manual: lo que pida permiso se deniega salvo reglas. Para que nada se quede esperando: `--permission-mode dontAsk`, `--permission-prompts none` o `permissions.denyInsteadOfPrompting` (2.1.319, ajustes de usuario o gestionados)."
     coste: coste
     unidades: [C4, C8]
     fuente: https://code.claude.com/docs/en/headless.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.330 (instalado) · 25/11/2026"
     estado: verificado
+    nota: "Códigos de salida: la documentación solo fija 0 (éxito), distinto de 0 (fallo) y 143 (SIGTERM). Según el changelog sale con 1 al fallar el arranque (2.1.314), sin disco o cuota (2.1.317), cuando el modo auto rechaza acciones (2.1.319) y al escribir en un disco lleno (2.1.330). Comprobado con 2.1.330: una opción desconocida da `unknown option` y código 1."
 
   - id: opt-continue-resume
     tipo: opcion_cli
@@ -555,17 +565,18 @@ comandos:
 
   - id: opt-model-effort
     tipo: opcion_cli
-    sintaxis: "claude --model alias|nombre · claude --effort low|medium|high|xhigh|max"
-    que_hace: Elige modelo (`sonnet`, `opus`, `haiku`, `fable` o nombre completo) y nivel de esfuerzo para la sesión.
+    sintaxis: "claude --model alias|nombre · claude --effort low|medium|high|xhigh|max|ultracode"
+    que_hace: Elige modelo (alias `default`, `best`, `fable`, `opus`, `sonnet`, `haiku`, `sonnet[1m]`, `opus[1m]`, `opusplan`, o identificador completo) y nivel de esfuerzo para la sesión.
     cuando: Para equilibrar calidad, rapidez y consumo.
-    ejemplo: "claude --model sonnet"
-    resultado: La sesión usa ese modelo.
-    precauciones: Los niveles disponibles dependen del modelo; más esfuerzo, más consumo.
+    ejemplo: "claude --model sonnet --effort high"
+    resultado: La sesión usa ese modelo y ese esfuerzo.
+    precauciones: "Los niveles disponibles dependen del modelo; más esfuerzo, más consumo. `ultrathink` en un mensaje sube ese turno a `xhigh` (`CLAUDE_CODE_DISABLE_ULTRATHINK` lo desactiva)."
     coste: coste
     unidades: [C1, C4]
-    fuente: https://code.claude.com/docs/en/cli-reference.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    fuente: https://code.claude.com/docs/en/model-config.md
+    verificado_en: "Claude Code 2.1.330 (instalado) · 25/11/2026"
     estado: verificado
+    nota: "`--effort` lista `low, medium, high, xhigh, max` en `claude --help` 2.1.330; `ultracode` consta en cli-reference.md (2.1.332). Desde 2.1.321, la elección guardada de Fable 5.1 pasa al alias `fable`."
 
   - id: opt-permission-mode
     tipo: opcion_cli
@@ -578,9 +589,9 @@ comandos:
     coste: cuenta
     unidades: [C4]
     fuente: https://code.claude.com/docs/en/permission-modes.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.330 (instalado) · 25/11/2026"
     estado: verificado
-    nota: Desde 2.1.283 las sesiones interactivas arrancan en `auto` por defecto; `claude -p` en `default`/Manual.
+    nota: "Desde 2.1.283 las sesiones interactivas de terminal y VS Code arrancan en `auto` por defecto; `claude -p` y el SDK, en `default` (se muestra como *Manual*; `manual` es alias). Con 2.1.330 se comprobó que `--permission-mode default` y `manual` se aceptan; `--help` lista acceptEdits, auto, bypassPermissions, manual, dontAsk, plan."
 
   - id: opt-allowed-tools
     tipo: opcion_cli
@@ -645,12 +656,13 @@ comandos:
     cuando: En automatizaciones, como freno de seguridad.
     ejemplo: "claude -p --max-turns 3 \"consulta\""
     resultado: Termina con error al alcanzar el límite.
-    precauciones: El presupuesto es una estimación local y puede superarse; deja margen.
+    precauciones: El presupuesto es una estimación local y puede superarse; deja margen. Las dos opciones solo funcionan con `-p`.
     coste: coste
-    unidades: [C8, C9]
+    unidades: [C4, C8, C9]
     fuente: https://code.claude.com/docs/en/cli-reference.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.330 (instalado) · 25/11/2026"
     estado: verificado
+    nota: "`--max-turns` no aparece en `claude --help` 2.1.330, pero el binario lo acepta (una opción inexistente da «unknown option») y cli-reference.md lo documenta («print mode only»)."
 
   - id: opt-skip-permissions
     tipo: opcion_cli
@@ -716,12 +728,13 @@ comandos:
     cuando: Para revisar qué puede hacer Claude sin preguntar.
     ejemplo: "/permissions"
     resultado: Diálogo con las reglas por ámbito.
-    precauciones: Una regla `allow` amplia (`Bash`) equivale a renunciar al control de la shell.
+    precauciones: "Una regla `allow` amplia (`Bash`) equivale a renunciar al control de la shell. El `*` va después del subcomando: `Bash(git status *)`, no `Bash(git -C * status *)`, que también casa con opciones como `-c`."
     coste: local
     unidades: [C4, C7]
-    fuente: https://code.claude.com/docs/en/commands.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    fuente: https://code.claude.com/docs/en/permissions.md
+    verificado_en: "Claude Code 2.1.330 (instalado) · 25/11/2026"
     estado: verificado
+    nota: "Desde 2.1.314, pestaña *Recently blocked* con lo que bloqueó el modo `auto`. Ajustes relacionados: `permissions.blockWritesOutsideWorkingDirectories` (2.1.314) y `permissions.denyInsteadOfPrompting` (2.1.319). Al arrancar, 2.1.330 avisa de reglas `allow` con comodines peligrosos (observado el 25/11/2026)."
 
   - id: i-model
     tipo: interactivo
@@ -733,8 +746,23 @@ comandos:
     precauciones: Al cambiar, la siguiente petición relee la conversación sin caché.
     coste: coste
     unidades: [C1, C4]
+    fuente: https://code.claude.com/docs/en/model-config.md
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
+    estado: verificado
+    nota: "Desde 2.1.321 los modelos antiguos están bajo «More models» y Fable 5.2 es el Fable por defecto. Ningún Fable es el modelo predeterminado de un plan."
+
+  - id: i-effort
+    tipo: interactivo
+    sintaxis: "/effort [low|medium|high|xhigh|max|auto|status]"
+    que_hace: Fija, borra (`auto`) o muestra (`status`) el nivel de esfuerzo de la sesión.
+    cuando: Para subir el esfuerzo en una tarea difícil o bajarlo en tareas rutinarias.
+    ejemplo: "/effort high"
+    resultado: El esfuerzo nuevo se aplica a los turnos siguientes.
+    precauciones: Los niveles disponibles dependen del modelo; `max` solo dura la sesión.
+    coste: coste
+    unidades: [C4]
     fuente: https://code.claude.com/docs/en/commands.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
     estado: verificado
 
   - id: i-clear
@@ -874,9 +902,9 @@ comandos:
     coste: local
     unidades: [C4, C9]
     fuente: https://code.claude.com/docs/en/commands.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
     estado: cambiado
-    nota: "`/cost` existe, pero hoy es alias de `/usage`."
+    nota: "`/cost` existe, pero hoy es alias de `/usage`. Los avisos llaman *5-hour limit* a la ventana de cinco horas desde 2.1.312 (antes, *session limit*)."
 
   - id: i-agents
     tipo: interactivo
@@ -914,11 +942,40 @@ comandos:
     cuando: Para comprobar qué automatismos están activos.
     ejemplo: "/hooks"
     resultado: Hooks por evento y origen.
-    precauciones: Ninguna.
+    precauciones: "Un hook que falla deja pasar la acción salvo que lleve `\"onFailure\": \"block\"`."
     coste: local
     unidades: [C7]
+    fuente: https://code.claude.com/docs/en/hooks.md
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
+    estado: verificado
+    nota: "Novedades: evento `PreSkillShellCommand` (2.1.332; bloquea las órdenes `!` de una skill al cargarla); campo `onFailure` (`continue`|`block`) en hooks command/http y, desde 2.1.328, mcp_tool; campo `shell` (`bash`|`powershell`); el matcher `Bash` también se aplica a Monitor (2.1.314). Hooks prompt/agent simultáneos: 12 según hooks.md, 24 según el changelog de 2.1.312."
+
+  - id: i-tasks
+    tipo: interactivo
+    sintaxis: "/tasks"
+    que_hace: Lista el trabajo en segundo plano de la sesión (subagentes, también los terminados, órdenes de shell y tareas MCP) y permite pararlo.
+    cuando: Para saber qué sigue en marcha antes de cerrar o cuando algo tarda.
+    ejemplo: "/tasks"
+    resultado: Lista de tareas con su estado.
+    precauciones: Parar una tarea puede dejar su trabajo a medias.
+    coste: local
+    unidades: [C7, C8]
     fuente: https://code.claude.com/docs/en/commands.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
+    estado: verificado
+
+  - id: i-loop
+    tipo: interactivo
+    sintaxis: "/loop [intervalo] [prompt]"
+    que_hace: Repite un prompt mientras la sesión sigue abierta, cada cierto intervalo o al ritmo que decide Claude.
+    cuando: Para vigilar algo durante una sesión (unas pruebas, un proceso largo); para tareas que deben sobrevivir al cierre, un planificador del sistema o tareas en la nube.
+    ejemplo: "/loop 10m comprueba si han terminado las pruebas"
+    resultado: El prompt se ejecuta periódicamente.
+    precauciones: Cada vuelta consume uso. Las tareas recurrentes caducan a los 30 días (antes 7; 2.1.330); sin intervalo, el bucle termina si una vuelta no programa la siguiente (2.1.319).
+    coste: coste
+    unidades: [C8]
+    fuente: https://code.claude.com/docs/en/scheduled-tasks.md
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
     estado: verificado
 
   - id: i-skills
@@ -981,18 +1038,18 @@ comandos:
   # ───────────────────────── Skills incluidas ─────────────────────────
   - id: s-code-review
     tipo: skill
-    sintaxis: "/code-review [low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|rama|ruta] (alias /review)"
-    que_hace: Revisa el diff actual (o un PR, rama o ruta) buscando errores de corrección.
+    sintaxis: "/code-review [low|medium|high|xhigh|max|ultra] [--fix] [--comment] [--max-findings n] [pr#|rama|ruta] (alias /review)"
+    que_hace: Revisa el diff actual (o un PR, rama o ruta) buscando errores de corrección; solo informa, salvo con `--fix`.
     cuando: Antes de hacer commit o abrir un PR.
-    ejemplo: "/code-review medium"
+    ejemplo: "/code-review medium main..HEAD"
     resultado: Lista de hallazgos; con `--fix` los aplica.
-    precauciones: "`ultra` lanza una revisión multiagente en la nube y se factura aparte. `--comment` publica en el PR."
+    precauciones: "`ultra` lanza una revisión multiagente en la nube y se factura aparte. `--comment` publica en el PR. Qué revisa sin objetivo varía entre fuentes: indica un rango explícito."
     coste: coste
     unidades: [C5]
-    fuente: https://code.claude.com/docs/en/commands.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    fuente: https://code.claude.com/docs/en/code-review-local.md
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
     estado: cambiado
-    nota: "`/review` existe, pero hoy es alias de la skill `/code-review`."
+    nota: "`/review` es alias de la skill `/code-review`. Sin objetivo: code-review-local.md dice commits por delante de la rama remota más cambios sin confirmar; el changelog de 2.1.329, toda la rama frente a la rama por defecto (y `gh pr diff` con número de PR)."
 
   - id: s-security-review
     tipo: interactivo
@@ -1001,11 +1058,11 @@ comandos:
     cuando: Antes de integrar cambios que tocan entradas, autenticación o datos.
     ejemplo: "/security-review"
     resultado: Riesgos encontrados (inyección, exposición de datos…).
-    precauciones: Necesita un remoto `origin`. No sustituye una auditoría.
+    precauciones: Necesita un remoto `origin`. No sustituye una auditoría. Desde 2.1.323 pide confirmación antes de que Claude lo ejecute por su cuenta.
     coste: coste
     unidades: [C5]
     fuente: https://code.claude.com/docs/en/commands.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
     estado: verificado
 
   - id: s-doctor
@@ -1026,7 +1083,7 @@ comandos:
   - id: a-shift-tab
     tipo: atajo
     sintaxis: "Mayús+Tab"
-    que_hace: Recorre los modos de permisos (Auto, Manual, Aceptar ediciones, Plan).
+    que_hace: "Recorre los modos de permisos: desde `auto` pasa a Manual (`default`) y luego cicla Manual → Aceptar ediciones → Plan. `dontAsk` nunca entra en el ciclo."
     cuando: Para pasar a modo plan antes de un cambio grande.
     ejemplo: "Mayús+Tab hasta ver «plan mode on»"
     resultado: El indicador de modo cambia bajo la caja de texto.
@@ -1034,7 +1091,7 @@ comandos:
     coste: local
     unidades: [C4]
     fuente: https://code.claude.com/docs/en/permission-modes.md
-    verificado_en: "Claude Code 2.1.309 (doc) · 23/10/2026"
+    verificado_en: "Claude Code 2.1.332 (doc) · 25/11/2026"
     estado: verificado
 
   - id: a-esc
