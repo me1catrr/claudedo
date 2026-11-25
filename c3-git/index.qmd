@@ -475,11 +475,13 @@ copian**, así que cada worktree necesita su propia preparación; y elimina los 
 ### C3.10 Worktrees y Claude Code {#c3-10}
 
 Claude Code integra los worktrees para ejecutar **sesiones en paralelo aisladas**
-[@anthropic-worktrees]. Según su documentación (versión 2.1.309, consultada el 23-10-2026):
+[@anthropic-worktrees]. Según su documentación (consultada el 25-11-2026, con la versión 2.1.332 como última publicada):
 
 - `claude --worktree nombre` (o `-w`) crea un worktree en `.claude/worktrees/<nombre>/`, en una rama nueva `worktree-<nombre>`, y arranca Claude allí. Conviene añadir `.claude/worktrees/` al `.gitignore`.
 - Para llevar a cada worktree ficheros ignorados como `.env`, se lista en un fichero **`.worktreeinclude`** (con sintaxis de `.gitignore`); solo se copian los que además están ignorados.
-- Al salir, si el worktree está limpio y la sesión no tiene nombre, se elimina; si tiene trabajo, **te pregunta** si conservarlo o borrarlo (borrarlo elimina también la rama con su trabajo).
+- Al salir de una sesión interactiva, Claude Code comprueba si borrar el worktree haría perder trabajo (ficheros cambiados o sin seguimiento, commits nuevos). Si está limpio y la sesión no tiene nombre, lo elimina con su rama; si la sesión tiene nombre, pregunta antes. Si tiene trabajo, o no puede comprobar su estado, **te pregunta** si conservarlo o borrarlo (borrarlo elimina también la rama con su trabajo).
+- También puedes pedir en plena sesión «trabaja en un worktree»: Claude lo crea con la herramienta `EnterWorktree` y sale con `ExitWorktree`. Según el registro de cambios, desde la versión 2.1.327 `ExitWorktree` **pregunta antes de borrar** un worktree con trabajo sin guardar [@anthropic-changelog]; aun así, haz commit de lo que quieras conservar antes de pedirle que salga.
+- Las ejecuciones no interactivas (`claude -p`) no preguntan al salir ni limpian: el worktree queda en disco y lo quitas tú con `git worktree remove` (si Git dice que está bloqueado, antes `git worktree unlock`).
 - Las sesiones aisladas bloquean ediciones y comandos de Git que apunten al directorio principal; los comandos de shell como `cp` o una redirección **no** se controlan así y siguen sujetos a tus permisos.
 - Los **subagentes** pueden ejecutarse cada uno en su worktree (`isolation: worktree`); esto se ve en C7 y C8.
 - `claude --worktree "#1234"` crea el worktree a partir de una *pull request*.
@@ -488,6 +490,16 @@ Los worktrees aíslan **ficheros**: no son lo mismo que los subagentes (que repa
 una sesión) ni que los equipos de agentes (experimentales). Tampoco sustituyen a los permisos:
 cada sesión sigue pidiendo confirmación según su configuración.
 
+::: {.callout-warning title="Worktrees y sandbox"}
+Si activas el **sandbox** de Claude Code (C8), Git sigue funcionando *dentro* de un worktree que ya
+existe: `git commit`, por ejemplo, funciona si la sesión arranca en la raíz del worktree
+[@anthropic-sandbox]. Lo que falla es **gestionar** worktrees: según el registro de cambios de la
+2.1.323, `git worktree add`, `move` y `remove` fallan dentro del sandbox porque parte de `.git` queda
+de solo lectura [@anthropic-changelog]. Coincide con lo observado en el entorno de redacción (2.1.330):
+el fallo llega a mitad de la operación. Ejecútalos **fuera del sandbox**: en tu propia terminal, o
+aprobando que Claude repita esa orden sin sandbox cuando te lo proponga.
+:::
+
 **Pon a prueba lo anterior.**
 
 ::: {.ejercicio tipo="vf" id="c3-10-copia" respuesta="falso"}
@@ -495,6 +507,14 @@ Un worktree nuevo contiene automáticamente tu fichero `.env` y tu entorno virtu
 
 ::: {.solucion}
 **Falso.** Un worktree es una copia limpia de lo versionado. Los ficheros ignorados no se copian salvo que los listes en `.worktreeinclude` (en worktrees creados por Claude Code), y el entorno hay que preparar cada vez.
+:::
+:::
+
+::: {.ejercicio tipo="vf" id="c3-10-salida" respuesta="falso"}
+Al salir de una sesión iniciada con `claude --worktree`, Claude Code conserva siempre el worktree si tiene cambios sin confirmar, así que no hace falta hacer commit antes.
+
+::: {.solucion}
+**Falso.** Si hay trabajo, Claude Code **pregunta** si conservarlo o borrarlo, y borrarlo elimina la carpeta y la rama con todo lo que contienen. Además, con `claude -p` no hay pregunta. Haz commit de lo que quieras conservar y lee la pregunta antes de responder.
 :::
 :::
 
@@ -636,5 +656,5 @@ Documentación consultada el 23-10-2026: [Pro Git (historia)](https://git-scm.co
 [Git: `git-worktree`](https://git-scm.com/docs/git-worktree), GitHub Docs sobre
 [*pull requests*](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
 y [GitHub Actions](https://docs.github.com/en/actions/get-started/quickstart), y la documentación de
-Claude Code sobre [worktrees](https://code.claude.com/docs/en/worktrees) y
+Claude Code sobre [worktrees](https://code.claude.com/docs/en/worktrees) (de nuevo el 25-11-2026) y
 [puntos de control](https://code.claude.com/docs/en/checkpointing).

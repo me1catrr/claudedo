@@ -340,7 +340,7 @@ anchura del pico (con ζ = 0,015, la anchura a media potencia es ≈ 2ζf = 0,38
 **Notas de uso comprobadas.**
 
 - **Primera ejecución más lenta:** Julia compila y precompila; en el PDF de la primera vez pueden colarse los mensajes de «Precompiling». Vuelve a renderizar o añade `#| output: false`.
-- **PDF:** requiere una distribución de **LaTeX** (TeX Live o TinyTeX); el renderizado de prueba usó la TeX Live instalada. Con `lang: es` y el modo matemático, un `\%` pegado a un espacio fino (`\,\%`) rompió la compilación: escribe `0{,}015` en lugar de `1{,}5\,\%`.
+- **PDF:** requiere una distribución de **LaTeX** (TeX Live o TinyTeX); el renderizado de prueba usó la TeX Live instalada. Con `lang: es` y el modo matemático, un `\%` pegado a un espacio fino (`\,\%`) rompió la compilación: escribe `0{,}015` en lugar de `1{,}5\,\%`. Quarto puede producir PDF también con **Typst** (`format: typst`, que trae incluido) en lugar de LaTeX, según su [documentación](https://quarto.org/docs/output-formats/typst.html) (consultada el 25-11-2026); este curso no lo usa ni lo ha probado.
 - **Caracteres Unicode en listados de código** (por ejemplo `π`) pueden perderse en el PDF; si muestras código, comprueba el resultado.
 - **Decimales:** Julia imprime `20.48` (punto); para que el informe diga `20,48` formatea el número al insertarlo.
 - Para que Quarto encuentre `CairoMakie` y el resto, el `.qmd` debe estar **dentro de un árbol con `Project.toml`** (o configurar `--project` en `julia: exeflags`); fuera, falló con *Package CairoMakie not found*.

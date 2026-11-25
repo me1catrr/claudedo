@@ -8,7 +8,7 @@ perfil: [estudiante, uco, planta]
 estado: borrador
 nivel: intermedio
 verificado:
-  claude-code: "2.1.306"
+  claude-code: "2.1.330"
   julia: "1.12.3"
 format:
   html:
@@ -31,17 +31,22 @@ import {evaluar, REGLAS_EJEMPLO} from "../recursos/js/componentes/permisos.js"
 
 - explicar qué es Claude Code y en qué se diferencia de un chat: el **bucle** de reunir contexto, actuar y verificar;
 - instalarlo, autenticarte y arrancar una sesión en un proyecto, en macOS o en Windows;
-- elegir un **modo de permisos** y leer una **regla de permisos**; entender qué propone ejecutar antes de aprobarlo;
-- gestionar el contexto (`/context`, `/compact`, `/clear`, `/resume`, `/rewind`) y controlar el coste;
+- elegir un **modo de permisos**, saber con cuál arranca la sesión, y leer y escribir una **regla de permisos** segura; entender qué propone ejecutar antes de aprobarlo;
+- gestionar el contexto (`/context`, `/compact`, `/clear`, `/resume`, `/rewind`) y controlar el coste eligiendo modelo y nivel de esfuerzo;
 - escribir un buen **`CLAUDE.md`** y distinguir lo persistente de lo temporal;
 - recuperarte de un error con Git y con los puntos de control.
 
 **Prerrequisitos.** [C2](../c2-terminal/index.qmd) (terminal, PATH, permisos) y [C3](../c3-git/index.qmd) (ramas, diff, restauración). Es la unidad que une las dos.
 
-**Tiempo orientativo.** 6–8 horas. **Nivel:** intermedio. **Herramientas:** Claude Code (2.1.306 instalado y 2.1.309 documentado en la redacción) y una cuenta compatible.
+**Tiempo orientativo.** 6–8 horas. **Nivel:** intermedio. **Herramientas:** Claude Code (redactada con 2.1.306 y la documentación de 2.1.309; revisada el 25-11-2026 con la documentación de 2.1.332 y comprobaciones con el binario 2.1.330) y una cuenta compatible.
 
 ::: {.callout-note title="Qué se ha comprobado y qué no"}
 Esta unidad se escribió con la documentación oficial de Claude Code (versión 2.1.309, consultada el 23-10-2026) y se contrastó con la instalación local (2.1.306): existen todas las opciones y subcomandos que se citan aquí (`claude --help`) y `claude doctor` funciona. **No** se ha ejecutado ninguna sesión interactiva completa durante la redacción (requiere cuenta y red), de modo que los ejemplos de conversación son **ilustrativos**. Los comandos, atajos y ajustes **cambian de versión en versión**: el registro del curso (`comandos.yml`) y la [hoja de consulta](../hoja-consulta.qmd) indican la versión contra la que se verificó cada uno.
+
+**Revisión del 25-11-2026.** Los apartados C4.3 (permisos y modos) y C4.7 (coste, límites y modelos) y la tabla de C4.9
+se actualizaron con la documentación vigente y el changelog hasta la versión 2.1.332. Lo que se presenta como
+«comprobado» se ejecutó con Claude Code 2.1.330 (sin sesión interactiva completa); lo que solo consta en el changelog
+se indica como tal.
 :::
 
 **Temas de la unidad**
@@ -155,31 +160,98 @@ Con una cuenta del plan gratuito de la aplicación Claude puedes usar Claude Cod
 ### C4.3 Permisos, modos y confirmaciones: entender lo que se propone ejecutar {#c4-3}
 
 Claude Code **pide permiso** antes de actuar, y tú decides cuánta autonomía darle con el **modo de permisos**
-[@anthropic-modos]:
+[@anthropic-modos]. La idea de fondo no depende de la versión: cuanto más autónomo es el modo, menos te
+interrumpe y más descansas en las otras defensas (reglas, *sandbox*, Git y tu revisión del diff). Los nombres
+y el comportamiento concreto de cada modo sí cambian; esta tabla sigue la documentación consultada el 25-11-2026:
 
-| Modo | Se ejecuta sin preguntar | Para qué |
+| Modo (valor que se escribe) | Se ejecuta sin preguntar | Para qué |
 |---|---|---|
-| `default` (manual) | Solo lecturas | Revisar cada acción |
-| `acceptEdits` | Lecturas, ediciones y órdenes básicas de ficheros (`mkdir`, `cp`, `mv`, `rm`, `sed`…) dentro del directorio de trabajo | Iterar sobre código que vas a revisar |
-| `plan` | Lecturas (propone, no edita hasta que apruebes el plan) | Explorar antes de tocar nada |
-| `auto` | Casi todo, con un clasificador que revisa en segundo plano | Tareas largas, menos interrupciones |
-| `dontAsk` | Solo lo que ya está permitido; lo demás se deniega | Automatización cerrada |
-| `bypassPermissions` | Todo, sin comprobaciones | **Solo contenedores o máquinas virtuales aisladas** |
+| `default` (la interfaz lo llama *Manual*) | Lecturas dentro de las carpetas de trabajo | Revisar cada acción |
+| `acceptEdits` | Lo anterior, más ediciones y órdenes comunes de ficheros (`mkdir`, `touch`, `cp`, `mv`…) dentro de las carpetas de trabajo | Iterar sobre código que vas a revisar |
+| `plan` | Lecturas y órdenes de solo lectura (y, si `auto` está disponible, las que aprueba su clasificador); propone, no edita tu código hasta que apruebes el plan | Explorar antes de tocar nada |
+| `auto` | Casi todo; un clasificador revisa en segundo plano cada acción antes de ejecutarla | Tareas largas, menos interrupciones |
+| `dontAsk` | Solo lo que ya permiten tus reglas; todo lo que preguntaría **se deniega** | Automatización cerrada |
+| `bypassPermissions` | Todo, sin preguntar | **Solo contenedores o máquinas virtuales aisladas** |
 
-Se cambia con **Mayús+Tab** en la sesión (el ciclo habitual es `default` → `acceptEdits` → `plan`),
-con `claude --permission-mode plan` al arrancar, o con `/plan`. Pautas de este curso: **`plan` para explorar,
-`default` o `acceptEdits` para trabajar**; `auto` solo cuando entiendes la tarea y puedes revisar el diff
-después; **`bypassPermissions` (y `--dangerously-skip-permissions`) nunca en tu equipo**, y la documentación indica que ni siquiera
-protege `.git` ni `.claude`.
+Las reglas `deny` (más abajo) bloquean en **todos** los modos, incluido `bypassPermissions` [@anthropic-permisos].
+
+**Con qué modo empieza una sesión.** Según la documentación, desde Claude Code 2.1.283:
+
+- En la **terminal** y en **VS Code**, una sesión nueva empieza en **`auto`**, en todos los planes. Si no cambias
+  nada, quien decide antes de cada orden es el clasificador, no tú.
+- En modo no interactivo (`claude -p`, C8) y con el Agent SDK, empieza en `default`: lo que necesitaría
+  aprobación se deniega salvo que una regla lo permita.
+- **Cómo comprobarlo:** la barra de estado indica el modo activo: `⏵⏵ auto mode on`, `⏸ manual mode on`,
+  `⏵⏵ accept edits on`, `⏸ plan mode on`, `⏵⏵ don't ask on` o `⏵⏵ bypass permissions on`.
+
+**Cómo se cambia.**
+
+- **Mayús+Tab** en la sesión. Desde `auto`, la primera pulsación pasa a `default` (*Manual*); después el ciclo
+  es `default` → `acceptEdits` → `plan` y vuelve a `auto` (si tienes habilitado `bypassPermissions`, aparece
+  justo después de `plan`). `dontAsk` **nunca** entra en el ciclo: solo se elige al arrancar.
+- **Al arrancar**, con `claude --permission-mode plan`. La opción acepta `default`, `acceptEdits`, `plan`,
+  `auto`, `dontAsk`, `bypassPermissions` y `manual`, alias de `default` [@anthropic-cli]. Comprobado con Claude
+  Code 2.1.330: `claude --help` lista `manual` en lugar de `default`, y las dos formas se aceptan.
+- **`/plan`** entra directamente en el modo `plan` (con una descripción, empieza ya la tarea: `/plan revisa analiza.py`).
+- **Para todas tus sesiones**, fija `permissions.defaultMode` en tus ajustes de usuario
+  (`~/.claude/settings.json`). Con este ejemplo, la sesión siguiente arranca en *Manual*:
+
+  ```json
+  {
+    "permissions": {
+      "defaultMode": "default"
+    }
+  }
+  ```
+
+  Por seguridad, `auto` y `bypassPermissions` no surten efecto si se escriben en los ajustes del proyecto
+  (`.claude/settings.json` o `.claude/settings.local.json`): un repositorio ajeno no puede darse más autonomía
+  a sí mismo [@anthropic-modos].
+
+**Pautas de este curso.** **`plan` para explorar, *Manual* o `acceptEdits` para trabajar** mientras aprendes;
+`auto` cuando entiendes la tarea y vas a revisar el diff después. Como `auto` es el modo inicial, **mira la barra
+de estado al empezar** y pulsa Mayús+Tab una vez si quieres ver cada orden antes de que se ejecute: en esta unidad
+el objetivo es aprender a leer lo que se propone, y para eso tiene que enseñártelo. **`bypassPermissions` (y
+`--dangerously-skip-permissions`, que equivale a él) nunca en tu equipo**: la documentación indica que ni siquiera
+pide confirmación para escribir en `.git` o `.claude`.
 
 **Reglas de permisos.** Además del modo, puedes fijar reglas en los ajustes (`/permissions` las muestra):
 
 - Tienen la forma `Herramienta(patrón)`: `Bash(git status *)`, `Read(./.env)`, `Edit(./datos/**)`.
 - Se evalúan **en este orden: `deny` → `ask` → `allow`**; gana la primera que casa, sin importar lo específica que sea [@anthropic-permisos].
-- El comodín `*` casa cualquier cadena. Una regla de lectura o edición de ficheros (`Read`, `Edit`) se aplica a las herramientas de Claude **y** a órdenes de shell que reconoce (como `cat`).
+- El comodín `*` casa cualquier cadena, espacios incluidos. Una regla de lectura o edición de ficheros (`Read`, `Edit`) se aplica a las herramientas de Claude **y** a órdenes de shell que reconoce (como `cat`).
+- **El `*` va después del subcomando.** Claude Code compara al pie de la letra todo lo que hay antes del primer `*`, y eso
+  es lo que limita la regla: `Bash(git log *)` permite solo `git log`; `Bash(git *)`, cualquier orden de Git. El espacio
+  también cuenta: `Bash(ls *)` no casa con `lsof`, pero `Bash(ls*)` sí [@anthropic-permisos].
 - **Límites importantes:** las reglas de Bash que intentan **restringir argumentos** (por ejemplo, «curl solo a GitHub») son
   **frágiles**: la documentación advierte de que no cubren variaciones. La defensa de fondo es el **sandbox** y no dar
   más permiso del necesario.
+
+::: {.callout-note title="Ejemplo: un comodín mal colocado"}
+Quieres que Claude consulte sin preguntar el estado de un repositorio situado en otra carpeta, y añades a los
+ajustes esta regla `allow`:
+
+```json
+{ "permissions": { "allow": ["Bash(git -C * status *)"] } }
+```
+
+La intención era «`git -C <carpeta> status`». Pero lo único fijo es `git -C`; el primer `*` acepta **cualquier**
+texto, también opciones de Git como `-c` (que fija una variable de configuración, y algunas indican un programa que
+Git ejecutará) o `--exec-path`. Una orden como `git -C . -c core.fsmonitor=<programa> status` casaría con la regla y
+se ejecutaría sin preguntarte.
+
+**Qué hace Claude Code.** Al arrancar avisa de las reglas `allow` con un `*` delante del subcomando
+[@anthropic-permisos]. Lo hemos observado con Claude Code 2.1.330: con esa regla, el aviso explica que el `*` también
+casa con opciones como `-c` o `--exec-path`, capaces de ejecutar órdenes arbitrarias, y propone `Bash(git status *)`.
+
+**Cómo se corrige.** Escribe la orden tal como quieres permitirla y pon el `*` solo al final, en lo que varía:
+`Bash(git status *)`. Si necesitas trabajar en otra carpeta, añádela como carpeta de trabajo (`/add-dir` o
+`claude --add-dir <ruta>`) en lugar de colarla con `-C`.
+
+**Cómo compruebas que funciona.** Sal y vuelve a arrancar `claude` en el proyecto: con la regla corregida, el aviso
+ya no aparece, y `/permissions` muestra la regla nueva.
+
+:::
 
 **Simulación 3. Evaluar una orden con las reglas.** Este es un modelo **simplificado** (solo reglas Bash; véase la nota
 del módulo) con parte de las reglas **reales** de este proyecto. Prueba órdenes y observa qué regla decide.
@@ -209,17 +281,37 @@ En concreto:
 - Un «sí, y no preguntes más» **crea una regla permanente** para ese comando en este repositorio: úsalo solo con órdenes inocuas y específicas.
 - Si no entiendes la orden, **pide que te la explique** o rechaza y reformula. Puedes preguntar «¿qué hace exactamente esa orden y qué pasaría si falla?»
 
-::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.314 · por incorporar"}
-- **Un ajuste nuevo**, `permissions.blockWritesOutsideWorkingDirectories`: con él, las
-  herramientas `Write`, `Edit` y `NotebookEdit` rechazan rutas fuera de las carpetas de trabajo
-  **en cualquier modo de permisos** [@anthropic-changelog].
-- **`/permissions` tiene una pestaña nueva**, *Recently blocked*, para revisar las llamadas que
-  bloqueó el modo `auto`. No deja aprobar una llamada que no puedas leer completa, ni siquiera
-  cuando la terminal es demasiado baja para mostrarla.
+**Revisar lo que bloqueó el modo `auto`.** Cuando el clasificador bloquea una acción, Claude Code te avisa y la
+anota en la pestaña *Recently blocked* («bloqueadas recientemente») de `/permissions` (desde Claude Code 2.1.314).
+Ahí la lees y, si es legítima, la apruebas para que Claude pueda reintentarla; según el changelog, no deja aprobar
+una llamada que no se pueda mostrar completa [@anthropic-changelog]. Además, `auto` no insiste sin fin: tras 3
+bloqueos seguidos o 20 en total se detiene y vuelve a preguntarte [@anthropic-modos]. Muchos bloqueos seguidos son
+una señal para parar y reformular la tarea, no para aprobar en bloque.
 
-[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
-contrastó con la 2.1.309.]{.novedad-estado}
-:::
+**Ajustes que endurecen los límites.** Dos claves de `permissions` que conviene conocer:
+
+- **`blockWritesOutsideWorkingDirectories`** (desde Claude Code 2.1.314). Con `true`, las herramientas de ficheros de
+  Claude (`Write`, `Edit` y `NotebookEdit`) rechazan escribir fuera de las carpetas de trabajo **en cualquier modo**,
+  incluido `bypassPermissions`; mientras está activa, también rechazan escribir en ficheros de ajustes. **No** limita
+  las órdenes de shell, los servidores MCP ni los programas que lanzan los *hooks*: para eso está el *sandbox*
+  (C8.8) [@anthropic-permisos; @anthropic-sandbox]. Su pareja, `blockReadsOutsideWorkingDirectories`, hace lo mismo
+  con las lecturas.
+
+  ```json
+  {
+    "permissions": {
+      "blockWritesOutsideWorkingDirectories": true
+    }
+  }
+  ```
+
+  *Cómo comprobarlo:* pide a Claude que cree un fichero de prueba en una carpeta temporal fuera del proyecto. La
+  herramienta de escritura lo rechaza; si entonces Claude propone hacerlo con una orden de shell (`cp`, `echo >`…),
+  verás justamente el límite del ajuste: esa orden no la cubre, y en modo *Manual* te pedirá permiso.
+- **`denyInsteadOfPrompting`** (desde Claude Code 2.1.319). Con `true` en tus ajustes de usuario o gestionados, lo
+  que esperaría tu confirmación se deniega y la sesión sigue. A diferencia de `dontAsk`, no es un modo: funciona con
+  el modo que tengas [@anthropic-permisos]. Está pensado para sesiones desatendidas (C8.1 y C8.8); en una sesión en
+  la que estás delante, prefieres que te pregunte.
 
 **Pon a prueba lo anterior.**
 
@@ -244,6 +336,57 @@ Se bloquea. El orden es `deny` → `ask` → `allow`; la especificidad no cambia
 ::: {.solucion}
 **Falso.** Desactiva las comprobaciones, incluidas las de rutas protegidas como `.git`; la documentación lo reserva a contenedores o máquinas virtuales aislados. En tu equipo, el modo `auto` o `acceptEdits` más una revisión del diff dan velocidad sin renunciar al control.
 :::
+:::
+
+::: {.ejercicio tipo="vf" id="c4-3-arranque" respuesta="falso"}
+Si abres una sesión nueva de Claude Code en la terminal sin haber cambiado ningún ajuste, empieza en modo *Manual* (`default`) y te pregunta antes de cada orden de shell.
+
+::: {.solucion}
+**Falso** según la documentación vigente: desde Claude Code 2.1.283, en la terminal y en VS Code la sesión empieza en `auto`, y un clasificador decide en tu lugar. Lo compruebas en la barra de estado (`⏵⏵ auto mode on`); una pulsación de Mayús+Tab pasa a *Manual*, y `permissions.defaultMode` en tus ajustes de usuario cambia el modo inicial. Quien arranca en `default` es `claude -p`.
+
+:::
+
+:::
+
+::: {.ejercicio tipo="opcion" id="c4-3-comodin" respuesta="c"}
+Quieres que Claude consulte el estado de Git sin preguntarte, y nada más. ¿Qué regla `allow` escribes?
+
+::: {.opciones}
+- `Bash(git -C * status *)`
+- `Bash(git * status)`
+- `Bash(git status *)`
+- `Bash(git*)`
+
+:::
+
+::: {.pista}
+Lo que hay antes del primer `*` es lo único que se compara al pie de la letra.
+
+:::
+
+::: {.solucion}
+`Bash(git status *)`. En las otras, el `*` va antes del subcomando (o lo sustituye) y casa con opciones como `-c` o `--exec-path`, que pueden hacer que Git ejecute otro programa; `Bash(git*)` permite cualquier orden que empiece por «git», incluidas `git push` y `gitk`. Claude Code avisa al arrancar de las reglas `allow` con un `*` delante del subcomando.
+
+:::
+
+:::
+
+::: {.ejercicio tipo="opcion" id="c4-3-fuera" respuesta="d"}
+Activas `permissions.blockWritesOutsideWorkingDirectories`. ¿Cuál de estas escrituras fuera del proyecto **no** queda bloqueada por ese ajuste?
+
+::: {.opciones}
+- Una edición con la herramienta `Edit`.
+- Un fichero nuevo creado con la herramienta `Write`.
+- Un cambio en un cuaderno con `NotebookEdit`.
+- Una orden de shell `cp informe.csv /tmp/` (Windows: `Copy-Item informe.csv $env:TEMP`).
+
+:::
+
+::: {.solucion}
+La orden de shell. El ajuste afecta a las herramientas de ficheros de Claude (`Write`, `Edit`, `NotebookEdit`) en cualquier modo, pero no a la shell, a MCP ni a los *hooks*. Para limitar dónde escriben las órdenes de shell hace falta el *sandbox* (C8.8); mientras tanto, en modo *Manual* esa orden te pedirá permiso.
+
+:::
+
 :::
 
 ### C4.4 Explorar, planificar, editar, probar y revisar {#c4-4}
@@ -401,32 +544,114 @@ Un `CLAUDE.md` situado en una subcarpeta se carga cuando Claude trabaja con fich
 
 ### C4.7 Coste, límites de uso y modelos {#c4-7}
 
-Claude Code consume **tokens** (C1.4). Con una suscripción, el uso cuenta contra los límites de tu plan
-(ventanas de cinco horas y semanales); con una clave de API, se factura por token. Para vigilarlo [@anthropic-costes]:
+Claude Code consume **tokens** (C1.4). Con una suscripción, el uso cuenta contra los límites de tu plan; con una
+clave de API, se factura por token. Para vigilarlo [@anthropic-costes]:
 
 - `/usage` muestra el uso de la sesión y de tu plan (en una suscripción, la cifra en dólares **no es tu factura**).
+  `/cost` y `/stats` son alias suyos [@anthropic-comandos].
 - `/context` enseña qué ocupa espacio; `/clear` entre tareas y `/compact` con instrucciones lo reducen.
-- `/model` cambia de modelo y `/effort` el nivel de razonamiento: un modelo más pequeño y un esfuerzo menor bastan para muchas tareas; **mide con tus casos**.
+- `/model` cambia de modelo y `/effort` el nivel de razonamiento (los dos se explican abajo): un modelo más pequeño y
+  un esfuerzo menor bastan para muchas tareas; **mide con tus casos**.
 - Peticiones específicas, modo `plan` para no rehacer, y subagentes o *hooks* para filtrar salidas largas (C7).
-- En modo no interactivo, `--max-budget-usd` y `--max-turns` ponen un tope (C8).
+- En modo no interactivo (`claude -p`), `--max-budget-usd` y `--max-turns` ponen un tope (C8).
 
 La documentación cita, como orientación, una media de unos **13 $ por persona y día activo** en despliegues empresariales
 (y menos de 30 $ en el 90 % de los casos); varía mucho según el uso. Las sesiones largas gastan más de lo que parece
 porque cada mensaje reenvía el contexto. **Un uso muy superior al esperado casi siempre es una sesión que nunca se limpió.**
 
-::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.311 a 2.1.316 · por incorporar"}
-- **`ultrathink`** (2.1.311) sube a esfuerzo `xhigh` el turno en el que lo escribes, con Opus 5.5,
-  Sonnet 5.5, Haiku 5.5 y Fable 5.1 a través de la API de Anthropic. Si lo escribes mientras
-  Claude trabaja, eleva el resto de ese turno. Desde la 2.1.316, `CLAUDE_CODE_DISABLE_ULTRATHINK`
-  desactiva la palabra clave [@anthropic-changelog].
-- **Nombres de los límites** (2.1.312): los avisos llaman ahora *5-hour limit* («límite de
-  5 horas») a la ventana de cinco horas, que antes se llamaba *session limit*.
-- **Modo rápido de Opus 4.8** (2.1.316): queda obsoleto desde el 30-10-2026 y se retirará el
-  30-11-2026. Después, las peticiones en modo rápido a Opus 4.8 darán error, sin recurrir a Opus 4.8
-  normal. Para conservar la velocidad hay que pasar a Opus 5.5.
+**Límites de uso.** En las suscripciones, el uso se mide en **ventanas**: una ventana móvil de cinco horas y otra
+semanal, compartidas por todos los modelos [@anthropic-costes]. Si agotas una de ellas, cambiar de modelo con `/model`
+no te devuelve el acceso; sí lo hace si el aviso es de un límite propio de una familia («Opus limit», «Sonnet limit»).
+El aviso dice cuándo se reinicia la ventana, y `/usage` muestra las barras de uso. Desde Claude Code 2.1.312, los
+avisos llaman *5-hour limit* («límite de 5 horas») a la ventana de cinco horas, que antes se llamaba *session limit*
+[@anthropic-changelog]; la página de errores de la documentación aún recoge el nombre antiguo, así que puedes
+encontrarte cualquiera de los dos.
 
-[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
-contrastó con la 2.1.309.]{.novedad-estado}
+**Modelos y alias.** Lo duradero es el criterio: hay modelos más capaces y caros y otros más rápidos y baratos, y se
+elige según la tarea, midiendo. Los vigentes en noviembre de 2026 son **Fable 5.2, Opus 5.5, Sonnet 5.5 y Haiku 5.5**;
+sus características y precios están en [C1.1](../c1-claude-web/index.qmd#c1-1) y [C9.2](../c9-api/index.qmd#c9-2)
+[@anthropic-modelos]. En Claude Code se eligen con `/model` (sin argumento abre un selector) o con
+`claude --model <alias>` al arrancar. Conviene usar **alias** en lugar del identificador completo, porque el alias
+apunta al modelo vigente de su familia [@anthropic-modelconfig]:
+
+| Alias | Qué elige (API de Anthropic, documentación del 25-11-2026) |
+|---|---|
+| `default` | No es un modelo: borra tu elección y vuelve al predeterminado de tu cuenta (Opus 5.5 en los planes de suscripción y en la API) |
+| `best` | El mismo modelo que `opus` (desde Claude Code 2.1.321) |
+| `fable` | Fable 5.2, para las tareas más difíciles y largas |
+| `opus` | Opus 5.5, razonamiento complejo |
+| `sonnet` | Sonnet 5.5, programación diaria |
+| `haiku` | Haiku 5.5, tareas sencillas y rápidas |
+| `sonnet[1m]`, `opus[1m]` | La variante con ventana de contexto de 1M tokens; no cambia nada cuando el modelo ya la tiene de serie, como Sonnet 5.5 y Opus 5.5 |
+| `opusplan` | Opus mientras estás en modo `plan` y Sonnet al ejecutar el plan |
+
+Ningún modelo Fable es el predeterminado de ningún plan: si lo quieres, lo eliges. Dos cambios recientes, que dependen
+de la versión:
+
+- Desde Claude Code 2.1.321, si tenías guardado Fable 5.1 en tus ajustes de usuario (planes Pro, Max y Ultra), la
+  elección pasa al alias `fable`, que ahora apunta a Fable 5.2; en Team y Enterprise el cambio puede llegar más tarde
+  o no llegar [@anthropic-modelconfig]. Fable 5.1 sigue disponible por su identificador completo.
+- En esa misma versión, el selector de `/model` agrupa los modelos antiguos bajo *More models* («más modelos»); esto
+  solo consta en el changelog [@anthropic-changelog].
+
+*Cómo comprobarlo:* `/model` marca el modelo activo, y `/status` también lo muestra.
+
+**Esfuerzo (*effort*).** Es cuánto razona el modelo antes de responder. Más esfuerzo significa más tokens de
+pensamiento (que se facturan como salida) y más espera; menos esfuerzo, respuestas más rápidas y baratas, con peor
+resultado en problemas difíciles [@anthropic-costes]. Los niveles son `low`, `medium`, `high`, `xhigh` y `max`:
+
+- **Al arrancar:** `claude --effort high`. Comprobado con Claude Code 2.1.330: `claude --help` lista esos cinco
+  valores. La documentación añade `ultracode`, que no es un nivel más: pide `xhigh` y activa un modo en el que Claude
+  orquesta flujos de trabajo (C8) [@anthropic-cli].
+- **En la sesión:** `/effort high` lo fija; `/effort` sin argumento abre un control deslizante; `/effort status`
+  muestra el nivel actual; `/effort auto` borra el nivel que guardaste para el modelo activo. `max` dura solo la
+  sesión [@anthropic-comandos].
+- **Depende del modelo.** Los cuatro modelos vigentes admiten los cinco niveles; si pides uno que el modelo no tiene,
+  Claude Code usa el más alto disponible por debajo (por ejemplo, `xhigh` funciona como `high` en Opus 4.6)
+  [@anthropic-modelconfig].
+- **`ultrathink`, solo para un turno.** Si escribes la palabra `ultrathink` en un mensaje, pides razonar más en ese
+  turno sin cambiar el esfuerzo de la sesión. Desde Claude Code 2.1.311, en la terminal, sube ese turno a `xhigh` en
+  los modelos que lo admiten, y la palabra se colorea para indicar que se ha reconocido; si no se colorea, no ha
+  surtido efecto. Frases como «piensa mucho» son texto normal. La variable de entorno
+  `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (desde la 2.1.316) desactiva la palabra clave [@anthropic-modelconfig].
+  Ejemplo: «ultrathink: averigua por qué falla la prueba de `rms` con señales de longitud impar; no cambies código
+  todavía». El turno siguiente vuelve al esfuerzo de la sesión.
+
+**Modo rápido.** `/fast` activa un modo con el mismo modelo y respuestas más rápidas, a un precio por token mayor; en
+las suscripciones se paga con créditos de uso aparte ([documentación del modo rápido](https://code.claude.com/docs/en/fast-mode),
+consultada el 25-11-2026). El modo rápido de **Opus 4.8** está obsoleto desde el 30-10-2026 y se retira el
+**30-11-2026**: después, esas peticiones darán error, sin pasar solas a Opus 4.8 a velocidad normal
+[@anthropic-changelog]. Si lo usas, cambia a Opus 5.5 con `/model` (el modo rápido sigue activo) o apágalo con
+`/fast off` para seguir en Opus 4.8 a velocidad normal: el modelo Opus 4.8 en sí sigue disponible.
+
+**Pon a prueba lo anterior.**
+
+::: {.ejercicio tipo="opcion" id="c4-7-ultrathink" respuesta="b"}
+Trabajas con esfuerzo `medium` y quieres que Claude razone más **solo** para analizar un fallo difícil, sin cambiar el resto de la sesión. ¿Qué haces?
+
+::: {.opciones}
+- `/effort max`, y lo dejas así.
+- Escribes `ultrathink` en ese mensaje y compruebas que la palabra se colorea.
+- Cambias al alias `opusplan`.
+- Escribes «piensa mucho» al principio del mensaje.
+
+:::
+
+::: {.solucion}
+`ultrathink` afecta solo a ese turno (desde Claude Code 2.1.311 lo sube a `xhigh` en los modelos que lo admiten); el color indica que se ha reconocido. `/effort max` cambia toda la sesión y gasta más en cada mensaje; `opusplan` cambia de modelo según el modo, no el esfuerzo; «piensa mucho» se trata como texto normal.
+
+:::
+
+:::
+
+::: {.ejercicio tipo="vf" id="c4-7-default" respuesta="falso"}
+Con `/model default` eliges Fable 5.2, el modelo más capaz.
+
+::: {.solucion}
+**Falso.** `default` no es un modelo: borra tu elección y vuelve al predeterminado de tu cuenta, que según la documentación del 25-11-2026 es Opus 5.5 en los planes de suscripción y en la API. Ningún modelo Fable es el predeterminado; para usarlo, `/model fable`.
+
+:::
+
 :::
 
 ### C4.8 Terminal, IDE y otras superficies {#c4-8}
@@ -446,11 +671,19 @@ diff, Git. Si trabajas con varios proyectos o tareas en paralelo, usa **worktree
 4. **`/clear`** y empezar de nuevo con una petición más precisa si la sesión se enredó.
 5. **`claude doctor`** y, dentro de la sesión, **`/doctor`**, para problemas de instalación o de configuración.
 
-**Comandos que han cambiado o desaparecido** (comprobados contra la documentación 2.1.309; si encuentras una guía antigua, desconfía):
+**Comandos que han cambiado o desaparecido** (contrastados con la documentación el 23-10-2026; las filas sobre modos,
+modelos y `--max-turns`, el 25-11-2026. Si encuentras una guía antigua, desconfía):
 
 | Lo que verás en guías antiguas | Estado actual | Qué usar |
 |---|---|---|
-| `/cost` | Existe como **alias** de `/usage` | `/usage` |
+| `/cost` | Existe como **alias** de `/usage` (también `/stats`) | `/usage` |
+| «La sesión empieza en modo `default`» | En la terminal y en VS Code empieza en `auto` desde la 2.1.283; `claude -p` sí empieza en `default` | Mira la barra de estado; `permissions.defaultMode` para cambiar el modo inicial (C4.3) |
+| Modo `default` | La interfaz lo llama *Manual*; `manual` se acepta como alias, y `claude --help` (2.1.330) lista `manual` en lugar de `default` | Cualquiera de los dos: `--permission-mode manual` |
+| `--enable-auto-mode` | Eliminado en la 2.1.111 | `--permission-mode auto` |
+| `--max-turns` | No aparece en `claude --help` de la 2.1.330, pero se acepta; la referencia de la CLI lo documenta como **solo modo no interactivo** | `claude -p --max-turns 3 "…"` (C8) |
+| Aviso de *session limit* | Desde la 2.1.312 se llama *5-hour limit* (ventana de cinco horas) | `/usage` para ver cuándo se reinicia |
+| Fable 5.1 guardado como modelo | Desde la 2.1.321 pasa al alias `fable` (Fable 5.2) en los planes individuales | `/model` para comprobar el modelo activo |
+| Modo rápido con Opus 4.8 | Se retira el 30-11-2026; después, error | Opus 5.5 con modo rápido, o `/fast off` |
 | `/review` | Alias de la skill `/code-review` (no es un comando interno) | `/code-review` |
 | `/agents` | Desde la 2.1.198 solo muestra un recordatorio; ya no es un asistente | Crear el subagente pidiéndoselo a Claude o editando `.claude/agents/` (C7) |
 | `/vim` | **Eliminado** en la 2.1.92 | — |
@@ -490,10 +723,10 @@ hacer un cambio pequeño controlado. *Archivos:* la copia del proyecto de C2/C3.
 
 1. **Prepara.** En la copia del proyecto: `git status` (limpio) y `git switch -c practica/c4`.
 2. **Revisa tu instalación** (solo lectura): `claude --version` y `claude doctor`. Anota versión y método de instalación.
-3. **Arranca** con `claude`, acepta la confianza de la carpeta **solo** si es tu copia. Escribe `/status` y `/permissions` y anota el modo y las reglas.
-4. **Cambia a modo `plan`** (Mayús+Tab) y pide: «Lee el proyecto y resúmelo en cinco líneas; no modifiques nada». Comprueba con `git status` que no ha cambiado nada.
+3. **Arranca** con `claude`, acepta la confianza de la carpeta **solo** si es tu copia. Mira la barra de estado (en la terminal, la sesión empieza en `auto`: `⏵⏵ auto mode on`), escribe `/status` y `/permissions` y anota el modo, el modelo y las reglas. Si aparece algún aviso sobre reglas con comodines, anótalo y corrígelo como en C4.3.
+4. **Cambia a modo `plan`** (`/plan`, o Mayús+Tab hasta ver `⏸ plan mode on`) y pide: «Lee el proyecto y resúmelo en cinco líneas; no modifiques nada». Comprueba con `git status` que no ha cambiado nada.
 5. **Escribe un `CLAUDE.md`** en la raíz de tu copia (parte del ejemplo de C4.6 y ajústalo). Sal con `/exit` y vuelve a arrancar; en la sesión, `/context` debe listarlo en «Memory files».
-6. **Un cambio pequeño** (modo `default`): «Añade un test que compruebe que `rms` de una señal constante es 0». Antes de aprobar cada orden, **aplica las cinco preguntas**; rechaza cualquier cosa que toque fuera del proyecto.
+6. **Un cambio pequeño** (modo *Manual*: Mayús+Tab hasta ver `⏸ manual mode on`): «Añade un test que compruebe que `rms` de una señal constante es 0». Antes de aprobar cada orden, **aplica las cinco preguntas**; rechaza cualquier cosa que toque fuera del proyecto.
 7. **Revisa**: `/diff` y `git diff`; ejecuta tú las pruebas (`uv run --with numpy --with pytest pytest tests` → debe haber 7 que pasan).
 8. **Mide el coste de la sesión** con `/usage` y anota los tokens. Prueba `/clear` y vuelve a mirar.
 9. **Léelo todo en el repositorio real:** abre `CLAUDE.md` y `.claude/settings.json` del repositorio de este curso y contesta: ¿qué órdenes se permiten sin preguntar? ¿cuáles preguntan? ¿qué se deniega y por qué?
@@ -560,9 +793,11 @@ no podías comprobarlo en el proyecto. No crees ni edites ningún fichero: ensé
 
 - Explico el bucle de Claude Code y qué lo diferencia de un chat.
 - Lo instalo y lo arranco en mi sistema, y sé comprobar versión y diagnóstico.
-- Elijo un modo de permisos con criterio y leo una regla `deny`/`ask`/`allow` y su orden.
+- Elijo un modo de permisos con criterio, sé con cuál arranca la sesión y lo compruebo en la barra de estado.
+- Leo una regla `deny`/`ask`/`allow` y su orden, y escribo reglas `allow` con el `*` después del subcomando.
 - Antes de aprobar una orden, aplico las cinco preguntas y rechazo las peligrosas.
 - Gestiono el contexto (`/context`, `/compact`, `/clear`, `/resume`, `/rewind`) y vigilo el coste con `/usage`.
+- Elijo modelo con un alias (`/model`) y ajusto el esfuerzo (`/effort`, o `ultrathink` para un solo turno).
 - Escribo un `CLAUDE.md` breve y verificable y sé que no es una garantía.
 - Me recupero de un error con `Esc`, `/rewind` o Git.
 - Distingo comandos vigentes de comandos antiguos o eliminados.
@@ -577,3 +812,12 @@ Documentación oficial de Claude Code (versión 2.1.309, consultada el 23-10-202
 [memoria y `CLAUDE.md`](https://code.claude.com/docs/en/memory),
 [costes](https://code.claude.com/docs/en/costs) y
 [puntos de control](https://code.claude.com/docs/en/checkpointing).
+
+Revisión del 25-11-2026 (C4.3, C4.7 y C4.9), con la documentación consultada ese día:
+[modos de permisos](https://code.claude.com/docs/en/permission-modes),
+[permisos](https://code.claude.com/docs/en/permissions),
+[configuración de modelos](https://code.claude.com/docs/en/model-config),
+[modo rápido](https://code.claude.com/docs/en/fast-mode),
+[referencia de la CLI](https://code.claude.com/docs/en/cli-reference),
+[comandos](https://code.claude.com/docs/en/commands) y el
+[changelog](https://code.claude.com/docs/en/changelog) de las versiones 2.1.310 a 2.1.332.

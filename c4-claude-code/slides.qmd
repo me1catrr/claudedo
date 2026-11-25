@@ -26,15 +26,22 @@ Tú decides cuánta autonomía; tú revisas el diff.
 | Modo | Para qué |
 |---|---|
 | `plan` | Explorar |
-| `default` / `acceptEdits` | Trabajar y revisar |
+| `default` (*Manual*) / `acceptEdits` | Trabajar y revisar |
 | `auto` | Tareas largas, con cautela |
+| `dontAsk` | Automatización: lo no permitido se deniega |
 | `bypassPermissions` | **Solo** contenedores aislados |
+
+En terminal y VS Code se **arranca en `auto`** (desde 2.1.283): mira la barra de estado.
+
+Mayús+Tab: `auto` → `default` → `acceptEdits` → `plan` → …
 
 ## Reglas
 
 `deny` → `ask` → `allow`. Gana la primera que casa.
 
-Restringir **argumentos** en Bash es **frágil**.
+El `*` **después del subcomando**: `Bash(git status *)`, no `Bash(git -C * status *)`.
+
+Restringir **argumentos** en Bash es **frágil**: el fondo es el *sandbox*.
 
 ## Antes de aprobar
 
@@ -53,6 +60,15 @@ Restringir **argumentos** en Bash es **frágil**.
 `/context` · `/compact` · `/clear` · `/resume` · `/rewind` · `/usage`
 
 *Una tarea, una sesión.*
+
+Ventanas de uso: **cinco horas** y **semanal**.
+
+## Modelos y esfuerzo
+
+- `/model` con alias: `fable` (Fable 5.2), `opus` (Opus 5.5), `sonnet`, `haiku`, `opusplan`
+- `default` = el predeterminado de tu cuenta (no es Fable)
+- `/effort`: `low` · `medium` · `high` · `xhigh` · `max` (según el modelo)
+- `ultrathink` en el mensaje: más razonamiento **solo en ese turno**
 
 ## Cuando algo sale mal
 

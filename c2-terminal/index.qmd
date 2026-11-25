@@ -8,7 +8,7 @@ perfil: [estudiante, uco, planta]
 estado: borrador
 nivel: básico
 verificado:
-  claude-code: "2.1.306"
+  claude-code: "2.1.330"
   julia: "1.12.3"
 format:
   html:
@@ -74,6 +74,8 @@ Cuatro palabras que se confunden:
 | **Proceso** | Un programa en ejecución, con su identificador (**PID**), su memoria y sus permisos | Cada orden que lanzas crea uno |
 
 Se puede cambiar de shell sin cambiar de terminal, y la misma shell funciona en distintas terminales.
+Además de las del sistema hay otras aplicaciones de terminal, como Warp: por dentro ejecutan la misma
+Zsh o PowerShell, así que todo lo que se enseña en esta unidad vale igual en ellas.
 La diferencia práctica más importante entre las dos shells de este curso es **qué circula por las
 tuberías**: Zsh pasa **texto**; PowerShell pasa **objetos** con propiedades (nombre, tamaño, fecha…).
 Por eso muchas órdenes de PowerShell no necesitan trocear texto con `cut` o `awk`.
@@ -518,7 +520,12 @@ Un **editor de código** resalta la sintaxis, completa, navega por el proyecto y
 con la terminal. **Visual Studio Code** es la opción habitual: gratuito, con terminal integrada (en la
 que corren Zsh o PowerShell) y extensiones para Julia, Python y Quarto. Hay alternativas (editores
 ligeros como Zed o Sublime Text; los IDE de JetBrains) y **Claude Code funciona también dentro de
-VS Code** (se verá en C4). Elige uno, aprende sus atajos básicos y mantén la terminal integrada abierta
+VS Code** (se verá en C4). Hay además editores **derivados de VS Code**, como Cursor: la documentación
+de la extensión de Claude Code ofrece un enlace de instalación específico para Cursor e indica que en
+otros derivados se instala desde el registro Open VSX; en un editor que no admita la extensión basta
+con ejecutar `claude` en su terminal integrada
+([documentación de Claude Code para VS Code](https://code.claude.com/docs/en/vs-code), consultada el 25-11-2026).
+El curso no lo ha probado en Cursor. Elige uno, aprende sus atajos básicos y mantén la terminal integrada abierta
 en la carpeta del proyecto. No dependas de funciones de pago para seguir el curso.
 
 ### C2.9 Quarto, Git, Claude Code y Docker: instalación y comprobación de versiones {#c2-9}
@@ -527,16 +534,78 @@ Para trabajar con este curso necesitas cuatro herramientas más. Instálalas con
 y comprueba cada una con su `--version`. Las versiones con las que se ha comprobado el curso son un
 punto de partida, no una exigencia.
 
-| Herramienta | Para qué | Comprobación | Versión de referencia (23-10-2026) |
+| Herramienta | Para qué | Comprobación | Versión de referencia |
 |---|---|---|---|
-| **Quarto** | Documentos, informes y esta web | `quarto --version` | 1.10.19 |
-| **Git** | Control de versiones (C3) | `git --version` | 2.55.0 |
-| **Claude Code** | Agente en la terminal (C4) | `claude --version` | 2.1.306 (documentada: 2.1.309) |
+| **Quarto** | Documentos, informes y esta web | `quarto --version` | 1.10.19 (23-10-2026) |
+| **Git** | Control de versiones (C3) | `git --version` | 2.55.0 (23-10-2026) |
+| **Claude Code** | Agente en la terminal (C4) | `claude --version` | 2.1.332, la última publicada el 25-11-2026; las órdenes de esta revisión se ejecutaron con 2.1.330 |
 | **Docker** | Entornos aislados (opcional, C8) | `docker --version` | no instalado en el entorno de redacción |
 
 La instalación de Claude Code, la autenticación y los permisos se explican en C4; no instales nada de
-esa unidad sin leerla. `claude doctor` (en la terminal) hace un diagnóstico de solo lectura de tu
-instalación. **Docker** es opcional y solo hace falta en C8: no lo instales todavía si no lo vas a usar.
+esa unidad sin leerla. **Docker** es opcional y solo hace falta en C8: no lo instales todavía si no lo vas a usar.
+
+**Qué versión de Claude Code tienes y cómo actualizarla.** Claude Code publica versiones nuevas varias
+veces por semana, así que la cifra de la tabla envejece enseguida. Lo útil es saber cuál tienes y
+cómo ponerla al día, y eso depende de **cómo la instalaste** [@anthropic-cli]:
+
+```zsh
+claude --version     # ✔ macOS: imprime, por ejemplo, «2.1.330 (Claude Code)»
+claude update        # instala la última versión si la hay (no ejecutado aquí: descarga de la red)
+```
+
+| Instalación | ¿Se actualiza sola? | Cómo se actualiza a mano |
+|---|---|---|
+| Instalador oficial (nativa; en macOS, `~/.local/bin/claude`) | Sí, en segundo plano; la versión nueva se usa al volver a arrancar | `claude update` |
+| Homebrew (`brew install --cask claude-code`) | No | `brew upgrade claude-code` |
+| WinGet † (`winget install Anthropic.ClaudeCode`) | No | `winget upgrade Anthropic.ClaudeCode` |
+
+Según la documentación de instalación (consultada el 25-11-2026), el *cask* `claude-code` de Homebrew
+sigue el canal **estable**, que suele ir alrededor de una semana por detrás (el *cask*
+`claude-code@latest` sigue el canal más reciente); por eso, el mismo día, dos personas pueden tener
+versiones distintas sin que ninguna esté «mal». En una instalación hecha con un gestor de paquetes,
+`claude update` no la sustituye: la ayuda de `claude` (2.1.330) indica que esas instalaciones se
+actualizan con su gestor.
+
+Dos órdenes más, útiles cuando algo no funciona:
+
+- **`claude doctor`** hace un diagnóstico de **solo lectura** de la instalación y de los ficheros de
+  configuración, sin abrir una sesión, y sugiere cómo corregir lo que encuentra [@anthropic-cli].
+  Según el registro de cambios, desde la versión 2.1.331 incluye además una **prueba de conectividad
+  con la API**, que ayuda a distinguir un problema de red o de *proxy* de uno de instalación
+  [@anthropic-changelog]. No se ha comprobado en el curso (la revisión se hizo con 2.1.330).
+- **`claude auth status`** informa de si has iniciado sesión. Su salida es JSON por defecto; con
+  `--text` la da en texto legible (opciones comprobadas en la ayuda de 2.1.330). Según el registro de
+  cambios, desde la 2.1.318 dice también **cuándo caduca** el inicio de sesión guardado (campo
+  `loginExpiresAt`) [@anthropic-changelog], lo que te permite prever cuándo tendrás que volver a
+  entrar. No se ha ejecutado en el curso. Puede incluir datos de tu cuenta: no pegues su salida en
+  foros ni en *issues* públicos.
+
+::: {.callout-warning title="Dos instalaciones a la vez: un caso frecuente"}
+Si instalas Claude Code dos veces (por ejemplo, con el instalador oficial y con Homebrew), las dos
+quedan en disco y la shell ejecuta **la primera que encuentra en PATH** (C2.5). La otra se queda
+desactualizada sin que lo notes, y `claude update` puede actualizar una mientras tú usas la otra.
+Un ejemplo (salida ilustrativa; las versiones son inventadas):
+
+```zsh
+which -a claude                       # ✔ macOS: todas las que hay en PATH, por orden
+# /Users/ana/.local/bin/claude        ← nativa: es la que se ejecuta
+# /opt/homebrew/bin/claude            ← Homebrew
+# /opt/homebrew/bin/claude            ← repetida: esa carpeta está dos veces en PATH
+~/.local/bin/claude --version         # 2.1.320 (Claude Code)
+/opt/homebrew/bin/claude --version    # 2.1.300 (Claude Code)
+```
+
+En Windows, el equivalente es `where.exe claude` †. Cómo se resuelve: **elige una** instalación,
+desinstala la otra con su propio método (`brew uninstall --cask claude-code` para la de Homebrew),
+abre una terminal nueva y comprueba con `which -a claude` que solo queda una. Una ruta repetida es
+inofensiva, pero delata una línea duplicada en `~/.zshrc`. Y una tercera fuente de confusión: la
+aplicación de escritorio y la extensión de VS Code pueden llevar su propia copia de Claude Code, cuya
+versión (la que muestra `/status` dentro de la sesión) no tiene por qué coincidir con la de
+`claude --version` en la terminal; en ese mismo ordenador, la sesión de escritorio usaba la 2.1.330.
+La documentación trata este caso en
+[*Check for conflicting installations*](https://code.claude.com/docs/en/troubleshoot-install#check-for-conflicting-installations)
+(consultada el 25-11-2026).
+:::
 
 **Pon a prueba lo anterior.**
 
@@ -546,7 +615,24 @@ Ejecuta `--version` de las cuatro herramientas y anota los resultados en una tab
 ::: {.rubrica}
 - Tengo las versiones anotadas, no solo «instalado».
 - Sé decir qué falta y con qué gestor (brew o winget) la instalaría.
+- Sé cómo instalé Claude Code y, por tanto, cómo se actualiza.
+- He comprobado con `which -a claude` (o `where.exe claude`) que solo hay una instalación, o sé cuál se está usando.
 - No he ejecutado ninguna instalación que no entienda.
+:::
+:::
+
+::: {.ejercicio tipo="opcion" id="c2-9-dos-claude" respuesta="b"}
+`which -a claude` imprime dos rutas: primero `~/.local/bin/claude` y después `/opt/homebrew/bin/claude`. Ejecutas `brew upgrade claude-code` y luego `claude --version`. ¿Qué versión ves?
+
+::: {.opciones}
+- La de Homebrew recién actualizada, porque es la última que has tocado.
+- La de `~/.local/bin/claude`, porque es la primera de PATH; la actualización de Homebrew no le afecta.
+- Las dos a la vez, una en cada línea.
+- Ninguna: con dos instalaciones, `claude` deja de funcionar.
+:::
+
+::: {.solucion}
+La shell ejecuta la **primera** coincidencia de PATH, la nativa de `~/.local/bin`. Has actualizado la otra. Elige una instalación, desinstala la otra y vuelve a comprobarlo con `which -a claude`.
 :::
 :::
 
@@ -1010,6 +1096,9 @@ Documentación consultada el 23-10-2026: [Homebrew, manual de `brew`](https://do
 [about_Execution_Policies](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies),
 [Register-ScheduledTask](https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/register-scheduledtask)
 y la [guía archivada de Apple sobre launchd](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html)
-(2016; contrastada con `man launchctl` en macOS 27.0.1). El libro *Linux Basics for Hackers* (OccupyTheWeb)
+(2016; contrastada con `man launchctl` en macOS 27.0.1). Documentación de Claude Code consultada el
+25-11-2026: [instalación y actualización](https://code.claude.com/docs/en/setup),
+[problemas de instalación](https://code.claude.com/docs/en/troubleshoot-install) y
+[extensión para VS Code](https://code.claude.com/docs/en/vs-code). El libro *Linux Basics for Hackers* (OccupyTheWeb)
 solo se ha usado como referencia temática para elegir qué conceptos incluir; todo el texto, los
 ejemplos y los datos de esta unidad son originales.

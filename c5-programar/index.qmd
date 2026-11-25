@@ -246,6 +246,42 @@ Para una segunda opinión, la documentación recomienda un **revisor en un conte
 y la *skill* `/code-review`, pidiéndole que señale solo lo que afecta a la corrección o a los requisitos, no preferencias de estilo
 [@anthropic-practicas].
 
+**Dos órdenes de revisión incluidas en Claude Code** [@anthropic-comandos]. Sirven como **segunda** lectura, nunca como
+sustituto de la tuya:
+
+- **`/code-review`** (alias `/review`) busca **errores de corrección** en tus cambios y te los presenta en la conversación. En la
+  terminal se ejecuta como un subagente con su propio contexto, que es justo el «revisor en un contexto limpio» de antes. Sin
+  `--fix` solo **informa**; con `--fix` aplica lo que encuentra, y cada edición pasa por tus permisos. Sin objetivo revisa los
+  cambios de tu rama; también acepta un número de *pull request*, una rama, una ruta o un rango de commits. Delante puede ir un
+  nivel de esfuerzo: con `low` da menos hallazgos y más seguros; de `medium` a `max` amplía la cobertura. Consume uso de tu plan
+  como cualquier otra petición; el nivel `ultra` lanza una revisión en la nube con coste propio que este curso no necesita.
+- **`/security-review`** analiza el diff de tu rama frente a la rama por defecto de `origin` en busca de **vulnerabilidades**
+  (inyección, autenticación, exposición de datos). Necesita un remoto `origin` y completa la lista de seguridad de C5.6.
+
+```text
+/code-review                    # los cambios de tu rama
+/code-review low src/           # solo una carpeta, con los hallazgos más seguros
+/code-review main...practica/c5 # una rama frente a otra, explícito
+/code-review 12                 # la pull request n.º 12
+/security-review                # vulnerabilidades del diff de la rama
+```
+
+Qué compara exactamente cuando no le das objetivo ha cambiado entre versiones. La documentación de la orden (consultada el
+25-11-2026) dice que revisa los commits de la rama por delante de su rama remota más lo no confirmado, y, si la rama no tiene
+remota, compara con `main` o con el commit anterior
+([*Review locally with /code-review*](https://code.claude.com/docs/en/code-review-local)). Según el registro de cambios, desde la
+2.1.329 revisa la rama entera frente a la rama por defecto y, con un número de PR, obtiene el diff con `gh pr diff`, así que
+necesitas `gh` autenticado (C3.5) [@anthropic-changelog]. Si te importa qué se compara, **dilo tú** con un rango
+(`main...mi-rama`). *Cómo comprobarlo:* en tu rama de la práctica, deja el error por uno de `depuracion_mala.jl`, ejecuta
+`/code-review` y mira si lo señala. Las dos órdenes figuran entre las *skills* de una sesión con Claude Code 2.1.330, pero
+ninguna se ha ejecutado en el curso: su sintaxis está contrastada con la documentación.
+
+::: {.callout-warning title="Un hallazgo es una hipótesis"}
+Trata cada hallazgo de una revisión automática como una **hipótesis**: confírmalo con una prueba que falle antes de corregir
+nada. Si la revisión no encuentra nada, eso no demuestra que el código sea correcto. Y con `--fix`, revisa el diff resultante
+como revisarías cualquier otro.
+:::
+
 **Pon a prueba lo anterior.**
 
 ::: {.ejercicio tipo="opcion" id="c5-4-bug" respuesta="c"}
@@ -260,6 +296,22 @@ El bucle `for i in 1:length(x)-n` de una media móvil devuelve una ventana de me
 
 ::: {.solucion}
 Los casos **límite** (ventana igual a la serie, longitud de salida `len(x)-n+1`) fallan en un error por uno; una señal aleatoria larga o un «no lanza error» no lo revelan.
+
+:::
+:::
+
+::: {.ejercicio tipo="opcion" id="c5-4-hallazgos" respuesta="c"}
+Ejecutas `/code-review` y señala tres posibles errores en tu función. ¿Qué haces?
+
+::: {.opciones}
+- Repito la orden con `--fix` para que los corrija todos: para eso está.
+- Los ignoro: si las pruebas pasan, el código es correcto.
+- Compruebo cada uno: si es real, escribo una prueba que falle y después corrijo; si no lo es, lo descarto razonadamente.
+- Cambio de modelo hasta que la revisión no encuentre nada.
+:::
+
+::: {.solucion}
+Un hallazgo es una hipótesis, no un hecho. Se confirma con una prueba que falla (que además deja protegido el caso) y se corrige después; los falsos positivos se descartan con un motivo. Aplicar todo a ciegas o ignorarlo todo son dos formas de no revisar.
 
 :::
 :::
@@ -491,7 +543,7 @@ error y comprobar que ambos lenguajes dan el mismo resultado. *Archivos:* `c5-pr
 4. **Depura:** carga `julia/depuracion_mala.jl` y comprueba que `media_movil_mala([1,2,3,4,5], 2)` da 3 valores. Antes de pedir ayuda, localiza tú la causa; después pide a Claude que **escriba la prueba que falla** y la corrección.
 5. **Cruza lenguajes** con los datos del caso E: ejecuta `detectar_picos` con umbral 0,8 en Python y en Julia. **Resultado esperado** (comprobado el 23-10-2026): **23 picos**; primeros índices `[1080, 1660, 1675]` en Python y `[1081, 1661, 1676]` en Julia; la media móvil con `n = 5` empieza por `[-0.04464, -0.05024, -0.05986]` en ambos.
 6. **Migra** `mediamovil` (MATLAB) con Claude y comprueba que coincide con `media_movil` en el ejemplo `[1,2,3,4,5]`, `n=2`.
-7. **Revisa y confirma** con la lista de C5.4. Haz commits separados (la prueba, la función, la corrección).
+7. **Revisa y confirma** con la lista de C5.4. Haz commits separados (la prueba, la función, la corrección). Opcional: pide una segunda opinión con `/code-review` y confirma cada hallazgo con una prueba antes de tocar el código.
 
 **Qué has aprendido:** las pruebas son el contrato, los casos límite cazan los errores por uno, y cruzar lenguajes exige fijar la convención de índices.
 
@@ -552,6 +604,8 @@ comprobar sin ejecutar el código; 4) propón, sin implementarlas, tres pruebas 
 
 ## Referencias de esta unidad
 
-Documentación consultada el 23-10-2026: [buenas prácticas de Claude Code](https://code.claude.com/docs/en/best-practices),
+Documentación consultada el 23-10-2026: [buenas prácticas de Claude Code](https://code.claude.com/docs/en/best-practices)
+(y el 25-11-2026, [revisión local con `/code-review`](https://code.claude.com/docs/en/code-review-local) y
+[comandos](https://code.claude.com/docs/en/commands)),
 [consejos de rendimiento de Julia](https://docs.julialang.org/en/v1/manual/performance-tips/) y
 [primeros pasos con pytest](https://docs.pytest.org/en/stable/getting-started.html).
