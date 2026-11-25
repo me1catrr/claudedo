@@ -23,7 +23,7 @@ en **macOS** (Terminal, Zsh) y **Windows** (PowerShell).
 ::: {.acciones}
 [Empezar por C0](c0-fluidez/index.qmd){.btn .btn-primary}
 [Ver todas las unidades](#todas-las-unidades){.btn .btn-outline-primary}
-[Novedades por incorporar](#novedades-de-claude-code-por-incorporar){.btn .btn-outline-primary}
+[Últimas actualizaciones](actualizaciones.qmd){.btn .btn-outline-primary}
 :::
 
 ## Tres áreas
@@ -36,7 +36,7 @@ en **macOS** (Terminal, Zsh) y **Windows** (PowerShell).
 Entender la IA y usar Claude con criterio en el trabajo diario: cómo funciona un
 modelo, sus límites, privacidad y prompting.
 
-[2 unidades · 30 ejercicios]{.area-meta}
+[2 unidades · 31 ejercicios]{.area-meta}
 :::
 
 ::: {.area .area-aplicado}
@@ -45,7 +45,7 @@ modelo, sus límites, privacidad y prompting.
 Terminal, Git, Claude Code, programación y análisis de datos, con prácticas que se
 ejecutan y se comprueban.
 
-[5 unidades · 51 ejercicios]{.area-meta}
+[5 unidades · 59 ejercicios]{.area-meta}
 :::
 
 ::: {.area .area-avanzado}
@@ -54,7 +54,7 @@ ejecutan y se comprueban.
 Personalizar con `CLAUDE.md`, skills, hooks y MCP; automatizar con agentes; integrar
 la API en proyectos de investigación.
 
-[3 unidades, una opcional · 19 ejercicios]{.area-meta}
+[3 unidades, una opcional · 27 ejercicios]{.area-meta}
 :::
 
 :::
@@ -106,37 +106,32 @@ en [`datos/sinteticos`](https://github.com/me1catrr/claudedo/tree/main/datos/sin
 
 :::
 
-## Novedades de Claude Code por incorporar
+## Novedades
 
-El texto de las unidades se contrastó con la documentación de Claude Code 2.1.309. La
-última versión analizada es la **{{< var novedades.analizada >}}** (changelog leído el
-{{< var novedades.fecha >}}). Lo que cambia desde la {{< var novedades.desde >}} y afecta al
-curso está señalado dentro de cada unidad con una caja como esta:
-
-::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.3xx · por incorporar"}
-Qué cambia, en qué versión y por qué importa en esa unidad.
-
-[Leída en el changelog oficial; no ejecutada ni integrada aún en el texto.]{.novedad-estado}
-:::
+**Edición 0.3.0 · {{< var claude-code.fecha >}}.** El curso está al día con Claude Code
+**{{< var claude-code.integrada >}}** y con los modelos {{< var modelos.fable.corto >}},
+{{< var modelos.opus.corto >}}, {{< var modelos.sonnet.corto >}} y {{< var modelos.haiku.corto >}}.
+Las novedades de la {{< var claude-code.desde >}} en adelante que importan para aprender ya forman
+parte del texto de cada unidad. Lo comprobado en ejecución se hizo con la
+{{< var claude-code.comprobada >}}; el resto se contrastó con la documentación oficial. Lo más
+destacado:
 
 ::: {.novedades-lista}
-- [C1.5 · Protección de datos](c1-claude-web/index.qmd#c1-5): Claude Code pregunta antes de
-  enviar a la red el correo de tu cuenta (2.1.317).
-- [C4.3 · Permisos](c4-claude-code/index.qmd#c4-3): `permissions.blockWritesOutsideWorkingDirectories`
-  y la pestaña *Recently blocked* de `/permissions` (2.1.314).
-- [C4.7 · Coste y modelos](c4-claude-code/index.qmd#c4-7): `ultrathink` a esfuerzo `xhigh`, «límite
-  de 5 horas» y retirada del modo rápido de Opus 4.8 (2.1.311–2.1.316).
-- [C7.5 · Hooks](c7-extender/index.qmd#c7-5): bloqueo con `exit 2` en PowerShell, hooks y la
-  herramienta Monitor, límite de simultaneidad (2.1.312–2.1.316).
-- [C8.1 · Modo no interactivo](c8-automatizar/index.qmd#c8-1): `claude -p` sale con 1 cuando falla
-  el arranque o el disco (2.1.314, 2.1.317).
-- [C8.2 · Subagentes](c8-automatizar/index.qmd#c8-2): `CLAUDE_CODE_SUBAGENT_EFFORT` y esfuerzo por
-  modelo (2.1.316, 2.1.317).
-- [C8.8 · Seguridad](c8-automatizar/index.qmd#c8-8): escrituras fuera de las carpetas de trabajo y
-  sandbox en worktrees reanudados (2.1.314).
-- [C9 · Referencias](c9-api/index.qmd#referencias-de-esta-unidad): la *skill* `claude-api`, fuente de
-  la unidad, se actualizó (2.1.314).
+- [C1.1 · Modelos](c1-claude-web/index.qmd#c1-1): Fable 5.2 sustituye a Fable 5.1, más barata; datos
+  de los modelos contrastados y centralizados.
+- [C4.3 · Permisos](c4-claude-code/index.qmd#c4-3): modos de permiso vigentes, escrituras fuera de las
+  carpetas de trabajo y reglas `allow` seguras.
+- [C4.7 · Coste y modelos](c4-claude-code/index.qmd#c4-7): niveles de esfuerzo, `ultrathink` y la
+  ventana de uso de cinco horas.
+- [C7.5 · Hooks](c7-extender/index.qmd#c7-5): el evento `PreSkillShellCommand`, `onFailure` y los
+  límites de ejecución.
+- [C8.1 · Modo no interactivo](c8-automatizar/index.qmd#c8-1): códigos de salida de `claude -p`,
+  `denyInsteadOfPrompting` y tareas programadas de hasta 30 días.
+- [C9.2 · Coste](c9-api/index.qmd#c9-2): esfuerzo en la API y precios con caché y lotes.
 :::
+
+Todo el detalle (qué se cambió, dónde, cómo se comprobó y qué queda pendiente) está en
+[Actualizaciones](actualizaciones.qmd).
 
 ## Todas las unidades
 
@@ -201,6 +196,6 @@ responsabilidad académica de los materiales corresponden al autor.
 Creación: {{< var creacion.periodo >}}, con Claude Code {{< var creacion.claude-code >}}.
 Última revisión de la web: {{< var revision.fecha >}}, con Claude Code
 {{< var revision.claude-code >}}. Novedades analizadas hasta la
-{{< var novedades.analizada >}}. Los modelos utilizados constan en el historial de commits
-del repositorio.
+{{< var novedades.analizada >}} ([historial](actualizaciones.qmd)). Los modelos utilizados
+constan en el historial de commits del repositorio.
 :::

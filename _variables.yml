@@ -1,28 +1,93 @@
 # Variables del sitio, accesibles con {{< var … >}}.
 #
-# Colofón de la portada (index.qmd, bloque .creditos), «Acerca de» y README.
+# Colofón de la portada (index.qmd, bloque .creditos), «Acerca de», «Actualizaciones»
+# y README (este, a mano).
 #
 # creacion: periodo en que se redactó el material y versiones de Claude Code usadas.
 #   Datos de los registros de sesión del repositorio de origen:
 #   2.1.300 el 20-10-2026 (inicio), 2.1.304 del 20 al 23-10 y 2.1.306 el 23-10
 #   (redacción de C0–C9) y 2.1.311 el 27 y 28-10. No se conservan los registros
-#   del 1 y 2-11 (separación en este repositorio). El texto de las unidades se
-#   contrastó con la documentación de la 2.1.309 (claude_code_documentada en
-#   _versiones.yml).
+#   del 1 y 2-11 (separación en este repositorio). No se toca.
 #
 # revision: se actualiza en el mismo commit cada vez que se revisa la web con Claude
 #   Code: la fecha y la versión de la sesión (la que muestra /status). Ojo: en la
-#   extensión de VS Code puede no coincidir con `claude --version` de la terminal.
+#   aplicación de escritorio o en la extensión de VS Code puede no coincidir con
+#   `claude --version` de la terminal.
 #
-# novedades: última versión de Claude Code cuyo changelog se ha leído y las versiones
-#   que cubren las cajas .novedad de las unidades (pendientes de incorporar al texto).
+# claude-code: estado de la última actualización (procedimiento en _curso/ACTUALIZAR.md).
+#   consultada   última versión publicada cuyo changelog se ha leído
+#   integrada    versión de la documentación con la que se contrastó el texto
+#   comprobada   binario con el que se ejecutaron las comprobaciones (puede ser anterior)
+#   desde        primera versión cubierta por la actualización
+#
+# novedades: se conserva por compatibilidad con about.qmd e index.qmd; repite
+#   claude-code.consultada y la fecha de lectura.
+#
+# modelos: datos de los modelos vigentes que cambian (C1, C9 y «Actualizaciones»).
+#   Precios en dólares por millón de tokens (MTok) de la API, de la documentación de
+#   precios; esfuerzo por defecto y latencia, de la página de modelos.
 creacion:
   periodo: "octubre de 2026"
   claude-code: "2.1.300 a 2.1.311"
 revision:
-  fecha: "3 de noviembre de 2026"
-  claude-code: "2.1.317"
-novedades:
-  analizada: "2.1.317"
+  fecha: "25 de noviembre de 2026"
+  claude-code: "2.1.330"
+claude-code:
+  consultada: "2.1.332"
+  integrada: "2.1.332"
+  comprobada: "2.1.330"
   desde: "2.1.310"
-  fecha: "3 de noviembre de 2026"
+  fecha: "25 de noviembre de 2026"
+novedades:
+  analizada: "2.1.332"
+  desde: "2.1.310"
+  fecha: "25 de noviembre de 2026"
+modelos:
+  consulta: "25-11-2026"
+  contexto: "1 millón de tokens"
+  salida: "128 000 tokens"
+  fable:
+    nombre: "Claude Fable 5.2"
+    corto: "Fable 5.2"
+    id: "claude-fable-5-2"
+    fecha: "9-11-2026"
+    entrada: "8 $"
+    salida: "40 $"
+    cache: "0,20 $"
+    lotes: "4 $ / 20 $"
+    esfuerzo: "high"
+    latencia: "Moderada"
+  opus:
+    nombre: "Claude Opus 5.5"
+    corto: "Opus 5.5"
+    id: "claude-opus-5-5"
+    fecha: "22-9-2026"
+    entrada: "4 $"
+    salida: "20 $"
+    cache: "0,20 $"
+    lotes: "2 $ / 10 $"
+    esfuerzo: "medium"
+    latencia: "Moderada"
+  sonnet:
+    nombre: "Claude Sonnet 5.5"
+    corto: "Sonnet 5.5"
+    id: "claude-sonnet-5-5"
+    fecha: "28-9-2026"
+    entrada: "2 $"
+    salida: "10 $"
+    cache: "0,10 $"
+    lotes: "1 $ / 5 $"
+    esfuerzo: "high"
+    latencia: "Rápida"
+  haiku:
+    nombre: "Claude Haiku 5.5"
+    corto: "Haiku 5.5"
+    id: "claude-haiku-5-5"
+    fecha: "7-10-2026"
+    entrada: "0,10 $ (hasta 100 000 tokens de prompt; 0,50 $ por encima)"
+    salida: "0,50 $ (2,50 $ con prompts de más de 100 000 tokens)"
+    cache: "0,01 $ (0,05 $)"
+    lotes: "0,05 $ / 0,25 $"
+    precio: "desde 0,10 $ / 0,50 $ (más caro con prompts de más de 100 000 tokens)"
+    esfuerzo: "medium"
+    latencia: "La más rápida"

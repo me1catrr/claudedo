@@ -54,16 +54,18 @@ corrige lo que el asistente propone.
 | | Fecha | Claude Code |
 |---|---|---|
 | Creación | {{< var creacion.periodo >}} | {{< var creacion.claude-code >}} |
-| Documentación contrastada en las unidades | 23 de octubre de 2026 | 2.1.309 |
+| Documentación contrastada en las unidades | {{< var claude-code.fecha >}} | {{< var claude-code.integrada >}} (antes, 2.1.309 el 23 de octubre de 2026) |
+| Binario con el que se ejecutaron las comprobaciones | {{< var claude-code.fecha >}} | {{< var claude-code.comprobada >}} |
 | Última versión analizada (changelog) | {{< var novedades.fecha >}} | {{< var novedades.analizada >}} |
 | Última revisión de la web | {{< var revision.fecha >}} | {{< var revision.claude-code >}} |
 
 Cada unidad muestra bajo su título su versión, la fecha de edición, si se ha
 comprobado técnicamente y la versión de Claude Code de la documentación
-consultada. Lo que ha cambiado en versiones posteriores y aún no está integrado en
-el texto aparece en cajas fucsia «✦ Novedad · Claude Code 2.1.3xx · por
-incorporar», resumidas en la [portada](index.qmd#novedades-de-claude-code-por-incorporar).
-Los modelos utilizados constan en el historial de commits del repositorio.
+consultada. Cada edición del curso, con lo que cambió, dónde y cómo se comprobó, queda
+registrada en [Actualizaciones](actualizaciones.qmd). Si una novedad aún no puede
+integrarse en el texto, aparece en una caja fucsia «✦ Novedad · Claude Code 2.1.3xx ·
+por incorporar» en su unidad. Los modelos utilizados constan en el historial de
+commits del repositorio.
 
 ## Licencias
 

@@ -29,6 +29,7 @@ filters:
   - scripts/ejercicios.lua
   - scripts/referencias.lua
   - scripts/version_unidad.lua
+  - scripts/actualizaciones.lua
 
 website:
   title: "ClaudeDo"

@@ -21,13 +21,19 @@ El curso es su propio ejemplo: se ha programado, redactado y comprobado con
 | | Fecha | Claude Code |
 |---|---|---|
 | Creación | octubre de 2026 | 2.1.300 a 2.1.311 |
-| Documentación contrastada en las unidades | 23-10-2026 | 2.1.309 |
-| Última versión analizada (changelog) | 03-11-2026 | 2.1.317 |
-| Última revisión de la web | 03-11-2026 | 2.1.317 |
+| Documentación contrastada en las unidades | 25-11-2026 | 2.1.332 (antes, 2.1.309 el 23-10-2026) |
+| Binario de las comprobaciones | 25-11-2026 | 2.1.330 |
+| Última versión analizada (changelog) | 25-11-2026 | 2.1.332 |
+| Última revisión de la web | 25-11-2026 | 2.1.330 |
 
-Las novedades de Claude Code posteriores a la 2.1.309 que aún no están integradas en el texto
-aparecen en la web en cajas fucsia «✦ Novedad · por incorporar». Fuente de estas cifras:
-`_variables.yml`.
+Edición **0.3.0** (25-11-2026), con los modelos Claude Fable 5.2, Opus 5.5, Sonnet 5.5 y
+Haiku 5.5. Cada edición, con lo que cambió, dónde y cómo se comprobó, se registra en la página
+[Actualizaciones](https://me1catrr.github.io/claudedo/actualizaciones.html). Fuente de estas cifras:
+`_variables.yml` y `_versiones.yml`.
+
+**Mantenimiento.** Para poner el curso al día basta con pedir a Claude Code «Actualiza
+ClaudeDo»: sigue el procedimiento de `_curso/ACTUALIZAR.md` y deja la nueva edición lista para
+revisión, sin publicar.
 
 ## Unidades
 
@@ -43,7 +49,8 @@ figuras y, cuando procede, código de ejemplo probado en `_ejemplo/`.
 Ficheros clave:
 
 - `temario.yml`: fuente de verdad de identificadores, títulos, prerrequisitos, perfiles, temas y áreas.
-- `_versiones.yml`: versión y comprobación de cada unidad (indicador bajo el título, `scripts/version_unidad.lua`).
+- `_versiones.yml`: versión y comprobación de cada unidad (indicador bajo el título, `scripts/version_unidad.lua`) e historial de ediciones del curso (página «Actualizaciones», `scripts/actualizaciones.lua`).
+- `_variables.yml`: fechas de revisión, versiones de Claude Code y datos de los modelos vigentes (`{{< var … >}}`).
 - `_curso/`: plan, estado, decisiones, fuentes y registro verificado de comandos (`comandos.yml`). No se publica.
 - `scripts/generar_hoja.jl`: genera la hoja de consulta desde `_curso/comandos.yml`.
 - `scripts/auditar_claude.jl`: comprueba la coherencia de versiones y comandos.

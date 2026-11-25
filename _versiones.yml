@@ -2,10 +2,81 @@
 # Fechas en DD/MM/AAAA. «actualizado» es la edición del texto; «verificacion» la última
 # comprobación técnica (puede ser anterior). No marcar «verificado» sin haber ejecutado la comprobación.
 # estado: verificado | pendiente de revisión | histórico
+#
+# curso: edición de ClaudeDo y su historial público. scripts/actualizaciones.lua lo
+# muestra en actualizaciones.qmd (con temario.yml para los títulos y las carpetas).
+#   claude_code_consultada  última versión publicada cuyo changelog se ha leído
+#   claude_code_integrada   versión de la documentación con la que se contrastó el texto
+#   claude_code_comprobada  binario con el que se ejecutaron las comprobaciones
+#   historial[].cambios     {unidad, seccion (ancla sin #), etiqueta, texto, evidencia}
+#                           evidencia: ejecución (binario) · simulación · documentación · changelog
+#   historial[].pendientes  lo que queda sin comprobar
+# Unidades: claude_code_documentada = versión de la documentación contrastada;
+#   claude_code_instalada = binario con el que se ejecutó la última comprobación.
 versiones:
   curso:
-    version: "0.2.0"
-    actualizado: "23/10/2026"
+    version: "0.3.0"
+    actualizado: "25/11/2026"
+    claude_code_consultada: "2.1.332 (25/11/2026)"
+    claude_code_integrada: "2.1.332"
+    claude_code_comprobada: "2.1.330 (aplicación de escritorio); ninguna comprobación se declara hecha en 2.1.332"
+    modelos: "Claude Fable 5.2, Opus 5.5, Sonnet 5.5 y Haiku 5.5 (documentación del 25/11/2026)"
+    historial:
+      - version: "0.3.0"
+        fecha: "25/11/2026"
+        claude_code: "2.1.310 a 2.1.332 (changelog leído; texto contrastado con la documentación vigente)"
+        comprobada: "2.1.330"
+        modelos: "Fable 5.2, Opus 5.5, Sonnet 5.5 y Haiku 5.5"
+        resumen: >-
+          Actualización integral: las novedades de Claude Code de la 2.1.310 a la 2.1.332 que
+          afectan al curso pasan al texto de las unidades (desaparecen las cajas «por
+          incorporar»), los modelos y precios se contrastan con la documentación oficial y se
+          centralizan en `_variables.yml`, y se abre esta página de actualizaciones.
+        cambios:
+          - {unidad: C1, seccion: c1-1, etiqueta: "C1.1", texto: "Fable 5.2 sustituye a Fable 5.1 (8 $ / 40 $ por MTok); identificadores, latencia, retiradas y modelos de acceso limitado; ejercicio nuevo sobre identificadores", evidencia: "documentación"}
+          - {unidad: C1, seccion: c1-4, etiqueta: "C1.4", texto: "Esfuerzo por defecto de cada modelo y dónde se elige modelo y esfuerzo en la aplicación, Claude Code y la API", evidencia: "documentación"}
+          - {unidad: C1, seccion: c1-5, etiqueta: "C1.5", texto: "Claude Code pregunta antes de enviar a la red el correo de la cuenta (2.1.317, ajustado en 2.1.321 y 2.1.325)", evidencia: "changelog"}
+          - {unidad: C2, seccion: c2-1, etiqueta: "C2.1", texto: "Warp como otra aplicación de terminal: la Zsh o PowerShell de siempre", evidencia: "documentación"}
+          - {unidad: C2, seccion: c2-8, etiqueta: "C2.8", texto: "La extensión de Claude Code en Cursor y otros editores derivados de VS Code (no probado en el curso)", evidencia: "documentación"}
+          - {unidad: C2, seccion: c2-9, etiqueta: "C2.9", texto: "Saber qué versión tienes y actualizar según el método de instalación; dos instalaciones en PATH; `claude doctor` con prueba de conectividad (2.1.331) y `claude auth status` con caducidad del inicio de sesión (2.1.318); ejercicio nuevo", evidencia: "ejecución (`--version`, `--help`, 2.1.330), documentación y changelog"}
+          - {unidad: C3, seccion: c3-10, etiqueta: "C3.10", texto: "Limpieza de worktrees al salir y con `claude -p`; `ExitWorktree` pregunta antes de borrar trabajo sin guardar (2.1.327); `git worktree add/move/remove` fallan dentro del sandbox (2.1.323); ejercicio nuevo", evidencia: "documentación y changelog"}
+          - {unidad: C4, seccion: c4-3, etiqueta: "C4.3", texto: "Modos vigentes (`default` se muestra como *Manual*, `dontAsk`), modo inicial `auto` en terminal y VS Code, ciclo de Mayús+Tab, reglas `allow` con el `*` en su sitio, *Recently blocked*, `blockWritesOutsideWorkingDirectories` y `denyInsteadOfPrompting`; tres ejercicios nuevos", evidencia: "ejecución (2.1.330) y documentación"}
+          - {unidad: C4, seccion: c4-7, etiqueta: "C4.7", texto: "Modelos y alias, migración de Fable 5.1 a `fable` (2.1.321), niveles de esfuerzo y `ultrathink`, ventanas de uso de cinco horas y semanal, retirada del modo rápido de Opus 4.8 (30/11/2026); dos ejercicios nuevos", evidencia: "ejecución (`--effort`, 2.1.330) y documentación"}
+          - {unidad: C4, seccion: c4-9, etiqueta: "C4.9", texto: "Siete filas nuevas en la tabla de comandos y nombres que han cambiado", evidencia: "ejecución (`--max-turns`, 2.1.330) y documentación"}
+          - {unidad: C5, seccion: c5-4, etiqueta: "C5.4", texto: "`/code-review` y `/security-review`: qué revisan, cómo se usan y cómo tratar sus hallazgos; ejercicio nuevo", evidencia: "documentación (con discrepancia declarada sobre el objetivo por defecto)"}
+          - {unidad: C6, seccion: c6-6, etiqueta: "C6.6", texto: "Typst como alternativa a LaTeX para PDF en Quarto (no usada ni probada en el curso)", evidencia: "documentación"}
+          - {unidad: C7, seccion: c7-5, etiqueta: "C7.5", texto: "Evento `PreSkillShellCommand` (2.1.332), `onFailure` para fallar abierto o cerrado, campo `shell`, matcher `Bash` y Monitor (2.1.314), `exit 2` en PowerShell (2.1.316) y límite de hooks simultáneos (discrepancia declarada); dos ejercicios nuevos", evidencia: "documentación y simulación (validar-comando.sh, 14/14)"}
+          - {unidad: C7, seccion: c7-6, etiqueta: "C7.6", texto: "`claude mcp add-json <nombre> -` (2.1.327) y tareas MCP; ejercicio nuevo", evidencia: "ejecución (`--help`, 2.1.330) y documentación"}
+          - {unidad: C7, seccion: c7-8, etiqueta: "C7.8", texto: "Estructura mínima de un plugin, `engines[\"claude-code\"]` (2.1.323), `claude plugin validate` y `--plugin-dir`; ejercicio y ejercicio autónomo nuevos", evidencia: "documentación"}
+          - {unidad: C7, seccion: c7-9, etiqueta: "C7.9", texto: "El diálogo de confianza indica dónde se declaran los hooks (2.1.329)", evidencia: "changelog"}
+          - {unidad: C8, seccion: c8-1, etiqueta: "C8.1", texto: "Códigos de salida de `claude -p` por versión, `--max-turns` fuera de la ayuda, `dontAsk` / `--permission-prompts none` / `denyInsteadOfPrompting`, `/loop` y tareas recurrentes de hasta 30 días; dos ejercicios nuevos", evidencia: "ejecución (2.1.330), documentación y changelog"}
+          - {unidad: C8, seccion: c8-2, etiqueta: "C8.2", texto: "Campos `model` y `effort` de los subagentes, `CLAUDE_CODE_SUBAGENT_EFFORT` y `/tasks`; ejercicio nuevo", evidencia: "documentación"}
+          - {unidad: C8, seccion: c8-4, etiqueta: "C8.4", texto: "`ExitWorktree` pregunta antes de borrar (2.1.327); `git worktree` fuera del sandbox (2.1.323)", evidencia: "changelog"}
+          - {unidad: C8, seccion: c8-8, etiqueta: "C8.8", texto: "Escrituras fuera de las carpetas de trabajo, denegar en vez de preguntar y `sandbox.autoAllowBashIfSandboxed` (2.1.325); ejercicio nuevo", evidencia: "documentación"}
+          - {unidad: C9, seccion: c9-1, etiqueta: "C9.1", texto: "Modelos e identificadores vigentes; Fable 5.1 sigue activa", evidencia: "documentación"}
+          - {unidad: C9, seccion: c9-2, etiqueta: "C9.2", texto: "Esfuerzo (`output_config.effort`) y sus valores por defecto; `stop_sequence` y `pause_turn`; tabla de precios con caché y lotes", evidencia: "documentación y skill claude-api de 2.1.330"}
+          - {unidad: C9, seccion: referencias-de-esta-unidad, etiqueta: "C9 · Referencias", texto: "Reglas de la API recontrastadas con la skill claude-api de la 2.1.330", evidencia: "skill claude-api de 2.1.330"}
+        pendientes:
+          - "Comprobar en ejecución, con el binario 2.1.332, lo que en esta edición consta solo como documentación o changelog."
+          - "Dentro de una sesión real: modos de permiso y su ciclo, `/permissions` (*Recently blocked*), `/code-review`, `PreSkillShellCommand`, `/tasks` y `/loop`."
+          - "Órdenes que necesitan cuenta o red: `claude doctor` (conectividad), `claude auth status` (`loginExpiresAt`), `claude update`, `claude mcp add-json`, `claude plugin validate`."
+          - "PowerShell en Windows y las pruebas de C9 con el SDK `anthropic` 2.2.0 (no disponible sin descarga en esta revisión)."
+      - version: "0.2.0"
+        fecha: "03/11/2026"
+        claude_code: "2.1.310 a 2.1.317 (changelog leído, señalado en cajas «por incorporar»)"
+        comprobada: "2.1.306"
+        resumen: >-
+          Rediseño visual y separación de los sitios hermanos. Las novedades de Claude Code de la
+          2.1.310 a la 2.1.317 se señalaron en cajas «Novedad · por incorporar» en C1, C4, C7, C8 y
+          C9, sin integrarlas aún en el texto.
+      - version: "0.2.0"
+        fecha: "23/10/2026"
+        claude_code: "2.1.309 (documentación)"
+        comprobada: "2.1.306"
+        modelos: "Fable 5.1, Opus 5.5, Sonnet 5.5 y Haiku 5.5"
+        resumen: >-
+          Primera redacción completa de las diez unidades C0–C9, con ejercicios, prácticas,
+          diapositivas, indicador de versión y registro verificado de comandos.
   C0:
     version: "0.3.0"
     actualizado: "23/10/2026"
@@ -18,63 +89,68 @@ versiones:
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Diez temas, historia de la IA y línea temporal"}
       - {version: "0.3.0", fecha: "23/10/2026", cambio: "Auditoría: atención causal, objetivo de entrenamiento, softmax, seudonimización, vigencia del Reglamento de IA, resolución de la FFT"}
   C1:
-    version: "0.2.0"
-    actualizado: "23/10/2026"
-    verificacion: "23/10/2026"
-    claude_code_documentada: "2.1.309"
+    version: "0.3.0"
+    actualizado: "25/11/2026"
+    verificacion: "25/11/2026"
+    claude_code_documentada: "2.1.332"
     claude_code_instalada: "2.1.306"
     estado: pendiente de revisión
-    nota: "Planes, límites y condiciones de datos leídos mediante resúmenes automáticos de las páginas oficiales; el código de la práctica y los ejercicios numéricos sí se han ejecutado"
+    nota: "Planes, límites y condiciones de datos leídos mediante resúmenes automáticos de las páginas oficiales; el código de la práctica y los ejercicios numéricos sí se han ejecutado. 25/11/2026: modelos, precios y retiradas contrastados con la documentación de la plataforma (lectura directa); la protección del correo de la cuenta, solo changelog; ninguna orden nueva ejecutada"
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa: nueve temas, práctica con datos sintéticos, ejercicios y diapositivas"}
+      - {version: "0.3.0", fecha: "25/11/2026", cambio: "Fable 5.2 y datos de modelos centralizados; esfuerzo y superficies; protección del correo de la cuenta; ejercicio sobre identificadores"}
   C2:
-    version: "0.2.0"
-    actualizado: "23/10/2026"
-    verificacion: "23/10/2026"
-    claude_code_documentada: "2.1.309"
-    claude_code_instalada: "2.1.306"
+    version: "0.3.0"
+    actualizado: "25/11/2026"
+    verificacion: "25/11/2026"
+    claude_code_documentada: "2.1.332"
+    claude_code_instalada: "2.1.330"
     estado: pendiente de revisión
-    nota: "Zsh 5.9 y PowerShell 7.6.8 probados en macOS 27.0.1; las órdenes solo de Windows (Get-Acl, icacls, winget, Programador de tareas) no se han ejecutado; las de red y launchctl no se han ejecutado"
+    nota: "Zsh 5.9 y PowerShell 7.6.8 probados en macOS 27.0.1; las órdenes solo de Windows (Get-Acl, icacls, winget, Programador de tareas) no se han ejecutado; las de red y launchctl no se han ejecutado. 25/11/2026: claude --version y --help ejecutados con 2.1.330; claude update, doctor y auth status no ejecutados (red y cuenta); Cursor y Warp no probados"
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa solo para macOS y Windows; tres prácticas con proyecto de ejemplo y pruebas"}
+      - {version: "0.3.0", fecha: "25/11/2026", cambio: "Actualizar según el método de instalación, dos instalaciones en PATH, doctor y auth status; Warp y editores derivados de VS Code"}
   C3:
-    version: "0.2.0"
-    actualizado: "23/10/2026"
-    verificacion: "23/10/2026"
-    claude_code_documentada: "2.1.309"
+    version: "0.3.0"
+    actualizado: "25/11/2026"
+    verificacion: "25/11/2026"
+    claude_code_documentada: "2.1.332"
     claude_code_instalada: "2.1.306"
     estado: pendiente de revisión
-    nota: "Git 2.55.0 probado en repositorio temporal; el ejercicio con Claude Code se verificó con una solución de referencia (8 pruebas), no ejecutando Claude Code; GitHub (remotos, PR, Actions) no ejecutado"
+    nota: "Git 2.55.0 probado en repositorio temporal; el ejercicio con Claude Code se verificó con una solución de referencia (8 pruebas), no ejecutando Claude Code; GitHub (remotos, PR, Actions) no ejecutado. 25/11/2026: worktrees contrastados con la documentación vigente; el fallo de git worktree en el sandbox, del changelog y observado en la sesión"
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa: diez temas, ejercicio rama-cambio-pruebas-diff-integración, worktrees"}
+      - {version: "0.3.0", fecha: "25/11/2026", cambio: "Limpieza de worktrees al salir y con claude -p; worktrees y sandbox; ejercicio nuevo"}
   C4:
-    version: "0.2.0"
-    actualizado: "23/10/2026"
-    verificacion: "23/10/2026"
-    claude_code_documentada: "2.1.309"
-    claude_code_instalada: "2.1.306"
+    version: "0.3.0"
+    actualizado: "25/11/2026"
+    verificacion: "25/11/2026"
+    claude_code_documentada: "2.1.332"
+    claude_code_instalada: "2.1.330"
     estado: pendiente de revisión
-    nota: "Opciones y subcomandos contrastados con claude --help 2.1.306 y claude doctor; instalación en macOS/Windows y la sesión interactiva de la práctica NO se ejecutaron (requieren cuenta y red); modos y reglas de permisos según la documentación 2.1.309"
+    nota: "Opciones y subcomandos contrastados con claude --help 2.1.306 y claude doctor; instalación en macOS/Windows y la sesión interactiva de la práctica NO se ejecutaron (requieren cuenta y red); modos y reglas de permisos según la documentación 2.1.309. 25/11/2026: --help, --permission-mode default/manual, --max-turns y el aviso de comodines comprobados con el binario 2.1.330 (sin llamadas a la red); el resto, con la documentación de 2.1.332 o el changelog"
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa: nueve temas, simulación de permisos con pruebas Deno, CLAUDE.md, coste y comandos cambiados"}
+      - {version: "0.3.0", fecha: "25/11/2026", cambio: "Modos de permiso vigentes y modo inicial, reglas allow seguras, ajustes que endurecen los límites, modelos y alias, esfuerzo y ultrathink, ventanas de uso y modo rápido; cinco ejercicios nuevos"}
   C5:
-    version: "0.2.0"
-    actualizado: "23/10/2026"
-    verificacion: "23/10/2026"
-    claude_code_documentada: "2.1.309"
+    version: "0.3.0"
+    actualizado: "25/11/2026"
+    verificacion: "25/11/2026"
+    claude_code_documentada: "2.1.332"
     claude_code_instalada: "2.1.306"
     estado: pendiente de revisión
-    nota: "Código de _ejemplo ejecutado: 10 pruebas pytest (Python 3.14, uv) y 10 aserciones Test (Julia 1.12.3); la migración desde MATLAB no se contrastó con MATLAB (no instalado); diálogos con Claude ilustrativos"
+    nota: "Código de _ejemplo ejecutado: 10 pruebas pytest (Python 3.14, uv) y 10 aserciones Test (Julia 1.12.3); la migración desde MATLAB no se contrastó con MATLAB (no instalado); diálogos con Claude ilustrativos. 25/11/2026: /code-review y /security-review contrastados con la documentación vigente, no ejecutados"
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa: nueve temas, ejemplo en Python y Julia con pruebas, depuración, migración MATLAB-Julia"}
+      - {version: "0.3.0", fecha: "25/11/2026", cambio: "Órdenes de revisión incluidas (/code-review y /security-review) y ejercicio sobre cómo tratar sus hallazgos"}
   C6:
-    version: "0.2.0"
-    actualizado: "23/10/2026"
+    version: "0.2.1"
+    actualizado: "25/11/2026"
     verificacion: "23/10/2026"
     claude_code_documentada: "2.1.309"
     claude_code_instalada: "2.1.306"
@@ -83,36 +159,40 @@ versiones:
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa: ocho temas, cinco casos sintéticos, Excel, informe Quarto, lotes y laboratorios"}
+      - {version: "0.2.1", fecha: "25/11/2026", cambio: "Mención de Typst como alternativa para PDF en Quarto (no usada ni probada en el curso)"}
   C7:
-    version: "0.2.0"
-    actualizado: "23/10/2026"
-    verificacion: "23/10/2026"
-    claude_code_documentada: "2.1.309"
-    claude_code_instalada: "2.1.306"
+    version: "0.3.0"
+    actualizado: "25/11/2026"
+    verificacion: "25/11/2026"
+    claude_code_documentada: "2.1.332"
+    claude_code_instalada: "2.1.330"
     estado: pendiente de revisión
-    nota: "Hooks, skill y servidor MCP probados FUERA de Claude Code (JSON de muestra, pytest, cliente del SDK mcp 2.3.0); PowerShell 7.6.8 sobre macOS; claude mcp add y el funcionamiento dentro de una sesión no se ejecutaron; plugins solo de la visión general"
+    nota: "Hooks, skill y servidor MCP probados FUERA de Claude Code (JSON de muestra, pytest, cliente del SDK mcp 2.3.0); PowerShell 7.6.8 sobre macOS; claude mcp add y el funcionamiento dentro de una sesión no se ejecutaron; plugins solo de la visión general. 25/11/2026: 14/14 comprobaciones de hooks (Zsh); validar-comando.sh probado con entradas de PreSkillShellCommand fuera de Claude Code; claude mcp add-json, plugin validate y --plugin-dir contrastados con --help 2.1.330, no ejecutados; PowerShell no repetido (pwsh no disponible); plugins contrastados con plugins-reference.md"
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa: mapa de mecanismos, skill, hooks, subagente y servidor MCP con pruebas"}
+      - {version: "0.3.0", fecha: "25/11/2026", cambio: "PreSkillShellCommand, onFailure, shell y Monitor en hooks; add-json y tareas MCP; engines y validación de plugins; diálogo de confianza; cuatro ejercicios y un ejercicio autónomo nuevos"}
   C8:
-    version: "0.2.0"
-    actualizado: "23/10/2026"
-    verificacion: "23/10/2026"
-    claude_code_documentada: "2.1.309"
-    claude_code_instalada: "2.1.306"
+    version: "0.3.0"
+    actualizado: "25/11/2026"
+    verificacion: "25/11/2026"
+    claude_code_documentada: "2.1.332"
+    claude_code_instalada: "2.1.330"
     estado: pendiente de revisión
-    nota: "Ejecutor de tareas probado con un claude falso (15 comprobaciones Zsh; PowerShell 7.6.8 en macOS); YAML de Actions y plist validados solo sintácticamente; ninguna llamada real a Claude Code no interactivo, Actions, Docker ni launchctl; GSD sin verificar en su repositorio"
+    nota: "Ejecutor de tareas probado con un claude falso (15 comprobaciones Zsh; PowerShell 7.6.8 en macOS); YAML de Actions y plist validados solo sintácticamente; ninguna llamada real a Claude Code no interactivo, Actions, Docker ni launchctl; GSD sin verificar en su repositorio. 25/11/2026: 15/15 comprobaciones Zsh repetidas (PowerShell no, pwsh no disponible); --max-turns y el código de una opción desconocida comprobados con el binario 2.1.330; códigos de salida de claude -p por versión, solo changelog"
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa: modo no interactivo con límites, subagentes y equipos, worktrees, Actions, seguridad y evaluación de GSD"}
+      - {version: "0.3.0", fecha: "25/11/2026", cambio: "Códigos de salida de claude -p, que nada se quede esperando, /loop y tareas de 30 días; model y effort de subagentes y /tasks; worktrees y sandbox; autoAllowBashIfSandboxed; cuatro ejercicios nuevos"}
   C9:
-    version: "0.2.0"
-    actualizado: "23/10/2026"
-    verificacion: "23/10/2026"
-    claude_code_documentada: "2.1.309"
+    version: "0.3.0"
+    actualizado: "25/11/2026"
+    verificacion: "25/11/2026"
+    claude_code_documentada: "2.1.332"
     claude_code_instalada: "2.1.306"
     estado: pendiente de revisión
-    nota: "SDK anthropic 2.2.0 probado sobre transporte HTTP simulado (26 pruebas pytest, 4 aserciones Julia); NINGUNA llamada real a la API; salida estructurada con esquema, lotes y ficheros solo descritos; reglas de la API desde la skill claude-api (fuente secundaria); precios y modelos de la documentación del 23-10-2026"
+    nota: "SDK anthropic 2.2.0 probado sobre transporte HTTP simulado (26 pruebas pytest, 4 aserciones Julia); NINGUNA llamada real a la API; salida estructurada con esquema, lotes y ficheros solo descritos; reglas de la API desde la skill claude-api (fuente secundaria); precios y modelos de la documentación del 23-10-2026. 25/11/2026: modelos y precios contrastados con la documentación de la plataforma; reglas de la API recontrastadas con la skill claude-api de 2.1.330; el código del ejemplo no cambia"
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa: API, errores, coste, salidas estructuradas, evaluación y proyecto integrador con informe Quarto"}
+      - {version: "0.3.0", fecha: "25/11/2026", cambio: "Fable 5.2; esfuerzo y sus valores por defecto; motivos de parada completos; precios con caché y lotes; referencias recontrastadas"}

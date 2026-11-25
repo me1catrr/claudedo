@@ -32,6 +32,8 @@ curso:
   menu:
     - texto: Hoja de consulta
       href: hoja-consulta.qmd
+    - texto: Actualizaciones
+      href: actualizaciones.qmd
 
 vias:
 

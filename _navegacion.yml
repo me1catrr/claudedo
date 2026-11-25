@@ -7,6 +7,8 @@ website:
         href: index.qmd
       - text: "Hoja de consulta"
         href: hoja-consulta.qmd
+      - text: "Actualizaciones"
+        href: actualizaciones.qmd
     right:
       - text: Acerca de
         href: about.qmd
