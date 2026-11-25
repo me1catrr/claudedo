@@ -79,7 +79,7 @@ La **API de Claude** (la *Messages API*) es un servicio web: tu programa envía 
 4. La clave se **crea en la consola** de Anthropic y la facturación está ligada a esa organización (puedes fijar límites de gasto por espacio de trabajo).
 5. Para pruebas, **una clave de pruebas con un tope bajo**, o mejor, el transporte simulado de abajo.
 
-**Modelos** (documentación consultada el 23-10-2026; **cambian**): Fable 5.1, Opus 5.5, Sonnet 5.5 y Haiku 5.5, con identificadores como `claude-sonnet-5-5` y ventana de contexto de 1 millón de *tokens* y hasta 128 000 de salida [@anthropic-modelos]. Los identificadores se escriben **exactos, sin sufijos de fecha**, y cada uno tiene una fecha mínima de retirada: tu código debe poder cambiar de modelo con una constante o un ajuste.
+**Modelos** (documentación consultada el {{< var modelos.consulta >}}; **cambian**): {{< var modelos.fable.corto >}}, {{< var modelos.opus.corto >}}, {{< var modelos.sonnet.corto >}} y {{< var modelos.haiku.corto >}}, con identificadores `{{< var modelos.fable.id >}}`, `{{< var modelos.opus.id >}}`, `{{< var modelos.sonnet.id >}}` y `{{< var modelos.haiku.id >}}`, ventana de contexto de {{< var modelos.contexto >}} y hasta {{< var modelos.salida >}} de salida [@anthropic-modelos]. Fable 5.1 (`claude-fable-5-1`) sigue activa, más cara que la 5.2; los modelos anteriores conservan su identificador hasta su retirada [@anthropic-retiradas]. Los identificadores se escriben **exactos, sin sufijos de fecha**, y cada uno tiene una fecha mínima de retirada: tu código debe poder cambiar de modelo con una constante o un ajuste.
 
 **Pon a prueba lo anterior.**
 
@@ -126,9 +126,9 @@ print(r.content[0].text)
 print(r.usage.input_tokens, r.usage.output_tokens, r.stop_reason)
 ```
 
-**Parámetros que importan.** `model` (el identificador), `max_tokens` (tope **obligatorio** de la respuesta; **no lo escatimes**: una respuesta cortada a mitad es un error que cuesta una repetición), `messages` (el historial) y `system` (instrucciones permanentes). Para razonamiento, los modelos actuales usan **pensamiento adaptativo** y un parámetro de **esfuerzo** (`output_config.effort`); no se usa ya un presupuesto fijo de pensamiento. Según la documentación de referencia de la API consultada, **`temperature`, `top_p` y `top_k` dejan de aceptarse** (error 400) con la versión de API de 21-10-2026: no los incluyas en código nuevo y comprueba tu versión (esto afecta a lo que viste en C0.3: la temperatura sigue siendo el concepto, pero ya no siempre un mando que puedas ajustar).
+**Parámetros que importan.** `model` (el identificador), `max_tokens` (tope **obligatorio** de la respuesta; **no lo escatimes**: una respuesta cortada a mitad es un error que cuesta una repetición), `messages` (el historial) y `system` (instrucciones permanentes). Para razonamiento, los modelos actuales usan **pensamiento adaptativo** y un parámetro de **esfuerzo** (`output_config.effort`, con `low`, `medium`, `high`, `xhigh` o `max`); no se usa ya un presupuesto fijo de pensamiento (`budget_tokens` da error 400 en los modelos vigentes). En Fable 5.2 y Opus 5.5 el pensamiento no se puede desactivar: el esfuerzo es el único mando. El esfuerzo por defecto es `high`, salvo en Opus 5.5 y Haiku 5.5, que usan `medium`: si tu código venía de otro modelo, fíjalo explícitamente y mide. Según la documentación de referencia de la API consultada, **`temperature`, `top_p` y `top_k` dejan de aceptarse** (error 400) con la versión de API de 21-10-2026: no los incluyas en código nuevo y comprueba tu versión (esto afecta a lo que viste en C0.3: la temperatura sigue siendo el concepto, pero ya no siempre un mando que puedas ajustar).
 
-**La respuesta.** `r.content` es una **lista de bloques** (texto, uso de herramientas, pensamiento…): se comprueba el tipo antes de leer `.text`. `r.stop_reason` dice por qué paró: `end_turn` (terminó), **`max_tokens`** (cortada), `tool_use` (quiere llamar a una herramienta), `refusal` (rechazó la petición por seguridad). **Siempre se comprueba antes de usar el texto.** `r.usage` da los *tokens* de entrada y salida (y de caché).
+**La respuesta.** `r.content` es una **lista de bloques** (texto, uso de herramientas, pensamiento…): se comprueba el tipo antes de leer `.text`. `r.stop_reason` dice por qué paró: `end_turn` (terminó), **`max_tokens`** (cortada), `stop_sequence` (encontró una secuencia de parada tuya), `tool_use` (quiere llamar a una herramienta), `pause_turn` (pausó un turno largo que se puede reanudar), `refusal` (rechazó la petición por seguridad; el detalle viene en `stop_details`). **Siempre se comprueba antes de usar el texto.** `r.usage` da los *tokens* de entrada y salida (y de caché).
 
 **Coste.** Con los precios por millón de *tokens*:
 
@@ -136,14 +136,14 @@ $$
 \text{coste} = \frac{n_{\text{ent}}\,p_{\text{ent}} + n_{\text{sal}}\,p_{\text{sal}}}{10^{6}}.
 $$
 
-| Modelo | Entrada (€/$ por MTok) | Salida |
-|---|---|---|
-| Haiku 5.5 | 0,10 $ (hasta 100K de prompt) | 0,50 $ |
-| Sonnet 5.5 | 2 $ | 10 $ |
-| Opus 5.5 | 4 $ | 20 $ |
-| Fable 5.1 | 10 $ | 50 $ |
+| Modelo | Entrada ($ por MTok) | Salida | Lectura de caché | Lotes (entrada / salida) |
+|---|---|---|---|---|
+| {{< var modelos.haiku.corto >}} | {{< var modelos.haiku.entrada >}} | {{< var modelos.haiku.salida >}} | {{< var modelos.haiku.cache >}} | {{< var modelos.haiku.lotes >}} |
+| {{< var modelos.sonnet.corto >}} | {{< var modelos.sonnet.entrada >}} | {{< var modelos.sonnet.salida >}} | {{< var modelos.sonnet.cache >}} | {{< var modelos.sonnet.lotes >}} |
+| {{< var modelos.opus.corto >}} | {{< var modelos.opus.entrada >}} | {{< var modelos.opus.salida >}} | {{< var modelos.opus.cache >}} | {{< var modelos.opus.lotes >}} |
+| {{< var modelos.fable.corto >}} | {{< var modelos.fable.entrada >}} | {{< var modelos.fable.salida >}} | {{< var modelos.fable.cache >}} | {{< var modelos.fable.lotes >}} |
 
-(Precios de la documentación de modelos, 23-10-2026; **cambian**.) Comprobado con el código del ejemplo: 20 000 *tokens* de entrada y 2 000 de salida cuestan **0,06 $** con Sonnet 5.5; 50 000 y 1 000 cuestan **0,0055 $** con Haiku 5.5 y **0,22 $** con Opus 5.5. **Palancas de coste**, de las que no pierden calidad a las que sí: reducir lo que envías (no pegues lo que no hace falta), **caché de prompts** (los *tokens* leídos de la caché cuestan una fracción de los normales: el prefijo debe ser idéntico), **lotes asíncronos con un descuento del 50 %**, y solo después elegir un modelo más pequeño o menos esfuerzo, **midiendo** antes con tus casos. `client.messages.count_tokens(...)` cuenta *tokens* antes de gastar.
+(Precios de la documentación de precios de la API, {{< var modelos.consulta >}} [@anthropic-precios-api]; **cambian**. Escribir en la caché cuesta algo más que la entrada normal, 1,25 veces con duración de 5 minutos y el doble con 1 hora; leer de ella cuesta una fracción: 0,05 veces en Opus y Sonnet 5.5 y 0,025 veces en Fable 5.2. Haiku 5.5 es el único con precio por tramos: con prompts de más de 100 000 *tokens* pasa a 0,50 $ / 2,50 $.) Comprobado con el código del ejemplo: 20 000 *tokens* de entrada y 2 000 de salida cuestan **0,06 $** con Sonnet 5.5; 50 000 y 1 000 cuestan **0,0055 $** con Haiku 5.5 y **0,22 $** con Opus 5.5. **Palancas de coste**, de las que no pierden calidad a las que sí: reducir lo que envías (no pegues lo que no hace falta), **caché de prompts** (los *tokens* leídos de la caché cuestan una fracción de los normales: el prefijo debe ser idéntico), **lotes asíncronos con un descuento del 50 %**, y solo después elegir un modelo más pequeño o menos esfuerzo, **midiendo** antes con tus casos. `client.messages.count_tokens(...)` cuenta *tokens* antes de gastar.
 
 **Pon a prueba lo anterior.**
 
@@ -451,18 +451,13 @@ o del SDK no has podido comprobar en la documentación vigente y qué precios ha
 
 ## Referencias de esta unidad
 
-Documentación de modelos y precios de la plataforma Claude [@anthropic-modelos] (consultada el 23-10-2026). Las reglas de la API, de los SDK y sus cambios
-(parámetros retirados, códigos de error, lotes, caché) proceden de la documentación de referencia de la API incluida en la *skill* `claude-api` de Claude Code 2.1.309 [@anthropic-skillapi],
-que se contrastó con el comportamiento del SDK `anthropic` 2.2.0 sobre un transporte simulado. Consulta siempre la documentación vigente:
-[platform.claude.com/docs](https://platform.claude.com/docs/en/models/overview).
-
-::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.314 · por incorporar"}
-**La fuente de esta unidad ha cambiado.** La *skill* `claude-api` se actualizó en la 2.1.314.
-Su configuración de Datadog para trazar la API envía ahora la cabecera `dd-llmobs-enabled: true`,
-como la consola, y sus instrucciones de instalación de `ant` ya no incluyen el paso `xattr` de
-macOS [@anthropic-changelog]. Antes de la próxima revisión de C9 hay que volver a contrastar sus
-reglas con la versión vigente de la *skill*.
-
-[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
-contrastó con la 2.1.309.]{.novedad-estado}
-:::
+Documentación de modelos, precios y retiradas de la plataforma Claude [@anthropic-modelos; @anthropic-precios-api; @anthropic-retiradas]
+(consultada el 23-10-2026 y de nuevo el 25-11-2026). Las reglas de la API, de los SDK y sus cambios
+(parámetros retirados, esfuerzo, motivos de parada, códigos de error, lotes, caché) proceden de la documentación de referencia de la API incluida en la *skill* `claude-api` [@anthropic-skillapi]:
+primero la de Claude Code 2.1.309 y, en la revisión del 25-11-2026, la de la 2.1.330, que sigue
+confirmando el rechazo de `temperature`, `top_p` y `top_k` con la versión de API de 21-10-2026. El código
+se contrastó con el comportamiento del SDK `anthropic` 2.2.0 sobre un transporte simulado. La *skill*
+se ha ampliado con ayudas como `/claude-api cost-optimize` y `/claude-api latency-optimize` (desde
+la 2.1.319), que revisan el coste y la espera de un código existente [@anthropic-changelog]; el curso
+no las usa. Consulta siempre la documentación vigente:
+[platform.claude.com/docs](https://platform.claude.com/docs/en/about-claude/models/overview).

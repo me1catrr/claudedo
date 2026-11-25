@@ -65,25 +65,35 @@ acceso por chat y por API ([«Introducing Claude»](https://www.anthropic.com/ne
 El 25 de noviembre de 2024 publicó el **Model Context Protocol** (MCP), un estándar abierto para
 conectar asistentes con datos y herramientas ([anuncio](https://www.anthropic.com/news/model-context-protocol)).
 En febrero de 2025 presentó **Claude Code** junto con Claude 3.7 Sonnet
-([anuncio](https://www.anthropic.com/news/claude-3-7-sonnet)). Fechas tomadas de los anuncios
-oficiales, consultados el 23-10-2026.
+([anuncio](https://www.anthropic.com/news/claude-3-7-sonnet)). La generación vigente llegó en
+otoño de 2026: Opus 5.5 el 22 de septiembre, Sonnet 5.5 el 28 de septiembre, Haiku 5.5 el 7 de
+octubre y **Fable 5.2** el 9 de noviembre, que sustituye a Fable 5.1 como modelo Fable más
+reciente [@anthropic-fable52]. Fechas tomadas de los anuncios oficiales, consultados el 23-10-2026
+y el 25-11-2026.
 :::
 
-A fecha de consulta, la documentación oficial [@anthropic-modelos] describe cuatro líneas de modelos
-con propósitos distintos. La tabla resume lo que la fuente dice; los precios son por millón de
-*tokens* (MTok) en la API.
+A fecha de consulta ({{< var modelos.consulta >}}), la documentación oficial [@anthropic-modelos]
+describe cuatro líneas de modelos con propósitos distintos. La tabla resume lo que la fuente dice;
+los precios son por millón de *tokens* (MTok) en la API [@anthropic-precios-api].
 
-| Línea | Para qué la presenta la documentación | Velocidad relativa | Entrada / salida por MTok |
-|---|---|---|---|
-| **Fable** 5.1 | Razonamiento exigente y trabajo agéntico de largo recorrido | La más lenta | 10 $ / 50 $ |
-| **Opus** 5.5 | Programación agéntica larga y trabajo del conocimiento | Moderada | 4 $ / 20 $ |
-| **Sonnet** 5.5 | La mejor combinación de velocidad e inteligencia | Rápida | 2 $ / 10 $ |
-| **Haiku** 5.5 | Tareas masivas y de baja latencia: clasificar, extraer, enrutar | La más rápida | desde 0,10 $ / 0,50 $ |
+| Línea | Identificador | Para qué la presenta la documentación | Latencia | Entrada / salida por MTok |
+|---|---|---|---|---|
+| **{{< var modelos.fable.corto >}}** | `{{< var modelos.fable.id >}}` | Razonamiento exigente y trabajo agéntico de largo recorrido | {{< var modelos.fable.latencia >}} | {{< var modelos.fable.entrada >}} / {{< var modelos.fable.salida >}} |
+| **{{< var modelos.opus.corto >}}** | `{{< var modelos.opus.id >}}` | Programación agéntica larga y trabajo del conocimiento | {{< var modelos.opus.latencia >}} | {{< var modelos.opus.entrada >}} / {{< var modelos.opus.salida >}} |
+| **{{< var modelos.sonnet.corto >}}** | `{{< var modelos.sonnet.id >}}` | La mejor combinación de velocidad e inteligencia | {{< var modelos.sonnet.latencia >}} | {{< var modelos.sonnet.entrada >}} / {{< var modelos.sonnet.salida >}} |
+| **{{< var modelos.haiku.corto >}}** | `{{< var modelos.haiku.id >}}` | Tareas masivas y de baja latencia: clasificar, extraer, enrutar | {{< var modelos.haiku.latencia >}} | desde 0,10 $ / 0,50 $ (más caro con prompts de más de 100 000 tokens) |
 
-Los cuatro admiten texto e imágenes de entrada, tienen una ventana de contexto de 1 millón de
-tokens y un máximo de salida de 128 000 tokens, según esa misma página. Cada modelo tiene un
-**identificador** (`claude-sonnet-5-5`, por ejemplo) que es el que se escribe en el código, y
-Anthropic fija una fecha mínima de retirada de cada uno: los modelos no son eternos.
+Los cuatro admiten texto e imágenes de entrada, tienen una ventana de contexto de
+{{< var modelos.contexto >}} y un máximo de salida de {{< var modelos.salida >}}, según esa misma
+página. Cada modelo tiene un **identificador** que es el que se escribe en el código y que no cambia
+aunque salga otro modelo; por eso un programa que funcionaba sigue usando el mismo modelo hasta que
+alguien cambia el identificador.
+
+**Los modelos no son eternos.** Anthropic publica, para cada modelo, una fecha mínima de retirada y
+avisa antes de retirarlo [@anthropic-retiradas]. A fecha de consulta, Fable 5.1 sigue activa (retirada
+no antes del 1-9-2027), Sonnet 4.5 se retira el 30-11-2026 y Opus 4.5 está declarada obsoleta, con
+retirada el 22-1-2027. Hay además modelos de acceso limitado (la línea *Mythos*) que no están
+disponibles para cualquier cuenta y que el curso no usa.
 
 ::: {.callout-warning title="Errores frecuentes"}
 - **Dar por buena una tabla antigua.** Nombres, precios y límites cambian; la página oficial manda.
@@ -115,6 +125,21 @@ Necesitas clasificar miles de correos por categoría, con respuestas muy rápida
 
 ::: {.solucion}
 **Haiku**: la documentación la presenta para tareas de gran volumen y baja latencia como clasificar o extraer. Antes de elegir, pruébala con tus propios ejemplos.
+:::
+:::
+
+::: {.ejercicio tipo="opcion" id="c1-1-identificador" respuesta="b"}
+Un script escrito en octubre llama a la API con el identificador `claude-fable-5-1`. En noviembre sale Fable 5.2. ¿Qué modelo usa el script al día siguiente?
+
+::: {.opciones}
+- Fable 5.2, porque la API pasa sola al modelo más reciente.
+- Fable 5.1, mientras siga activo y nadie cambie el identificador.
+- Ninguno: el script falla en cuanto sale un modelo nuevo.
+- Depende del plan de suscripción de quien lo ejecute.
+:::
+
+::: {.solucion}
+**Fable 5.1.** El identificador fija el modelo; un programa no cambia de modelo hasta que alguien edita el identificador, y Fable 5.1 sigue activa hasta su fecha de retirada. Cambiar a Fable 5.2 es una decisión que se toma probando con tus casos (y aquí, además, abarata: 8 $ / 40 $ frente a 10 $ / 50 $ por MTok).
 :::
 :::
 
@@ -191,6 +216,28 @@ aceptación con ejemplos tuyos, sube de línea si falla por razonamiento o largo
 más ligera si sobra capacidad y necesitas velocidad o abaratar. Mide con tus propios casos, no con
 la reputación.
 
+**Esfuerzo.** Los modelos vigentes razonan antes de responder (*adaptive thinking*) y admiten un
+**nivel de esfuerzo** que regula cuánto: más esfuerzo suele dar mejores resultados en tareas
+difíciles, a cambio de más tiempo y más *tokens*. El valor por defecto **depende de la
+superficie**: en la API es `{{< var modelos.fable.esfuerzo >}}` en Fable y Sonnet y
+`{{< var modelos.opus.esfuerzo >}}` en Opus y Haiku, según la página de modelos
+[@anthropic-modelos], mientras que la documentación de Claude Code indica que allí los cuatro
+empiezan en `medium` [@anthropic-modelconfig]. No lo des por supuesto: compruébalo donde trabajes
+(C4.7, C9.2). Antes de subir de línea, prueba a subir el esfuerzo; antes de bajarla, a bajarlo.
+
+**Dónde se elige, según la superficie.** La misma pregunta, «qué modelo uso», se responde en sitios
+distintos, y no todas las superficies ofrecen lo mismo:
+
+| Superficie | Cómo se elige el modelo | Cómo se ajusta el esfuerzo | Qué modelos ves |
+|---|---|---|---|
+| Aplicación Claude (web, escritorio, móvil) | Selector de modelo del chat | Según lo que ofrezca la aplicación | Los que incluya tu plan |
+| Claude Code (terminal, escritorio, editor) | `/model` o `--model` (C4.7) | `/effort` o `--effort` (C4.7) | Los de tu plan o tu cuenta de API |
+| API | Parámetro `model` con el identificador (C9.2) | Parámetro de esfuerzo de la petición (C9) | Todos los activos, pagando por *tokens* |
+
+Los modelos también se ofrecen a través de nubes de terceros (Amazon Bedrock, Google Cloud,
+Microsoft Foundry), con identificadores y calendarios de retirada propios [@anthropic-retiradas];
+el curso no las usa.
+
 **Planes.** La aplicación se ofrece con un plan gratuito y otros de suscripción individuales y de
 equipo y empresa; la página de precios [@anthropic-precios] indica, a fecha de consulta, qué incluye
 cada uno: modelos accesibles, límites de uso por ventana de tiempo, y si se puede usar Claude Code
@@ -246,14 +293,12 @@ cuenta antes de subir nada que no sea público**, y deja en manos de tu instituc
 decisión sobre qué cuenta usar para trabajo con datos de terceros. Quita siempre claves,
 credenciales y datos personales innecesarios antes de pegar.
 
-::: {.callout-note .novedad icon=false title="Novedad · Claude Code 2.1.317 · por incorporar"}
-Claude Code **pregunta antes** de que una herramienta web o de shell envíe a la red la
-dirección de correo de tu cuenta [@anthropic-changelog]. Es una protección más del mismo
-principio de este apartado: lo que sale de tu equipo lo decides tú.
-
-[Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se
-contrastó con la 2.1.309.]{.novedad-estado}
-:::
+El mismo principio, lo que sale de tu equipo lo decides tú, aparece también en las herramientas.
+Desde la versión 2.1.317, Claude Code **pregunta antes** de que una orden de shell o una petición
+web envíe a la red la dirección de correo de tu cuenta, y en las versiones 2.1.321 y 2.1.325 se
+ajustó qué órdenes y herramientas revisa ese control [@anthropic-changelog]. Es una red de seguridad, no un permiso para
+pegar datos sin pensar: la decisión sigue siendo tuya. (Leído en el changelog; no comprobado en
+ejecución.)
 
 **Pon a prueba lo anterior.**
 

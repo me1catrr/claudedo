@@ -178,12 +178,20 @@ Best practices for Claude Code (2026). Documentación de Claude Code (Anthropic)
 <br><span class="ref-citada">Citada en: [C5](../c5-programar/index.qmd) · [C8](../c8-automatizar/index.qmd)</span>
 :::
 
+::: {#ref-anthropic-cli .ref-ficha}
+CLI reference (2026). Documentación de Claude Code (Anthropic), consultada el 25-11-2026.
+
+[Enlace](https://code.claude.com/docs/en/cli-reference){.ref-enlace target="_blank"} · 
+<span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· tablas de opciones y subcomandos; contrastada con claude --help 2.1.330, 25/11/2026</span>
+<br><span class="ref-citada">Citada en: [C2](../c2-terminal/index.qmd) · [C4](../c4-claude-code/index.qmd) · [C8](../c8-automatizar/index.qmd)</span>
+:::
+
 ::: {#ref-anthropic-changelog .ref-ficha}
-Changelog (2026). Documentación de Claude Code (Anthropic), consultada el 03-11-2026.
+Changelog (2026). Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026.
 
 [Enlace](https://code.claude.com/docs/en/changelog){.ref-enlace target="_blank"} · 
-<span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· leídas las versiones 2.1.310 a 2.1.317 (sin entradas para 2.1.313 ni 2.1.315), 03/11/2026</span>
-<br><span class="ref-citada">Citada en: [C1](../c1-claude-web/index.qmd) · [C4](../c4-claude-code/index.qmd) · [C7](../c7-extender/index.qmd) · [C8](../c8-automatizar/index.qmd) · [C9](../c9-api/index.qmd)</span>
+<span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· leídas las versiones 2.1.310 a 2.1.332 por tramos con el lector web (citas cortas y paráfrasis; sin entradas para 2.1.313, 2.1.315, 2.1.320 ni 2.1.324), 25/11/2026; antes, 2.1.310 a 2.1.317 el 03/11/2026</span>
+<br><span class="ref-citada">Citada en: [C1](../c1-claude-web/index.qmd) · [C2](../c2-terminal/index.qmd) · [C3](../c3-git/index.qmd) · [C4](../c4-claude-code/index.qmd) · [C5](../c5-programar/index.qmd) · [C7](../c7-extender/index.qmd) · [C8](../c8-automatizar/index.qmd) · [C9](../c9-api/index.qmd)</span>
 :::
 
 ::: {#ref-anthropic-puntoscontrol .ref-ficha}
@@ -215,7 +223,15 @@ Claude pricing (2026). Anthropic, consultado el 23-10-2026.
 
 [Enlace](https://claude.com/pricing){.ref-enlace target="_blank"} · 
 <span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· leída mediante resumen automático de la página, sin fecha de publicación visible; precios y límites cambian</span>
-<br><span class="ref-citada">Citada en: [C1](../c1-claude-web/index.qmd)</span>
+<br><span class="ref-citada">Citada en: [C1](../c1-claude-web/index.qmd) · [C9](../c9-api/index.qmd)</span>
+:::
+
+::: {#ref-anthropic-comandos .ref-ficha}
+Commands (2026). Documentación de Claude Code (Anthropic), consultada el 25-11-2026.
+
+[Enlace](https://code.claude.com/docs/en/commands){.ref-enlace target="_blank"} · 
+<span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· filas de los comandos del curso, 25/11/2026</span>
+<br><span class="ref-citada">Citada en: [C4](../c4-claude-code/index.qmd) · [C5](../c5-programar/index.qmd)</span>
 :::
 
 ::: {#ref-anthropic-permisos .ref-ficha}
@@ -223,7 +239,7 @@ Configure permissions (2026). Documentación de Claude Code (Anthropic), consult
 
 [Enlace](https://code.claude.com/docs/en/permissions){.ref-enlace target="_blank"} · 
 <span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· leídas las secciones de sintaxis, orden de evaluación y límites; resto no, 23/10/2026</span>
-<br><span class="ref-citada">Citada en: [C4](../c4-claude-code/index.qmd)</span>
+<br><span class="ref-citada">Citada en: [C4](../c4-claude-code/index.qmd) · [C7](../c7-extender/index.qmd) · [C8](../c8-automatizar/index.qmd)</span>
 :::
 
 ::: {#ref-anthropic-mcp .ref-ficha}
@@ -239,7 +255,7 @@ Create custom subagents (2026). Documentación de Claude Code (Anthropic), consu
 
 [Enlace](https://code.claude.com/docs/en/sub-agents){.ref-enlace target="_blank"} · 
 <span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· leídos los primeros 100 000 caracteres (ubicaciones, campos, invocación, límites), 23/10/2026</span>
-<br><span class="ref-citada">Citada en: [C7](../c7-extender/index.qmd)</span>
+<br><span class="ref-citada">Citada en: [C7](../c7-extender/index.qmd) · [C8](../c8-automatizar/index.qmd)</span>
 :::
 
 ::: {#ref-anthropic-extender .ref-ficha}
@@ -282,6 +298,14 @@ How Claude remembers your project (2026). Documentación de Claude Code (Anthrop
 <br><span class="ref-citada">Citada en: [C4](../c4-claude-code/index.qmd)</span>
 :::
 
+::: {#ref-anthropic-fable52 .ref-ficha}
+Introducing Claude Fable 5.2 and Claude Mythos 5.2 (2026). Anthropic, 9-11-2026, consultado el 25-11-2026.
+
+[Enlace](https://www.anthropic.com/claude-fable-and-mythos-5-2){.ref-enlace target="_blank"} · 
+<span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· fecha y título desde el listado de noticias, 25/11/2026</span>
+<br><span class="ref-citada">Citada en: [C1](../c1-claude-web/index.qmd)</span>
+:::
+
 ::: {#ref-anthropic-costes .ref-ficha}
 Manage costs effectively (2026). Documentación de Claude Code (Anthropic), consultada el 23-10-2026.
 
@@ -290,12 +314,28 @@ Manage costs effectively (2026). Documentación de Claude Code (Anthropic), cons
 <br><span class="ref-citada">Citada en: [C4](../c4-claude-code/index.qmd) · [C8](../c8-automatizar/index.qmd)</span>
 :::
 
-::: {#ref-anthropic-modelos .ref-ficha}
-Models overview (2026). Documentación de la plataforma Claude (Anthropic), consultada el 23-10-2026.
+::: {#ref-anthropic-modelconfig .ref-ficha}
+Model configuration (2026). Documentación de Claude Code (Anthropic), consultada el 25-11-2026.
 
-[Enlace](https://platform.claude.com/docs/en/models/overview){.ref-enlace target="_blank"} · 
-<span class="ref-estado">✔ Verificada</span> <span class="ref-detalle">· leída la tabla comparativa completa, 23/10/2026; datos que cambian con cada versión</span>
+[Enlace](https://code.claude.com/docs/en/model-config){.ref-enlace target="_blank"} · 
+<span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· alias, esfuerzo y modelo por defecto; el tramo final solo mediante resumen automático, 25/11/2026</span>
+<br><span class="ref-citada">Citada en: [C1](../c1-claude-web/index.qmd) · [C4](../c4-claude-code/index.qmd)</span>
+:::
+
+::: {#ref-anthropic-retiradas .ref-ficha}
+Model deprecations (2026). Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026.
+
+[Enlace](https://platform.claude.com/docs/en/about-claude/model-deprecations){.ref-enlace target="_blank"} · 
+<span class="ref-estado">✔ Verificada</span> <span class="ref-detalle">· leída la tabla de estados de los modelos, 25/11/2026; fechas «no antes de», tentativas</span>
 <br><span class="ref-citada">Citada en: [C1](../c1-claude-web/index.qmd) · [C9](../c9-api/index.qmd)</span>
+:::
+
+::: {#ref-anthropic-modelos .ref-ficha}
+Models overview (2026). Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026.
+
+[Enlace](https://platform.claude.com/docs/en/about-claude/models/overview){.ref-enlace target="_blank"} · 
+<span class="ref-estado">✔ Verificada</span> <span class="ref-detalle">· leídas las tablas «Latest models» y «All models», 25/11/2026 (antes, 23/10/2026); datos que cambian con cada versión</span>
+<br><span class="ref-citada">Citada en: [C1](../c1-claude-web/index.qmd) · [C4](../c4-claude-code/index.qmd) · [C9](../c9-api/index.qmd)</span>
 :::
 
 ::: {#ref-julia-rendimiento .ref-ficha}
@@ -312,6 +352,22 @@ Permission modes (2026). Documentación de Claude Code (Anthropic), consultada e
 [Enlace](https://code.claude.com/docs/en/permission-modes){.ref-enlace target="_blank"} · 
 <span class="ref-estado">✔ Verificada</span> <span class="ref-detalle">· página leída (primeros 100 000 caracteres), 23/10/2026, Claude Code 2.1.309</span>
 <br><span class="ref-citada">Citada en: [C4](../c4-claude-code/index.qmd)</span>
+:::
+
+::: {#ref-anthropic-plugins .ref-ficha}
+Plugins reference (2026). Documentación de Claude Code (Anthropic), consultada el 25-11-2026.
+
+[Enlace](https://code.claude.com/docs/en/plugins-reference){.ref-enlace target="_blank"} · 
+<span class="ref-estado">✔ Verificada</span> <span class="ref-detalle">· página completa, 25/11/2026</span>
+<br><span class="ref-citada">Citada en: [C7](../c7-extender/index.qmd)</span>
+:::
+
+::: {#ref-anthropic-precios-api .ref-ficha}
+Pricing (2026). Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026.
+
+[Enlace](https://platform.claude.com/docs/en/about-claude/pricing){.ref-enlace target="_blank"} · 
+<span class="ref-estado">✔ Verificada</span> <span class="ref-detalle">· leídas las tablas «Model pricing» y «Batch processing», 25/11/2026; los precios cambian</span>
+<br><span class="ref-citada">Citada en: [C1](../c1-claude-web/index.qmd) · [C9](../c9-api/index.qmd)</span>
 :::
 
 ::: {#ref-anthropic-prompting .ref-ficha}
@@ -353,12 +409,20 @@ Run parallel sessions with worktrees (2026). Documentación de Claude Code (Anth
 <br><span class="ref-citada">Citada en: [C3](../c3-git/index.qmd) · [C8](../c8-automatizar/index.qmd)</span>
 :::
 
+::: {#ref-anthropic-tareas .ref-ficha}
+Run prompts on a schedule (2026). Documentación de Claude Code (Anthropic), consultada el 25-11-2026.
+
+[Enlace](https://code.claude.com/docs/en/scheduled-tasks){.ref-enlace target="_blank"} · 
+<span class="ref-estado">✔ Verificada</span> <span class="ref-detalle">· página completa, 25/11/2026</span>
+<br><span class="ref-citada">Citada en: [C8](../c8-automatizar/index.qmd)</span>
+:::
+
 ::: {#ref-anthropic-sandbox .ref-ficha}
 Sandboxing (2026). Documentación de Claude Code (Anthropic), consultada el 23-10-2026.
 
 [Enlace](https://code.claude.com/docs/en/sandboxing){.ref-enlace target="_blank"} · 
 <span class="ref-estado">◐ Verificada en parte</span> <span class="ref-detalle">· leídos los primeros 100 000 caracteres (plataformas, restricciones, límites), 23/10/2026</span>
-<br><span class="ref-citada">Citada en: [C8](../c8-automatizar/index.qmd)</span>
+<br><span class="ref-citada">Citada en: [C3](../c3-git/index.qmd) · [C4](../c4-claude-code/index.qmd) · [C8](../c8-automatizar/index.qmd)</span>
 :::
 
 ::: {#ref-anthropic-terminos2025 .ref-ficha}
