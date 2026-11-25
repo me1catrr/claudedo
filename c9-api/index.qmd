@@ -456,7 +456,8 @@ Documentación de modelos, precios y retiradas de la plataforma Claude [@anthrop
 (parámetros retirados, esfuerzo, motivos de parada, códigos de error, lotes, caché) proceden de la documentación de referencia de la API incluida en la *skill* `claude-api` [@anthropic-skillapi]:
 primero la de Claude Code 2.1.309 y, en la revisión del 25-11-2026, la de la 2.1.330, que sigue
 confirmando el rechazo de `temperature`, `top_p` y `top_k` con la versión de API de 21-10-2026. El código
-se contrastó con el comportamiento del SDK `anthropic` 2.2.0 sobre un transporte simulado. La *skill*
+se contrastó con el comportamiento del SDK `anthropic` 2.2.0 sobre un transporte simulado y, el
+25-11-2026, con la versión 2.14.0 (26 pruebas, sin llamadas a la API). La *skill*
 se ha ampliado con ayudas como `/claude-api cost-optimize` y `/claude-api latency-optimize` (desde
 la 2.1.319), que revisan el coste y la espera de un código existente [@anthropic-changelog]; el curso
 no las usa. Consulta siempre la documentación vigente:

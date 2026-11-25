@@ -16,7 +16,7 @@ from playwright.sync_api import sync_playwright
 RAIZ = Path(__file__).resolve().parents[2]
 SITIO = RAIZ / "_site"
 ANCHURAS = [390, 768, 1280, 1920, 2560]
-PAGINAS = ["index.html", "hoja-consulta.html"] + [
+PAGINAS = ["index.html", "hoja-consulta.html", "actualizaciones.html", "about.html"] + [
     p.relative_to(SITIO).as_posix() for p in sorted(SITIO.glob("c[0-9]-*/index.html"))
 ]
 

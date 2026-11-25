@@ -2,14 +2,15 @@
 # Prueba ejecutar_tarea.sh con un `claude` falso. No llama a ningún servicio ni gasta nada.
 cd "${0:A:h}" || exit 1
 tmp=$(mktemp -d); falla=0
-export CLAUDE_BIN="$PWD/claude-falso.sh" ESPERA_S=1 TMPDIR="$tmp"
+trap 'rm -rf "$tmp"' EXIT
+antes=$(git status --porcelain -- . 2>/dev/null)
+# Todo lo que escriben las pruebas va a $tmp: nunca al registro-tarea.log versionado.
+export CLAUDE_BIN="$PWD/claude-falso.sh" ESPERA_S=1 TMPDIR="$tmp" REGISTRO="$tmp/reg.log"
 ok()  { print "OK   $1"; }
 mal() { print "FALLA $1"; falla=1; }
-corre() { REGISTRO="$tmp/reg.log" ./ejecutar_tarea.sh "$@"; }
 
 : > $tmp/reg.log
 out=$(FALSO_MODO=ok FALSO_ARGS=$tmp/args ./ejecutar_tarea.sh "resume" "$tmp" 2>/dev/null); cod=$?
-REGISTRO=$tmp/reg.log
 [[ $cod -eq 0 && $out == "Resumen de prueba" ]] && ok "éxito: código 0 y resultado" || mal "éxito ($cod, $out)"
 for f in --bare --permission-mode\ dontAsk --allowedTools\ Read,Grep,Glob --max-turns\ 8 --max-budget-usd\ 0.50 --output-format\ json; do
   grep -q -- "$f" $tmp/args && ok "argumento presente: $f" || mal "falta argumento: $f"
@@ -38,5 +39,7 @@ cerr="$tmp/ejecutar-tarea.$(print -rn -- "$tmp" | shasum | cut -c1-12).lock"; mk
 FALSO_MODO=ok ./ejecutar_tarea.sh "x" "$tmp" >/dev/null 2>&1; cod=$?
 [[ $cod -eq 3 ]] && grep -q "OMITIDA" $REGISTRO && ok "bloqueo: segunda ejecución omitida (código 3)" || mal "bloqueo ($cod)"
 rmdir "$cerr"
+export REGISTRO=$tmp/reg7.log
 ./ejecutar_tarea.sh >/dev/null 2>&1; [[ $? -eq 1 ]] && ok "sin prompt: código 1" || mal "uso"
+[[ "$(git status --porcelain -- . 2>/dev/null)" == "$antes" ]] && ok "la prueba no modifica ficheros del repositorio" || mal "la prueba modificó ficheros del repositorio"
 exit $falla

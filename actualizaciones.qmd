@@ -28,13 +28,14 @@ datos que el indicador de versión de cada unidad (`_versiones.yml`), así que n
 
 ## Modelos contemplados
 
-| Modelo | Identificador | Publicado | Entrada / salida por MTok |
-|---|---|---|---|
-| {{< var modelos.fable.nombre >}} | `{{< var modelos.fable.id >}}` | {{< var modelos.fable.fecha >}} | {{< var modelos.fable.entrada >}} / {{< var modelos.fable.salida >}} |
-| {{< var modelos.opus.nombre >}} | `{{< var modelos.opus.id >}}` | {{< var modelos.opus.fecha >}} | {{< var modelos.opus.entrada >}} / {{< var modelos.opus.salida >}} |
-| {{< var modelos.sonnet.nombre >}} | `{{< var modelos.sonnet.id >}}` | {{< var modelos.sonnet.fecha >}} | {{< var modelos.sonnet.entrada >}} / {{< var modelos.sonnet.salida >}} |
-| {{< var modelos.haiku.nombre >}} | `{{< var modelos.haiku.id >}}` | {{< var modelos.haiku.fecha >}} | {{< var modelos.haiku.precio >}} |
+| Modelo (publicado) | Identificador | Entrada / salida |
+|---|---|---|
+| {{< var modelos.fable.nombre >}} ({{< var modelos.fable.fecha >}}) | `{{< var modelos.fable.id >}}` | {{< var modelos.fable.entrada >}} / {{< var modelos.fable.salida >}} |
+| {{< var modelos.opus.nombre >}} ({{< var modelos.opus.fecha >}}) | `{{< var modelos.opus.id >}}` | {{< var modelos.opus.entrada >}} / {{< var modelos.opus.salida >}} |
+| {{< var modelos.sonnet.nombre >}} ({{< var modelos.sonnet.fecha >}}) | `{{< var modelos.sonnet.id >}}` | {{< var modelos.sonnet.entrada >}} / {{< var modelos.sonnet.salida >}} |
+| {{< var modelos.haiku.nombre >}} ({{< var modelos.haiku.fecha >}}) | `{{< var modelos.haiku.id >}}` | {{< var modelos.haiku.precio >}} |
 
+Precios de la API en dólares por millón de *tokens* (MTok). Haiku 5.5 tiene precio por tramos: con prompts de más de 100 000 *tokens* pasa a 0,50 $ / 2,50 $.
 Datos de la documentación oficial consultada el {{< var modelos.consulta >}}
 [@anthropic-modelos; @anthropic-precios-api]. Su uso se explica en
 [C1.1](c1-claude-web/index.qmd#c1-1) y [C9.2](c9-api/index.qmd#c9-2).

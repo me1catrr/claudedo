@@ -60,7 +60,8 @@ versiones:
           - "Comprobar en ejecución, con el binario 2.1.332, lo que en esta edición consta solo como documentación o changelog."
           - "Dentro de una sesión real: modos de permiso y su ciclo, `/permissions` (*Recently blocked*), `/code-review`, `PreSkillShellCommand`, `/tasks` y `/loop`."
           - "Órdenes que necesitan cuenta o red: `claude doctor` (conectividad), `claude auth status` (`loginExpiresAt`), `claude update`, `claude mcp add-json`, `claude plugin validate`."
-          - "PowerShell en Windows y las pruebas de C9 con el SDK `anthropic` 2.2.0 (no disponible sin descarga en esta revisión)."
+          - "PowerShell en Windows (y `pwsh` en macOS, no instalado en esta revisión)."
+          - "Ninguna copia de Claude Code instalada es la 2.1.332 (terminal 2.1.304 y 2.1.300; escritorio y Cursor 2.1.330; VS Code 2.1.306): las comprobaciones de ejecución quedan hechas con 2.1.330."
       - version: "0.2.0"
         fecha: "03/11/2026"
         claude_code: "2.1.310 a 2.1.317 (changelog leído, señalado en cajas «por incorporar»)"
@@ -179,7 +180,7 @@ versiones:
     claude_code_documentada: "2.1.332"
     claude_code_instalada: "2.1.330"
     estado: pendiente de revisión
-    nota: "Ejecutor de tareas probado con un claude falso (15 comprobaciones Zsh; PowerShell 7.6.8 en macOS); YAML de Actions y plist validados solo sintácticamente; ninguna llamada real a Claude Code no interactivo, Actions, Docker ni launchctl; GSD sin verificar en su repositorio. 25/11/2026: 15/15 comprobaciones Zsh repetidas (PowerShell no, pwsh no disponible); --max-turns y el código de una opción desconocida comprobados con el binario 2.1.330; códigos de salida de claude -p por versión, solo changelog"
+    nota: "Ejecutor de tareas probado con un claude falso (15 comprobaciones Zsh; PowerShell 7.6.8 en macOS); YAML de Actions y plist validados solo sintácticamente; ninguna llamada real a Claude Code no interactivo, Actions, Docker ni launchctl; GSD sin verificar en su repositorio. 25/11/2026: la prueba escribía su primer registro en registro-tarea.log (versionado); corregida para usar solo una carpeta temporal y comprobar que no cambia el repositorio: 16/16 comprobaciones Zsh (PowerShell no, pwsh no disponible); --max-turns y el código de una opción desconocida comprobados con el binario 2.1.330; códigos de salida de claude -p por versión, solo changelog"
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa: modo no interactivo con límites, subagentes y equipos, worktrees, Actions, seguridad y evaluación de GSD"}
@@ -191,7 +192,7 @@ versiones:
     claude_code_documentada: "2.1.332"
     claude_code_instalada: "2.1.306"
     estado: pendiente de revisión
-    nota: "SDK anthropic 2.2.0 probado sobre transporte HTTP simulado (26 pruebas pytest, 4 aserciones Julia); NINGUNA llamada real a la API; salida estructurada con esquema, lotes y ficheros solo descritos; reglas de la API desde la skill claude-api (fuente secundaria); precios y modelos de la documentación del 23-10-2026. 25/11/2026: modelos y precios contrastados con la documentación de la plataforma; reglas de la API recontrastadas con la skill claude-api de 2.1.330; el código del ejemplo no cambia"
+    nota: "SDK anthropic 2.2.0 probado sobre transporte HTTP simulado (26 pruebas pytest, 4 aserciones Julia); NINGUNA llamada real a la API; salida estructurada con esquema, lotes y ficheros solo descritos; reglas de la API desde la skill claude-api (fuente secundaria); precios y modelos de la documentación del 23-10-2026. 25/11/2026: modelos y precios contrastados con la documentación de la plataforma; reglas de la API recontrastadas con la skill claude-api de 2.1.330; el código del ejemplo no cambia y sus precios coinciden con _variables.yml; repetidas con uv (mecanismo de la unidad) y transporte simulado: 26/26 pytest con anthropic 2.14.0 y httpx2 2.16.2 (Python 3.11.4) y 4/4 aserciones del puente Julia; sin llamadas a la API"
     historial:
       - {version: "0.1.0", fecha: "23/10/2026", cambio: "Esqueleto generado desde temario.yml"}
       - {version: "0.2.0", fecha: "23/10/2026", cambio: "Primera redacción completa: API, errores, coste, salidas estructuradas, evaluación y proyecto integrador con informe Quarto"}

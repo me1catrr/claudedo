@@ -12,6 +12,19 @@ de la aplicación de escritorio; terminal en 2.1.304 (el responsable puede ejecu
 `claude update`). **Pendiente**: revisión visual del responsable y autorización de push;
 comprobar en 2.1.332 lo que consta solo como documentación o changelog.
 
+**Cierre técnico (25/11/2026).** Instalaciones de Claude Code en el equipo del responsable:
+`~/.local/bin/claude` → 2.1.304 (nativa, primera en PATH); `/opt/homebrew/bin/claude` → 2.1.300
+(paquete npm global `@anthropic-ai/claude-code` bajo el prefijo de Homebrew, no el cask; aparece dos
+veces porque `/opt/homebrew/bin` está duplicada en PATH); aplicación de escritorio 2.1.330;
+extensión de Cursor 2.1.330; extensión de VS Code 2.1.306. Última oficial: 2.1.332 (npm `latest`;
+`stable` = 2.1.326). Ninguna copia es 2.1.332: lo ejecutado sigue siendo con 2.1.330. Pruebas: C9
+26/26 pytest (uv, anthropic 2.14.0, transporte simulado) y 4/4 puente Julia; C8 16/16 (prueba
+corregida: ya no escribe en `registro-tarea.log` y comprueba que no cambia el repositorio); C7
+14/14; C5 10/10; Deno 29/29; web 108/108 (`test_vista` incluye ahora `actualizaciones.html` y
+`about.html`); enlaces oficiales de «Actualizaciones»: 15/15 con HTTP 200. Tabla de modelos de
+«Actualizaciones» reducida a tres columnas (sin desplazamiento a 390 px). Diagnóstico de la
+configuración global del responsable entregado aparte (fuera del repositorio).
+
 ## Fase actual
 **Fase 2 · Arquitectura docente**: cerrada el 23/10/2026 (los componentes interactivos se construyen en la unidad que los usa).
 **C0–C9 redactadas.** Siguiente: revisión final transversal (coherencia, enlaces, verificación de pendientes) y `INFORME.md`. Entorno: `uv` 0.13.5, `deno` 2.7.14, `pwsh` 7.6.8 (macOS; no Windows PowerShell 5.1); Claude Code instalado 2.1.306.

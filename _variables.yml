@@ -88,6 +88,6 @@ modelos:
     salida: "0,50 $ (2,50 $ con prompts de más de 100 000 tokens)"
     cache: "0,01 $ (0,05 $)"
     lotes: "0,05 $ / 0,25 $"
-    precio: "desde 0,10 $ / 0,50 $ (más caro con prompts de más de 100 000 tokens)"
+    precio: "desde 0,10 $ / 0,50 $"
     esfuerzo: "medium"
     latencia: "La más rápida"
