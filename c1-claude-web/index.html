@@ -100,7 +100,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a4cfe87370dc173d9ea2018935ed1a4e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -190,6 +190,10 @@ window.Quarto = {
   <li class="nav-item">
     <a class="nav-link" href="../hoja-consulta.html"> 
 <span class="menu-text">Hoja de consulta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../actualizaciones.html"> 
+<span class="menu-text">Actualizaciones</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -380,7 +384,7 @@ window.Quarto = {
 
 
 <div class="version-unidad version-pend" role="note">
-<p>Versión 0.2.0 · editada el 23/10/2026 · comprobada el 23/10/2026 · Claude Code 2.1.309 (doc.) · pendiente de revisión</p>
+<p>Versión 0.3.0 · editada el 25/11/2026 · comprobada el 25/11/2026 · Claude Code 2.1.332 (doc.) · pendiente de revisión</p>
 </div>
 <p><img src="fig/portada.svg" class="portada img-fluid" alt="Esquema con tres cuadros, aplicación, Claude Code y API, de los que parten flechas hacia un mismo cuadro central que representa el modelo"></p>
 <section id="objetivos-y-prerrequisitos" class="level2">
@@ -436,56 +440,65 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Anthropic anunció <strong>Claude</strong> el 14 de marzo de 2023, con una versión ligera, <em>Claude Instant</em>, y acceso por chat y por API (<a href="https://www.anthropic.com/news/introducing-claude">«Introducing Claude»</a>). El 25 de noviembre de 2024 publicó el <strong>Model Context Protocol</strong> (MCP), un estándar abierto para conectar asistentes con datos y herramientas (<a href="https://www.anthropic.com/news/model-context-protocol">anuncio</a>). En febrero de 2025 presentó <strong>Claude Code</strong> junto con Claude 3.7 Sonnet (<a href="https://www.anthropic.com/news/claude-3-7-sonnet">anuncio</a>). Fechas tomadas de los anuncios oficiales, consultados el 23-10-2026.</p>
+<p>Anthropic anunció <strong>Claude</strong> el 14 de marzo de 2023, con una versión ligera, <em>Claude Instant</em>, y acceso por chat y por API (<a href="https://www.anthropic.com/news/introducing-claude">«Introducing Claude»</a>). El 25 de noviembre de 2024 publicó el <strong>Model Context Protocol</strong> (MCP), un estándar abierto para conectar asistentes con datos y herramientas (<a href="https://www.anthropic.com/news/model-context-protocol">anuncio</a>). En febrero de 2025 presentó <strong>Claude Code</strong> junto con Claude 3.7 Sonnet (<a href="https://www.anthropic.com/news/claude-3-7-sonnet">anuncio</a>). La generación vigente llegó en otoño de 2026: Opus 5.5 el 22 de septiembre, Sonnet 5.5 el 28 de septiembre, Haiku 5.5 el 7 de octubre y <strong>Fable 5.2</strong> el 9 de noviembre, que sustituye a Fable 5.1 como modelo Fable más reciente <span class="citation" data-cites="anthropic-fable52">(<a href="#ref-anthropic-fable52" role="doc-biblioref"><em>Introducing Claude Fable 5.2 and Claude Mythos 5.2</em> 2026</a>)</span>. Fechas tomadas de los anuncios oficiales, consultados el 23-10-2026 y el 25-11-2026.</p>
 </div>
 </div>
-<p>A fecha de consulta, la documentación oficial <span class="citation" data-cites="anthropic-modelos">(<a href="#ref-anthropic-modelos" role="doc-biblioref"><em>Models overview</em> 2026</a>)</span> describe cuatro líneas de modelos con propósitos distintos. La tabla resume lo que la fuente dice; los precios son por millón de <em>tokens</em> (MTok) en la API.</p>
-<div class="no-row-height column-margin column-container"><div id="ref-anthropic-modelos" class="csl-entry" role="listitem">
-<em>Models overview</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 23-10-2026. <a href="https://platform.claude.com/docs/en/models/overview">https://platform.claude.com/docs/en/models/overview</a>.
-</div></div><table class="caption-top table">
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-fable52" class="csl-entry" role="listitem">
+<em>Introducing Claude Fable 5.2 and Claude Mythos 5.2</em>. 2026. Anthropic, 9-11-2026, consultado el 25-11-2026. <a href="https://www.anthropic.com/claude-fable-and-mythos-5-2">https://www.anthropic.com/claude-fable-and-mythos-5-2</a>.
+</div><div id="ref-anthropic-precios-api" class="csl-entry" role="listitem">
+<em>Pricing</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/pricing">https://platform.claude.com/docs/en/about-claude/pricing</a>.
+</div></div><p>A fecha de consulta (25-11-2026), la documentación oficial <span class="citation" data-cites="anthropic-modelos">(<a href="#ref-anthropic-modelos" role="doc-biblioref"><em>Models overview</em> 2026</a>)</span> describe cuatro líneas de modelos con propósitos distintos. La tabla resume lo que la fuente dice; los precios son por millón de <em>tokens</em> (MTok) en la API <span class="citation" data-cites="anthropic-precios-api">(<a href="#ref-anthropic-precios-api" role="doc-biblioref"><em>Pricing</em> 2026</a>)</span>.</p>
+<table class="caption-top table">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Línea</th>
+<th>Identificador</th>
 <th>Para qué la presenta la documentación</th>
-<th>Velocidad relativa</th>
+<th>Latencia</th>
 <th>Entrada / salida por MTok</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Fable</strong> 5.1</td>
+<td><strong>Fable 5.2</strong></td>
+<td><code>claude-fable-5-2</code></td>
 <td>Razonamiento exigente y trabajo agéntico de largo recorrido</td>
-<td>La más lenta</td>
-<td>10 $ / 50 $</td>
+<td><p>Moderada</p></td>
+<td>8 $ / 40 $</td>
 </tr>
 <tr class="even">
-<td><strong>Opus</strong> 5.5</td>
+<td><strong>Opus 5.5</strong></td>
+<td><code>claude-opus-5-5</code></td>
 <td>Programación agéntica larga y trabajo del conocimiento</td>
-<td>Moderada</td>
+<td><p>Moderada</p></td>
 <td>4 $ / 20 $</td>
 </tr>
 <tr class="odd">
-<td><strong>Sonnet</strong> 5.5</td>
+<td><strong>Sonnet 5.5</strong></td>
+<td><code>claude-sonnet-5-5</code></td>
 <td>La mejor combinación de velocidad e inteligencia</td>
-<td>Rápida</td>
+<td><p>Rápida</p></td>
 <td>2 $ / 10 $</td>
 </tr>
 <tr class="even">
-<td><strong>Haiku</strong> 5.5</td>
+<td><strong>Haiku 5.5</strong></td>
+<td><code>claude-haiku-5-5</code></td>
 <td>Tareas masivas y de baja latencia: clasificar, extraer, enrutar</td>
-<td>La más rápida</td>
-<td>desde 0,10 $ / 0,50 $</td>
+<td><p>La más rápida</p></td>
+<td>desde 0,10 $ / 0,50 $ (más caro con prompts de más de 100 000 tokens)</td>
 </tr>
 </tbody>
 </table>
-<p>Los cuatro admiten texto e imágenes de entrada, tienen una ventana de contexto de 1 millón de tokens y un máximo de salida de 128 000 tokens, según esa misma página. Cada modelo tiene un <strong>identificador</strong> (<code>claude-sonnet-5-5</code>, por ejemplo) que es el que se escribe en el código, y Anthropic fija una fecha mínima de retirada de cada uno: los modelos no son eternos.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Errores frecuentes">
+<p>Los cuatro admiten texto e imágenes de entrada, tienen una ventana de contexto de 1 millón de tokens y un máximo de salida de 128 000 tokens, según esa misma página. Cada modelo tiene un <strong>identificador</strong> que es el que se escribe en el código y que no cambia aunque salga otro modelo; por eso un programa que funcionaba sigue usando el mismo modelo hasta que alguien cambia el identificador.</p>
+<p><strong>Los modelos no son eternos.</strong> Anthropic publica, para cada modelo, una fecha mínima de retirada y avisa antes de retirarlo <span class="citation" data-cites="anthropic-retiradas">(<a href="#ref-anthropic-retiradas" role="doc-biblioref"><em>Model deprecations</em> 2026</a>)</span>. A fecha de consulta, Fable 5.1 sigue activa (retirada no antes del 1-9-2027), Sonnet 4.5 se retira el 30-11-2026 y Opus 4.5 está declarada obsoleta, con retirada el 22-1-2027. Hay además modelos de acceso limitado (la línea <em>Mythos</em>) que no están disponibles para cualquier cuenta y que el curso no usa.</p>
+<div class="no-row-height column-margin column-container"></div><div class="callout callout-style-default callout-warning callout-titled" title="Errores frecuentes">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -521,6 +534,20 @@ window.Quarto = {
 </div>
 <div class="solucion">
 <p><strong>Haiku</strong>: la documentación la presenta para tareas de gran volumen y baja latencia como clasificar o extraer. Antes de elegir, pruébala con tus propios ejemplos.</p>
+</div>
+</div>
+<div id="c1-1-identificador" class="ejercicio" data-tipo="opcion" data-respuesta="b">
+<p>Un script escrito en octubre llama a la API con el identificador <code>claude-fable-5-1</code>. En noviembre sale Fable 5.2. ¿Qué modelo usa el script al día siguiente?</p>
+<div class="opciones">
+<ul>
+<li>Fable 5.2, porque la API pasa sola al modelo más reciente.</li>
+<li>Fable 5.1, mientras siga activo y nadie cambie el identificador.</li>
+<li>Ninguno: el script falla en cuanto sale un modelo nuevo.</li>
+<li>Depende del plan de suscripción de quien lo ejecute.</li>
+</ul>
+</div>
+<div class="solucion">
+<p><strong>Fable 5.1.</strong> El identificador fija el modelo; un programa no cambia de modelo hasta que alguien edita el identificador, y Fable 5.1 sigue activa hasta su fecha de retirada. Cambiar a Fable 5.2 es una decisión que se toma probando con tus casos (y aquí, además, abarata: 8 $ / 40 $ frente a 10 $ / 50 $ por MTok).</p>
 </div>
 </div>
 </section>
@@ -638,10 +665,55 @@ window.Quarto = {
 <section id="c1-4" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="c1-4">C1.4 Elegir modelo; planes, autenticación y facturación</h3>
 <p><strong>Elegir modelo.</strong> No hay un modelo «mejor» en abstracto. Un criterio razonable, sin pretender que sea una regla universal: empieza por uno de tamaño medio, comprueba si cumple tus criterios de aceptación con ejemplos tuyos, sube de línea si falla por razonamiento o largo recorrido y baja a la más ligera si sobra capacidad y necesitas velocidad o abaratar. Mide con tus propios casos, no con la reputación.</p>
-<p><strong>Planes.</strong> La aplicación se ofrece con un plan gratuito y otros de suscripción individuales y de equipo y empresa; la página de precios <span class="citation" data-cites="anthropic-precios">(<a href="#ref-anthropic-precios" role="doc-biblioref"><em>Claude pricing</em> 2026</a>)</span> indica, a fecha de consulta, qué incluye cada uno: modelos accesibles, límites de uso por ventana de tiempo, y si se puede usar Claude Code (el plan gratuito no lo incluye en esa página). Los límites y los precios cambian y los consulta cada persona en su cuenta. <strong>La API se factura aparte, por tokens</strong>, y una suscripción de la aplicación no es un crédito de API.</p>
-<div class="no-row-height column-margin column-container"><div id="ref-anthropic-precios" class="csl-entry" role="listitem">
+<p><strong>Esfuerzo.</strong> Los modelos vigentes razonan antes de responder (<em>adaptive thinking</em>) y admiten un <strong>nivel de esfuerzo</strong> que regula cuánto: más esfuerzo suele dar mejores resultados en tareas difíciles, a cambio de más tiempo y más <em>tokens</em>. El valor por defecto <strong>depende de la superficie</strong>: en la API es <code>high</code> en Fable y Sonnet y <code>medium</code> en Opus y Haiku, según la página de modelos <span class="citation" data-cites="anthropic-modelos">(<a href="#ref-anthropic-modelos" role="doc-biblioref"><em>Models overview</em> 2026</a>)</span>, mientras que la documentación de Claude Code indica que allí los cuatro empiezan en <code>medium</code> <span class="citation" data-cites="anthropic-modelconfig">(<a href="#ref-anthropic-modelconfig" role="doc-biblioref"><em>Model configuration</em> 2026</a>)</span>. No lo des por supuesto: compruébalo donde trabajes (C4.7, C9.2). Antes de subir de línea, prueba a subir el esfuerzo; antes de bajarla, a bajarlo.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-modelos" class="csl-entry" role="listitem">
+<em>Models overview</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/models/overview">https://platform.claude.com/docs/en/about-claude/models/overview</a>.
+</div><div id="ref-anthropic-modelconfig" class="csl-entry" role="listitem">
+<em>Model configuration</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/model-config">https://code.claude.com/docs/en/model-config</a>.
+</div></div><p><strong>Dónde se elige, según la superficie.</strong> La misma pregunta, «qué modelo uso», se responde en sitios distintos, y no todas las superficies ofrecen lo mismo:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Superficie</th>
+<th>Cómo se elige el modelo</th>
+<th>Cómo se ajusta el esfuerzo</th>
+<th>Qué modelos ves</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Aplicación Claude (web, escritorio, móvil)</td>
+<td>Selector de modelo del chat</td>
+<td>Según lo que ofrezca la aplicación</td>
+<td>Los que incluya tu plan</td>
+</tr>
+<tr class="even">
+<td>Claude Code (terminal, escritorio, editor)</td>
+<td><code>/model</code> o <code>--model</code> (C4.7)</td>
+<td><code>/effort</code> o <code>--effort</code> (C4.7)</td>
+<td>Los de tu plan o tu cuenta de API</td>
+</tr>
+<tr class="odd">
+<td>API</td>
+<td>Parámetro <code>model</code> con el identificador (C9.2)</td>
+<td>Parámetro de esfuerzo de la petición (C9)</td>
+<td>Todos los activos, pagando por <em>tokens</em></td>
+</tr>
+</tbody>
+</table>
+<p>Los modelos también se ofrecen a través de nubes de terceros (Amazon Bedrock, Google Cloud, Microsoft Foundry), con identificadores y calendarios de retirada propios <span class="citation" data-cites="anthropic-retiradas">(<a href="#ref-anthropic-retiradas" role="doc-biblioref"><em>Model deprecations</em> 2026</a>)</span>; el curso no las usa.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-retiradas" class="csl-entry" role="listitem">
+<em>Model deprecations</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/model-deprecations">https://platform.claude.com/docs/en/about-claude/model-deprecations</a>.
+</div><div id="ref-anthropic-precios" class="csl-entry" role="listitem">
 <em>Claude pricing</em>. 2026. Anthropic, consultado el 23-10-2026. <a href="https://claude.com/pricing">https://claude.com/pricing</a>.
-</div></div><p><strong>Autenticación.</strong> En la aplicación inicias sesión con tu cuenta. En Claude Code puedes iniciar sesión con la cuenta de un plan compatible o usar una clave de API (C4). En la API la autenticación es siempre una <strong>clave secreta</strong>: se trata como una contraseña (nunca en el código ni en el repositorio, C9).</p>
+</div></div><p><strong>Planes.</strong> La aplicación se ofrece con un plan gratuito y otros de suscripción individuales y de equipo y empresa; la página de precios <span class="citation" data-cites="anthropic-precios">(<a href="#ref-anthropic-precios" role="doc-biblioref"><em>Claude pricing</em> 2026</a>)</span> indica, a fecha de consulta, qué incluye cada uno: modelos accesibles, límites de uso por ventana de tiempo, y si se puede usar Claude Code (el plan gratuito no lo incluye en esa página). Los límites y los precios cambian y los consulta cada persona en su cuenta. <strong>La API se factura aparte, por tokens</strong>, y una suscripción de la aplicación no es un crédito de API.</p>
+<p><strong>Autenticación.</strong> En la aplicación inicias sesión con tu cuenta. En Claude Code puedes iniciar sesión con la cuenta de un plan compatible o usar una clave de API (C4). En la API la autenticación es siempre una <strong>clave secreta</strong>: se trata como una contraseña (nunca en el código ni en el repositorio, C9).</p>
 <p><strong>Un cálculo de coste.</strong> En la API, el coste de una petición es <span class="math display">\[
 \text{coste} = \frac{n_{\text{entrada}}\,p_{\text{entrada}} + n_{\text{salida}}\,p_{\text{salida}}}{10^{6}},
 \]</span> con los precios por millón de tokens. Con los de Sonnet 5.5 de la tabla anterior, una petición de 20 000 tokens de entrada y 2 000 de salida cuesta <span class="math inline">\((20\,000\cdot 2 + 2\,000\cdot 10)/10^6 = 0{,}06\)</span> dólares.</p>
@@ -669,22 +741,9 @@ window.Quarto = {
 <div class="no-row-height column-margin column-container"><div id="ref-anthropic-terminos2025" class="csl-entry" role="listitem">
 <em>Updates to Consumer Terms and Privacy Policy</em>. 2025. Anthropic, 28 de agosto de 2025. <a href="https://www.anthropic.com/news/updates-to-our-consumer-terms">https://www.anthropic.com/news/updates-to-our-consumer-terms</a>.
 </div></div><p>Son condiciones de una fecha concreta y pueden haber cambiado. <strong>Lee las condiciones vigentes de tu cuenta antes de subir nada que no sea público</strong>, y deja en manos de tu institución o empresa la decisión sobre qué cuenta usar para trabajo con datos de terceros. Quita siempre claves, credenciales y datos personales innecesarios antes de pegar.</p>
-<div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.317 · por incorporar">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.317 · por incorporar
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Claude Code <strong>pregunta antes</strong> de que una herramienta web o de shell envíe a la red la dirección de correo de tu cuenta <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. Es una protección más del mismo principio de este apartado: lo que sale de tu equipo lo decides tú.</p>
-<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
-</div>
-</div>
+<p>El mismo principio, lo que sale de tu equipo lo decides tú, aparece también en las herramientas. Desde la versión 2.1.317, Claude Code <strong>pregunta antes</strong> de que una orden de shell o una petición web envíe a la red la dirección de correo de tu cuenta, y en las versiones 2.1.321 y 2.1.325 se ajustó qué órdenes y herramientas revisa ese control <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. Es una red de seguridad, no un permiso para pegar datos sin pensar: la decisión sigue siendo tuya. (Leído en el changelog; no comprobado en ejecución.)</p>
 <div class="no-row-height column-margin column-container"><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
-<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
+<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
 </div></div><p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c1-5-cuenta" class="ejercicio" data-tipo="opcion" data-respuesta="c">
 <p>Tienes registros de una planta cedidos bajo acuerdo de confidencialidad. ¿Qué haces antes de usarlos con Claude?</p>
@@ -921,6 +980,25 @@ window.Quarto = {
 <li>redactar un correo; b) corregir un error en un proyecto Julia con pruebas; c) clasificar automáticamente 50 000 comentarios de clientes cada noche.</li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>Aplicación. b) Claude Code, con revisión del diff. c) API, programada, con control de coste y de errores (C9).</li>
+</ol>
+</div>
+</div>
+</div></li>
+<li><p><strong>Coste.</strong> Una petición envía 50 000 tokens y recibe 1 000. Calcula su coste con Haiku 5.5 usando los precios mínimos de la tabla (0,10 $ y 0,50 $ por MTok) y con Opus 5.5 (4 $ y 20 $).</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -931,25 +1009,6 @@ window.Quarto = {
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="a">
-<li>Aplicación. b) Claude Code, con revisión del diff. c) API, programada, con control de coste y de errores (C9).</li>
-</ol>
-</div>
-</div>
-</div></li>
-<li><p><strong>Coste.</strong> Una petición envía 50 000 tokens y recibe 1 000. Calcula su coste con Haiku 5.5 usando los precios mínimos de la tabla (0,10 $ y 0,50 $ por MTok) y con Opus 5.5 (4 $ y 20 $).</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Solución
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Haiku: <span class="math inline">\((50\,000\cdot 0{,}10 + 1\,000\cdot 0{,}50)/10^6 = 0{,}0055\)</span> $. Opus: <span class="math inline">\((50\,000\cdot 4 + 1\,000\cdot 20)/10^6 = 0{,}22\)</span> $. La diferencia es de 40 veces: elegir línea importa a escala, no en una petición suelta. Atención: la tabla indica «desde» para Haiku, así que el precio real puede ser mayor en prompts largos; consulta la página de precios.</p>
 </div>
@@ -977,7 +1036,7 @@ window.Quarto = {
 <p><em>Son las mismas que aparecen en el margen, junto al texto.</em> La lista completa del curso, con el estado de verificación de cada ficha, está en <code>recursos/bibliografia.bib</code> del repositorio.</p>
 <div id="refs-unidad" class="referencias-unidad">
 <div class="ref-final">
-<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
+<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
 </div>
 <div class="ref-final">
 <p><em>Claude Academy</em>. 2026. Anthropic, consultado el 23-10-2026. <a href="https://academy.claude.com/">https://academy.claude.com/</a>.</p>
@@ -989,7 +1048,19 @@ window.Quarto = {
 <p><em>How Claude Code works</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/how-claude-code-works">https://code.claude.com/docs/en/how-claude-code-works</a>.</p>
 </div>
 <div class="ref-final">
-<p><em>Models overview</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 23-10-2026. <a href="https://platform.claude.com/docs/en/models/overview">https://platform.claude.com/docs/en/models/overview</a>.</p>
+<p><em>Introducing Claude Fable 5.2 and Claude Mythos 5.2</em>. 2026. Anthropic, 9-11-2026, consultado el 25-11-2026. <a href="https://www.anthropic.com/claude-fable-and-mythos-5-2">https://www.anthropic.com/claude-fable-and-mythos-5-2</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Model configuration</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/model-config">https://code.claude.com/docs/en/model-config</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Model deprecations</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/model-deprecations">https://platform.claude.com/docs/en/about-claude/model-deprecations</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Models overview</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/models/overview">https://platform.claude.com/docs/en/about-claude/models/overview</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Pricing</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/pricing">https://platform.claude.com/docs/en/about-claude/pricing</a>.</p>
 </div>
 <div class="ref-final">
 <p><em>Prompting best practices</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 23-10-2026. <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices">https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices</a>.</p>

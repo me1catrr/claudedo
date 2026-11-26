@@ -260,9 +260,17 @@
 <ul>
 <li><strong>0</strong>: no decide (sigue el flujo de permisos)</li>
 <li><strong>2</strong>: <strong>bloquea</strong>, y <code>stderr</code> llega a Claude</li>
-<li>otro: el hook falló → la acción <strong>continúa</strong></li>
+<li>otro: el hook falló → la acción <strong>continúa</strong>, salvo con <code>"onFailure": "block"</code></li>
 </ul>
-<p><em>Un hook roto no protege: pruébalo.</em></p>
+<p><em>Un hook roto no protege: pruébalo. Fallar cerrado es más seguro, pero detiene el trabajo si el script se rompe.</em></p>
+</section>
+<section id="hooks-lo-nuevo-2.1.3142.1.332" class="slide level2">
+<h2>Hooks: lo nuevo (2.1.314–2.1.332)</h2>
+<ul>
+<li><em>Matcher</em> <code>Bash</code> → también las órdenes de <strong>Monitor</strong> (bloquear sí, aprobar no)</li>
+<li><strong><code>PreSkillShellCommand</code></strong> (2.1.332): las órdenes <code>!`…`</code> de las skills; solo puede bloquear</li>
+<li>Hooks <em>prompt</em>/<em>agent</em> simultáneos: <strong>12</strong> según la referencia vigente, <strong>24</strong> según el changelog de 2.1.312 → no dependas de muchos</li>
+</ul>
 </section>
 <section id="probar-un-hook-sin-claude" class="slide level2">
 <h2>Probar un hook sin Claude</h2>
@@ -280,13 +288,25 @@
 <ul>
 <li>Cliente (Claude Code) ↔︎ servidor (tools, resources, prompts)</li>
 <li>Ámbitos: <code>local</code> · <code>project</code> (<code>.mcp.json</code>) · <code>user</code></li>
+<li><code>cat servidor.json | claude mcp add-json nombre -</code> (2.1.327): sin escapar JSON</li>
+<li>Tareas MCP: trabajos largos en el servidor; se ven y se paran con <code>/tasks</code></li>
 <li>⚠ Un servidor es código tuyo o ajeno; <strong>inyección de instrucciones</strong></li>
 </ul>
+</section>
+<section id="plugins" class="slide level2">
+<h2>Plugins</h2>
+<ul>
+<li><code>.claude-plugin/plugin.json</code> + <code>skills/</code>, <code>hooks/hooks.json</code>, <code>.mcp.json</code></li>
+<li><code>"engines": { "claude-code": "&gt;=2.1.332" }</code> (2.1.323): versiones compatibles</li>
+<li><code>claude plugin validate --strict ./plugin</code> antes de compartir</li>
+</ul>
+<p><em>Validar ≠ que sea seguro.</em></p>
 </section>
 <section id="antes-de-confiar-en-un-repositorio-ajeno" class="slide level2">
 <h2>Antes de confiar en un repositorio ajeno</h2>
 <p>Lee <code>.claude/settings.json</code>, hooks, skills y <code>.mcp.json</code>.</p>
 <p>Se ejecutan <strong>con tus permisos</strong>.</p>
+<p>El diálogo de confianza dice <strong>dónde</strong> están los hooks (2.1.329, según el changelog), no <strong>qué</strong> hacen.</p>
 
 
 </section>

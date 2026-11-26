@@ -100,7 +100,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a4cfe87370dc173d9ea2018935ed1a4e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -161,6 +161,10 @@ div.csl-indent {
   <li class="nav-item">
     <a class="nav-link" href="../hoja-consulta.html"> 
 <span class="menu-text">Hoja de consulta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../actualizaciones.html"> 
+<span class="menu-text">Actualizaciones</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -356,7 +360,7 @@ div.csl-indent {
 
 
 <div class="version-unidad version-pend" role="note">
-<p>Versión 0.2.0 · editada el 23/10/2026 · comprobada el 23/10/2026 · Claude Code 2.1.309 (doc.) · pendiente de revisión</p>
+<p>Versión 0.3.0 · editada el 25/11/2026 · comprobada el 25/11/2026 · Claude Code 2.1.332 (doc.) · pendiente de revisión</p>
 </div>
 <p><img src="fig/portada.svg" class="portada img-fluid" alt="Diagrama de commits como puntos unidos por una línea principal, con una rama que sale hacia arriba y vuelve a unirse, y una etiqueta de versión sobre el último commit"></p>
 <section id="objetivos-y-prerrequisitos" class="level2">
@@ -847,23 +851,48 @@ UU scripts/analiza.py</code></pre>
 </section>
 <section id="c3-10" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="c3-10">C3.10 Worktrees y Claude Code</h3>
-<p>Claude Code integra los worktrees para ejecutar <strong>sesiones en paralelo aisladas</strong> <span class="citation" data-cites="anthropic-worktrees">(<a href="#ref-anthropic-worktrees" role="doc-biblioref"><em>Run parallel sessions with worktrees</em> 2026</a>)</span>. Según su documentación (versión 2.1.309, consultada el 23-10-2026):</p>
+<p>Claude Code integra los worktrees para ejecutar <strong>sesiones en paralelo aisladas</strong> <span class="citation" data-cites="anthropic-worktrees">(<a href="#ref-anthropic-worktrees" role="doc-biblioref"><em>Run parallel sessions with worktrees</em> 2026</a>)</span>. Según su documentación (consultada el 25-11-2026, con la versión 2.1.332 como última publicada):</p>
 <div class="no-row-height column-margin column-container"><div id="ref-anthropic-worktrees" class="csl-entry" role="listitem">
 <em>Run parallel sessions with worktrees</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/worktrees">https://code.claude.com/docs/en/worktrees</a>.
 </div></div><ul>
 <li><code>claude --worktree nombre</code> (o <code>-w</code>) crea un worktree en <code>.claude/worktrees/&lt;nombre&gt;/</code>, en una rama nueva <code>worktree-&lt;nombre&gt;</code>, y arranca Claude allí. Conviene añadir <code>.claude/worktrees/</code> al <code>.gitignore</code>.</li>
 <li>Para llevar a cada worktree ficheros ignorados como <code>.env</code>, se lista en un fichero <strong><code>.worktreeinclude</code></strong> (con sintaxis de <code>.gitignore</code>); solo se copian los que además están ignorados.</li>
-<li>Al salir, si el worktree está limpio y la sesión no tiene nombre, se elimina; si tiene trabajo, <strong>te pregunta</strong> si conservarlo o borrarlo (borrarlo elimina también la rama con su trabajo).</li>
+<li>Al salir de una sesión interactiva, Claude Code comprueba si borrar el worktree haría perder trabajo (ficheros cambiados o sin seguimiento, commits nuevos). Si está limpio y la sesión no tiene nombre, lo elimina con su rama; si la sesión tiene nombre, pregunta antes. Si tiene trabajo, o no puede comprobar su estado, <strong>te pregunta</strong> si conservarlo o borrarlo (borrarlo elimina también la rama con su trabajo).</li>
+<li>También puedes pedir en plena sesión «trabaja en un worktree»: Claude lo crea con la herramienta <code>EnterWorktree</code> y sale con <code>ExitWorktree</code>. Según el registro de cambios, desde la versión 2.1.327 <code>ExitWorktree</code> <strong>pregunta antes de borrar</strong> un worktree con trabajo sin guardar <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>; aun así, haz commit de lo que quieras conservar antes de pedirle que salga.</li>
+<li>Las ejecuciones no interactivas (<code>claude -p</code>) no preguntan al salir ni limpian: el worktree queda en disco y lo quitas tú con <code>git worktree remove</code> (si Git dice que está bloqueado, antes <code>git worktree unlock</code>).</li>
 <li>Las sesiones aisladas bloquean ediciones y comandos de Git que apunten al directorio principal; los comandos de shell como <code>cp</code> o una redirección <strong>no</strong> se controlan así y siguen sujetos a tus permisos.</li>
 <li>Los <strong>subagentes</strong> pueden ejecutarse cada uno en su worktree (<code>isolation: worktree</code>); esto se ve en C7 y C8.</li>
 <li><code>claude --worktree "#1234"</code> crea el worktree a partir de una <em>pull request</em>.</li>
 </ul>
-<p>Los worktrees aíslan <strong>ficheros</strong>: no son lo mismo que los subagentes (que reparten trabajo dentro de una sesión) ni que los equipos de agentes (experimentales). Tampoco sustituyen a los permisos: cada sesión sigue pidiendo confirmación según su configuración.</p>
-<p><strong>Pon a prueba lo anterior.</strong></p>
+<div class="no-row-height column-margin column-container"></div><p>Los worktrees aíslan <strong>ficheros</strong>: no son lo mismo que los subagentes (que reparten trabajo dentro de una sesión) ni que los equipos de agentes (experimentales). Tampoco sustituyen a los permisos: cada sesión sigue pidiendo confirmación según su configuración.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Worktrees y sandbox">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Worktrees y sandbox
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si activas el <strong>sandbox</strong> de Claude Code (C8), Git sigue funcionando <em>dentro</em> de un worktree que ya existe: <code>git commit</code>, por ejemplo, funciona si la sesión arranca en la raíz del worktree <span class="citation" data-cites="anthropic-sandbox">(<a href="#ref-anthropic-sandbox" role="doc-biblioref"><em>Sandboxing</em> 2026</a>)</span>. Lo que falla es <strong>gestionar</strong> worktrees: según el registro de cambios de la 2.1.323, <code>git worktree add</code>, <code>move</code> y <code>remove</code> fallan dentro del sandbox porque parte de <code>.git</code> queda de solo lectura <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. Coincide con lo observado en el entorno de redacción (2.1.330): el fallo llega a mitad de la operación. Ejecútalos <strong>fuera del sandbox</strong>: en tu propia terminal, o aprobando que Claude repita esa orden sin sandbox cuando te lo proponga.</p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
+<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
+</div></div><div class="no-row-height column-margin column-container"><div id="ref-anthropic-sandbox" class="csl-entry" role="listitem">
+<em>Sandboxing</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/sandboxing">https://code.claude.com/docs/en/sandboxing</a>.
+</div></div><p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c3-10-copia" class="ejercicio" data-tipo="vf" data-respuesta="falso">
 <p>Un worktree nuevo contiene automáticamente tu fichero <code>.env</code> y tu entorno virtual de Python.</p>
 <div class="solucion">
 <p><strong>Falso.</strong> Un worktree es una copia limpia de lo versionado. Los ficheros ignorados no se copian salvo que los listes en <code>.worktreeinclude</code> (en worktrees creados por Claude Code), y el entorno hay que preparar cada vez.</p>
+</div>
+</div>
+<div id="c3-10-salida" class="ejercicio" data-tipo="vf" data-respuesta="falso">
+<p>Al salir de una sesión iniciada con <code>claude --worktree</code>, Claude Code conserva siempre el worktree si tiene cambios sin confirmar, así que no hace falta hacer commit antes.</p>
+<div class="solucion">
+<p><strong>Falso.</strong> Si hay trabajo, Claude Code <strong>pregunta</strong> si conservarlo o borrarlo, y borrarlo elimina la carpeta y la rama con todo lo que contienen. Además, con <code>claude -p</code> no hay pregunta. Haz commit de lo que quieras conservar y lee la pregunta antes de responder.</p>
 </div>
 </div>
 </section>
@@ -939,23 +968,6 @@ UU scripts/analiza.py</code></pre>
 <li><p><strong>Conflicto.</strong> Provoca un conflicto en una línea entre dos ramas, léelo, resuélvelo con una versión <strong>combinada</strong> y deja las pruebas en verde. Después prueba <code>git merge --abort</code> en un segundo intento y verifica con <code>git status</code> que no queda nada pendiente.</p></li>
 <li><p><strong>Rebase seguro.</strong> Con una rama de tema y un <code>main</code> que ha avanzado, haz <code>git rebase main</code> desde la rama y compara <code>git log --oneline --graph</code> antes y después. ¿Cuándo <strong>no</strong> lo harías?</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Solución
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Antes, el grafo mostraba una bifurcación; después, la rama queda <strong>encima</strong> de <code>main</code> sin bifurcación. No lo haría con commits que ya haya compartido otra persona, porque rehacer su historia obliga a los demás a reconciliar.</p>
-</div>
-</div>
-</div></li>
-<li><p><strong>Recuperación.</strong> Borra el último commit con <code>git reset --hard HEAD~1</code> <strong>en un repositorio de pruebas</strong> (jamás en uno con trabajo real) y recupéralo con <code>git reflog</code> y <code>git reset --hard HASH</code>. Explica por qué funciona y cuándo no.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -967,12 +979,11 @@ UU scripts/analiza.py</code></pre>
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>reflog</code> guarda dónde ha estado <code>HEAD</code>, así que el commit «perdido» sigue existiendo un tiempo (Git lo limpia eventualmente). No habría recuperación para cambios <strong>sin confirmar</strong>, que nunca estuvieron en un commit.</p>
+<p>Antes, el grafo mostraba una bifurcación; después, la rama queda <strong>encima</strong> de <code>main</code> sin bifurcación. No lo haría con commits que ya haya compartido otra persona, porque rehacer su historia obliga a los demás a reconciliar.</p>
 </div>
 </div>
 </div></li>
-<li><p><strong>Worktrees.</strong> Crea un worktree con <code>git worktree add</code>, haz un commit en él, vuelve al principal e intégralo con <code>merge</code>. Elimínalo con <code>git worktree remove</code> y confirma con <code>git worktree list</code>.</p></li>
-<li><p><strong>Etiqueta.</strong> Etiqueta con <code>v0.1.0</code> la versión integrada y explica a qué número pasaría el proyecto si corriges un error y después añades una función compatible.</p>
+<li><p><strong>Recuperación.</strong> Borra el último commit con <code>git reset --hard HEAD~1</code> <strong>en un repositorio de pruebas</strong> (jamás en uno con trabajo real) y recupéralo con <code>git reflog</code> y <code>git reset --hard HASH</code>. Explica por qué funciona y cuándo no.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -984,6 +995,24 @@ UU scripts/analiza.py</code></pre>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>reflog</code> guarda dónde ha estado <code>HEAD</code>, así que el commit «perdido» sigue existiendo un tiempo (Git lo limpia eventualmente). No habría recuperación para cambios <strong>sin confirmar</strong>, que nunca estuvieron en un commit.</p>
+</div>
+</div>
+</div></li>
+<li><p><strong>Worktrees.</strong> Crea un worktree con <code>git worktree add</code>, haz un commit en él, vuelve al principal e intégralo con <code>merge</code>. Elimínalo con <code>git worktree remove</code> y confirma con <code>git worktree list</code>.</p></li>
+<li><p><strong>Etiqueta.</strong> Etiqueta con <code>v0.1.0</code> la versión integrada y explica a qué número pasaría el proyecto si corriges un error y después añades una función compatible.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Corregir un error: v0.1.1. Añadir una función compatible: v0.2.0 (sube el MENOR y el PARCHE vuelve a 0).</p>
 </div>
@@ -1007,7 +1036,7 @@ UU scripts/analiza.py</code></pre>
 </section>
 <section id="referencias-de-esta-unidad" class="level2">
 <h2 class="anchored" data-anchor-id="referencias-de-esta-unidad">Referencias de esta unidad</h2>
-<p>Documentación consultada el 23-10-2026: <a href="https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git">Pro Git (historia)</a>, <a href="https://git-scm.com/docs/git-worktree">Git: <code>git-worktree</code></a>, GitHub Docs sobre <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests"><em>pull requests</em></a> y <a href="https://docs.github.com/en/actions/get-started/quickstart">GitHub Actions</a>, y la documentación de Claude Code sobre <a href="https://code.claude.com/docs/en/worktrees">worktrees</a> y <a href="https://code.claude.com/docs/en/checkpointing">puntos de control</a>.</p>
+<p>Documentación consultada el 23-10-2026: <a href="https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git">Pro Git (historia)</a>, <a href="https://git-scm.com/docs/git-worktree">Git: <code>git-worktree</code></a>, GitHub Docs sobre <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests"><em>pull requests</em></a> y <a href="https://docs.github.com/en/actions/get-started/quickstart">GitHub Actions</a>, y la documentación de Claude Code sobre <a href="https://code.claude.com/docs/en/worktrees">worktrees</a> (de nuevo el 25-11-2026) y <a href="https://code.claude.com/docs/en/checkpointing">puntos de control</a>.</p>
 
 
 </section>
@@ -1019,6 +1048,9 @@ UU scripts/analiza.py</code></pre>
 <p><em>About pull requests</em>. 2026. GitHub Docs, consultada el 23-10-2026. <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests</a>.</p>
 </div>
 <div class="ref-final">
+<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
+</div>
+<div class="ref-final">
 <p><em>Checkpointing</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/checkpointing">https://code.claude.com/docs/en/checkpointing</a>.</p>
 </div>
 <div class="ref-final">
@@ -1026,6 +1058,9 @@ UU scripts/analiza.py</code></pre>
 </div>
 <div class="ref-final">
 <p><em>Run parallel sessions with worktrees</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/worktrees">https://code.claude.com/docs/en/worktrees</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Sandboxing</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/sandboxing">https://code.claude.com/docs/en/sandboxing</a>.</p>
 </div>
 </div>
 <script>(function(){var a=document.getElementById('toc-bibliography');if(a&&a.parentElement)a.parentElement.remove();})();</script>

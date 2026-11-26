@@ -100,7 +100,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a4cfe87370dc173d9ea2018935ed1a4e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -190,6 +190,10 @@ window.Quarto = {
   <li class="nav-item">
     <a class="nav-link" href="../hoja-consulta.html"> 
 <span class="menu-text">Hoja de consulta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../actualizaciones.html"> 
+<span class="menu-text">Actualizaciones</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -380,7 +384,7 @@ window.Quarto = {
 
 
 <div class="version-unidad version-pend" role="note">
-<p>Versión 0.2.0 · editada el 23/10/2026 · comprobada el 23/10/2026 · Claude Code 2.1.309 (doc.) · pendiente de revisión</p>
+<p>Versión 0.3.0 · editada el 25/11/2026 · comprobada el 25/11/2026 · Claude Code 2.1.332 (doc.) · pendiente de revisión</p>
 </div>
 <p><img src="fig/portada.svg" class="portada img-fluid" alt="Esquema de una petición a la API: un programa envía mensajes y recibe una respuesta con el uso de tokens; debajo, tres cuadros para clave, coste y errores"></p>
 <section id="objetivos-y-prerrequisitos" class="level2">
@@ -490,7 +494,7 @@ window.Quarto = {
 <li>La clave se <strong>crea en la consola</strong> de Anthropic y la facturación está ligada a esa organización (puedes fijar límites de gasto por espacio de trabajo).</li>
 <li>Para pruebas, <strong>una clave de pruebas con un tope bajo</strong>, o mejor, el transporte simulado de abajo.</li>
 </ol>
-<p><strong>Modelos</strong> (documentación consultada el 23-10-2026; <strong>cambian</strong>): Fable 5.1, Opus 5.5, Sonnet 5.5 y Haiku 5.5, con identificadores como <code>claude-sonnet-5-5</code> y ventana de contexto de 1 millón de <em>tokens</em> y hasta 128 000 de salida <span class="citation" data-cites="anthropic-modelos">(<a href="#ref-anthropic-modelos" role="doc-biblioref"><em>Models overview</em> 2026</a>)</span>. Los identificadores se escriben <strong>exactos, sin sufijos de fecha</strong>, y cada uno tiene una fecha mínima de retirada: tu código debe poder cambiar de modelo con una constante o un ajuste.</p>
+<p><strong>Modelos</strong> (documentación consultada el 25-11-2026; <strong>cambian</strong>): Fable 5.2, Opus 5.5, Sonnet 5.5 y Haiku 5.5, con identificadores <code>claude-fable-5-2</code>, <code>claude-opus-5-5</code>, <code>claude-sonnet-5-5</code> y <code>claude-haiku-5-5</code>, ventana de contexto de 1 millón de tokens y hasta 128 000 tokens de salida <span class="citation" data-cites="anthropic-modelos">(<a href="#ref-anthropic-modelos" role="doc-biblioref"><em>Models overview</em> 2026</a>)</span>. Fable 5.1 (<code>claude-fable-5-1</code>) sigue activa, más cara que la 5.2; los modelos anteriores conservan su identificador hasta su retirada <span class="citation" data-cites="anthropic-retiradas">(<a href="#ref-anthropic-retiradas" role="doc-biblioref"><em>Model deprecations</em> 2026</a>)</span>. Los identificadores se escriben <strong>exactos, sin sufijos de fecha</strong>, y cada uno tiene una fecha mínima de retirada: tu código debe poder cambiar de modelo con una constante o un ajuste.</p>
 <div class="no-row-height column-margin column-container"></div><p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c9-1-estado" class="ejercicio" data-tipo="vf" data-respuesta="falso">
 <p>La API de Claude recuerda la conversación anterior, por lo que basta con enviar el último mensaje.</p>
@@ -513,7 +517,7 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="c9-2" class="level3">
+<section id="c9-2" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="c9-2">C9.2 Peticiones, parámetros, tokens y coste</h3>
 <p>Una petición mínima con el SDK de Python (código <strong>probado con el transporte simulado</strong>, no contra el servicio real):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> anthropic</span>
@@ -527,45 +531,62 @@ window.Quarto = {
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r.content[<span class="dv">0</span>].text)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r.usage.input_tokens, r.usage.output_tokens, r.stop_reason)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Parámetros que importan.</strong> <code>model</code> (el identificador), <code>max_tokens</code> (tope <strong>obligatorio</strong> de la respuesta; <strong>no lo escatimes</strong>: una respuesta cortada a mitad es un error que cuesta una repetición), <code>messages</code> (el historial) y <code>system</code> (instrucciones permanentes). Para razonamiento, los modelos actuales usan <strong>pensamiento adaptativo</strong> y un parámetro de <strong>esfuerzo</strong> (<code>output_config.effort</code>); no se usa ya un presupuesto fijo de pensamiento. Según la documentación de referencia de la API consultada, <strong><code>temperature</code>, <code>top_p</code> y <code>top_k</code> dejan de aceptarse</strong> (error 400) con la versión de API de 21-10-2026: no los incluyas en código nuevo y comprueba tu versión (esto afecta a lo que viste en C0.3: la temperatura sigue siendo el concepto, pero ya no siempre un mando que puedas ajustar).</p>
-<p><strong>La respuesta.</strong> <code>r.content</code> es una <strong>lista de bloques</strong> (texto, uso de herramientas, pensamiento…): se comprueba el tipo antes de leer <code>.text</code>. <code>r.stop_reason</code> dice por qué paró: <code>end_turn</code> (terminó), <strong><code>max_tokens</code></strong> (cortada), <code>tool_use</code> (quiere llamar a una herramienta), <code>refusal</code> (rechazó la petición por seguridad). <strong>Siempre se comprueba antes de usar el texto.</strong> <code>r.usage</code> da los <em>tokens</em> de entrada y salida (y de caché).</p>
+<p><strong>Parámetros que importan.</strong> <code>model</code> (el identificador), <code>max_tokens</code> (tope <strong>obligatorio</strong> de la respuesta; <strong>no lo escatimes</strong>: una respuesta cortada a mitad es un error que cuesta una repetición), <code>messages</code> (el historial) y <code>system</code> (instrucciones permanentes). Para razonamiento, los modelos actuales usan <strong>pensamiento adaptativo</strong> y un parámetro de <strong>esfuerzo</strong> (<code>output_config.effort</code>, con <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code> o <code>max</code>); no se usa ya un presupuesto fijo de pensamiento (<code>budget_tokens</code> da error 400 en los modelos vigentes). En Fable 5.2 y Opus 5.5 el pensamiento no se puede desactivar: el esfuerzo es el único mando. El esfuerzo por defecto es <code>high</code>, salvo en Opus 5.5 y Haiku 5.5, que usan <code>medium</code>: si tu código venía de otro modelo, fíjalo explícitamente y mide. Según la documentación de referencia de la API consultada, <strong><code>temperature</code>, <code>top_p</code> y <code>top_k</code> dejan de aceptarse</strong> (error 400) con la versión de API de 21-10-2026: no los incluyas en código nuevo y comprueba tu versión (esto afecta a lo que viste en C0.3: la temperatura sigue siendo el concepto, pero ya no siempre un mando que puedas ajustar).</p>
+<p><strong>La respuesta.</strong> <code>r.content</code> es una <strong>lista de bloques</strong> (texto, uso de herramientas, pensamiento…): se comprueba el tipo antes de leer <code>.text</code>. <code>r.stop_reason</code> dice por qué paró: <code>end_turn</code> (terminó), <strong><code>max_tokens</code></strong> (cortada), <code>stop_sequence</code> (encontró una secuencia de parada tuya), <code>tool_use</code> (quiere llamar a una herramienta), <code>pause_turn</code> (pausó un turno largo que se puede reanudar), <code>refusal</code> (rechazó la petición por seguridad; el detalle viene en <code>stop_details</code>). <strong>Siempre se comprueba antes de usar el texto.</strong> <code>r.usage</code> da los <em>tokens</em> de entrada y salida (y de caché).</p>
 <p><strong>Coste.</strong> Con los precios por millón de <em>tokens</em>:</p>
 <p><span class="math display">\[
 \text{coste} = \frac{n_{\text{ent}}\,p_{\text{ent}} + n_{\text{sal}}\,p_{\text{sal}}}{10^{6}}.
 \]</span></p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Modelo</th>
-<th>Entrada (€/$ por MTok)</th>
+<th>Entrada ($ por MTok)</th>
 <th>Salida</th>
+<th>Lectura de caché</th>
+<th>Lotes (entrada / salida)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Haiku 5.5</td>
-<td>0,10 $ (hasta 100K de prompt)</td>
-<td>0,50 $</td>
+<td><p>Haiku 5.5</p></td>
+<td><p>0,10 $ (hasta 100 000 tokens de prompt; 0,50 $ por encima)</p></td>
+<td><p>0,50 $ (2,50 $ con prompts de más de 100 000 tokens)</p></td>
+<td><p>0,01 $ (0,05 $)</p></td>
+<td><p>0,05 $ / 0,25 $</p></td>
 </tr>
 <tr class="even">
-<td>Sonnet 5.5</td>
-<td>2 $</td>
-<td>10 $</td>
+<td><p>Sonnet 5.5</p></td>
+<td><p>2 $</p></td>
+<td><p>10 $</p></td>
+<td><p>0,10 $</p></td>
+<td><p>1 $ / 5 $</p></td>
 </tr>
 <tr class="odd">
-<td>Opus 5.5</td>
-<td>4 $</td>
-<td>20 $</td>
+<td><p>Opus 5.5</p></td>
+<td><p>4 $</p></td>
+<td><p>20 $</p></td>
+<td><p>0,20 $</p></td>
+<td><p>2 $ / 10 $</p></td>
 </tr>
 <tr class="even">
-<td>Fable 5.1</td>
-<td>10 $</td>
-<td>50 $</td>
+<td><p>Fable 5.2</p></td>
+<td><p>8 $</p></td>
+<td><p>40 $</p></td>
+<td><p>0,20 $</p></td>
+<td><p>4 $ / 20 $</p></td>
 </tr>
 </tbody>
 </table>
-<p>(Precios de la documentación de modelos, 23-10-2026; <strong>cambian</strong>.) Comprobado con el código del ejemplo: 20 000 <em>tokens</em> de entrada y 2 000 de salida cuestan <strong>0,06 $</strong> con Sonnet 5.5; 50 000 y 1 000 cuestan <strong>0,0055 $</strong> con Haiku 5.5 y <strong>0,22 $</strong> con Opus 5.5. <strong>Palancas de coste</strong>, de las que no pierden calidad a las que sí: reducir lo que envías (no pegues lo que no hace falta), <strong>caché de prompts</strong> (los <em>tokens</em> leídos de la caché cuestan una fracción de los normales: el prefijo debe ser idéntico), <strong>lotes asíncronos con un descuento del 50 %</strong>, y solo después elegir un modelo más pequeño o menos esfuerzo, <strong>midiendo</strong> antes con tus casos. <code>client.messages.count_tokens(...)</code> cuenta <em>tokens</em> antes de gastar.</p>
-<p><strong>Pon a prueba lo anterior.</strong></p>
+<p>(Precios de la documentación de precios de la API, 25-11-2026 <span class="citation" data-cites="anthropic-precios-api">(<a href="#ref-anthropic-precios-api" role="doc-biblioref"><em>Pricing</em> 2026</a>)</span>; <strong>cambian</strong>. Escribir en la caché cuesta algo más que la entrada normal, 1,25 veces con duración de 5 minutos y el doble con 1 hora; leer de ella cuesta una fracción: 0,05 veces en Opus y Sonnet 5.5 y 0,025 veces en Fable 5.2. Haiku 5.5 es el único con precio por tramos: con prompts de más de 100 000 <em>tokens</em> pasa a 0,50 $ / 2,50 $.) Comprobado con el código del ejemplo: 20 000 <em>tokens</em> de entrada y 2 000 de salida cuestan <strong>0,06 $</strong> con Sonnet 5.5; 50 000 y 1 000 cuestan <strong>0,0055 $</strong> con Haiku 5.5 y <strong>0,22 $</strong> con Opus 5.5. <strong>Palancas de coste</strong>, de las que no pierden calidad a las que sí: reducir lo que envías (no pegues lo que no hace falta), <strong>caché de prompts</strong> (los <em>tokens</em> leídos de la caché cuestan una fracción de los normales: el prefijo debe ser idéntico), <strong>lotes asíncronos con un descuento del 50 %</strong>, y solo después elegir un modelo más pequeño o menos esfuerzo, <strong>midiendo</strong> antes con tus casos. <code>client.messages.count_tokens(...)</code> cuenta <em>tokens</em> antes de gastar.</p>
+<div class="no-row-height column-margin column-container"></div><p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c9-2-coste" class="ejercicio" data-tipo="numerico" data-respuesta="0.0055" data-tol="1%" data-unidad="$">
 <p>Una petición envía 50 000 <em>tokens</em> y recibe 1 000 con Haiku 5.5 (0,10 $ y 0,50 $ por millón). ¿Cuántos dólares cuesta?</p>
 <div class="solucion">
@@ -988,39 +1009,35 @@ quarto render informe.qmd                 # HTML autocontenido</code></pre>
 </section>
 <section id="referencias-de-esta-unidad" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="referencias-de-esta-unidad">Referencias de esta unidad</h2>
-<p>Documentación de modelos y precios de la plataforma Claude <span class="citation" data-cites="anthropic-modelos">(<a href="#ref-anthropic-modelos" role="doc-biblioref"><em>Models overview</em> 2026</a>)</span> (consultada el 23-10-2026). Las reglas de la API, de los SDK y sus cambios (parámetros retirados, códigos de error, lotes, caché) proceden de la documentación de referencia de la API incluida en la <em>skill</em> <code>claude-api</code> de Claude Code 2.1.309 <span class="citation" data-cites="anthropic-skillapi">(<a href="#ref-anthropic-skillapi" role="doc-biblioref"><em>Referencia de la API de Claude incluida en la skill claude-api (Claude Code 2.1.309)</em> 2026</a>)</span>, que se contrastó con el comportamiento del SDK <code>anthropic</code> 2.2.0 sobre un transporte simulado. Consulta siempre la documentación vigente: <a href="https://platform.claude.com/docs/en/models/overview">platform.claude.com/docs</a>.</p>
+<p>Documentación de modelos, precios y retiradas de la plataforma Claude <span class="citation" data-cites="anthropic-modelos anthropic-precios-api anthropic-retiradas">(<a href="#ref-anthropic-modelos" role="doc-biblioref"><em>Models overview</em> 2026</a>; <a href="#ref-anthropic-precios-api" role="doc-biblioref"><em>Pricing</em> 2026</a>; <a href="#ref-anthropic-retiradas" role="doc-biblioref"><em>Model deprecations</em> 2026</a>)</span> (consultada el 23-10-2026 y de nuevo el 25-11-2026). Las reglas de la API, de los SDK y sus cambios (parámetros retirados, esfuerzo, motivos de parada, códigos de error, lotes, caché) proceden de la documentación de referencia de la API incluida en la <em>skill</em> <code>claude-api</code> <span class="citation" data-cites="anthropic-skillapi">(<a href="#ref-anthropic-skillapi" role="doc-biblioref"><em>Referencia de la API de Claude incluida en la skill claude-api (Claude Code 2.1.309)</em> 2026</a>)</span>: primero la de Claude Code 2.1.309 y, en la revisión del 25-11-2026, la de la 2.1.330, que sigue confirmando el rechazo de <code>temperature</code>, <code>top_p</code> y <code>top_k</code> con la versión de API de 21-10-2026. El código se contrastó con el comportamiento del SDK <code>anthropic</code> 2.2.0 sobre un transporte simulado y, el 25-11-2026, con la versión 2.14.0 (26 pruebas, sin llamadas a la API). La <em>skill</em> se ha ampliado con ayudas como <code>/claude-api cost-optimize</code> y <code>/claude-api latency-optimize</code> (desde la 2.1.319), que revisan el coste y la espera de un código existente <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>; el curso no las usa. Consulta siempre la documentación vigente: <a href="https://platform.claude.com/docs/en/about-claude/models/overview">platform.claude.com/docs</a>.</p>
+
+
 <div class="no-row-height column-margin column-container"><div id="ref-anthropic-modelos" class="csl-entry" role="listitem">
-<em>Models overview</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 23-10-2026. <a href="https://platform.claude.com/docs/en/models/overview">https://platform.claude.com/docs/en/models/overview</a>.
+<em>Models overview</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/models/overview">https://platform.claude.com/docs/en/about-claude/models/overview</a>.
+</div><div id="ref-anthropic-precios-api" class="csl-entry" role="listitem">
+<em>Pricing</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/pricing">https://platform.claude.com/docs/en/about-claude/pricing</a>.
+</div><div id="ref-anthropic-retiradas" class="csl-entry" role="listitem">
+<em>Model deprecations</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/model-deprecations">https://platform.claude.com/docs/en/about-claude/model-deprecations</a>.
 </div><div id="ref-anthropic-skillapi" class="csl-entry" role="listitem">
 <em>Referencia de la API de Claude incluida en la skill claude-api (Claude Code 2.1.309)</em>. 2026. Material de referencia de Anthropic distribuido con Claude Code, consultado el 23-10-2026.
-</div></div><div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.314 · por incorporar">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.314 · por incorporar
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>La fuente de esta unidad ha cambiado.</strong> La <em>skill</em> <code>claude-api</code> se actualizó en la 2.1.314. Su configuración de Datadog para trazar la API envía ahora la cabecera <code>dd-llmobs-enabled: true</code>, como la consola, y sus instrucciones de instalación de <code>ant</code> ya no incluyen el paso <code>xattr</code> de macOS <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. Antes de la próxima revisión de C9 hay que volver a contrastar sus reglas con la versión vigente de la <em>skill</em>.</p>
-<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
-</div>
-</div>
-
-
-<div class="no-row-height column-margin column-container"><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
-<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
+</div><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
+<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
 </div></div></section>
 <section id="referencias-unidad" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="referencias-unidad">Referencias</h2>
 <p><em>Son las mismas que aparecen en el margen, junto al texto.</em> La lista completa del curso, con el estado de verificación de cada ficha, está en <code>recursos/bibliografia.bib</code> del repositorio.</p>
 <div id="refs-unidad" class="referencias-unidad">
 <div class="ref-final">
-<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
+<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
 </div>
 <div class="ref-final">
-<p><em>Models overview</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 23-10-2026. <a href="https://platform.claude.com/docs/en/models/overview">https://platform.claude.com/docs/en/models/overview</a>.</p>
+<p><em>Model deprecations</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/model-deprecations">https://platform.claude.com/docs/en/about-claude/model-deprecations</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Models overview</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/models/overview">https://platform.claude.com/docs/en/about-claude/models/overview</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Pricing</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/pricing">https://platform.claude.com/docs/en/about-claude/pricing</a>.</p>
 </div>
 <div class="ref-final">
 <p><em>Referencia de la API de Claude incluida en la skill claude-api (Claude Code 2.1.309)</em>. 2026. Material de referencia de Anthropic distribuido con Claude Code, consultado el 23-10-2026.</p>

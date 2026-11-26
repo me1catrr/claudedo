@@ -100,7 +100,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a4cfe87370dc173d9ea2018935ed1a4e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -161,6 +161,10 @@ div.csl-indent {
   <li class="nav-item">
     <a class="nav-link" href="../hoja-consulta.html"> 
 <span class="menu-text">Hoja de consulta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../actualizaciones.html"> 
+<span class="menu-text">Actualizaciones</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -351,7 +355,7 @@ div.csl-indent {
 
 
 <div class="version-unidad version-pend" role="note">
-<p>Versión 0.2.0 · editada el 23/10/2026 · comprobada el 23/10/2026 · Claude Code 2.1.309 (doc.) · pendiente de revisión</p>
+<p>Versión 0.2.1 · editada el 25/11/2026 · comprobada el 23/10/2026 · Claude Code 2.1.309 (doc.) · pendiente de revisión</p>
 </div>
 <p><img src="fig/portada.svg" class="portada img-fluid" alt="Flujo de trabajo de datos: una hoja de cálculo y un CSV entran en un análisis con validación, del que salen una gráfica, una tabla y un informe"></p>
 <section id="objetivos-y-prerrequisitos" class="level2">
@@ -779,7 +783,7 @@ Figura&nbsp;3: Espectro de amplitud del caso E (ventana de Hann). Las líneas di
 <p><strong>Notas de uso comprobadas.</strong></p>
 <ul>
 <li><strong>Primera ejecución más lenta:</strong> Julia compila y precompila; en el PDF de la primera vez pueden colarse los mensajes de «Precompiling». Vuelve a renderizar o añade <code>#| output: false</code>.</li>
-<li><strong>PDF:</strong> requiere una distribución de <strong>LaTeX</strong> (TeX Live o TinyTeX); el renderizado de prueba usó la TeX Live instalada. Con <code>lang: es</code> y el modo matemático, un <code>\%</code> pegado a un espacio fino (<code>\,\%</code>) rompió la compilación: escribe <code>0{,}015</code> en lugar de <code>1{,}5\,\%</code>.</li>
+<li><strong>PDF:</strong> requiere una distribución de <strong>LaTeX</strong> (TeX Live o TinyTeX); el renderizado de prueba usó la TeX Live instalada. Con <code>lang: es</code> y el modo matemático, un <code>\%</code> pegado a un espacio fino (<code>\,\%</code>) rompió la compilación: escribe <code>0{,}015</code> en lugar de <code>1{,}5\,\%</code>. Quarto puede producir PDF también con <strong>Typst</strong> (<code>format: typst</code>, que trae incluido) en lugar de LaTeX, según su <a href="https://quarto.org/docs/output-formats/typst.html">documentación</a> (consultada el 25-11-2026); este curso no lo usa ni lo ha probado.</li>
 <li><strong>Caracteres Unicode en listados de código</strong> (por ejemplo <code>π</code>) pueden perderse en el PDF; si muestras código, comprueba el resultado.</li>
 <li><strong>Decimales:</strong> Julia imprime <code>20.48</code> (punto); para que el informe diga <code>20,48</code> formatea el número al insertarlo.</li>
 <li>Para que Quarto encuentre <code>CairoMakie</code> y el resto, el <code>.qmd</code> debe estar <strong>dentro de un árbol con <code>Project.toml</code></strong> (o configurar <code>--project</code> en <code>julia: exeflags</code>); fuera, falló con <em>Package CairoMakie not found</em>.</li>

@@ -46,7 +46,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a4cfe87370dc173d9ea2018935ed1a4e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,6 +107,10 @@ ul.task-list li input[type="checkbox"] {
   <li class="nav-item">
     <a class="nav-link active" href="./hoja-consulta.html" aria-current="page"> 
 <span class="menu-text">Hoja de consulta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./actualizaciones.html"> 
+<span class="menu-text">Actualizaciones</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -170,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p><a href="descargas/hoja-consulta.txt" download="">Descargar en texto (Markdown)</a></p>
-<p>Versión documentada de Claude Code: <strong>2.1.309</strong> · instalada: 2.1.306 · verificación: 23/10/2026. Generada desde <code>_curso/comandos.yml</code>.</p>
+<p>Versión documentada de Claude Code: <strong>2.1.332</strong> · instalada: 2.1.330 · verificación: 25/11/2026. Generada desde <code>_curso/comandos.yml</code>.</p>
 <section id="terminal-sistema" class="level2">
 <h2 class="anchored" data-anchor-id="terminal-sistema">Terminal (sistema)</h2>
 <table class="caption-top table">
@@ -304,7 +308,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>git worktree add ../ruta -b rama · git worktree list · git worktree remove ../ruta</code></td>
 <td>Crea otra carpeta de trabajo del mismo repositorio, con su propia rama.</td>
-<td>Una rama solo puede estar activa en un worktree a la vez. <code>remove --force</code> borra cambios sin guardar.</td>
+<td>Una rama solo puede estar activa en un worktree a la vez. <code>remove --force</code> borra cambios sin guardar. Dentro del sandbox de Claude Code, <code>add</code>, <code>move</code> y <code>remove</code> fallan (parte de <code>.git</code> es de solo lectura, desde 2.1.323): ejecútalos fuera.</td>
 </tr>
 <tr class="even">
 <td><code>git pull · git push [-u origin rama]</code></td>
@@ -385,24 +389,24 @@ ul.task-list li input[type="checkbox"] {
 <td>No cambia nada. Dentro de una sesión, <code>/doctor</code> es otra cosa (una skill que puede aplicar arreglos).</td>
 </tr>
 <tr class="odd">
-<td><code>claude update · claude install [versión\|stable\|latest]</code></td>
+<td><code>claude update · claude install [versión\|stable\|latest] · brew upgrade claude-code · winget upgrade Anthropic.ClaudeCode</code></td>
 <td>Actualiza a la última versión, o instala una versión o canal concreto.</td>
-<td>Instalaciones con Homebrew, WinGet o apt no se actualizan solas; usa su gestor.</td>
+<td>Instalaciones con Homebrew, WinGet o apt no se actualizan solas; usa su gestor (el cask <code>claude-code</code> es el canal estable; <code>claude-code@latest</code>, el más reciente).</td>
 </tr>
 <tr class="even">
 <td><code>claude auth login · claude auth status [--text] · claude auth logout</code></td>
 <td>Inicia o cierra sesión y muestra el estado de autenticación (JSON por defecto).</td>
-<td>Claude Code requiere plan Pro, Max, Team, Enterprise o cuenta de Console; el plan gratuito no lo incluye.</td>
+<td>Claude Code requiere plan Pro, Max, Team, Enterprise o cuenta de Console; el plan gratuito no lo incluye. La salida incluye datos de tu cuenta.</td>
 </tr>
 <tr class="odd">
-<td><code>claude mcp add [--transport http\|stdio] [--scope local\|project\|user] nombre URL\|-- comando · claude mcp list · claude mcp get nombre · claude mcp remove nombre</code></td>
+<td><code>claude mcp add [--transport http\|stdio] [--scope local\|project\|user] nombre URL\|-- comando · claude mcp add-json [--scope …] nombre - · claude mcp list · claude mcp get nombre · claude mcp remove nombre</code></td>
 <td>Configura servidores MCP (conectores a herramientas externas).</td>
 <td>Solo servidores de confianza: los que leen contenido externo abren la puerta a inyección de instrucciones. SSE está obsoleto; usa HTTP.</td>
 </tr>
 <tr class="even">
-<td><code>claude plugin install nombre@marketplace</code></td>
-<td>Gestiona plugins (paquetes de skills, agentes, hooks y MCP). Alias <code>claude plugins</code>.</td>
-<td>Un plugin puede traer hooks que ejecutan comandos; revisa su origen.</td>
+<td><code>claude plugin install nombre@marketplace · claude plugin validate [--strict] ruta · claude --plugin-dir ruta</code></td>
+<td>Gestiona plugins (paquetes de skills, agentes, hooks y MCP). Alias <code>claude plugins</code>. <code>validate</code> comprueba el manifiesto; <code>--plugin-dir</code> carga un plugin solo para esa sesión.</td>
+<td>Un plugin puede traer hooks que ejecutan comandos; revisa su origen. Declara en <code>plugin.json</code> las versiones compatibles con <code>engines["claude-code"]</code> (2.1.323).</td>
 </tr>
 <tr class="odd">
 <td><code>claude agents [--json]</code></td>
@@ -431,12 +435,12 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>claude --version · claude -v</code></td>
 <td>Imprime la versión instalada.</td>
-<td>Ninguna.</td>
+<td>Si hay varias instalaciones, informa de la primera del PATH (<code>which -a claude</code>, <code>where.exe claude</code>). La de la aplicación de escritorio o la extensión de VS Code puede ser otra: dentro de la sesión, <code>/status</code>.</td>
 </tr>
 <tr class="even">
 <td><code>claude -p "consulta" [--output-format text\|json\|stream-json]</code></td>
 <td>Modo no interactivo; responde, imprime y termina. Admite entrada por tubería.</td>
-<td>Sin <code>--bare</code>, <code>-p</code> carga hooks y servidores MCP del proyecto sin diálogo de confianza. Desde 2.1.302 arranca en modo Manual: lo que pida permiso se deniega salvo reglas.</td>
+<td>Sin <code>--bare</code>, <code>-p</code> carga hooks y servidores MCP del proyecto sin diálogo de confianza. Desde 2.1.302 arranca en modo Manual: lo que pida permiso se deniega salvo reglas. Para que nada se quede esperando: <code>--permission-mode dontAsk</code>, <code>--permission-prompts none</code> o <code>permissions.denyInsteadOfPrompting</code> (2.1.319, ajustes de usuario o gestionados).</td>
 </tr>
 <tr class="odd">
 <td><code>claude -c · claude -r "sesión" ["consulta"] · --fork-session</code></td>
@@ -449,9 +453,9 @@ ul.task-list li input[type="checkbox"] {
 <td>Ninguna.</td>
 </tr>
 <tr class="odd">
-<td><code>claude --model alias\|nombre · claude --effort low\|medium\|high\|xhigh\|max</code></td>
-<td>Elige modelo (<code>sonnet</code>, <code>opus</code>, <code>haiku</code>, <code>fable</code> o nombre completo) y nivel de esfuerzo para la sesión.</td>
-<td>Los niveles disponibles dependen del modelo; más esfuerzo, más consumo.</td>
+<td><code>claude --model alias\|nombre · claude --effort low\|medium\|high\|xhigh\|max\|ultracode</code></td>
+<td>Elige modelo (alias <code>default</code>, <code>best</code>, <code>fable</code>, <code>opus</code>, <code>sonnet</code>, <code>haiku</code>, <code>sonnet[1m]</code>, <code>opus[1m]</code>, <code>opusplan</code>, o identificador completo) y nivel de esfuerzo para la sesión.</td>
+<td>Los niveles disponibles dependen del modelo; más esfuerzo, más consumo. <code>ultrathink</code> en un mensaje sube ese turno a <code>xhigh</code> (<code>CLAUDE_CODE_DISABLE_ULTRATHINK</code> lo desactiva).</td>
 </tr>
 <tr class="even">
 <td><code>claude --permission-mode default\|manual\|acceptEdits\|plan\|auto\|dontAsk\|bypassPermissions</code></td>
@@ -481,7 +485,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>claude -p --max-turns N · claude -p --max-budget-usd X</code></td>
 <td>Limita los turnos o el gasto estimado de una ejecución no interactiva.</td>
-<td>El presupuesto es una estimación local y puede superarse; deja margen.</td>
+<td>El presupuesto es una estimación local y puede superarse; deja margen. Las dos opciones solo funcionan con <code>-p</code>.</td>
 </tr>
 <tr class="even">
 <td><code>claude --dangerously-skip-permissions</code></td>
@@ -525,7 +529,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td><code>/permissions</code></td>
 <td>Gestiona reglas allow, ask y deny por ámbito y los directorios de trabajo.</td>
-<td>Una regla <code>allow</code> amplia (<code>Bash</code>) equivale a renunciar al control de la shell.</td>
+<td>Una regla <code>allow</code> amplia (<code>Bash</code>) equivale a renunciar al control de la shell. El <code>*</code> va después del subcomando: <code>Bash(git status *)</code>, no <code>Bash(git -C * status *)</code>, que también casa con opciones como <code>-c</code>.</td>
 </tr>
 <tr class="odd">
 <td><code>/model [modelo]</code></td>
@@ -533,89 +537,104 @@ ul.task-list li input[type="checkbox"] {
 <td>Al cambiar, la siguiente petición relee la conversación sin caché.</td>
 </tr>
 <tr class="even">
+<td><code>/effort [low\|medium\|high\|xhigh\|max\|auto\|status]</code></td>
+<td>Fija, borra (<code>auto</code>) o muestra (<code>status</code>) el nivel de esfuerzo de la sesión.</td>
+<td>Los niveles disponibles dependen del modelo; <code>max</code> solo dura la sesión.</td>
+</tr>
+<tr class="odd">
 <td><code>/clear [nombre]</code></td>
 <td>Empieza una conversación nueva con el contexto vacío.</td>
 <td>Para liberar contexto sin cambiar de tarea, mejor <code>/compact</code>.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>/compact [instrucciones]</code></td>
 <td>Resume la conversación para liberar contexto, opcionalmente con un foco.</td>
 <td>Se pueden perder detalles de las primeras instrucciones; lo permanente va en CLAUDE.md.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>/context [all]</code></td>
 <td>Muestra el uso de la ventana de contexto como una cuadrícula de colores, con sugerencias.</td>
 <td>Ninguna.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>/init</code></td>
 <td>Genera un CLAUDE.md inicial analizando el proyecto.</td>
 <td>Revísalo y recórtalo; la documentación recomienda menos de 200 líneas por fichero.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>/memory</code></td>
 <td>Edita los CLAUDE.md y activa, desactiva o revisa la memoria automática.</td>
 <td>Ninguna.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>/resume [sesión]</code></td>
 <td>Reanuda una conversación por ID o nombre, o abre el selector.</td>
 <td>Ninguna.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>/rewind</code></td>
 <td>Vuelve a un punto anterior de la conversación y/o del código (alias <code>/checkpoint</code>, <code>/undo</code>).</td>
 <td>No deshace lo que cambiaron los comandos de shell en ficheros que Claude no había editado, ni acciones remotas. No sustituye a Git.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>/diff</code></td>
 <td>Revisa los cambios del árbol de trabajo, incluidas las ediciones de Claude.</td>
 <td>Ninguna.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>/plan [descripción]</code></td>
 <td>Entra en modo plan (lee y propone sin editar) y, si das descripción, empieza con ella.</td>
 <td>Ninguna.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>/usage (alias /cost, /stats)</code> <em>(cambiado)</em></td>
 <td>Muestra el coste de la sesión, los límites del plan y estadísticas de uso.</td>
 <td>Las cifras son estimaciones locales.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>/agents</code> <em>(cambiado)</em></td>
 <td>Recuerda cómo crear subagentes (pidiéndoselo a Claude o editando <code>.claude/agents/</code>).</td>
 <td>Ninguna.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>/mcp [reconnect\|enable\|disable servidor\|all]</code></td>
 <td>Gestiona las conexiones MCP y su autenticación.</td>
 <td>Ninguna.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>/hooks</code></td>
 <td>Muestra la configuración de hooks.</td>
-<td>Ninguna.</td>
+<td>Un hook que falla deja pasar la acción salvo que lleve <code>"onFailure": "block"</code>.</td>
+</tr>
+<tr class="even">
+<td><code>/tasks</code></td>
+<td>Lista el trabajo en segundo plano de la sesión (subagentes, también los terminados, órdenes de shell y tareas MCP) y permite pararlo.</td>
+<td>Parar una tarea puede dejar su trabajo a medias.</td>
 </tr>
 <tr class="odd">
+<td><code>/loop [intervalo] [prompt]</code></td>
+<td>Repite un prompt mientras la sesión sigue abierta, cada cierto intervalo o al ritmo que decide Claude.</td>
+<td>Cada vuelta consume uso. Las tareas recurrentes caducan a los 30 días (antes 7; 2.1.330); sin intervalo, el bucle termina si una vuelta no programa la siguiente (2.1.319).</td>
+</tr>
+<tr class="even">
 <td><code>/skills</code></td>
 <td>Lista las skills disponibles y permite ordenarlas por tokens o cambiar su visibilidad.</td>
 <td>Ninguna.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>/export [fichero]</code></td>
 <td>Exporta la conversación como texto plano.</td>
 <td>Revisa que no contenga datos personales antes de compartirlo.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>/add-dir ruta</code></td>
 <td>Añade una carpeta de trabajo durante la sesión.</td>
 <td>Igual que <code>--add-dir</code>.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>/security-review</code></td>
 <td>Analiza los cambios de la rama frente a la rama principal de <code>origin</code> buscando vulnerabilidades.</td>
-<td>Necesita un remoto <code>origin</code>. No sustituye una auditoría.</td>
+<td>Necesita un remoto <code>origin</code>. No sustituye una auditoría. Desde 2.1.323 pide confirmación antes de que Claude lo ejecute por su cuenta.</td>
 </tr>
 </tbody>
 </table>
@@ -637,9 +656,9 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|rama\|ruta] (alias /review)</code> <em>(cambiado)</em></td>
-<td>Revisa el diff actual (o un PR, rama o ruta) buscando errores de corrección.</td>
-<td><code>ultra</code> lanza una revisión multiagente en la nube y se factura aparte. <code>--comment</code> publica en el PR.</td>
+<td><code>/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n] [pr#\|rama\|ruta] (alias /review)</code> <em>(cambiado)</em></td>
+<td>Revisa el diff actual (o un PR, rama o ruta) buscando errores de corrección; solo informa, salvo con <code>--fix</code>.</td>
+<td><code>ultra</code> lanza una revisión multiagente en la nube y se factura aparte. <code>--comment</code> publica en el PR. Qué revisa sin objetivo varía entre fuentes: indica un rango explícito.</td>
 </tr>
 <tr class="even">
 <td><code>/doctor</code></td>
@@ -667,7 +686,7 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td><code>Mayús+Tab</code></td>
-<td>Recorre los modos de permisos (Auto, Manual, Aceptar ediciones, Plan).</td>
+<td>Recorre los modos de permisos: desde <code>auto</code> pasa a Manual (<code>default</code>) y luego cicla Manual → Aceptar ediciones → Plan. <code>dontAsk</code> nunca entra en el ciclo.</td>
 <td>Ninguna.</td>
 </tr>
 <tr class="even">

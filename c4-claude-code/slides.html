@@ -171,7 +171,7 @@
 <td>Explorar</td>
 </tr>
 <tr class="even">
-<td><code>default</code> / <code>acceptEdits</code></td>
+<td><code>default</code> (<em>Manual</em>) / <code>acceptEdits</code></td>
 <td>Trabajar y revisar</td>
 </tr>
 <tr class="odd">
@@ -179,16 +179,23 @@
 <td>Tareas largas, con cautela</td>
 </tr>
 <tr class="even">
+<td><code>dontAsk</code></td>
+<td>Automatización: lo no permitido se deniega</td>
+</tr>
+<tr class="odd">
 <td><code>bypassPermissions</code></td>
 <td><strong>Solo</strong> contenedores aislados</td>
 </tr>
 </tbody>
 </table>
+<p>En terminal y VS Code se <strong>arranca en <code>auto</code></strong> (desde 2.1.283): mira la barra de estado.</p>
+<p>Mayús+Tab: <code>auto</code> → <code>default</code> → <code>acceptEdits</code> → <code>plan</code> → …</p>
 </section>
 <section id="reglas" class="slide level2">
 <h2>Reglas</h2>
 <p><code>deny</code> → <code>ask</code> → <code>allow</code>. Gana la primera que casa.</p>
-<p>Restringir <strong>argumentos</strong> en Bash es <strong>frágil</strong>.</p>
+<p>El <code>*</code> <strong>después del subcomando</strong>: <code>Bash(git status *)</code>, no <code>Bash(git -C * status *)</code>.</p>
+<p>Restringir <strong>argumentos</strong> en Bash es <strong>frágil</strong>: el fondo es el <em>sandbox</em>.</p>
 </section>
 <section id="antes-de-aprobar" class="slide level2">
 <h2>Antes de aprobar</h2>
@@ -207,6 +214,16 @@
 <h2>Contexto y coste</h2>
 <p><code>/context</code> · <code>/compact</code> · <code>/clear</code> · <code>/resume</code> · <code>/rewind</code> · <code>/usage</code></p>
 <p><em>Una tarea, una sesión.</em></p>
+<p>Ventanas de uso: <strong>cinco horas</strong> y <strong>semanal</strong>.</p>
+</section>
+<section id="modelos-y-esfuerzo" class="slide level2">
+<h2>Modelos y esfuerzo</h2>
+<ul>
+<li><code>/model</code> con alias: <code>fable</code> (Fable 5.2), <code>opus</code> (Opus 5.5), <code>sonnet</code>, <code>haiku</code>, <code>opusplan</code></li>
+<li><code>default</code> = el predeterminado de tu cuenta (no es Fable)</li>
+<li><code>/effort</code>: <code>low</code> · <code>medium</code> · <code>high</code> · <code>xhigh</code> · <code>max</code> (según el modelo)</li>
+<li><code>ultrathink</code> en el mensaje: más razonamiento <strong>solo en ese turno</strong></li>
+</ul>
 </section>
 <section id="cuando-algo-sale-mal" class="slide level2">
 <h2>Cuando algo sale mal</h2>

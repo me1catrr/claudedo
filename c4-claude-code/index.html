@@ -100,7 +100,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a95d84cf3d0d9b3c0ccde713ddd8fed3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a4cfe87370dc173d9ea2018935ed1a4e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -163,6 +163,10 @@ div.csl-indent {
   <li class="nav-item">
     <a class="nav-link" href="../hoja-consulta.html"> 
 <span class="menu-text">Hoja de consulta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../actualizaciones.html"> 
+<span class="menu-text">Actualizaciones</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -354,7 +358,7 @@ div.csl-indent {
 
 
 <div class="version-unidad version-pend" role="note">
-<p>Versión 0.2.0 · editada el 23/10/2026 · comprobada el 23/10/2026 · Claude Code 2.1.309 (doc.) · pendiente de revisión</p>
+<p>Versión 0.3.0 · editada el 25/11/2026 · comprobada el 25/11/2026 · Claude Code 2.1.332 (doc.) · pendiente de revisión</p>
 </div>
 <p><img src="fig/portada.svg" class="portada img-fluid" alt="Esquema del bucle de trabajo de Claude Code: reunir contexto, actuar y verificar, con una persona que revisa y aprueba en el centro"></p>
 <div class="cell">
@@ -371,13 +375,13 @@ div.csl-indent {
 <ul>
 <li>explicar qué es Claude Code y en qué se diferencia de un chat: el <strong>bucle</strong> de reunir contexto, actuar y verificar;</li>
 <li>instalarlo, autenticarte y arrancar una sesión en un proyecto, en macOS o en Windows;</li>
-<li>elegir un <strong>modo de permisos</strong> y leer una <strong>regla de permisos</strong>; entender qué propone ejecutar antes de aprobarlo;</li>
-<li>gestionar el contexto (<code>/context</code>, <code>/compact</code>, <code>/clear</code>, <code>/resume</code>, <code>/rewind</code>) y controlar el coste;</li>
+<li>elegir un <strong>modo de permisos</strong>, saber con cuál arranca la sesión, y leer y escribir una <strong>regla de permisos</strong> segura; entender qué propone ejecutar antes de aprobarlo;</li>
+<li>gestionar el contexto (<code>/context</code>, <code>/compact</code>, <code>/clear</code>, <code>/resume</code>, <code>/rewind</code>) y controlar el coste eligiendo modelo y nivel de esfuerzo;</li>
 <li>escribir un buen <strong><code>CLAUDE.md</code></strong> y distinguir lo persistente de lo temporal;</li>
 <li>recuperarte de un error con Git y con los puntos de control.</li>
 </ul>
 <p><strong>Prerrequisitos.</strong> <a href="../c2-terminal/index.html">C2</a> (terminal, PATH, permisos) y <a href="../c3-git/index.html">C3</a> (ramas, diff, restauración). Es la unidad que une las dos.</p>
-<p><strong>Tiempo orientativo.</strong> 6–8 horas. <strong>Nivel:</strong> intermedio. <strong>Herramientas:</strong> Claude Code (2.1.306 instalado y 2.1.309 documentado en la redacción) y una cuenta compatible.</p>
+<p><strong>Tiempo orientativo.</strong> 6–8 horas. <strong>Nivel:</strong> intermedio. <strong>Herramientas:</strong> Claude Code (redactada con 2.1.306 y la documentación de 2.1.309; revisada el 25-11-2026 con la documentación de 2.1.332 y comprobaciones con el binario 2.1.330) y una cuenta compatible.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Qué se ha comprobado y qué no">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -389,6 +393,7 @@ div.csl-indent {
 </div>
 <div class="callout-body-container callout-body">
 <p>Esta unidad se escribió con la documentación oficial de Claude Code (versión 2.1.309, consultada el 23-10-2026) y se contrastó con la instalación local (2.1.306): existen todas las opciones y subcomandos que se citan aquí (<code>claude --help</code>) y <code>claude doctor</code> funciona. <strong>No</strong> se ha ejecutado ninguna sesión interactiva completa durante la redacción (requiere cuenta y red), de modo que los ejemplos de conversación son <strong>ilustrativos</strong>. Los comandos, atajos y ajustes <strong>cambian de versión en versión</strong>: el registro del curso (<code>comandos.yml</code>) y la <a href="../hoja-consulta.html">hoja de consulta</a> indican la versión contra la que se verificó cada uno.</p>
+<p><strong>Revisión del 25-11-2026.</strong> Los apartados C4.3 (permisos y modos) y C4.7 (coste, límites y modelos) y la tabla de C4.9 se actualizaron con la documentación vigente y el changelog hasta la versión 2.1.332. Lo que se presenta como «comprobado» se ejecutó con Claude Code 2.1.330 (sin sesión interactiva completa); lo que solo consta en el changelog se indica como tal.</p>
 </div>
 </div>
 <p><strong>Temas de la unidad</strong></p>
@@ -478,10 +483,8 @@ div.csl-indent {
 </section>
 <section id="c4-3" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="c4-3">C4.3 Permisos, modos y confirmaciones: entender lo que se propone ejecutar</h3>
-<p>Claude Code <strong>pide permiso</strong> antes de actuar, y tú decides cuánta autonomía darle con el <strong>modo de permisos</strong> <span class="citation" data-cites="anthropic-modos">(<a href="#ref-anthropic-modos" role="doc-biblioref"><em>Permission modes</em> 2026</a>)</span>:</p>
-<div class="no-row-height column-margin column-container"><div id="ref-anthropic-modos" class="csl-entry" role="listitem">
-<em>Permission modes</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/permission-modes">https://code.claude.com/docs/en/permission-modes</a>.
-</div></div><table class="caption-top table">
+<p>Claude Code <strong>pide permiso</strong> antes de actuar, y tú decides cuánta autonomía darle con el <strong>modo de permisos</strong> <span class="citation" data-cites="anthropic-modos">(<a href="#ref-anthropic-modos" role="doc-biblioref"><em>Permission modes</em> 2026</a>)</span>. La idea de fondo no depende de la versión: cuanto más autónomo es el modo, menos te interrumpe y más descansas en las otras defensas (reglas, <em>sandbox</em>, Git y tu revisión del diff). Los nombres y el comportamiento concreto de cada modo sí cambian; esta tabla sigue la documentación consultada el 25-11-2026:</p>
+<div class="no-row-height column-margin column-container"></div><table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
 <col style="width: 33%">
@@ -489,57 +492,94 @@ div.csl-indent {
 </colgroup>
 <thead>
 <tr class="header">
-<th>Modo</th>
+<th>Modo (valor que se escribe)</th>
 <th>Se ejecuta sin preguntar</th>
 <th>Para qué</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>default</code> (manual)</td>
-<td>Solo lecturas</td>
+<td><code>default</code> (la interfaz lo llama <em>Manual</em>)</td>
+<td>Lecturas dentro de las carpetas de trabajo</td>
 <td>Revisar cada acción</td>
 </tr>
 <tr class="even">
 <td><code>acceptEdits</code></td>
-<td>Lecturas, ediciones y órdenes básicas de ficheros (<code>mkdir</code>, <code>cp</code>, <code>mv</code>, <code>rm</code>, <code>sed</code>…) dentro del directorio de trabajo</td>
+<td>Lo anterior, más ediciones y órdenes comunes de ficheros (<code>mkdir</code>, <code>touch</code>, <code>cp</code>, <code>mv</code>…) dentro de las carpetas de trabajo</td>
 <td>Iterar sobre código que vas a revisar</td>
 </tr>
 <tr class="odd">
 <td><code>plan</code></td>
-<td>Lecturas (propone, no edita hasta que apruebes el plan)</td>
+<td>Lecturas y órdenes de solo lectura (y, si <code>auto</code> está disponible, las que aprueba su clasificador); propone, no edita tu código hasta que apruebes el plan</td>
 <td>Explorar antes de tocar nada</td>
 </tr>
 <tr class="even">
 <td><code>auto</code></td>
-<td>Casi todo, con un clasificador que revisa en segundo plano</td>
+<td>Casi todo; un clasificador revisa en segundo plano cada acción antes de ejecutarla</td>
 <td>Tareas largas, menos interrupciones</td>
 </tr>
 <tr class="odd">
 <td><code>dontAsk</code></td>
-<td>Solo lo que ya está permitido; lo demás se deniega</td>
+<td>Solo lo que ya permiten tus reglas; todo lo que preguntaría <strong>se deniega</strong></td>
 <td>Automatización cerrada</td>
 </tr>
 <tr class="even">
 <td><code>bypassPermissions</code></td>
-<td>Todo, sin comprobaciones</td>
+<td>Todo, sin preguntar</td>
 <td><strong>Solo contenedores o máquinas virtuales aisladas</strong></td>
 </tr>
 </tbody>
 </table>
-<p>Se cambia con <strong>Mayús+Tab</strong> en la sesión (el ciclo habitual es <code>default</code> → <code>acceptEdits</code> → <code>plan</code>), con <code>claude --permission-mode plan</code> al arrancar, o con <code>/plan</code>. Pautas de este curso: <strong><code>plan</code> para explorar, <code>default</code> o <code>acceptEdits</code> para trabajar</strong>; <code>auto</code> solo cuando entiendes la tarea y puedes revisar el diff después; <strong><code>bypassPermissions</code> (y <code>--dangerously-skip-permissions</code>) nunca en tu equipo</strong>, y la documentación indica que ni siquiera protege <code>.git</code> ni <code>.claude</code>.</p>
+<p>Las reglas <code>deny</code> (más abajo) bloquean en <strong>todos</strong> los modos, incluido <code>bypassPermissions</code> <span class="citation" data-cites="anthropic-permisos">(<a href="#ref-anthropic-permisos" role="doc-biblioref"><em>Configure permissions</em> 2026</a>)</span>.</p>
+<div class="no-row-height column-margin column-container"></div><p><strong>Con qué modo empieza una sesión.</strong> Según la documentación, desde Claude Code 2.1.283:</p>
+<ul>
+<li>En la <strong>terminal</strong> y en <strong>VS Code</strong>, una sesión nueva empieza en <strong><code>auto</code></strong>, en todos los planes. Si no cambias nada, quien decide antes de cada orden es el clasificador, no tú.</li>
+<li>En modo no interactivo (<code>claude -p</code>, C8) y con el Agent SDK, empieza en <code>default</code>: lo que necesitaría aprobación se deniega salvo que una regla lo permita.</li>
+<li><strong>Cómo comprobarlo:</strong> la barra de estado indica el modo activo: <code>⏵⏵ auto mode on</code>, <code>⏸ manual mode on</code>, <code>⏵⏵ accept edits on</code>, <code>⏸ plan mode on</code>, <code>⏵⏵ don't ask on</code> o <code>⏵⏵ bypass permissions on</code>.</li>
+</ul>
+<p><strong>Cómo se cambia.</strong></p>
+<ul>
+<li><p><strong>Mayús+Tab</strong> en la sesión. Desde <code>auto</code>, la primera pulsación pasa a <code>default</code> (<em>Manual</em>); después el ciclo es <code>default</code> → <code>acceptEdits</code> → <code>plan</code> y vuelve a <code>auto</code> (si tienes habilitado <code>bypassPermissions</code>, aparece justo después de <code>plan</code>). <code>dontAsk</code> <strong>nunca</strong> entra en el ciclo: solo se elige al arrancar.</p></li>
+<li><p><strong>Al arrancar</strong>, con <code>claude --permission-mode plan</code>. La opción acepta <code>default</code>, <code>acceptEdits</code>, <code>plan</code>, <code>auto</code>, <code>dontAsk</code>, <code>bypassPermissions</code> y <code>manual</code>, alias de <code>default</code> <span class="citation" data-cites="anthropic-cli">(<a href="#ref-anthropic-cli" role="doc-biblioref"><em>CLI reference</em> 2026</a>)</span>. Comprobado con Claude Code 2.1.330: <code>claude --help</code> lista <code>manual</code> en lugar de <code>default</code>, y las dos formas se aceptan.</p></li>
+<li><p><strong><code>/plan</code></strong> entra directamente en el modo <code>plan</code> (con una descripción, empieza ya la tarea: <code>/plan revisa analiza.py</code>).</p></li>
+<li><p><strong>Para todas tus sesiones</strong>, fija <code>permissions.defaultMode</code> en tus ajustes de usuario (<code>~/.claude/settings.json</code>). Con este ejemplo, la sesión siguiente arranca en <em>Manual</em>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"permissions"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"defaultMode"</span><span class="fu">:</span> <span class="st">"default"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Por seguridad, <code>auto</code> y <code>bypassPermissions</code> no surten efecto si se escriben en los ajustes del proyecto (<code>.claude/settings.json</code> o <code>.claude/settings.local.json</code>): un repositorio ajeno no puede darse más autonomía a sí mismo <span class="citation" data-cites="anthropic-modos">(<a href="#ref-anthropic-modos" role="doc-biblioref"><em>Permission modes</em> 2026</a>)</span>.</p></li>
+</ul>
+<div class="no-row-height column-margin column-container"></div><p><strong>Pautas de este curso.</strong> <strong><code>plan</code> para explorar, <em>Manual</em> o <code>acceptEdits</code> para trabajar</strong> mientras aprendes; <code>auto</code> cuando entiendes la tarea y vas a revisar el diff después. Como <code>auto</code> es el modo inicial, <strong>mira la barra de estado al empezar</strong> y pulsa Mayús+Tab una vez si quieres ver cada orden antes de que se ejecute: en esta unidad el objetivo es aprender a leer lo que se propone, y para eso tiene que enseñártelo. <strong><code>bypassPermissions</code> (y <code>--dangerously-skip-permissions</code>, que equivale a él) nunca en tu equipo</strong>: la documentación indica que ni siquiera pide confirmación para escribir en <code>.git</code> o <code>.claude</code>.</p>
 <p><strong>Reglas de permisos.</strong> Además del modo, puedes fijar reglas en los ajustes (<code>/permissions</code> las muestra):</p>
 <ul>
 <li>Tienen la forma <code>Herramienta(patrón)</code>: <code>Bash(git status *)</code>, <code>Read(./.env)</code>, <code>Edit(./datos/**)</code>.</li>
 <li>Se evalúan <strong>en este orden: <code>deny</code> → <code>ask</code> → <code>allow</code></strong>; gana la primera que casa, sin importar lo específica que sea <span class="citation" data-cites="anthropic-permisos">(<a href="#ref-anthropic-permisos" role="doc-biblioref"><em>Configure permissions</em> 2026</a>)</span>.</li>
-<li>El comodín <code>*</code> casa cualquier cadena. Una regla de lectura o edición de ficheros (<code>Read</code>, <code>Edit</code>) se aplica a las herramientas de Claude <strong>y</strong> a órdenes de shell que reconoce (como <code>cat</code>).</li>
+<li>El comodín <code>*</code> casa cualquier cadena, espacios incluidos. Una regla de lectura o edición de ficheros (<code>Read</code>, <code>Edit</code>) se aplica a las herramientas de Claude <strong>y</strong> a órdenes de shell que reconoce (como <code>cat</code>).</li>
+<li><strong>El <code>*</code> va después del subcomando.</strong> Claude Code compara al pie de la letra todo lo que hay antes del primer <code>*</code>, y eso es lo que limita la regla: <code>Bash(git log *)</code> permite solo <code>git log</code>; <code>Bash(git *)</code>, cualquier orden de Git. El espacio también cuenta: <code>Bash(ls *)</code> no casa con <code>lsof</code>, pero <code>Bash(ls*)</code> sí <span class="citation" data-cites="anthropic-permisos">(<a href="#ref-anthropic-permisos" role="doc-biblioref"><em>Configure permissions</em> 2026</a>)</span>.</li>
 <li><strong>Límites importantes:</strong> las reglas de Bash que intentan <strong>restringir argumentos</strong> (por ejemplo, «curl solo a GitHub») son <strong>frágiles</strong>: la documentación advierte de que no cubren variaciones. La defensa de fondo es el <strong>sandbox</strong> y no dar más permiso del necesario.</li>
 </ul>
-<div class="no-row-height column-margin column-container"><div id="ref-anthropic-permisos" class="csl-entry" role="listitem">
-<em>Configure permissions</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/permissions">https://code.claude.com/docs/en/permissions</a>.
-</div></div><p><strong>Simulación 3. Evaluar una orden con las reglas.</strong> Este es un modelo <strong>simplificado</strong> (solo reglas Bash; véase la nota del módulo) con parte de las reglas <strong>reales</strong> de este proyecto. Prueba órdenes y observa qué regla decide.</p>
+<div class="no-row-height column-margin column-container"></div><div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: un comodín mal colocado">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Ejemplo: un comodín mal colocado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quieres que Claude consulte sin preguntar el estado de un repositorio situado en otra carpeta, y añades a los ajustes esta regla <code>allow</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"permissions"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"allow"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"Bash(git -C * status *)"</span><span class="ot">]</span> <span class="fu">}</span> <span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La intención era «<code>git -C &lt;carpeta&gt; status</code>». Pero lo único fijo es <code>git -C</code>; el primer <code>*</code> acepta <strong>cualquier</strong> texto, también opciones de Git como <code>-c</code> (que fija una variable de configuración, y algunas indican un programa que Git ejecutará) o <code>--exec-path</code>. Una orden como <code>git -C . -c core.fsmonitor=&lt;programa&gt; status</code> casaría con la regla y se ejecutaría sin preguntarte.</p>
+<p><strong>Qué hace Claude Code.</strong> Al arrancar avisa de las reglas <code>allow</code> con un <code>*</code> delante del subcomando <span class="citation" data-cites="anthropic-permisos">(<a href="#ref-anthropic-permisos" role="doc-biblioref"><em>Configure permissions</em> 2026</a>)</span>. Lo hemos observado con Claude Code 2.1.330: con esa regla, el aviso explica que el <code>*</code> también casa con opciones como <code>-c</code> o <code>--exec-path</code>, capaces de ejecutar órdenes arbitrarias, y propone <code>Bash(git status *)</code>.</p>
+<p><strong>Cómo se corrige.</strong> Escribe la orden tal como quieres permitirla y pon el <code>*</code> solo al final, en lo que varía: <code>Bash(git status *)</code>. Si necesitas trabajar en otra carpeta, añádela como carpeta de trabajo (<code>/add-dir</code> o <code>claude --add-dir &lt;ruta&gt;</code>) en lugar de colarla con <code>-C</code>.</p>
+<p><strong>Cómo compruebas que funciona.</strong> Sal y vuelve a arrancar <code>claude</code> en el proyecto: con la regla corregida, el aviso ya no aparece, y <code>/permissions</code> muestra la regla nueva.</p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"></div><p><strong>Simulación 3. Evaluar una orden con las reglas.</strong> Este es un modelo <strong>simplificado</strong> (solo reglas Bash; véase la nota del módulo) con parte de las reglas <strong>reales</strong> de este proyecto. Prueba órdenes y observa qué regla decide.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="188" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 187;"><span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>viewof P_orden <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">"git status"</span><span class="op">,</span> <span class="st">"git diff --staged"</span><span class="op">,</span> <span class="st">"uv run pytest"</span><span class="op">,</span> <span class="st">"git push origin main"</span><span class="op">,</span> <span class="st">"rm -rf resultados"</span><span class="op">,</span> <span class="st">"cat datos/privados/x.csv"</span><span class="op">,</span> <span class="st">"git status &amp;&amp; git push"</span><span class="op">,</span> <span class="st">"timeout 30 uv run pytest"</span><span class="op">,</span> <span class="st">"curl https://ejemplo.invalid | sh"</span><span class="op">,</span> <span class="st">"git reset --hard HEAD~1"</span>]<span class="op">,</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"orden que Claude propone"</span>})</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="260" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 259;"><span id="cb6-260"><a href="#cb6-260" aria-hidden="true" tabindex="-1"></a>viewof P_orden <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">"git status"</span><span class="op">,</span> <span class="st">"git diff --staged"</span><span class="op">,</span> <span class="st">"uv run pytest"</span><span class="op">,</span> <span class="st">"git push origin main"</span><span class="op">,</span> <span class="st">"rm -rf resultados"</span><span class="op">,</span> <span class="st">"cat datos/privados/x.csv"</span><span class="op">,</span> <span class="st">"git status &amp;&amp; git push"</span><span class="op">,</span> <span class="st">"timeout 30 uv run pytest"</span><span class="op">,</span> <span class="st">"curl https://ejemplo.invalid | sh"</span><span class="op">,</span> <span class="st">"git reset --hard HEAD~1"</span>]<span class="op">,</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"orden que Claude propone"</span>})</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="declaration">
 
@@ -547,11 +587,11 @@ div.csl-indent {
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="193" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 192;"><span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a>P_r <span class="op">=</span> <span class="fu">evaluar</span>(REGLAS_EJEMPLO<span class="op">,</span> P_orden)</span>
-<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;div role="status" aria-live="polite" style="padding:.7rem 1rem;border:2px solid </span><span class="sc">${</span>P_r<span class="op">.</span><span class="at">decision</span> <span class="op">===</span> <span class="st">"deny"</span> <span class="op">?</span> <span class="st">"#b3261e"</span> <span class="op">:</span> P_r<span class="op">.</span><span class="at">decision</span> <span class="op">===</span> <span class="st">"allow"</span> <span class="op">?</span> <span class="st">"#1f7a6f"</span> <span class="op">:</span> <span class="st">"#8a5a00"</span><span class="sc">}</span><span class="vs">;border-radius:.5rem;max-width:640px"&gt;</span></span>
-<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;strong&gt;</span><span class="sc">${</span>({<span class="dt">deny</span><span class="op">:</span> <span class="st">"⛔ Bloqueada (deny)"</span><span class="op">,</span> <span class="dt">ask</span><span class="op">:</span> <span class="st">"❓ Te pregunta (ask)"</span><span class="op">,</span> <span class="dt">allow</span><span class="op">:</span> <span class="st">"✅ Permitida (allow)"</span><span class="op">,</span> <span class="st">"ask-por-defecto"</span><span class="op">:</span> <span class="st">"❓ Pregunta (ninguna regla casa)"</span>})[P_r<span class="op">.</span><span class="at">decision</span>]<span class="sc">}</span><span class="vs">&lt;/strong&gt;&lt;br&gt;</span></span>
-<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;code&gt;</span><span class="sc">${</span>P_orden<span class="sc">}</span><span class="vs">&lt;/code&gt;&lt;br&gt;</span></span>
-<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a><span class="sc">${</span>P_r<span class="op">.</span><span class="at">regla</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`Regla: &lt;code&gt;</span><span class="sc">${</span>P_r<span class="op">.</span><span class="at">regla</span><span class="sc">}</span><span class="vs">&lt;/code&gt;&lt;br&gt;`</span> <span class="op">:</span> <span class="st">""</span><span class="sc">}${</span>P_r<span class="op">.</span><span class="at">motivo</span><span class="sc">}</span><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="265" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 264;"><span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a>P_r <span class="op">=</span> <span class="fu">evaluar</span>(REGLAS_EJEMPLO<span class="op">,</span> P_orden)</span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;div role="status" aria-live="polite" style="padding:.7rem 1rem;border:2px solid </span><span class="sc">${</span>P_r<span class="op">.</span><span class="at">decision</span> <span class="op">===</span> <span class="st">"deny"</span> <span class="op">?</span> <span class="st">"#b3261e"</span> <span class="op">:</span> P_r<span class="op">.</span><span class="at">decision</span> <span class="op">===</span> <span class="st">"allow"</span> <span class="op">?</span> <span class="st">"#1f7a6f"</span> <span class="op">:</span> <span class="st">"#8a5a00"</span><span class="sc">}</span><span class="vs">;border-radius:.5rem;max-width:640px"&gt;</span></span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;strong&gt;</span><span class="sc">${</span>({<span class="dt">deny</span><span class="op">:</span> <span class="st">"⛔ Bloqueada (deny)"</span><span class="op">,</span> <span class="dt">ask</span><span class="op">:</span> <span class="st">"❓ Te pregunta (ask)"</span><span class="op">,</span> <span class="dt">allow</span><span class="op">:</span> <span class="st">"✅ Permitida (allow)"</span><span class="op">,</span> <span class="st">"ask-por-defecto"</span><span class="op">:</span> <span class="st">"❓ Pregunta (ninguna regla casa)"</span>})[P_r<span class="op">.</span><span class="at">decision</span>]<span class="sc">}</span><span class="vs">&lt;/strong&gt;&lt;br&gt;</span></span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;code&gt;</span><span class="sc">${</span>P_orden<span class="sc">}</span><span class="vs">&lt;/code&gt;&lt;br&gt;</span></span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a><span class="sc">${</span>P_r<span class="op">.</span><span class="at">regla</span> <span class="op">?</span> <span class="fu">html</span><span class="vs">`Regla: &lt;code&gt;</span><span class="sc">${</span>P_r<span class="op">.</span><span class="at">regla</span><span class="sc">}</span><span class="vs">&lt;/code&gt;&lt;br&gt;`</span> <span class="op">:</span> <span class="st">""</span><span class="sc">}${</span>P_r<span class="op">.</span><span class="at">motivo</span><span class="sc">}</span><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-3-1" data-nodetype="declaration">
@@ -575,24 +615,25 @@ div.csl-indent {
 <li>Un «sí, y no preguntes más» <strong>crea una regla permanente</strong> para ese comando en este repositorio: úsalo solo con órdenes inocuas y específicas.</li>
 <li>Si no entiendes la orden, <strong>pide que te la explique</strong> o rechaza y reformula. Puedes preguntar «¿qué hace exactamente esa orden y qué pasaría si falla?»</li>
 </ul>
-<div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.314 · por incorporar">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.314 · por incorporar
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<p><strong>Revisar lo que bloqueó el modo <code>auto</code>.</strong> Cuando el clasificador bloquea una acción, Claude Code te avisa y la anota en la pestaña <em>Recently blocked</em> («bloqueadas recientemente») de <code>/permissions</code> (desde Claude Code 2.1.314). Ahí la lees y, si es legítima, la apruebas para que Claude pueda reintentarla; según el changelog, no deja aprobar una llamada que no se pueda mostrar completa <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. Además, <code>auto</code> no insiste sin fin: tras 3 bloqueos seguidos o 20 en total se detiene y vuelve a preguntarte <span class="citation" data-cites="anthropic-modos">(<a href="#ref-anthropic-modos" role="doc-biblioref"><em>Permission modes</em> 2026</a>)</span>. Muchos bloqueos seguidos son una señal para parar y reformular la tarea, no para aprobar en bloque.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-modos" class="csl-entry" role="listitem">
+<em>Permission modes</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/permission-modes">https://code.claude.com/docs/en/permission-modes</a>.
+</div></div><p><strong>Ajustes que endurecen los límites.</strong> Dos claves de <code>permissions</code> que conviene conocer:</p>
 <ul>
-<li><strong>Un ajuste nuevo</strong>, <code>permissions.blockWritesOutsideWorkingDirectories</code>: con él, las herramientas <code>Write</code>, <code>Edit</code> y <code>NotebookEdit</code> rechazan rutas fuera de las carpetas de trabajo <strong>en cualquier modo de permisos</strong> <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>.</li>
-<li><strong><code>/permissions</code> tiene una pestaña nueva</strong>, <em>Recently blocked</em>, para revisar las llamadas que bloqueó el modo <code>auto</code>. No deja aprobar una llamada que no puedas leer completa, ni siquiera cuando la terminal es demasiado baja para mostrarla.</li>
+<li><p><strong><code>blockWritesOutsideWorkingDirectories</code></strong> (desde Claude Code 2.1.314). Con <code>true</code>, las herramientas de ficheros de Claude (<code>Write</code>, <code>Edit</code> y <code>NotebookEdit</code>) rechazan escribir fuera de las carpetas de trabajo <strong>en cualquier modo</strong>, incluido <code>bypassPermissions</code>; mientras está activa, también rechazan escribir en ficheros de ajustes. <strong>No</strong> limita las órdenes de shell, los servidores MCP ni los programas que lanzan los <em>hooks</em>: para eso está el <em>sandbox</em> (C8.8) <span class="citation" data-cites="anthropic-permisos anthropic-sandbox">(<a href="#ref-anthropic-permisos" role="doc-biblioref"><em>Configure permissions</em> 2026</a>; <a href="#ref-anthropic-sandbox" role="doc-biblioref"><em>Sandboxing</em> 2026</a>)</span>. Su pareja, <code>blockReadsOutsideWorkingDirectories</code>, hace lo mismo con las lecturas.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"permissions"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"blockWritesOutsideWorkingDirectories"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><em>Cómo comprobarlo:</em> pide a Claude que cree un fichero de prueba en una carpeta temporal fuera del proyecto. La herramienta de escritura lo rechaza; si entonces Claude propone hacerlo con una orden de shell (<code>cp</code>, <code>echo &gt;</code>…), verás justamente el límite del ajuste: esa orden no la cubre, y en modo <em>Manual</em> te pedirá permiso.</p></li>
+<li><p><strong><code>denyInsteadOfPrompting</code></strong> (desde Claude Code 2.1.319). Con <code>true</code> en tus ajustes de usuario o gestionados, lo que esperaría tu confirmación se deniega y la sesión sigue. A diferencia de <code>dontAsk</code>, no es un modo: funciona con el modo que tengas <span class="citation" data-cites="anthropic-permisos">(<a href="#ref-anthropic-permisos" role="doc-biblioref"><em>Configure permissions</em> 2026</a>)</span>. Está pensado para sesiones desatendidas (C8.1 y C8.8); en una sesión en la que estás delante, prefieres que te pregunte.</p></li>
 </ul>
-<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
-</div>
-</div>
-<div class="no-row-height column-margin column-container"></div><p><strong>Pon a prueba lo anterior.</strong></p>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-permisos" class="csl-entry" role="listitem">
+<em>Configure permissions</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/permissions">https://code.claude.com/docs/en/permissions</a>.
+</div><div id="ref-anthropic-sandbox" class="csl-entry" role="listitem">
+<em>Sandboxing</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/sandboxing">https://code.claude.com/docs/en/sandboxing</a>.
+</div></div><p><strong>Pon a prueba lo anterior.</strong></p>
 <div id="c4-3-orden" class="ejercicio" data-tipo="opcion" data-respuesta="c">
 <p>Hay una regla <code>deny</code> para <code>Bash(rm -rf *)</code> y una <code>allow</code> para <code>Bash(rm *)</code>. Claude propone <code>rm -rf resultados</code>. ¿Qué ocurre?</p>
 <div class="opciones">
@@ -611,6 +652,43 @@ div.csl-indent {
 <p><code>--dangerously-skip-permissions</code> es una buena forma de trabajar más rápido en tu portátil.</p>
 <div class="solucion">
 <p><strong>Falso.</strong> Desactiva las comprobaciones, incluidas las de rutas protegidas como <code>.git</code>; la documentación lo reserva a contenedores o máquinas virtuales aislados. En tu equipo, el modo <code>auto</code> o <code>acceptEdits</code> más una revisión del diff dan velocidad sin renunciar al control.</p>
+</div>
+</div>
+<div id="c4-3-arranque" class="ejercicio" data-tipo="vf" data-respuesta="falso">
+<p>Si abres una sesión nueva de Claude Code en la terminal sin haber cambiado ningún ajuste, empieza en modo <em>Manual</em> (<code>default</code>) y te pregunta antes de cada orden de shell.</p>
+<div class="solucion">
+<p><strong>Falso</strong> según la documentación vigente: desde Claude Code 2.1.283, en la terminal y en VS Code la sesión empieza en <code>auto</code>, y un clasificador decide en tu lugar. Lo compruebas en la barra de estado (<code>⏵⏵ auto mode on</code>); una pulsación de Mayús+Tab pasa a <em>Manual</em>, y <code>permissions.defaultMode</code> en tus ajustes de usuario cambia el modo inicial. Quien arranca en <code>default</code> es <code>claude -p</code>.</p>
+</div>
+</div>
+<div id="c4-3-comodin" class="ejercicio" data-tipo="opcion" data-respuesta="c">
+<p>Quieres que Claude consulte el estado de Git sin preguntarte, y nada más. ¿Qué regla <code>allow</code> escribes?</p>
+<div class="opciones">
+<ul>
+<li><code>Bash(git -C * status *)</code></li>
+<li><code>Bash(git * status)</code></li>
+<li><code>Bash(git status *)</code></li>
+<li><code>Bash(git*)</code></li>
+</ul>
+</div>
+<div class="pista">
+<p>Lo que hay antes del primer <code>*</code> es lo único que se compara al pie de la letra.</p>
+</div>
+<div class="solucion">
+<p><code>Bash(git status *)</code>. En las otras, el <code>*</code> va antes del subcomando (o lo sustituye) y casa con opciones como <code>-c</code> o <code>--exec-path</code>, que pueden hacer que Git ejecute otro programa; <code>Bash(git*)</code> permite cualquier orden que empiece por «git», incluidas <code>git push</code> y <code>gitk</code>. Claude Code avisa al arrancar de las reglas <code>allow</code> con un <code>*</code> delante del subcomando.</p>
+</div>
+</div>
+<div id="c4-3-fuera" class="ejercicio" data-tipo="opcion" data-respuesta="d">
+<p>Activas <code>permissions.blockWritesOutsideWorkingDirectories</code>. ¿Cuál de estas escrituras fuera del proyecto <strong>no</strong> queda bloqueada por ese ajuste?</p>
+<div class="opciones">
+<ul>
+<li>Una edición con la herramienta <code>Edit</code>.</li>
+<li>Un fichero nuevo creado con la herramienta <code>Write</code>.</li>
+<li>Un cambio en un cuaderno con <code>NotebookEdit</code>.</li>
+<li>Una orden de shell <code>cp informe.csv /tmp/</code> (Windows: <code>Copy-Item informe.csv $env:TEMP</code>).</li>
+</ul>
+</div>
+<div class="solucion">
+<p>La orden de shell. El ajuste afecta a las herramientas de ficheros de Claude (<code>Write</code>, <code>Edit</code>, <code>NotebookEdit</code>) en cualquier modo, pero no a la shell, a MCP ni a los <em>hooks</em>. Para limitar dónde escriben las órdenes de shell hace falta el <em>sandbox</em> (C8.8); mientras tanto, en modo <em>Manual</em> esa orden te pedirá permiso.</p>
 </div>
 </div>
 </section>
@@ -774,27 +852,27 @@ div.csl-indent {
 </table>
 <p>Y además existe la <strong>memoria automática</strong>: notas que Claude escribe por sí mismo a partir de tus correcciones (se cargan las primeras 200 líneas o 25 KB); es un mecanismo distinto, que revisas y editas con <code>/memory</code>.</p>
 <p><strong>Un ejemplo original</strong> para el proyecto de la viga (23 líneas; cada regla es verificable):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Proyecto de la viga: instrucciones para Claude Code</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Qué es</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>Análisis de un registro de aceleración sintético (<span class="in">`datos/aceleracion.csv`</span>, 200 Hz).</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Comandos</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pruebas: <span class="in">`uv run --with numpy --with pytest pytest tests`</span> (deben pasar las 6 existentes).</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Análisis: <span class="in">`python3 scripts/analiza.py datos/aceleracion.csv resultados`</span>.</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Convenciones</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Python 3.11+, funciones pequeñas con docstring y una prueba cada una.</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Unidades SI: aceleración en m/s², frecuencia en Hz, tiempo en s.</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Español de España en comentarios y mensajes.</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reglas de trabajo</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Trabaja siempre en una rama; no hagas <span class="in">`git push`</span> ni <span class="in">`git commit`</span> salvo que lo pida.</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No añadas dependencias sin preguntar. No toques <span class="in">`datos/`</span>.</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Antes de dar una tarea por terminada, ejecuta las pruebas y enséñame el resultado.</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seguridad</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No leas ni escribas <span class="in">`.env`</span>. Los secretos no van al repositorio.</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Proyecto de la viga: instrucciones para Claude Code</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Qué es</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Análisis de un registro de aceleración sintético (<span class="in">`datos/aceleracion.csv`</span>, 200 Hz).</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Comandos</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pruebas: <span class="in">`uv run --with numpy --with pytest pytest tests`</span> (deben pasar las 6 existentes).</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Análisis: <span class="in">`python3 scripts/analiza.py datos/aceleracion.csv resultados`</span>.</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Convenciones</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Python 3.11+, funciones pequeñas con docstring y una prueba cada una.</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Unidades SI: aceleración en m/s², frecuencia en Hz, tiempo en s.</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Español de España en comentarios y mensajes.</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reglas de trabajo</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Trabaja siempre en una rama; no hagas <span class="in">`git push`</span> ni <span class="in">`git commit`</span> salvo que lo pida.</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No añadas dependencias sin preguntar. No toques <span class="in">`datos/`</span>.</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Antes de dar una tarea por terminada, ejecuta las pruebas y enséñame el resultado.</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seguridad</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No leas ni escribas <span class="in">`.env`</span>. Los secretos no van al repositorio.</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Un ejemplo real:</strong> el <code>CLAUDE.md</code> de este mismo repositorio (en la raíz) fija el idioma, las unidades, la plantilla de cada unidad, las reglas de datos y las órdenes que se permiten sin preguntar y las que siempre preguntan. Léelo en la práctica.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Errores frecuentes">
 <div class="callout-header d-flex align-content-center">
@@ -838,38 +916,111 @@ div.csl-indent {
 </section>
 <section id="c4-7" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="c4-7">C4.7 Coste, límites de uso y modelos</h3>
-<p>Claude Code consume <strong>tokens</strong> (C1.4). Con una suscripción, el uso cuenta contra los límites de tu plan (ventanas de cinco horas y semanales); con una clave de API, se factura por token. Para vigilarlo <span class="citation" data-cites="anthropic-costes">(<a href="#ref-anthropic-costes" role="doc-biblioref"><em>Manage costs effectively</em> 2026</a>)</span>:</p>
+<p>Claude Code consume <strong>tokens</strong> (C1.4). Con una suscripción, el uso cuenta contra los límites de tu plan; con una clave de API, se factura por token. Para vigilarlo <span class="citation" data-cites="anthropic-costes">(<a href="#ref-anthropic-costes" role="doc-biblioref"><em>Manage costs effectively</em> 2026</a>)</span>:</p>
+<div class="no-row-height column-margin column-container"></div><ul>
+<li><code>/usage</code> muestra el uso de la sesión y de tu plan (en una suscripción, la cifra en dólares <strong>no es tu factura</strong>). <code>/cost</code> y <code>/stats</code> son alias suyos <span class="citation" data-cites="anthropic-comandos">(<a href="#ref-anthropic-comandos" role="doc-biblioref"><em>Commands</em> 2026</a>)</span>.</li>
+<li><code>/context</code> enseña qué ocupa espacio; <code>/clear</code> entre tareas y <code>/compact</code> con instrucciones lo reducen.</li>
+<li><code>/model</code> cambia de modelo y <code>/effort</code> el nivel de razonamiento (los dos se explican abajo): un modelo más pequeño y un esfuerzo menor bastan para muchas tareas; <strong>mide con tus casos</strong>.</li>
+<li>Peticiones específicas, modo <code>plan</code> para no rehacer, y subagentes o <em>hooks</em> para filtrar salidas largas (C7).</li>
+<li>En modo no interactivo (<code>claude -p</code>), <code>--max-budget-usd</code> y <code>--max-turns</code> ponen un tope (C8).</li>
+</ul>
+<div class="no-row-height column-margin column-container"></div><p>La documentación cita, como orientación, una media de unos <strong>13 $ por persona y día activo</strong> en despliegues empresariales (y menos de 30 $ en el 90 % de los casos); varía mucho según el uso. Las sesiones largas gastan más de lo que parece porque cada mensaje reenvía el contexto. <strong>Un uso muy superior al esperado casi siempre es una sesión que nunca se limpió.</strong></p>
+<p><strong>Límites de uso.</strong> En las suscripciones, el uso se mide en <strong>ventanas</strong>: una ventana móvil de cinco horas y otra semanal, compartidas por todos los modelos <span class="citation" data-cites="anthropic-costes">(<a href="#ref-anthropic-costes" role="doc-biblioref"><em>Manage costs effectively</em> 2026</a>)</span>. Si agotas una de ellas, cambiar de modelo con <code>/model</code> no te devuelve el acceso; sí lo hace si el aviso es de un límite propio de una familia («Opus limit», «Sonnet limit»). El aviso dice cuándo se reinicia la ventana, y <code>/usage</code> muestra las barras de uso. Desde Claude Code 2.1.312, los avisos llaman <em>5-hour limit</em> («límite de 5 horas») a la ventana de cinco horas, que antes se llamaba <em>session limit</em> <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>; la página de errores de la documentación aún recoge el nombre antiguo, así que puedes encontrarte cualquiera de los dos.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-modelos" class="csl-entry" role="listitem">
+<em>Models overview</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/models/overview">https://platform.claude.com/docs/en/about-claude/models/overview</a>.
+</div></div><p><strong>Modelos y alias.</strong> Lo duradero es el criterio: hay modelos más capaces y caros y otros más rápidos y baratos, y se elige según la tarea, midiendo. Los vigentes en noviembre de 2026 son <strong>Fable 5.2, Opus 5.5, Sonnet 5.5 y Haiku 5.5</strong>; sus características y precios están en <a href="../c1-claude-web/index.html#c1-1">C1.1</a> y <a href="../c9-api/index.html#c9-2">C9.2</a> <span class="citation" data-cites="anthropic-modelos">(<a href="#ref-anthropic-modelos" role="doc-biblioref"><em>Models overview</em> 2026</a>)</span>. En Claude Code se eligen con <code>/model</code> (sin argumento abre un selector) o con <code>claude --model &lt;alias&gt;</code> al arrancar. Conviene usar <strong>alias</strong> en lugar del identificador completo, porque el alias apunta al modelo vigente de su familia <span class="citation" data-cites="anthropic-modelconfig">(<a href="#ref-anthropic-modelconfig" role="doc-biblioref"><em>Model configuration</em> 2026</a>)</span>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Alias</th>
+<th>Qué elige (API de Anthropic, documentación del 25-11-2026)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>default</code></td>
+<td>No es un modelo: borra tu elección y vuelve al predeterminado de tu cuenta (Opus 5.5 en los planes de suscripción y en la API)</td>
+</tr>
+<tr class="even">
+<td><code>best</code></td>
+<td>El mismo modelo que <code>opus</code> (desde Claude Code 2.1.321)</td>
+</tr>
+<tr class="odd">
+<td><code>fable</code></td>
+<td>Fable 5.2, para las tareas más difíciles y largas</td>
+</tr>
+<tr class="even">
+<td><code>opus</code></td>
+<td>Opus 5.5, razonamiento complejo</td>
+</tr>
+<tr class="odd">
+<td><code>sonnet</code></td>
+<td>Sonnet 5.5, programación diaria</td>
+</tr>
+<tr class="even">
+<td><code>haiku</code></td>
+<td>Haiku 5.5, tareas sencillas y rápidas</td>
+</tr>
+<tr class="odd">
+<td><code>sonnet[1m]</code>, <code>opus[1m]</code></td>
+<td>La variante con ventana de contexto de 1M tokens; no cambia nada cuando el modelo ya la tiene de serie, como Sonnet 5.5 y Opus 5.5</td>
+</tr>
+<tr class="even">
+<td><code>opusplan</code></td>
+<td>Opus mientras estás en modo <code>plan</code> y Sonnet al ejecutar el plan</td>
+</tr>
+</tbody>
+</table>
+<p>Ningún modelo Fable es el predeterminado de ningún plan: si lo quieres, lo eliges. Dos cambios recientes, que dependen de la versión:</p>
+<ul>
+<li>Desde Claude Code 2.1.321, si tenías guardado Fable 5.1 en tus ajustes de usuario (planes Pro, Max y Ultra), la elección pasa al alias <code>fable</code>, que ahora apunta a Fable 5.2; en Team y Enterprise el cambio puede llegar más tarde o no llegar <span class="citation" data-cites="anthropic-modelconfig">(<a href="#ref-anthropic-modelconfig" role="doc-biblioref"><em>Model configuration</em> 2026</a>)</span>. Fable 5.1 sigue disponible por su identificador completo.</li>
+<li>En esa misma versión, el selector de <code>/model</code> agrupa los modelos antiguos bajo <em>More models</em> («más modelos»); esto solo consta en el changelog <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>.</li>
+</ul>
+<div class="no-row-height column-margin column-container"></div><p><em>Cómo comprobarlo:</em> <code>/model</code> marca el modelo activo, y <code>/status</code> también lo muestra.</p>
+<p><strong>Esfuerzo (<em>effort</em>).</strong> Es cuánto razona el modelo antes de responder. Más esfuerzo significa más tokens de pensamiento (que se facturan como salida) y más espera; menos esfuerzo, respuestas más rápidas y baratas, con peor resultado en problemas difíciles <span class="citation" data-cites="anthropic-costes">(<a href="#ref-anthropic-costes" role="doc-biblioref"><em>Manage costs effectively</em> 2026</a>)</span>. Los niveles son <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code> y <code>max</code>:</p>
 <div class="no-row-height column-margin column-container"><div id="ref-anthropic-costes" class="csl-entry" role="listitem">
 <em>Manage costs effectively</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/costs">https://code.claude.com/docs/en/costs</a>.
 </div></div><ul>
-<li><code>/usage</code> muestra el uso de la sesión y de tu plan (en una suscripción, la cifra en dólares <strong>no es tu factura</strong>).</li>
-<li><code>/context</code> enseña qué ocupa espacio; <code>/clear</code> entre tareas y <code>/compact</code> con instrucciones lo reducen.</li>
-<li><code>/model</code> cambia de modelo y <code>/effort</code> el nivel de razonamiento: un modelo más pequeño y un esfuerzo menor bastan para muchas tareas; <strong>mide con tus casos</strong>.</li>
-<li>Peticiones específicas, modo <code>plan</code> para no rehacer, y subagentes o <em>hooks</em> para filtrar salidas largas (C7).</li>
-<li>En modo no interactivo, <code>--max-budget-usd</code> y <code>--max-turns</code> ponen un tope (C8).</li>
+<li><strong>Al arrancar:</strong> <code>claude --effort high</code>. Comprobado con Claude Code 2.1.330: <code>claude --help</code> lista esos cinco valores. La documentación añade <code>ultracode</code>, que no es un nivel más: pide <code>xhigh</code> y activa un modo en el que Claude orquesta flujos de trabajo (C8) <span class="citation" data-cites="anthropic-cli">(<a href="#ref-anthropic-cli" role="doc-biblioref"><em>CLI reference</em> 2026</a>)</span>.</li>
+<li><strong>En la sesión:</strong> <code>/effort high</code> lo fija; <code>/effort</code> sin argumento abre un control deslizante; <code>/effort status</code> muestra el nivel actual; <code>/effort auto</code> borra el nivel que guardaste para el modelo activo. <code>max</code> dura solo la sesión <span class="citation" data-cites="anthropic-comandos">(<a href="#ref-anthropic-comandos" role="doc-biblioref"><em>Commands</em> 2026</a>)</span>.</li>
+<li><strong>Depende del modelo.</strong> Los cuatro modelos vigentes admiten los cinco niveles; si pides uno que el modelo no tiene, Claude Code usa el más alto disponible por debajo (por ejemplo, <code>xhigh</code> funciona como <code>high</code> en Opus 4.6) <span class="citation" data-cites="anthropic-modelconfig">(<a href="#ref-anthropic-modelconfig" role="doc-biblioref"><em>Model configuration</em> 2026</a>)</span>.</li>
+<li><strong><code>ultrathink</code>, solo para un turno.</strong> Si escribes la palabra <code>ultrathink</code> en un mensaje, pides razonar más en ese turno sin cambiar el esfuerzo de la sesión. Desde Claude Code 2.1.311, en la terminal, sube ese turno a <code>xhigh</code> en los modelos que lo admiten, y la palabra se colorea para indicar que se ha reconocido; si no se colorea, no ha surtido efecto. Frases como «piensa mucho» son texto normal. La variable de entorno <code>CLAUDE_CODE_DISABLE_ULTRATHINK=1</code> (desde la 2.1.316) desactiva la palabra clave <span class="citation" data-cites="anthropic-modelconfig">(<a href="#ref-anthropic-modelconfig" role="doc-biblioref"><em>Model configuration</em> 2026</a>)</span>. Ejemplo: «ultrathink: averigua por qué falla la prueba de <code>rms</code> con señales de longitud impar; no cambies código todavía». El turno siguiente vuelve al esfuerzo de la sesión.</li>
 </ul>
-<p>La documentación cita, como orientación, una media de unos <strong>13 $ por persona y día activo</strong> en despliegues empresariales (y menos de 30 $ en el 90 % de los casos); varía mucho según el uso. Las sesiones largas gastan más de lo que parece porque cada mensaje reenvía el contexto. <strong>Un uso muy superior al esperado casi siempre es una sesión que nunca se limpió.</strong></p>
-<div class="novedad callout callout-style-default callout-note no-icon callout-titled" title="Novedad · Claude Code 2.1.311 a 2.1.316 · por incorporar">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Novedad · Claude Code 2.1.311 a 2.1.316 · por incorporar
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<div class="no-row-height column-margin column-container"><div id="ref-anthropic-cli" class="csl-entry" role="listitem">
+<em>CLI reference</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/cli-reference">https://code.claude.com/docs/en/cli-reference</a>.
+</div><div id="ref-anthropic-comandos" class="csl-entry" role="listitem">
+<em>Commands</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/commands">https://code.claude.com/docs/en/commands</a>.
+</div><div id="ref-anthropic-modelconfig" class="csl-entry" role="listitem">
+<em>Model configuration</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/model-config">https://code.claude.com/docs/en/model-config</a>.
+</div><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
+<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
+</div></div><p><strong>Modo rápido.</strong> <code>/fast</code> activa un modo con el mismo modelo y respuestas más rápidas, a un precio por token mayor; en las suscripciones se paga con créditos de uso aparte (<a href="https://code.claude.com/docs/en/fast-mode">documentación del modo rápido</a>, consultada el 25-11-2026). El modo rápido de <strong>Opus 4.8</strong> está obsoleto desde el 30-10-2026 y se retira el <strong>30-11-2026</strong>: después, esas peticiones darán error, sin pasar solas a Opus 4.8 a velocidad normal <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>. Si lo usas, cambia a Opus 5.5 con <code>/model</code> (el modo rápido sigue activo) o apágalo con <code>/fast off</code> para seguir en Opus 4.8 a velocidad normal: el modelo Opus 4.8 en sí sigue disponible.</p>
+<p><strong>Pon a prueba lo anterior.</strong></p>
+<div id="c4-7-ultrathink" class="ejercicio" data-tipo="opcion" data-respuesta="b">
+<p>Trabajas con esfuerzo <code>medium</code> y quieres que Claude razone más <strong>solo</strong> para analizar un fallo difícil, sin cambiar el resto de la sesión. ¿Qué haces?</p>
+<div class="opciones">
 <ul>
-<li><strong><code>ultrathink</code></strong> (2.1.311) sube a esfuerzo <code>xhigh</code> el turno en el que lo escribes, con Opus 5.5, Sonnet 5.5, Haiku 5.5 y Fable 5.1 a través de la API de Anthropic. Si lo escribes mientras Claude trabaja, eleva el resto de ese turno. Desde la 2.1.316, <code>CLAUDE_CODE_DISABLE_ULTRATHINK</code> desactiva la palabra clave <span class="citation" data-cites="anthropic-changelog">(<a href="#ref-anthropic-changelog" role="doc-biblioref"><em>Changelog</em> 2026</a>)</span>.</li>
-<li><strong>Nombres de los límites</strong> (2.1.312): los avisos llaman ahora <em>5-hour limit</em> («límite de 5 horas») a la ventana de cinco horas, que antes se llamaba <em>session limit</em>.</li>
-<li><strong>Modo rápido de Opus 4.8</strong> (2.1.316): queda obsoleto desde el 30-10-2026 y se retirará el 30-11-2026. Después, las peticiones en modo rápido a Opus 4.8 darán error, sin recurrir a Opus 4.8 normal. Para conservar la velocidad hay que pasar a Opus 5.5.</li>
+<li><code>/effort max</code>, y lo dejas así.</li>
+<li>Escribes <code>ultrathink</code> en ese mensaje y compruebas que la palabra se colorea.</li>
+<li>Cambias al alias <code>opusplan</code>.</li>
+<li>Escribes «piensa mucho» al principio del mensaje.</li>
 </ul>
-<p><span class="novedad-estado">Leída en el changelog oficial el 03-11-2026; no ejecutada ni integrada aún en el texto, que se contrastó con la 2.1.309.</span></p>
+</div>
+<div class="solucion">
+<p><code>ultrathink</code> afecta solo a ese turno (desde Claude Code 2.1.311 lo sube a <code>xhigh</code> en los modelos que lo admiten); el color indica que se ha reconocido. <code>/effort max</code> cambia toda la sesión y gasta más en cada mensaje; <code>opusplan</code> cambia de modelo según el modo, no el esfuerzo; «piensa mucho» se trata como texto normal.</p>
 </div>
 </div>
-<div class="no-row-height column-margin column-container"><div id="ref-anthropic-changelog" class="csl-entry" role="listitem">
-<em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.
-</div></div></section>
+<div id="c4-7-default" class="ejercicio" data-tipo="vf" data-respuesta="falso">
+<p>Con <code>/model default</code> eliges Fable 5.2, el modelo más capaz.</p>
+<div class="solucion">
+<p><strong>Falso.</strong> <code>default</code> no es un modelo: borra tu elección y vuelve al predeterminado de tu cuenta, que según la documentación del 25-11-2026 es Opus 5.5 en los planes de suscripción y en la API. Ningún modelo Fable es el predeterminado; para usarlo, <code>/model fable</code>.</p>
+</div>
+</div>
+</section>
 <section id="c4-8" class="level3">
 <h3 class="anchored" data-anchor-id="c4-8">C4.8 Terminal, IDE y otras superficies</h3>
 <p>La misma funcionalidad se ofrece en la <strong>terminal</strong> (donde se documenta todo), en <strong>VS Code</strong> y <strong>JetBrains</strong> (el editor muestra los cambios propuestos como diffs y comparte el contexto de lo que tienes abierto), en la <strong>aplicación de escritorio</strong> y en la <strong>web</strong>. Elige por comodidad, pero las reglas son las mismas: permisos, diff, Git. Si trabajas con varios proyectos o tareas en paralelo, usa <strong>worktrees</strong> (C3.10).</p>
@@ -884,7 +1035,7 @@ div.csl-indent {
 <li><strong><code>/clear</code></strong> y empezar de nuevo con una petición más precisa si la sesión se enredó.</li>
 <li><strong><code>claude doctor</code></strong> y, dentro de la sesión, <strong><code>/doctor</code></strong>, para problemas de instalación o de configuración.</li>
 </ol>
-<p><strong>Comandos que han cambiado o desaparecido</strong> (comprobados contra la documentación 2.1.309; si encuentras una guía antigua, desconfía):</p>
+<p><strong>Comandos que han cambiado o desaparecido</strong> (contrastados con la documentación el 23-10-2026; las filas sobre modos, modelos y <code>--max-turns</code>, el 25-11-2026. Si encuentras una guía antigua, desconfía):</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -901,30 +1052,65 @@ div.csl-indent {
 <tbody>
 <tr class="odd">
 <td><code>/cost</code></td>
-<td>Existe como <strong>alias</strong> de <code>/usage</code></td>
+<td>Existe como <strong>alias</strong> de <code>/usage</code> (también <code>/stats</code>)</td>
 <td><code>/usage</code></td>
 </tr>
 <tr class="even">
+<td>«La sesión empieza en modo <code>default</code>»</td>
+<td>En la terminal y en VS Code empieza en <code>auto</code> desde la 2.1.283; <code>claude -p</code> sí empieza en <code>default</code></td>
+<td>Mira la barra de estado; <code>permissions.defaultMode</code> para cambiar el modo inicial (C4.3)</td>
+</tr>
+<tr class="odd">
+<td>Modo <code>default</code></td>
+<td>La interfaz lo llama <em>Manual</em>; <code>manual</code> se acepta como alias, y <code>claude --help</code> (2.1.330) lista <code>manual</code> en lugar de <code>default</code></td>
+<td>Cualquiera de los dos: <code>--permission-mode manual</code></td>
+</tr>
+<tr class="even">
+<td><code>--enable-auto-mode</code></td>
+<td>Eliminado en la 2.1.111</td>
+<td><code>--permission-mode auto</code></td>
+</tr>
+<tr class="odd">
+<td><code>--max-turns</code></td>
+<td>No aparece en <code>claude --help</code> de la 2.1.330, pero se acepta; la referencia de la CLI lo documenta como <strong>solo modo no interactivo</strong></td>
+<td><code>claude -p --max-turns 3 "…"</code> (C8)</td>
+</tr>
+<tr class="even">
+<td>Aviso de <em>session limit</em></td>
+<td>Desde la 2.1.312 se llama <em>5-hour limit</em> (ventana de cinco horas)</td>
+<td><code>/usage</code> para ver cuándo se reinicia</td>
+</tr>
+<tr class="odd">
+<td>Fable 5.1 guardado como modelo</td>
+<td>Desde la 2.1.321 pasa al alias <code>fable</code> (Fable 5.2) en los planes individuales</td>
+<td><code>/model</code> para comprobar el modelo activo</td>
+</tr>
+<tr class="even">
+<td>Modo rápido con Opus 4.8</td>
+<td>Se retira el 30-11-2026; después, error</td>
+<td>Opus 5.5 con modo rápido, o <code>/fast off</code></td>
+</tr>
+<tr class="odd">
 <td><code>/review</code></td>
 <td>Alias de la skill <code>/code-review</code> (no es un comando interno)</td>
 <td><code>/code-review</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>/agents</code></td>
 <td>Desde la 2.1.198 solo muestra un recordatorio; ya no es un asistente</td>
 <td>Crear el subagente pidiéndoselo a Claude o editando <code>.claude/agents/</code> (C7)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>/vim</code></td>
 <td><strong>Eliminado</strong> en la 2.1.92</td>
 <td>—</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>.claude/commands/</code> (comandos personalizados)</td>
 <td>Fusionados con las <em>skills</em>; siguen funcionando</td>
 <td>Skills (C7)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>/doctor</code> frente a <code>claude doctor</code></td>
 <td>Son distintos: el primero propone y puede aplicar arreglos; el segundo solo diagnostica</td>
 <td>Úsalos según lo que necesites</td>
@@ -968,10 +1154,10 @@ div.csl-indent {
 <ol type="1">
 <li><strong>Prepara.</strong> En la copia del proyecto: <code>git status</code> (limpio) y <code>git switch -c practica/c4</code>.</li>
 <li><strong>Revisa tu instalación</strong> (solo lectura): <code>claude --version</code> y <code>claude doctor</code>. Anota versión y método de instalación.</li>
-<li><strong>Arranca</strong> con <code>claude</code>, acepta la confianza de la carpeta <strong>solo</strong> si es tu copia. Escribe <code>/status</code> y <code>/permissions</code> y anota el modo y las reglas.</li>
-<li><strong>Cambia a modo <code>plan</code></strong> (Mayús+Tab) y pide: «Lee el proyecto y resúmelo en cinco líneas; no modifiques nada». Comprueba con <code>git status</code> que no ha cambiado nada.</li>
+<li><strong>Arranca</strong> con <code>claude</code>, acepta la confianza de la carpeta <strong>solo</strong> si es tu copia. Mira la barra de estado (en la terminal, la sesión empieza en <code>auto</code>: <code>⏵⏵ auto mode on</code>), escribe <code>/status</code> y <code>/permissions</code> y anota el modo, el modelo y las reglas. Si aparece algún aviso sobre reglas con comodines, anótalo y corrígelo como en C4.3.</li>
+<li><strong>Cambia a modo <code>plan</code></strong> (<code>/plan</code>, o Mayús+Tab hasta ver <code>⏸ plan mode on</code>) y pide: «Lee el proyecto y resúmelo en cinco líneas; no modifiques nada». Comprueba con <code>git status</code> que no ha cambiado nada.</li>
 <li><strong>Escribe un <code>CLAUDE.md</code></strong> en la raíz de tu copia (parte del ejemplo de C4.6 y ajústalo). Sal con <code>/exit</code> y vuelve a arrancar; en la sesión, <code>/context</code> debe listarlo en «Memory files».</li>
-<li><strong>Un cambio pequeño</strong> (modo <code>default</code>): «Añade un test que compruebe que <code>rms</code> de una señal constante es 0». Antes de aprobar cada orden, <strong>aplica las cinco preguntas</strong>; rechaza cualquier cosa que toque fuera del proyecto.</li>
+<li><strong>Un cambio pequeño</strong> (modo <em>Manual</em>: Mayús+Tab hasta ver <code>⏸ manual mode on</code>): «Añade un test que compruebe que <code>rms</code> de una señal constante es 0». Antes de aprobar cada orden, <strong>aplica las cinco preguntas</strong>; rechaza cualquier cosa que toque fuera del proyecto.</li>
 <li><strong>Revisa</strong>: <code>/diff</code> y <code>git diff</code>; ejecuta tú las pruebas (<code>uv run --with numpy --with pytest pytest tests</code> → debe haber 7 que pasan).</li>
 <li><strong>Mide el coste de la sesión</strong> con <code>/usage</code> y anota los tokens. Prueba <code>/clear</code> y vuelve a mirar.</li>
 <li><strong>Léelo todo en el repositorio real:</strong> abre <code>CLAUDE.md</code> y <code>.claude/settings.json</code> del repositorio de este curso y contesta: ¿qué órdenes se permiten sin preguntar? ¿cuáles preguntan? ¿qué se deniega y por qué?</li>
@@ -1008,6 +1194,25 @@ div.csl-indent {
 <ol type="1">
 <li><p><strong>Modos.</strong> Para cada tarea elige un modo de permisos y justifícalo: a) entender un proyecto que no conoces; b) refactorizar con pruebas y revisión de diff; c) una tarea larga y bien acotada en un contenedor desechable.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><code>plan</code>. b) <code>default</code> o <code>acceptEdits</code>, con revisión del diff. c) <code>auto</code> (o, solo en un contenedor aislado sin red, <code>bypassPermissions</code>), sabiendo que el clasificador reduce pero no elimina el riesgo.</li>
+</ol>
+</div>
+</div>
+</div></li>
+<li><p><strong>Reglas.</strong> Escribe las reglas para: permitir <code>git status</code> y <code>git diff</code>, preguntar antes de <code>git push</code>, y denegar la lectura de <code>.env</code>. Indica en qué orden se evaluarían para <code>git push</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1019,13 +1224,11 @@ div.csl-indent {
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<ol type="a">
-<li><code>plan</code>. b) <code>default</code> o <code>acceptEdits</code>, con revisión del diff. c) <code>auto</code> (o, solo en un contenedor aislado sin red, <code>bypassPermissions</code>), sabiendo que el clasificador reduce pero no elimina el riesgo.</li>
-</ol>
+<p><code>allow</code>: <code>Bash(git status *)</code>, <code>Bash(git diff *)</code>; <code>ask</code>: <code>Bash(git push *)</code>; <code>deny</code>: <code>Read(./.env)</code>. Para <code>git push</code> se evalúa deny (no casa), luego ask (casa → pregunta).</p>
 </div>
 </div>
 </div></li>
-<li><p><strong>Reglas.</strong> Escribe las reglas para: permitir <code>git status</code> y <code>git diff</code>, preguntar antes de <code>git push</code>, y denegar la lectura de <code>.env</code>. Indica en qué orden se evaluarían para <code>git push</code>.</p>
+<li><p><strong>Auditoría de una propuesta.</strong> Claude propone <code>rm -rf ~/proyectos/viga/resultados &amp;&amp; git add -A &amp;&amp; git push</code>. Analízala con las cinco preguntas y di qué aceptarías.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1038,11 +1241,11 @@ div.csl-indent {
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>allow</code>: <code>Bash(git status *)</code>, <code>Bash(git diff *)</code>; <code>ask</code>: <code>Bash(git push *)</code>; <code>deny</code>: <code>Read(./.env)</code>. Para <code>git push</code> se evalúa deny (no casa), luego ask (casa → pregunta).</p>
+<p>Son tres órdenes: borrado recursivo (sin papelera; aceptable en <code>resultados/</code> si la ruta es correcta, pero conviene comprobar con <code>ls</code>), <code>git add -A</code> (puede añadir secretos o basura: revisa <code>git status</code>) y <code>git push</code> (publica). Rechazaría la cadena entera y pediría cada paso por separado, revisando el diff antes del <code>push</code>.</p>
 </div>
 </div>
 </div></li>
-<li><p><strong>Auditoría de una propuesta.</strong> Claude propone <code>rm -rf ~/proyectos/viga/resultados &amp;&amp; git add -A &amp;&amp; git push</code>. Analízala con las cinco preguntas y di qué aceptarías.</p>
+<li><p><strong><code>CLAUDE.md</code>.</strong> Mejora este <code>CLAUDE.md</code> defectuoso: «Escribe buen código. Sé cuidadoso. No rompas nada. Usa las mejores prácticas.»</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1055,11 +1258,11 @@ div.csl-indent {
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Son tres órdenes: borrado recursivo (sin papelera; aceptable en <code>resultados/</code> si la ruta es correcta, pero conviene comprobar con <code>ls</code>), <code>git add -A</code> (puede añadir secretos o basura: revisa <code>git status</code>) y <code>git push</code> (publica). Rechazaría la cadena entera y pediría cada paso por separado, revisando el diff antes del <code>push</code>.</p>
+<p>Sustituir por reglas verificables: comando de pruebas, convenciones concretas, límites («no añadas dependencias sin preguntar»), y cómo comprobar el resultado. Las generalidades no cambian el comportamiento.</p>
 </div>
 </div>
 </div></li>
-<li><p><strong><code>CLAUDE.md</code>.</strong> Mejora este <code>CLAUDE.md</code> defectuoso: «Escribe buen código. Sé cuidadoso. No rompas nada. Usa las mejores prácticas.»</p>
+<li><p><strong>Contexto.</strong> Describe qué harías en una sesión de dos horas en la que Claude ha empezado a «olvidar» decisiones tempranas y el consumo se ha disparado.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solución">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1072,23 +1275,6 @@ div.csl-indent {
 </div>
 <div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Sustituir por reglas verificables: comando de pruebas, convenciones concretas, límites («no añadas dependencias sin preguntar»), y cómo comprobar el resultado. Las generalidades no cambian el comportamiento.</p>
-</div>
-</div>
-</div></li>
-<li><p><strong>Contexto.</strong> Describe qué harías en una sesión de dos horas en la que Claude ha empezado a «olvidar» decisiones tempranas y el consumo se ha disparado.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Solución
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
 <p><code>/context</code> para ver qué ocupa; guardar lo importante en <code>CLAUDE.md</code> si debe persistir; <code>/compact</code> con instrucciones sobre qué conservar, o <code>/clear</code> y empezar una tarea nueva con un resumen escrito por ti; en el futuro, una tarea por sesión.</p>
 </div>
 </div>
@@ -1100,9 +1286,11 @@ div.csl-indent {
 <ul>
 <li>Explico el bucle de Claude Code y qué lo diferencia de un chat.</li>
 <li>Lo instalo y lo arranco en mi sistema, y sé comprobar versión y diagnóstico.</li>
-<li>Elijo un modo de permisos con criterio y leo una regla <code>deny</code>/<code>ask</code>/<code>allow</code> y su orden.</li>
+<li>Elijo un modo de permisos con criterio, sé con cuál arranca la sesión y lo compruebo en la barra de estado.</li>
+<li>Leo una regla <code>deny</code>/<code>ask</code>/<code>allow</code> y su orden, y escribo reglas <code>allow</code> con el <code>*</code> después del subcomando.</li>
 <li>Antes de aprobar una orden, aplico las cinco preguntas y rechazo las peligrosas.</li>
 <li>Gestiono el contexto (<code>/context</code>, <code>/compact</code>, <code>/clear</code>, <code>/resume</code>, <code>/rewind</code>) y vigilo el coste con <code>/usage</code>.</li>
+<li>Elijo modelo con un alias (<code>/model</code>) y ajusto el esfuerzo (<code>/effort</code>, o <code>ultrathink</code> para un solo turno).</li>
 <li>Escribo un <code>CLAUDE.md</code> breve y verificable y sé que no es una garantía.</li>
 <li>Me recupero de un error con <code>Esc</code>, <code>/rewind</code> o Git.</li>
 <li>Distingo comandos vigentes de comandos antiguos o eliminados.</li>
@@ -1111,6 +1299,7 @@ div.csl-indent {
 <section id="referencias-de-esta-unidad" class="level2">
 <h2 class="anchored" data-anchor-id="referencias-de-esta-unidad">Referencias de esta unidad</h2>
 <p>Documentación oficial de Claude Code (versión 2.1.309, consultada el 23-10-2026): <a href="https://code.claude.com/docs/en/how-claude-code-works">cómo funciona</a>, <a href="https://code.claude.com/docs/en/setup">instalación</a>, <a href="https://code.claude.com/docs/en/permission-modes">modos de permisos</a>, <a href="https://code.claude.com/docs/en/permissions">permisos</a>, <a href="https://code.claude.com/docs/en/memory">memoria y <code>CLAUDE.md</code></a>, <a href="https://code.claude.com/docs/en/costs">costes</a> y <a href="https://code.claude.com/docs/en/checkpointing">puntos de control</a>.</p>
+<p>Revisión del 25-11-2026 (C4.3, C4.7 y C4.9), con la documentación consultada ese día: <a href="https://code.claude.com/docs/en/permission-modes">modos de permisos</a>, <a href="https://code.claude.com/docs/en/permissions">permisos</a>, <a href="https://code.claude.com/docs/en/model-config">configuración de modelos</a>, <a href="https://code.claude.com/docs/en/fast-mode">modo rápido</a>, <a href="https://code.claude.com/docs/en/cli-reference">referencia de la CLI</a>, <a href="https://code.claude.com/docs/en/commands">comandos</a> y el <a href="https://code.claude.com/docs/en/changelog">changelog</a> de las versiones 2.1.310 a 2.1.332.</p>
 
 
 </section>
@@ -1119,10 +1308,16 @@ div.csl-indent {
 <p><em>Son las mismas que aparecen en el margen, junto al texto.</em> La lista completa del curso, con el estado de verificación de cada ficha, está en <code>recursos/bibliografia.bib</code> del repositorio.</p>
 <div id="refs-unidad" class="referencias-unidad">
 <div class="ref-final">
-<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 03-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
+<p><em>Changelog</em>. 2026. Documentación de Claude Code (Anthropic) y CHANGELOG.md de anthropics/claude-code, consultados el 25-11-2026. <a href="https://code.claude.com/docs/en/changelog">https://code.claude.com/docs/en/changelog</a>.</p>
 </div>
 <div class="ref-final">
 <p><em>Checkpointing</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/checkpointing">https://code.claude.com/docs/en/checkpointing</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>CLI reference</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/cli-reference">https://code.claude.com/docs/en/cli-reference</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Commands</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/commands">https://code.claude.com/docs/en/commands</a>.</p>
 </div>
 <div class="ref-final">
 <p><em>Configure permissions</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/permissions">https://code.claude.com/docs/en/permissions</a>.</p>
@@ -1137,7 +1332,16 @@ div.csl-indent {
 <p><em>Manage costs effectively</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/costs">https://code.claude.com/docs/en/costs</a>.</p>
 </div>
 <div class="ref-final">
+<p><em>Model configuration</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 25-11-2026. <a href="https://code.claude.com/docs/en/model-config">https://code.claude.com/docs/en/model-config</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Models overview</em>. 2026. Documentación de la plataforma Claude (Anthropic), consultada el 25-11-2026. <a href="https://platform.claude.com/docs/en/about-claude/models/overview">https://platform.claude.com/docs/en/about-claude/models/overview</a>.</p>
+</div>
+<div class="ref-final">
 <p><em>Permission modes</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/permission-modes">https://code.claude.com/docs/en/permission-modes</a>.</p>
+</div>
+<div class="ref-final">
+<p><em>Sandboxing</em>. 2026. Documentación de Claude Code (Anthropic), consultada el 23-10-2026. <a href="https://code.claude.com/docs/en/sandboxing">https://code.claude.com/docs/en/sandboxing</a>.</p>
 </div>
 </div>
 <script>(function(){var a=document.getElementById('toc-bibliography');if(a&&a.parentElement)a.parentElement.remove();})();</script>
